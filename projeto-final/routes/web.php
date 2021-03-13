@@ -16,3 +16,21 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/registo', function () {
+    return view('/autenticacao/registo');
+});
+
+Route::get('/registo/rgsProfessor', function () {
+    return view('/autenticacao/registo_professor');
+});
+
+
+
+
+//controllerProfessor
+Route::post('/registo/sbmProfessor', [App\Http\Controllers\ContaProfessorController::class, 'register']);
+//images
+
+
+
+
