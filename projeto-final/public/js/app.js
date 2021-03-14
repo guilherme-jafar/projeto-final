@@ -1881,6 +1881,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -30398,33 +30405,48 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("form", { attrs: { id: "RegisterProfessor" } }, [
-    _vm._m(0),
-    _c("br"),
-    _vm._v(" "),
-    _vm._m(1),
-    _c("br"),
-    _vm._v(" "),
-    _vm._m(2),
-    _c("br"),
-    _vm._v(" "),
-    _vm._m(3),
-    _c("br"),
-    _vm._v(" "),
-    _c("label", { attrs: { for: "submit" } }, [
-      _c("input", {
-        attrs: {
-          name: "submit",
-          value: "registar",
-          type: "button",
-          id: "submit"
-        },
-        on: {
-          click: function($event) {
-            return _vm.submit()
-          }
-        }
-      })
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row justify-content-md-center" }, [
+      _c("div", { staticClass: "col col-lg-2" }, [
+        _c(
+          "div",
+          {
+            staticClass: "card-body",
+            staticStyle: { "background-color": "white" }
+          },
+          [
+            _c("form", { attrs: { id: "RegisterProfessor" } }, [
+              _vm._m(0),
+              _c("br"),
+              _vm._v(" "),
+              _vm._m(1),
+              _c("br"),
+              _vm._v(" "),
+              _vm._m(2),
+              _c("br"),
+              _vm._v(" "),
+              _vm._m(3),
+              _c("br"),
+              _vm._v(" "),
+              _c("label", { attrs: { for: "submit" } }, [
+                _c("input", {
+                  attrs: {
+                    name: "submit",
+                    value: "registar",
+                    type: "button",
+                    id: "submit"
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.submit()
+                    }
+                  }
+                })
+              ])
+            ])
+          ]
+        )
+      ])
     ])
   ])
 }
@@ -30434,7 +30456,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "username" } }, [
-      _vm._v("\r\n        username"),
+      _vm._v("\n        username"),
       _c("br"),
       _vm._v(" "),
       _c("input", {
@@ -30449,7 +30471,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "email" } }, [
-      _vm._v("\r\n        email"),
+      _vm._v("\n        email"),
       _c("br"),
       _vm._v(" "),
       _c("input", {
@@ -30464,7 +30486,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "pass" } }, [
-      _vm._v("\r\n        password"),
+      _vm._v("\n        password"),
       _c("br"),
       _vm._v(" "),
       _c("input", {
@@ -30479,7 +30501,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "confPass" } }, [
-      _vm._v("\r\n        confirmar password"),
+      _vm._v("\n        confirmar password"),
       _c("br"),
       _vm._v(" "),
       _c("input", {

@@ -23,12 +23,18 @@ Route::get('/registo', function () {
 Route::get('/registo/rgsProfessor', function () {
     return view('/autenticacao/registo_professor');
 });
+Route::get('/confirmar/{token}/{tipo}', function ($token,$tipo) {
+    return view('/autenticacao/Confirmar',['token'=>$token,'tipo'=>$tipo]);
+});
 
-
-
+/*Route::get('/confirmar',['' => 'search', 'uses' => function () {
+    return view('/autenticacao/Confirmar');
+}
+] );*/
 
 //controllerProfessor
 Route::post('/registo/sbmProfessor', [App\Http\Controllers\ContaProfessorController::class, 'register']);
+Route::post('/professorConfirmar', [App\Http\Controllers\ContaProfessorController::class, 'confirmarProf']);
 //images
 
 

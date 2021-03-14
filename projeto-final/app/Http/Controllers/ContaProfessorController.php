@@ -22,7 +22,7 @@ class ContaProfessorController extends Controller
             ->where('email','like','%'.$email.'%')
             ->get();
 
-        $user2=DB::table('utilizador')
+        $user2=DB::table('utilizador_nao_confirmado')
             ->where('email','like','%'.$email.'%')
             ->get();
 
@@ -81,5 +81,29 @@ class ContaProfessorController extends Controller
         }
     }
 
+    public function confirmarProf(Request $request){
+            $token=$request->id;
 
+        $user=DB::table('utilizador_nao_confirmado')
+            ->where('utilizador_nao_confirmado.token','=',$token)
+            ->value('id');
+
+        if (empty($user)){
+            return response()->json([
+                'message' => 'error'
+            ]);
+        }
+        else {
+            $newID=intval("p".time().$token, 36);
+            DB::statement('call inProf(?)',[$token]);
+            DB::insert('insert into prof_ (id,utilizador_id) values (?,?)'
+                , ["p".$newID,$user]);
+
+
+           return response()->json([
+                'message' => 'sucesso'
+            ]);
+
+        }
+    }
 }
