@@ -30077,6 +30077,32 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
 
 /***/ }),
 
+/***/ "./resources/sass/main.scss":
+/*!**********************************!*\
+  !*** ./resources/sass/main.scss ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/sass/autenticacao/registo.scss":
+/*!**************************************************!*\
+  !*** ./resources/sass/autenticacao/registo.scss ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./resources/css/app.css":
 /*!*******************************!*\
   !*** ./resources/css/app.css ***!
@@ -30408,7 +30434,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "username" } }, [
-      _vm._v("\n        username"),
+      _vm._v("\r\n        username"),
       _c("br"),
       _vm._v(" "),
       _c("input", {
@@ -30423,7 +30449,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "email" } }, [
-      _vm._v("\n        email"),
+      _vm._v("\r\n        email"),
       _c("br"),
       _vm._v(" "),
       _c("input", {
@@ -30438,7 +30464,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "pass" } }, [
-      _vm._v("\n        password"),
+      _vm._v("\r\n        password"),
       _c("br"),
       _vm._v(" "),
       _c("input", {
@@ -30453,7 +30479,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("label", { attrs: { for: "confPass" } }, [
-      _vm._v("\n        confirmar password"),
+      _vm._v("\r\n        confirmar password"),
       _c("br"),
       _vm._v(" "),
       _c("input", {
@@ -42764,8 +42790,10 @@ Vue.compile = compileToFunctions;
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/js/app.js")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/css/app.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/registo"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/registo"], () => (__webpack_require__("./resources/sass/main.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/registo"], () => (__webpack_require__("./resources/sass/autenticacao/registo.scss")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app","css/registo"], () => (__webpack_require__("./resources/css/app.css")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

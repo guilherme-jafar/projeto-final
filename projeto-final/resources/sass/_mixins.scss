@@ -1,0 +1,47 @@
+@mixin clearfix {
+  &::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin Center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin borda ($cor, $tamanho){
+  border: $tamanho solid $cor;
+}
+
+@mixin position ($top, $left){
+  position: absolute;
+  top: $top;
+  left: $left;
+  transform: translate(-50%, -50%);
+}
+
+@mixin position2 ($top, $right){
+  position: absolute;
+  top: $top;
+  right: $right;
+  transform: translate(0, -50%);
+
+}
+
+@mixin animacao($nome, $tempo, $transition, $tempo-espera, $tempo-duracao){
+  -webkit-animation: $nome $transition;
+  animation: $nome $transition;
+  animation-delay: $tempo-espera;
+  -webkit-animation-delay: $tempo-espera;
+  animation-duration: $tempo-duracao;
+  -webkit-animation-duration: $tempo-duracao;
+  -webkit-animation-fill-mode: backwards;
+  animation-fill-mode: backwards;
+  -webkit-transition: animation $tempo;
+  transition: animation $tempo;
+}
+
