@@ -398,9 +398,64 @@ i {
 }
 
 section {
-  height: 100vh;
+  min-height: 100vh;
   background-image: url("/assets/background.png");
   background-size: cover;
   background-position: center;
   padding: 5rem;
+}
+section .box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+section .box-registo {
+  height: 30rem;
+  background-color: white;
+  width: 30rem;
+  display: block;
+  text-align: center;
+  border-radius: 2rem;
+  padding: 2rem;
+}
+section .box-registo:hover {
+  box-shadow: 0.2rem 0.2rem rgba(0, 0, 0, 0.1);
+}
+section .box-registo h3 {
+  font-size: 3rem;
+  color: white;
+}
+section .box-registo div {
+  width: 12rem;
+  height: 12rem;
+  display: block;
+  border-radius: 50%;
+  vertical-align: center;
+  margin-top: 4rem;
+  position: relative;
+}
+section .box-registo div i {
+  font-size: 5rem;
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  vertical-align: center;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+section .box-registo-1 {
+  background-color: #F9B000;
+  margin-left: auto;
+}
+section .box-registo-1 div {
+  background-color: #C68C00;
+}
+section .box-registo-2 {
+  background-color: #7FBA27;
+}
+section .box-registo-2 div {
+  background-color: #62901e;
 }

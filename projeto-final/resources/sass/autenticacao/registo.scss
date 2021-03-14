@@ -1,15 +1,84 @@
 @import "../site-base";
 
 
-
 section{
-    height: 100vh;
+    min-height: 100vh;
     background-image: url('/assets/background.png');
     background-size: cover;
     background-position: center;
     padding: 5rem;
 
+    .box{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
     .box-registo{
+        height: 30rem;
+        background-color: white;
+        width: 30rem;
+        display: block;
+        text-align: center;
+        border-radius: 2rem;
+        padding: 2rem;
+
+        &:hover{
+            box-shadow:  0.2rem 0.2rem rgba(0,0,0,0.10);
+        }
+
+        h3{
+            font-size: 3rem;
+            color: white;
+        }
+
+        div{
+
+            width: 12rem;
+            height: 12rem;
+
+            display: block;
+            border-radius: 50%;
+            vertical-align: center;
+            margin-top: 4rem;
+            position: relative;
+
+            i{
+                font-size: 5rem;
+                color: white;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                vertical-align: center;
+                margin-top: auto;
+                margin-bottom: auto;
+
+            }
+        }
+
+        &-1{
+            background-color: $cor-principal-4;
+            margin-left: auto;
+
+            div{
+                background-color: #C68C00 ;
+
+
+            }
+        }
+
+        &-2{
+            background-color: $cor-principal-3;
+
+            div{
+                background-color: #62901e;
+            }
+        }
+
+
+
 
     }
 }
