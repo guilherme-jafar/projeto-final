@@ -1880,19 +1880,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "registo",
   methods: {
     submit: function submit() {
-      var formData = new FormData(document.getElementById("RegisterProfessor"));
       jquery__WEBPACK_IMPORTED_MODULE_1___default()("#ConfError").text(" ").css('color', 'red');
       jquery__WEBPACK_IMPORTED_MODULE_1___default()("#passError").text(" ").css('color', 'red');
       jquery__WEBPACK_IMPORTED_MODULE_1___default()("#emailError").text(" ").css('color', 'red');
       jquery__WEBPACK_IMPORTED_MODULE_1___default()("#usernameError").text(" ").css('color', 'red');
 
       if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val() !== jquery__WEBPACK_IMPORTED_MODULE_1___default()("#confPass").val()) {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val('');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#confPass").val('');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#ConfError").text("As passwords estam diferentes").css('color', 'red');
       } else if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val().length === 0) {
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#passError").text("Introduza uma palavra-passe").css('color', 'red');
@@ -1903,8 +1905,19 @@ __webpack_require__.r(__webpack_exports__);
       } else if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#username").val().length === 0) {
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#usernameError").text("Introduza um username").css('color', 'red');
       } else {
+        var formData = new FormData();
+        formData.append('name', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#username").val());
+        formData.append('email', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val());
+        formData.append('pass', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val());
+        formData.append('tipo', 'professor');
         axios__WEBPACK_IMPORTED_MODULE_0___default().post('/registo/sbmProfessor', formData).then(function (response) {
-          alert("success");
+          if (response.data.message !== "sucesso") {
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val('');
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val('');
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()("#confPass").val('');
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()("#passError").text(response.data.password).css('color', 'red');
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()("#emailError").text(response.data.email).css('color', 'red');
+          }
         }.bind(this));
       }
     }

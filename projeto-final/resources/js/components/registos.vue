@@ -9,6 +9,7 @@
         email<br>
         <input name="email" type="email" id="email" required>
         <p id="emailError"></p>
+
     </label><br>
     <label for="pass">
         password<br>
@@ -45,6 +46,8 @@ export default {
             $( "#emailError" ).text(" ").css('color', 'red');
             $( "#usernameError" ).text(" ").css('color', 'red');
             if ($( "#pass" ).val() !== $( "#confPass" ).val() ){
+                $( "#pass" ).val('')
+                $( "#confPass" ).val('')
                 $( "#ConfError" ).text("As passwords estam diferentes").css('color', 'red');
 
             }
@@ -66,11 +69,18 @@ export default {
                 formData.append( 'name',$( "#username" ).val());
                 formData.append( 'email',$( "#email" ).val());
                 formData.append( 'pass',$( "#pass" ).val());
-                formData.append( 'ConfPass',$( "#confPass" ).val());
-
+                formData.append( 'tipo','professor');
                 axios.post('/registo/sbmProfessor', formData
                 ).then(function (response) {
-                    alert("success");
+                    if (response.data.message !== "sucesso"){
+                        $( "#email" ).val('')
+                        $( "#pass" ).val('')
+                        $( "#confPass" ).val('')
+                        $( "#passError" ).text(response.data.password).css('color', 'red');
+                        $( "#emailError" ).text(response.data.email).css('color', 'red');
+
+                    }
+
                 }.bind(this));
             }
 
