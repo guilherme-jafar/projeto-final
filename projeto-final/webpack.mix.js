@@ -12,6 +12,6 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js').vue()
-    .postCss('resources/css/app.css', 'public/css', [
-        //
-    ]);
+    .postCss('resources/css/app.css', 'public/css', [ ])
+    .sass('resources/sass/main.scss', 'public/css/app.scss')
+    .sass('resources/sass/autenticacao/registo.scss', 'public/css/registo.css');
