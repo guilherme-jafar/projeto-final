@@ -1894,10 +1894,22 @@ __webpack_require__.r(__webpack_exports__);
   name: "registo",
   methods: {
     submit: function submit() {
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#sError").text(" ").css('color', 'red');
       jquery__WEBPACK_IMPORTED_MODULE_1___default()("#ConfError").text(" ").css('color', 'red');
       jquery__WEBPACK_IMPORTED_MODULE_1___default()("#passError").text(" ").css('color', 'red');
       jquery__WEBPACK_IMPORTED_MODULE_1___default()("#emailError").text(" ").css('color', 'red');
       jquery__WEBPACK_IMPORTED_MODULE_1___default()("#usernameError").text(" ").css('color', 'red');
+      var radios = document.getElementsByName('gender');
+      var test;
+
+      for (var i = 0, length = radios.length; i < length; i++) {
+        if (radios[i].checked) {
+          test = radios[i].value;
+          break;
+        } else {
+          test = 'error';
+        }
+      }
 
       if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val() !== jquery__WEBPACK_IMPORTED_MODULE_1___default()("#confPass").val()) {
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val('');
@@ -1911,12 +1923,15 @@ __webpack_require__.r(__webpack_exports__);
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#emailError").text("Introduza um email").css('color', 'red');
       } else if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#username").val().length === 0) {
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#usernameError").text("Introduza um username").css('color', 'red');
+      } else if (test === 'error') {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#sError").text("Indique o sexo ").css('color', 'red');
       } else {
         var formData = new FormData();
         formData.append('name', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#username").val());
         formData.append('email', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val());
         formData.append('pass', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val());
         formData.append('tipo', 'professor');
+        formData.append('sexo', test);
         axios__WEBPACK_IMPORTED_MODULE_0___default().post('/registo/sbmProfessor', formData).then(function (response) {
           if (response.data.message !== "sucesso") {
             jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val('');
@@ -30405,48 +30420,55 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "row justify-content-md-center" }, [
-      _c("div", { staticClass: "col col-lg-2" }, [
-        _c(
-          "div",
-          {
-            staticClass: "card-body",
-            staticStyle: { "background-color": "white" }
-          },
-          [
-            _c("form", { attrs: { id: "RegisterProfessor" } }, [
-              _vm._m(0),
-              _c("br"),
-              _vm._v(" "),
-              _vm._m(1),
-              _c("br"),
-              _vm._v(" "),
-              _vm._m(2),
-              _c("br"),
-              _vm._v(" "),
-              _vm._m(3),
-              _c("br"),
-              _vm._v(" "),
-              _c("label", { attrs: { for: "submit" } }, [
-                _c("input", {
-                  attrs: {
-                    name: "submit",
-                    value: "registar",
-                    type: "button",
-                    id: "submit"
-                  },
-                  on: {
-                    click: function($event) {
-                      return _vm.submit()
-                    }
-                  }
-                })
-              ])
-            ])
-          ]
-        )
-      ])
+  return _c("form", { attrs: { id: "RegisterProfessor" } }, [
+    _vm._m(0),
+    _c("br"),
+    _vm._v(" "),
+    _vm._m(1),
+    _c("br"),
+    _vm._v(" "),
+    _vm._m(2),
+    _c("br"),
+    _vm._v(" "),
+    _vm._m(3),
+    _c("br"),
+    _vm._v(" "),
+    _c("input", {
+      attrs: { type: "radio", id: "male", name: "gender", value: "m" }
+    }),
+    _vm._v(" "),
+    _c("label", { attrs: { for: "male" } }, [_vm._v("Masculino")]),
+    _c("br"),
+    _vm._v(" "),
+    _c("input", {
+      attrs: { type: "radio", id: "female", name: "gender", value: "f" }
+    }),
+    _vm._v(" "),
+    _c("label", { attrs: { for: "female" } }, [_vm._v("Femenino")]),
+    _c("br"),
+    _vm._v(" "),
+    _c("input", {
+      attrs: { type: "radio", id: "other", name: "gender", value: "o" }
+    }),
+    _vm._v(" "),
+    _c("label", { attrs: { for: "other" } }, [_vm._v("Outro")]),
+    _vm._v(" "),
+    _c("p", { attrs: { id: "sError" } }),
+    _vm._v(" "),
+    _c("label", { attrs: { for: "submit" } }, [
+      _c("input", {
+        attrs: {
+          name: "submit",
+          value: "registar",
+          type: "button",
+          id: "submit"
+        },
+        on: {
+          click: function($event) {
+            return _vm.submit()
+          }
+        }
+      })
     ])
   ])
 }

@@ -27,10 +27,7 @@ Route::get('/confirmar/{token}/{tipo}', function ($token,$tipo) {
     return view('/autenticacao/Confirmar',['token'=>$token,'tipo'=>$tipo]);
 });
 
-/*Route::get('/confirmar',['' => 'search', 'uses' => function () {
-    return view('/autenticacao/Confirmar');
-}
-] );*/
+
 
 //controllerProfessor
 Route::post('/registo/sbmProfessor', [App\Http\Controllers\ContaProfessorController::class, 'register']);

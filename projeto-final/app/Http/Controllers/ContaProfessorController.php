@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ConfirmMail;
 use App\Models\utilizador_nao_confirmado;
 use Facade\Ignition\DumpRecorder\Dump;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Psr\Log\NullLogger;
 
 class ContaProfessorController extends Controller
@@ -17,7 +19,7 @@ class ContaProfessorController extends Controller
         $pass=$request->input('pass');
         $email=$request->input('email');
         $tipo=$request->input('tipo');
-
+        $sexo=$request->input('sexo');
         $user=DB::table('utilizador')
             ->where('email','like','%'.$email.'%')
             ->get();
@@ -69,10 +71,10 @@ class ContaProfessorController extends Controller
 
             $id=rand ( 0 , 1000000 )+rand ( 0 , 1000000 )+time();
             $token=rand ( 0 , 1000000 )+time();
-            DB::insert('insert into utilizador_nao_confirmado (id, nome,email,password,tipo,token) values (?,?,?,?,?,?)'
-                , [intval($id, 36), $name,$email,$hashed,$tipo,intval($token, 36)]);
+            DB::insert('insert into utilizador_nao_confirmado (id, nome,email,password,tipo,token,sexo) values (?,?,?,?,?,?,?)'
+                , [intval($id, 36), $name,$email,$hashed,$tipo,intval($token, 36),$sexo]);
 
-
+            Mail::to($email)->send(new ConfirmMail());
             return response()->json([
                 'message' => 'sucesso',
                 'password' => ' ',
