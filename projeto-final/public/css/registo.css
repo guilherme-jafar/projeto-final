@@ -1,3 +1,4 @@
+@import url(https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap);
 /*
 0 - 600px:      Phone
 600 - 900px:    Tablet portrait
@@ -339,10 +340,10 @@ html {
   }
 }
 
-p {
+p, span, label, input {
   font-size: 2rem;
-  font-family: Georgia, sans-serif;
-  color: #2c2525;
+  font-family: Lato, sans-serif;
+  color: #747474;
 }
 
 a {
@@ -371,16 +372,17 @@ li {
   background-color: #FF7829;
   border-color: #FF7829;
 }
-.btn-primary:hover {
+.btn-primary:hover, .btn-primary:focus {
   background-color: #ff8d4b;
   border-color: #ff8d4b;
+  box-shadow: none;
 }
 .btn-ghost {
   background-color: transparent;
   border-color: #FF7829;
   color: #FF7829;
 }
-.btn-ghost:hover {
+.btn-ghost:hover, .btn-ghost:active, .btn-ghost:focus {
   background-color: #ff8d4b;
   border-color: #ff8d4b;
   color: white;
@@ -397,20 +399,21 @@ i {
   width: 50%;
 }
 
-section {
-  min-height: 100vh;
+.section-registo {
+  min-height: 95vh;
   background-image: url("/assets/background.png");
   background-size: cover;
   background-position: center;
   padding: 5rem;
 }
-section .box {
+
+.section-registo-1 .box {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
-section .box-registo {
+.section-registo-1 .box-registo {
   height: 30rem;
   background-color: white;
   width: 30rem;
@@ -419,14 +422,14 @@ section .box-registo {
   border-radius: 2rem;
   padding: 2rem;
 }
-section .box-registo:hover {
+.section-registo-1 .box-registo:hover {
   box-shadow: 0.2rem 0.2rem rgba(0, 0, 0, 0.1);
 }
-section .box-registo h3 {
+.section-registo-1 .box-registo h3 {
   font-size: 3rem;
   color: white;
 }
-section .box-registo div {
+.section-registo-1 .box-registo div {
   width: 12rem;
   height: 12rem;
   display: block;
@@ -435,7 +438,7 @@ section .box-registo div {
   margin-top: 4rem;
   position: relative;
 }
-section .box-registo div i {
+.section-registo-1 .box-registo div i {
   font-size: 5rem;
   color: white;
   position: absolute;
@@ -446,16 +449,80 @@ section .box-registo div i {
   margin-top: auto;
   margin-bottom: auto;
 }
-section .box-registo-1 {
+.section-registo-1 .box-registo-1 {
   background-color: #F9B000;
   margin-left: auto;
 }
-section .box-registo-1 div {
+.section-registo-1 .box-registo-1 div {
   background-color: #C68C00;
 }
-section .box-registo-2 {
+.section-registo-1 .box-registo-2 {
   background-color: #7FBA27;
 }
-section .box-registo-2 div {
+.section-registo-1 .box-registo-2 div {
   background-color: #62901e;
+}
+
+.section-registo-2 .box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.section-registo-2 form {
+  font-size: 2rem;
+  background-color: white;
+  padding: 3rem 7rem;
+  width: 50rem;
+  border-radius: 2rem;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+  font-family: "Lato", serif;
+  position: relative;
+}
+.section-registo-2 form .error {
+  font-size: 1.3rem;
+}
+.section-registo-2 form div {
+  position: relative;
+}
+.section-registo-2 form .label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding-left: 1rem;
+  pointer-events: none;
+}
+.section-registo-2 form .label span {
+  font-family: "Lato", serif;
+  text-transform: capitalize;
+  position: absolute;
+  bottom: 50%;
+  left: 1.5rem;
+  transition: all 0.3s ease;
+  transform: translate(1rem, 0);
+  background-color: white;
+  color: #747474;
+}
+.section-registo-2 form .form-control {
+  border: 1.5px solid #C3DEE7;
+  font-size: 2rem;
+  padding-top: 1rem;
+  border-radius: 0.5rem;
+  outline: 0;
+}
+.section-registo-2 form .form-control:focus {
+  outline: none;
+  box-shadow: none;
+  border: 2px solid #FF7829;
+}
+.section-registo-2 form .form-control:focus + label span, .section-registo-2 form .form-control:valid + label span {
+  transform: translate(0, -90%);
+  font-size: 1.6rem;
+}
+.section-registo-2 form .form-control:focus + label span {
+  transform: translate(0, -90%);
+  font-size: 1.6rem;
+  color: #FF7829;
 }

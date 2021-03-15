@@ -7,6 +7,8 @@
   font-family: "Quicksand", serif;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
 body{
 
   scroll-behavior: smooth;
@@ -42,10 +44,10 @@ html{
 
 }
 
-p{
+p, span, label, input{
   font-size: 2rem;
-  font-family: Georgia, sans-serif;
-  color: $cor-letra-2;
+  font-family: Lato, sans-serif;
+  color: $cor-letra;
 }
 
 a{
@@ -56,6 +58,7 @@ a{
     text-decoration: none;
   }
 }
+
 
 ul{
   padding: 0;
@@ -75,9 +78,10 @@ li{
         background-color: $cor-principal-1;
         border-color: $cor-principal-1;
 
-        &:hover{
+        &:hover, &:focus{
             background-color: $cor-principal-1-light;
             border-color: $cor-principal-1-light;
+            box-shadow: none;
         }
     }
 
@@ -86,21 +90,20 @@ li{
         border-color: $cor-principal-1;
         color: $cor-principal-1;
 
-        &:hover{
+        &:hover, &:active, &:focus{
             background-color: $cor-principal-1-light;
             border-color: $cor-principal-1-light;
             color: white;
         }
     }
+
+
 }
 
 i{
     font-size: 2rem;
 }
 
-.btn-primary{
-
-}
 
 .navbar{
     .navbar-brand{

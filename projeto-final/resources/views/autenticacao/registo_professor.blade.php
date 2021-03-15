@@ -39,7 +39,7 @@
 
 <main>
 
-    <section >
+    <section class="section-registo section-registo-2" >
         <div class="container">
             <div class="row">
                 <div class="box">
@@ -49,9 +49,7 @@
                                 <registos></registos>
                             </div>
                         </div>
-
                     </div>
-
                 </div>
 
             </div>

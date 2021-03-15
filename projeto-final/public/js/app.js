@@ -1888,6 +1888,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -1914,18 +1934,60 @@ __webpack_require__.r(__webpack_exports__);
       if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val() !== jquery__WEBPACK_IMPORTED_MODULE_1___default()("#confPass").val()) {
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val('');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#confPass").val('');
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#ConfError").text("As passwords estam diferentes").css('color', 'red');
-      } else if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val().length === 0) {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#passError").text("Introduza uma palavra-passe").css('color', 'red');
-      } else if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#confPass").val().length === 0) {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#ConfError").text("confirme a password").css('color', 'red');
-      } else if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val().length === 0) {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#emailError").text("Introduza um email").css('color', 'red');
-      } else if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#username").val().length === 0) {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#usernameError").text("Introduza um username").css('color', 'red');
-      } else if (test === 'error') {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#sError").text("Indique o sexo ").css('color', 'red');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#ConfError").text("As passwords estão diferentes").css({
+          'color': 'red',
+          'opacity': '1'
+        });
       } else {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#ConfError").text("&nbsp;").css('color', 'red').css('opacity', '0');
+      }
+
+      if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val().length === 0) {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#passError").text("Introduza uma palavra-passe").css({
+          'color': 'red',
+          'opacity': '1'
+        });
+      } else {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#passError").text("&nbsp;").css('color', 'red').css('opacity', '0');
+      }
+
+      if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#confPass").val().length === 0) {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#ConfError").text("confirme a password").css({
+          'color': 'red',
+          'opacity': '1'
+        });
+      } else {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#ConfError").text("&nbsp;").css('color', 'red').css('opacity', '0');
+      }
+
+      if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val().length === 0) {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#emailError").text("Introduza um email").css({
+          'color': 'red',
+          'opacity': '1'
+        });
+      } else {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#emailError").text("&nbsp;").css('color', 'red').css('opacity', '0');
+      }
+
+      if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#username").val().length === 0) {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#usernameError").text("Introduza um username").css({
+          'color': 'red',
+          'opacity': '1'
+        });
+      } else {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#usernameError").text("&nbsp;").css('color', 'red').css('opacity', '0');
+      }
+
+      if (test === 'error') {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#sError").text("Indique o sexo ").css({
+          'color': 'red',
+          'opacity': '1'
+        });
+      } else {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#sError").text("&nbsp;").css('color', 'red').css('opacity', '0');
+      }
+
+      if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val() === jquery__WEBPACK_IMPORTED_MODULE_1___default()("#confPass").val() && jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val().length !== 0 && jquery__WEBPACK_IMPORTED_MODULE_1___default()("#confPass").val().length !== 0 && jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val().length !== 0 && jquery__WEBPACK_IMPORTED_MODULE_1___default()("#username").val().length !== 0 && test !== 'error') {
         var formData = new FormData();
         formData.append('name', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#username").val());
         formData.append('email', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val());
@@ -30420,113 +30482,104 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("form", { attrs: { id: "RegisterProfessor" } }, [
-    _vm._m(0),
-    _c("br"),
-    _vm._v(" "),
-    _vm._m(1),
-    _c("br"),
-    _vm._v(" "),
-    _vm._m(2),
-    _c("br"),
-    _vm._v(" "),
-    _vm._m(3),
-    _c("br"),
-    _vm._v(" "),
-    _c("input", {
-      attrs: { type: "radio", id: "male", name: "gender", value: "m" }
-    }),
-    _vm._v(" "),
-    _c("label", { attrs: { for: "male" } }, [_vm._v("Masculino")]),
-    _c("br"),
-    _vm._v(" "),
-    _c("input", {
-      attrs: { type: "radio", id: "female", name: "gender", value: "f" }
-    }),
-    _vm._v(" "),
-    _c("label", { attrs: { for: "female" } }, [_vm._v("Femenino")]),
-    _c("br"),
-    _vm._v(" "),
-    _c("input", {
-      attrs: { type: "radio", id: "other", name: "gender", value: "o" }
-    }),
-    _vm._v(" "),
-    _c("label", { attrs: { for: "other" } }, [_vm._v("Outro")]),
-    _vm._v(" "),
-    _c("p", { attrs: { id: "sError" } }),
-    _vm._v(" "),
-    _c("label", { attrs: { for: "submit" } }, [
-      _c("input", {
-        attrs: {
-          name: "submit",
-          value: "registar",
-          type: "button",
-          id: "submit"
-        },
-        on: {
-          click: function($event) {
-            return _vm.submit()
+  return _c(
+    "form",
+    { staticClass: "row mx-auto", attrs: { id: "RegisterProfessor" } },
+    [
+      _vm._m(0),
+      _vm._v(" "),
+      _vm._m(1),
+      _vm._v(" "),
+      _vm._m(2),
+      _vm._v(" "),
+      _vm._m(3),
+      _vm._v(" "),
+      _vm._m(4),
+      _vm._v(" "),
+      _c("div", {}, [
+        _c("input", {
+          staticClass: "btn btn-primary mt-5 mb-5",
+          attrs: {
+            name: "submit ",
+            value: "REGISTAR",
+            type: "button",
+            id: "submit"
+          },
+          on: {
+            click: function($event) {
+              return _vm.submit()
+            }
           }
-        }
-      })
-    ])
-  ])
+        })
+      ])
+    ]
+  )
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "username" } }, [
-      _vm._v("\n        username"),
-      _c("br"),
-      _vm._v(" "),
+    return _c("div", { staticClass: "col-12 mt-5" }, [
       _c("input", {
+        staticClass: "form-control mt-2",
         attrs: { name: "username", type: "text", id: "username", required: "" }
       }),
       _vm._v(" "),
-      _c("p", { attrs: { id: "usernameError" } })
+      _c("label", { staticClass: "label", attrs: { for: "username" } }, [
+        _c("span", [_vm._v("Nome")])
+      ]),
+      _vm._v(" "),
+      _c("p", { staticClass: "error", attrs: { id: "usernameError" } }, [
+        _vm._v(" ")
+      ])
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "email" } }, [
-      _vm._v("\n        email"),
-      _c("br"),
-      _vm._v(" "),
+    return _c("div", { staticClass: "col-12" }, [
       _c("input", {
+        staticClass: "form-control mt-2",
         attrs: { name: "email", type: "email", id: "email", required: "" }
       }),
       _vm._v(" "),
-      _c("p", { attrs: { id: "emailError" } })
+      _c("label", { staticClass: "label", attrs: { for: "email" } }, [
+        _c("span", [_vm._v("Email")])
+      ]),
+      _vm._v(" "),
+      _c("p", { staticClass: "error", attrs: { id: "emailError" } }, [
+        _vm._v(" ")
+      ])
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "pass" } }, [
-      _vm._v("\n        password"),
-      _c("br"),
-      _vm._v(" "),
+    return _c("div", { staticClass: "col-12" }, [
       _c("input", {
+        staticClass: "form-control mt-2",
         attrs: { name: "pass", type: "password", id: "pass", required: "" }
       }),
       _vm._v(" "),
-      _c("p", { attrs: { id: "passError" } })
+      _c("label", { staticClass: "label", attrs: { for: "pass" } }, [
+        _c("span", [_vm._v("Password")])
+      ]),
+      _vm._v(" "),
+      _c("p", { staticClass: "error", attrs: { id: "passError" } }, [
+        _vm._v(" ")
+      ])
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "confPass" } }, [
-      _vm._v("\n        confirmar password"),
-      _c("br"),
-      _vm._v(" "),
+    return _c("div", { staticClass: "col-12" }, [
       _c("input", {
+        staticClass: "form-control mt-2",
         attrs: {
           name: "confPass",
           type: "password",
@@ -30535,7 +30588,47 @@ var staticRenderFns = [
         }
       }),
       _vm._v(" "),
-      _c("p", { attrs: { id: "ConfError" } })
+      _c("label", { staticClass: "label", attrs: { for: "confPass" } }, [
+        _c("span", [_vm._v("Confirmar Password")])
+      ]),
+      _vm._v(" "),
+      _c("p", { staticClass: "error", attrs: { id: "ConfError" } }, [
+        _vm._v(" ")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12" }, [
+      _c("div", { staticClass: "mt-2" }, [
+        _c("input", {
+          attrs: { type: "radio", id: "male", name: "gender", value: "m" }
+        }),
+        _vm._v(" "),
+        _c("label", { staticClass: "me-3", attrs: { for: "male" } }, [
+          _vm._v("Masc.")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          attrs: { type: "radio", id: "female", name: "gender", value: "f" }
+        }),
+        _vm._v(" "),
+        _c("label", { staticClass: "me-3", attrs: { for: "female" } }, [
+          _vm._v("Fem.")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          attrs: { type: "radio", id: "other", name: "gender", value: "o" }
+        }),
+        _vm._v(" "),
+        _c("label", { attrs: { for: "other" } }, [_vm._v("Outro")]),
+        _vm._v(" "),
+        _c("p", { staticClass: "error", attrs: { id: "sError" } }, [
+          _vm._v(" ")
+        ])
+      ])
     ])
   }
 ]

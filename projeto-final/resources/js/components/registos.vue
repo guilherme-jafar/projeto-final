@@ -1,37 +1,57 @@
 <template>
-<form id="RegisterProfessor">
-    <label for="username">
-        username<br>
-        <input name="username" type="text" id="username" required>
-        <p id="usernameError"></p>
-    </label><br>
-    <label for="email">
-        email<br>
-        <input name="email" type="email" id="email" required>
-        <p id="emailError"></p>
+<form class="row mx-auto" id="RegisterProfessor">
+    <div class="col-12 mt-5">
 
-    </label><br>
-    <label for="pass">
-        password<br>
-        <input name="pass" type="password" id="pass" required>
-        <p id="passError"></p>
-    </label><br>
-    <label for="confPass">
-        confirmar password<br>
-        <input name="confPass" type="password" id="confPass" required>
-        <p id="ConfError"></p>
-    </label><br>
-    <input type="radio" id="male" name="gender" value="m">
-    <label for="male">Masculino</label><br>
-    <input type="radio" id="female" name="gender" value="f">
-    <label for="female">Femenino</label><br>
-    <input type="radio" id="other" name="gender" value="o">
-    <label for="other">Outro</label>
-    <p id="sError"></p>
-    <label for="submit">
-        <input name="submit" value="registar" type="button" id="submit" @click="submit()">
+        <input name="username" class="form-control mt-2" type="text" id="username" required>
+        <label class="label" for="username"><span>Nome</span></label>
 
-    </label>
+        <p class="error" id="usernameError">&nbsp;</p>
+    </div>
+
+
+
+    <div class="col-12">
+
+        <input name="email" class="form-control mt-2" type="email" id="email" required>
+        <label class="label" for="email"><span>Email</span></label>
+        <p class="error" id="emailError">&nbsp;</p>
+    </div>
+
+    <div class="col-12">
+
+        <input name="pass" class="form-control mt-2" type="password" id="pass" required>
+        <label class="label" for="pass"><span>Password</span></label>
+        <p class="error" id="passError">&nbsp;</p>
+    </div>
+
+
+    <div class="col-12">
+
+        <input name="confPass" class="form-control mt-2" type="password" id="confPass" required>
+        <label class="label" for="confPass"><span>Confirmar Password</span></label>
+        <p class="error" id="ConfError">&nbsp;</p>
+    </div>
+
+
+
+    <div class="col-12">
+        <div class="mt-2">
+            <input type="radio" id="male" name="gender" value="m">
+            <label class="me-3"  for="male" >Masc.</label>
+            <input type="radio" id="female" name="gender" value="f">
+            <label class="me-3" for="female">Fem.</label>
+            <input type="radio" id="other" name="gender" value="o">
+            <label for="other">Outro</label>
+
+            <p class="error" id="sError">&nbsp;</p>
+        </div>
+
+
+    </div>
+    <div class="">
+        <input name="submit " class="btn btn-primary mt-5 mb-5" value="REGISTAR" type="button" id="submit" @click="submit()">
+    </div>
+
 
 </form>
 
@@ -72,25 +92,43 @@ export default {
            if ($( "#pass" ).val() !== $( "#confPass" ).val() ){
                 $( "#pass" ).val('')
                 $( "#confPass" ).val('')
-                $( "#ConfError" ).text("As passwords estam diferentes").css('color', 'red');
+                $( "#ConfError" ).text("As passwords estão diferentes").css({'color': 'red', 'opacity': '1'});
 
-            }
-            else if($( "#pass" ).val().length === 0 ){
-                $( "#passError" ).text("Introduza uma palavra-passe").css('color', 'red');
-            }
-            else if($( "#confPass" ).val().length === 0 ){
-                $( "#ConfError" ).text("confirme a password").css('color', 'red');
-            }
-            else if($( "#email" ).val().length === 0 ){
-                $( "#emailError" ).text("Introduza um email").css('color', 'red');
-            }
-            else if($( "#username" ).val().length === 0 ){
-                $( "#usernameError" ).text("Introduza um username").css('color', 'red');
-            }
-           else if(test==='error' ){
-               $( "#sError" ).text("Indique o sexo ").css('color', 'red');
+            }else {
+               $( "#ConfError" ).text("&nbsp;").css('color', 'red').css('opacity', '0');
            }
-            else
+
+            if($( "#pass" ).val().length === 0 ){
+                $( "#passError" ).text("Introduza uma palavra-passe").css({'color': 'red', 'opacity': '1'});
+            }else {
+                $( "#passError" ).text("&nbsp;").css('color', 'red').css('opacity', '0');
+            }
+
+            if($( "#confPass" ).val().length === 0 ){
+                $( "#ConfError" ).text("confirme a password").css({'color': 'red', 'opacity': '1'});
+            }else {
+                $( "#ConfError" ).text("&nbsp;").css('color', 'red').css('opacity', '0');
+            }
+
+             if($( "#email" ).val().length === 0 ){
+                $( "#emailError" ).text("Introduza um email").css({'color': 'red', 'opacity': '1'});
+            }else {
+                 $( "#emailError" ).text("&nbsp;").css('color', 'red').css('opacity', '0');
+             }
+
+            if($( "#username" ).val().length === 0 ){
+                $( "#usernameError" ).text("Introduza um username").css({'color': 'red', 'opacity': '1'});
+            }else {
+                $( "#usernameError" ).text("&nbsp;").css('color', 'red').css('opacity', '0');
+            }
+
+            if(test==='error' ){
+               $( "#sError" ).text("Indique o sexo ").css({'color': 'red', 'opacity': '1'});
+           }else {
+                $( "#sError" ).text("&nbsp;").css('color', 'red').css('opacity', '0');
+            }
+
+            if ($( "#pass" ).val() === $( "#confPass" ).val() && $( "#pass" ).val().length !== 0 && $( "#confPass" ).val().length !== 0 && $( "#email" ).val().length !== 0 && $( "#username" ).val().length !== 0  && test!=='error' )
             {
                 let formData = new FormData();
                 formData.append( 'name',$( "#username" ).val());

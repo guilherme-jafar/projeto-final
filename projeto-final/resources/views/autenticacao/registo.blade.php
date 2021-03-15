@@ -38,7 +38,7 @@
 
 <main>
 
-    <section >
+    <section class="section-registo section-registo-1" >
         <div class="container">
             <div class="row">
                 <div class="box">
