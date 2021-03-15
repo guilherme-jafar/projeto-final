@@ -35,5 +35,8 @@ Route::post('/professorConfirmar', [App\Http\Controllers\ContaProfessorControlle
 //images
 
 
-
+//MAILE
+Route::get('/mail1', function () {
+    return new \App\Mail\ConfirmMail(123);
+});
 

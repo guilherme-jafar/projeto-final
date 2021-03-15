@@ -1,10 +1,10 @@
 @component('mail::message')
 # Introduction
 
-The body of your message.
+Para confirmar o registo da sua conta basta clicar no botão
 
-@component('mail::button', ['url' => ''])
-Button Text
+@component('mail::button', ['url' => $ticket])
+Confirmar conta
 @endcomponent
 
 Thanks,<br>

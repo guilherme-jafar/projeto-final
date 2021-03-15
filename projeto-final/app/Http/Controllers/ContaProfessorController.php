@@ -18,7 +18,7 @@ class ContaProfessorController extends Controller
         $name=$request->input('name');
         $pass=$request->input('pass');
         $email=$request->input('email');
-        $tipo=$request->input('tipo');
+        $tipo="professor";
         $sexo=$request->input('sexo');
         $user=DB::table('utilizador')
             ->where('email','like','%'.$email.'%')
@@ -74,7 +74,9 @@ class ContaProfessorController extends Controller
             DB::insert('insert into utilizador_nao_confirmado (id, nome,email,password,tipo,token,sexo) values (?,?,?,?,?,?,?)'
                 , [intval($id, 36), $name,$email,$hashed,$tipo,intval($token, 36),$sexo]);
 
-            Mail::to($email)->send(new ConfirmMail());
+            $ticket='http://127.0.0.1:8000/confirmar/token='.$token.'/prof';
+
+            Mail::to($email)->send(new ConfirmMail($ticket));
             return response()->json([
                 'message' => 'sucesso',
                 'password' => ' ',
@@ -85,6 +87,7 @@ class ContaProfessorController extends Controller
 
     public function confirmarProf(Request $request){
             $token=$request->id;
+
 
         $user=DB::table('utilizador_nao_confirmado')
             ->where('utilizador_nao_confirmado.token','=',$token)

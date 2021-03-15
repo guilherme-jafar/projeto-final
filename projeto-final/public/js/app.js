@@ -1908,12 +1908,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "registo",
   methods: {
     submit: function submit() {
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', true);
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").addClass('spinner-border spinner-border-sm');
       jquery__WEBPACK_IMPORTED_MODULE_1___default()("#sError").text(" ").css('color', 'red');
       jquery__WEBPACK_IMPORTED_MODULE_1___default()("#ConfError").text(" ").css('color', 'red');
       jquery__WEBPACK_IMPORTED_MODULE_1___default()("#passError").text(" ").css('color', 'red');
@@ -1934,73 +1941,47 @@ __webpack_require__.r(__webpack_exports__);
       if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val() !== jquery__WEBPACK_IMPORTED_MODULE_1___default()("#confPass").val()) {
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val('');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#confPass").val('');
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#ConfError").text("As passwords estão diferentes").css({
-          'color': 'red',
-          'opacity': '1'
-        });
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#ConfError").text("As passwords estam diferentes").css('color', 'red').css('opacity', '1');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
+      } else if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val().length === 0) {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#passError").text("Introduza uma palavra-passe").css('color', 'red').css('opacity', '1');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
+      } else if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#confPass").val().length === 0) {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#ConfError").text("confirme a password").css('color', 'red').css('opacity', '1');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
+      } else if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val().length === 0) {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#emailError").text("Introduza um email").css('color', 'red').css('opacity', '1');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
+      } else if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#username").val().length === 0) {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#usernameError").text("Introduza um username").css('color', 'red').css('opacity', '1');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
+      } else if (test === 'error') {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#sError").text("Indique o sexo ").css('color', 'red').css('opacity', '1');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
       } else {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#ConfError").text("&nbsp;").css('color', 'red').css('opacity', '0');
-      }
-
-      if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val().length === 0) {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#passError").text("Introduza uma palavra-passe").css({
-          'color': 'red',
-          'opacity': '1'
-        });
-      } else {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#passError").text("&nbsp;").css('color', 'red').css('opacity', '0');
-      }
-
-      if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#confPass").val().length === 0) {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#ConfError").text("confirme a password").css({
-          'color': 'red',
-          'opacity': '1'
-        });
-      } else {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#ConfError").text("&nbsp;").css('color', 'red').css('opacity', '0');
-      }
-
-      if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val().length === 0) {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#emailError").text("Introduza um email").css({
-          'color': 'red',
-          'opacity': '1'
-        });
-      } else {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#emailError").text("&nbsp;").css('color', 'red').css('opacity', '0');
-      }
-
-      if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#username").val().length === 0) {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#usernameError").text("Introduza um username").css({
-          'color': 'red',
-          'opacity': '1'
-        });
-      } else {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#usernameError").text("&nbsp;").css('color', 'red').css('opacity', '0');
-      }
-
-      if (test === 'error') {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#sError").text("Indique o sexo ").css({
-          'color': 'red',
-          'opacity': '1'
-        });
-      } else {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#sError").text("&nbsp;").css('color', 'red').css('opacity', '0');
-      }
-
-      if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val() === jquery__WEBPACK_IMPORTED_MODULE_1___default()("#confPass").val() && jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val().length !== 0 && jquery__WEBPACK_IMPORTED_MODULE_1___default()("#confPass").val().length !== 0 && jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val().length !== 0 && jquery__WEBPACK_IMPORTED_MODULE_1___default()("#username").val().length !== 0 && test !== 'error') {
         var formData = new FormData();
         formData.append('name', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#username").val());
         formData.append('email', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val());
         formData.append('pass', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val());
-        formData.append('tipo', 'professor');
         formData.append('sexo', test);
         axios__WEBPACK_IMPORTED_MODULE_0___default().post('/registo/sbmProfessor', formData).then(function (response) {
           if (response.data.message !== "sucesso") {
             jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val('');
             jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val('');
             jquery__WEBPACK_IMPORTED_MODULE_1___default()("#confPass").val('');
-            jquery__WEBPACK_IMPORTED_MODULE_1___default()("#passError").text(response.data.password).css('color', 'red');
-            jquery__WEBPACK_IMPORTED_MODULE_1___default()("#emailError").text(response.data.email).css('color', 'red');
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()("#passError").text(response.data.password).css('color', 'red').css('opacity', '1');
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()("#emailError").text(response.data.email).css('color', 'red').css('opacity', '1');
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
+          } else {
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
           }
         }.bind(this));
       }
@@ -30497,20 +30478,24 @@ var render = function() {
       _vm._m(4),
       _vm._v(" "),
       _c("div", {}, [
-        _c("input", {
-          staticClass: "btn btn-primary mt-5 mb-5",
-          attrs: {
-            name: "submit ",
-            value: "REGISTAR",
-            type: "button",
-            id: "submit"
-          },
-          on: {
-            click: function($event) {
-              return _vm.submit()
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary mt-5 mb-5",
+            attrs: { name: "submit", type: "button", id: "submit" },
+            on: {
+              click: function($event) {
+                return _vm.submit()
+              }
             }
-          }
-        })
+          },
+          [
+            _c("span", {
+              attrs: { role: "status", "aria-hidden": "true", id: "laoding" }
+            }),
+            _vm._v("\n            REGISTAR\n        ")
+          ]
+        )
       ])
     ]
   )
