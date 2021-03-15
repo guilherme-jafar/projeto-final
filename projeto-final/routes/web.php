@@ -28,6 +28,11 @@ Route::get('/confirmar/{token}/{tipo}', function ($token,$tipo) {
 });
 
 
+Route::get('/login', function () {
+    return view('/autenticacao/login');
+});
+
+Route::post('/loginroute', [App\Http\Controllers\ContaProfessorController::class, 'login']);
 
 //controllerProfessor
 Route::post('/registo/sbmProfessor', [App\Http\Controllers\ContaProfessorController::class, 'register']);

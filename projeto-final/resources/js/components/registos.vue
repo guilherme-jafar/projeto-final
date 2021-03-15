@@ -1,41 +1,50 @@
 <template>
 <form class="row mx-auto" id="RegisterProfessor">
-    <div class="col-12 mt-5">
+    <h2>Registo</h2>
+    <div class="col-12">
 
-        <input name="username" class="form-control mt-2" type="text" id="username" required>
-        <label class="label" for="username"><span>Nome</span></label>
-
-        <p class="error" id="usernameError">&nbsp;</p>
+        <input name="username " class="form-control mt-2 mb-3" type="text" id="username" required>
+        <label class="label " for="username"><span>Nome</span></label>
+    </div>
+    <div class="col-12">
+        <p class="error " id="usernameError"></p>
     </div>
 
 
 
     <div class="col-12">
 
-        <input name="email" class="form-control mt-2" type="email" id="email" required>
+        <input name="email" class="form-control mt-2 mb-3" type="email" id="email" required>
         <label class="label" for="email"><span>Email</span></label>
-        <p class="error" id="emailError">&nbsp;</p>
+
+    </div>
+    <div class="col-12">
+        <p class="error" id="emailError"></p>
     </div>
 
     <div class="col-12">
 
-        <input name="pass" class="form-control mt-2" type="password" id="pass" required>
+        <input name="pass" class="form-control mt-2 mb-3" type="password" id="pass" required>
         <label class="label" for="pass"><span>Password</span></label>
-        <p class="error" id="passError">&nbsp;</p>
-    </div>
 
+    </div>
+    <div class="col-12">
+        <p class="error" id="passError"></p>
+    </div>
 
     <div class="col-12">
 
-        <input name="confPass" class="form-control mt-2" type="password" id="confPass" required>
+        <input name="confPass" class="form-control mt-2 mb-3" type="password" id="confPass" required>
         <label class="label" for="confPass"><span>Confirmar Password</span></label>
-        <p class="error" id="ConfError">&nbsp;</p>
+
+    </div>
+    <div class="col-12">
+        <p class="error" id="ConfError"></p>
     </div>
 
 
-
     <div class="col-12">
-        <div class="mt-2">
+        <div >
             <input type="radio" id="male" name="gender" value="m">
             <label class="me-3"  for="male" >Masc.</label>
             <input type="radio" id="female" name="gender" value="f">
@@ -43,7 +52,7 @@
             <input type="radio" id="other" name="gender" value="o">
             <label for="other">Outro</label>
 
-            <p class="error" id="sError">&nbsp;</p>
+            <p class="error" id="sError"></p>
         </div>
 
 

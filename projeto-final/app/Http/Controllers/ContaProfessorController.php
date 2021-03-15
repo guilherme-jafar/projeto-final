@@ -111,4 +111,12 @@ class ContaProfessorController extends Controller
 
         }
     }
+
+    public function login(Request $request){
+
+
+
+    }
+
+
 }

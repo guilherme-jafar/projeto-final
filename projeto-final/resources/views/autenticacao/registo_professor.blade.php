@@ -16,7 +16,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="">
 
     {{--    CSS--}}
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/registo.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/autenticacao.css') }}">
 
 
 </head>
@@ -39,7 +39,7 @@
 
 <main>
 
-    <section class="section-registo section-registo-2" >
+    <section class="section-autenticacao section-registo-2" >
         <div class="container">
             <div class="row">
                 <div class="box">

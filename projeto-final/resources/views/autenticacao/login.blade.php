@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -18,6 +19,7 @@
     {{--    CSS--}}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/autenticacao.css') }}">
 
+
 </head>
 <body class="antialiased">
 
@@ -25,9 +27,9 @@
 
     <nav class="navbar navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand"><img class="img-fluid" src="{{URL('/assets/logo.png')}}" alt=""></a>
+            <a class="navbar-brand" href="/"><img class="img-fluid" src="{{URL('/assets/logo.png')}}" alt=""></a>
             <div class="d-flex">
-                <a class="btn btn-ghost" href="{{URL('/login')}}">LOGIN &nbsp;<i class="bi bi-box-arrow-in-right"></i></a>
+                <a class="btn btn-primary" href="{{URL('/registo')}}">REGISTO</a>
 
 
             </div>
@@ -38,27 +40,17 @@
 
 <main>
 
-    <section class="section-autenticacao section-registo-1" >
+    <section class="section-autenticacao section-login" >
         <div class="container">
             <div class="row">
                 <div class="box">
                     <div class="row">
-                        <div class="col-md-6">
-                            <a class="box-registo box-registo-1" href="#">
-                                <h3>Aluno</h3>
-
-                                <div class="mx-auto ">        <i class="bi bi-person align-middle"></i></div>
-                            </a>
-                        </div>
-                        <div class="col-md-6">
-                            <a class="box-registo box-registo-2" href="/registo/rgsProfessor">
-                                <h3>Professor</h3>
-                                <div class="mx-auto">  <i class="bi bi-book-fill align-bottom"></i></div>
-
-                            </a>
+                        <div class="col-md-12">
+                            <div id="app">
+                                <login></login>
+                            </div>
                         </div>
                     </div>
-
                 </div>
 
             </div>
@@ -67,17 +59,27 @@
 
     <div class="mx-auto">
 
-        {{--        <button><a><img src="{{URL('/assets/registo_aluno.png')}}" width="400" height="400"></a></button>--}}
-        {{--        <button><a href="/registo/rgsProfessor"><img src="{{URL('/assets/registo_professor.png')}}" width="400" height="400"></a></button>--}}
-
-
 
     </div>
+
+
 
 </main>
 
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 
-
+<script src="{{ asset('js/app.js') }}" defer></script>
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/jquery.easing.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('js/custom.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 </html>
+<script>
+    import Login from "../../js/components/login";
+    export default {
+        components: {Login}
+    }
+</script>
