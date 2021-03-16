@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ConfirmMail;
+use App\Models\Utilizador;
 use App\Models\utilizador_nao_confirmado;
 use Facade\Ignition\DumpRecorder\Dump;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Psr\Log\NullLogger;
+use function PHPUnit\Framework\isEmpty;
 
 class ContaController extends Controller
 {
@@ -147,7 +151,60 @@ class ContaController extends Controller
 
     public function login(Request $request){
 
+        $email = $request->input('email');
+        $password = $request->input('password');
 
+         $user =  DB::table('utilizador')->where('email','=',$email)->get();
+
+         if (!empty($user[0])){
+
+             if (Hash::check($password, $user[0]->password)){
+
+                 var_dump(strcmp('prof', $user[0]->tipo));
+                 var_dump($user[0]->tipo);
+
+                 $request->session()->put([
+                     'id' =>$user[0]->id,
+                     'nome' =>$user[0]->nome,
+                     'tipo' =>$user[0]->tipo,
+                     'email' => $user[0]->email,
+                     'foto' => $user[0]->foto_perfil,
+                 ]);
+
+                 if (strcmp('prof', $user[0]->tipo) == 0){
+                     return response()->json([
+                         'message' => 'prof'
+                     ]);
+                 }else{
+                     return response()->json([
+                         'message' => 'aluno'
+                     ]);
+                 }
+
+             }else{
+
+                 return response()->json([
+                     'message' => 'erro'
+                 ]);
+             }
+
+         }else{
+             return response()->json([
+                 'message' => 'erro'
+             ]);
+         }
+
+
+
+
+
+    }
+
+    public function logout(Request $request){
+
+         //$request->session()->flush();
+
+         dd($request->session()->has('nome'));
 
     }
 

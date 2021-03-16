@@ -41,6 +41,13 @@ Route::post('/Confirmar/aluno', [App\Http\Controllers\ContaController::class, 'c
 //images
 
 
+Route::get('/prof/dashboard', function () {
+    return view('/prof/dashboard');
+});
+
+Route::get('/logout',[App\Http\Controllers\ContaController::class, 'logout'] );
+
+
 //MAILE
 Route::get('/mail1', function () {
     return new \App\Mail\ConfirmMail(123);

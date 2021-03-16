@@ -1887,6 +1887,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -1907,9 +1909,17 @@ __webpack_require__.r(__webpack_exports__);
 
       if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val().length !== 0 && jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val().length !== 0) {
         var formData = new FormData();
-        formData.append('name', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val());
+        formData.append('password', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val());
         formData.append('email', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val());
-        axios__WEBPACK_IMPORTED_MODULE_0___default().post('/loginroute', formData).then(function (response) {}.bind(this));
+        axios__WEBPACK_IMPORTED_MODULE_0___default().post('/loginroute', formData).then(function (response) {
+          console.log(response.data.message);
+
+          if (response.data.message === 'erro') {
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#passwordError').text('O email ou a palavra passe estão incorretos!!');
+          } else {
+            window.location.replace('prof/dashboard');
+          }
+        }.bind(this));
       }
     },
     verPassword: function verPassword() {
@@ -30688,12 +30698,7 @@ var render = function() {
               }
             }
           },
-          [
-            _c("span", {
-              attrs: { role: "status", "aria-hidden": "true", id: "laoding" }
-            }),
-            _vm._v("\n            ENTRAR\n        ")
-          ]
+          [_vm._v("\n            ENTRAR  \n            "), _vm._m(5)]
         )
       ])
     ]
@@ -30748,6 +30753,16 @@ var staticRenderFns = [
         _c("small", [_vm._v("Esqueceu-se do código?")])
       ])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "spinner-border text-light", attrs: { role: "status" } },
+      [_c("span", { staticClass: "visually-hidden" }, [_vm._v("Loading...")])]
+    )
   }
 ]
 render._withStripped = true
@@ -30812,7 +30827,7 @@ var render = function() {
             _c("span", {
               attrs: { role: "status", "aria-hidden": "true", id: "laoding" }
             }),
-            _vm._v("\n            REGISTAR\n        ")
+            _vm._v("\r\n            REGISTAR\r\n        ")
           ]
         )
       ])

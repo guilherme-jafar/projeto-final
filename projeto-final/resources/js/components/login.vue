@@ -25,8 +25,10 @@
         <div class="">
 
             <button name="submit" class="btn btn-primary mt-5 mb-5"  type="button" id="submit" @click="submit()">
-                <span class="" role="status" aria-hidden="true" id="laoding"></span>
-                ENTRAR
+                ENTRAR &nbsp;
+                <div class="spinner-border text-light" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
             </button>
         </div>
 
@@ -61,14 +63,23 @@ export default {
 
 
                 let formData = new FormData();
-                formData.append( 'name',$( "#pass" ).val());
+                formData.append( 'password',$( "#pass" ).val());
                 formData.append( 'email',$( "#email" ).val());
                 axios.post('/loginroute', formData
                 ).then(function (response) {
 
 
+                console.log(response.data.message)
+
+                    if (response.data.message === 'erro'){
+                        $('#passwordError').text('O email ou a palavra passe estão incorretos!!');
+                    }else{
+                        window.location.replace('prof/dashboard');
+                    }
 
                 }.bind(this));
+
+
             }
 
 
