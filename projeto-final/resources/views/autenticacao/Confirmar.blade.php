@@ -77,9 +77,9 @@
         console.log(url)
 
         if (tipo==="prof"){
-           url= '/professorConfirmar'}
+           url= '/Confirmar/professor'}
         else{
-            url= '/confirmar/AlunoConfirmar'}
+            url= '/Confirmar/aluno'}
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

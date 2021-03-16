@@ -2068,10 +2068,13 @@ __webpack_require__.r(__webpack_exports__);
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
       } else {
+        var tipo = document.URL;
+        tipo = tipo.replace('http://127.0.0.1:8000/registo/user/', '');
         var formData = new FormData();
         formData.append('name', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#username").val());
         formData.append('email', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val());
         formData.append('pass', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val());
+        formData.append('tipo', tipo);
         formData.append('sexo', test);
         axios__WEBPACK_IMPORTED_MODULE_0___default().post('/registo/sbmProfessor', formData).then(function (response) {
           if (response.data.message !== "sucesso") {

@@ -20,8 +20,8 @@ Route::get('/registo', function () {
     return view('/autenticacao/registo');
 });
 
-Route::get('/registo/rgsProfessor', function () {
-    return view('/autenticacao/registo_professor');
+Route::get('/registo/user/{tipo}', function ($tipo) {
+    return view('/autenticacao/registo_user',['tipo'=>$tipo]);
 });
 Route::get('/confirmar/{token}/{tipo}', function ($token,$tipo) {
     return view('/autenticacao/Confirmar',['token'=>$token,'tipo'=>$tipo]);
@@ -32,11 +32,12 @@ Route::get('/login', function () {
     return view('/autenticacao/login');
 });
 
-Route::post('/loginroute', [App\Http\Controllers\ContaProfessorController::class, 'login']);
+Route::post('/loginroute', [App\Http\Controllers\ContaController::class, 'login']);
 
-//controllerProfessor
-Route::post('/registo/sbmProfessor', [App\Http\Controllers\ContaProfessorController::class, 'register']);
-Route::post('/professorConfirmar', [App\Http\Controllers\ContaProfessorController::class, 'confirmarProf']);
+//controller
+Route::post('/registo/sbmProfessor', [App\Http\Controllers\ContaController::class, 'register']);
+Route::post('/Confirmar/professor', [App\Http\Controllers\ContaController::class, 'confirmarProf']);
+Route::post('/Confirmar/aluno', [App\Http\Controllers\ContaController::class, 'confirmarAluno']);
 //images
 
 

@@ -140,12 +140,13 @@ export default {
             else
             {
 
-
-                let formData = new FormData();
+                let tipo=document.URL;
+                tipo=tipo.replace('http://127.0.0.1:8000/registo/user/','');
+             let formData = new FormData();
                 formData.append( 'name',$( "#username" ).val());
                 formData.append( 'email',$( "#email" ).val());
                 formData.append( 'pass',$( "#pass" ).val());
-
+                formData.append( 'tipo',tipo);
                 formData.append( 'sexo',test);
                 axios.post('/registo/sbmProfessor', formData
                 ).then(function (response) {

@@ -11,14 +11,14 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Psr\Log\NullLogger;
 
-class ContaProfessorController extends Controller
+class ContaController extends Controller
 {
     public function register(Request $request){
 
         $name=$request->input('name');
         $pass=$request->input('pass');
         $email=$request->input('email');
-        $tipo="professor";
+        $tipo=$request->input('tipo');
         $sexo=$request->input('sexo');
         $user=DB::table('utilizador')
             ->where('email','like','%'.$email.'%')
@@ -74,8 +74,10 @@ class ContaProfessorController extends Controller
             DB::insert('insert into utilizador_nao_confirmado (id, nome,email,password,tipo,token,sexo) values (?,?,?,?,?,?,?)'
                 , [intval($id, 36), $name,$email,$hashed,$tipo,intval($token, 36),$sexo]);
 
-            $ticket='http://127.0.0.1:8000/confirmar/token='.$token.'/prof';
-
+            if ($tipo=="prof")
+                $ticket='http://127.0.0.1:8000/confirmar/token='.$token.'/prof';
+            else
+                $ticket='http://127.0.0.1:8000/confirmar/token='.$token.'/aluno';
             Mail::to($email)->send(new ConfirmMail($ticket));
             return response()->json([
                 'message' => 'sucesso',
@@ -83,6 +85,9 @@ class ContaProfessorController extends Controller
                 'email' => ' '
             ]);
         }
+
+
+
     }
 
     public function confirmarProf(Request $request){
@@ -106,6 +111,34 @@ class ContaProfessorController extends Controller
 
 
            return response()->json([
+                'message' => 'sucesso'
+            ]);
+
+        }
+    }
+
+
+    public function confirmarAluno(Request $request){
+        $token=$request->id;
+
+
+        $user=DB::table('utilizador_nao_confirmado')
+            ->where('utilizador_nao_confirmado.token','=',$token)
+            ->value('id');
+
+        if (empty($user)){
+            return response()->json([
+                'message' => 'error'
+            ]);
+        }
+        else {
+            $newID=intval("p".time().$token, 36);
+            DB::statement('call inProf(?)',[$token]);
+            DB::insert('insert into aluno (id,utilizador_id) values (?,?)'
+                , ["p".$newID,$user]);
+
+
+            return response()->json([
                 'message' => 'sucesso'
             ]);
 
