@@ -1895,16 +1895,18 @@ __webpack_require__.r(__webpack_exports__);
   name: "login",
   methods: {
     submit: function submit() {
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').addClass('d-none');
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').removeClass('d-none');
+
       if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val().length === 0) {
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#EmailError").text("O campo encontra-se vazio").css('color', 'red').css('opacity', '1');
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
       }
 
       if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val().length === 0) {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#passwordError").text("O campo encontra-se vazio").css('color', 'red').css('opacity', '1');
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
       }
 
       if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val().length !== 0 && jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val().length !== 0) {
@@ -1916,8 +1918,10 @@ __webpack_require__.r(__webpack_exports__);
 
           if (response.data.message === 'erro') {
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#passwordError').text('O email ou a palavra passe estão incorretos!!');
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
           } else {
-            window.location.replace('prof/dashboard');
+            window.location.replace('/loading');
           }
         }.bind(this));
       }
@@ -30286,6 +30290,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/sass/dashboard/dashboard.scss":
+/*!*************************************************!*\
+  !*** ./resources/sass/dashboard/dashboard.scss ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./resources/css/app.css":
 /*!*******************************!*\
   !*** ./resources/css/app.css ***!
@@ -30690,7 +30707,7 @@ var render = function() {
         _c(
           "button",
           {
-            staticClass: "btn btn-primary mt-5 mb-5",
+            staticClass: "btn btn-primary mt-5 mb-5 btn-submit",
             attrs: { name: "submit", type: "button", id: "submit" },
             on: {
               click: function($event) {
@@ -30698,7 +30715,14 @@ var render = function() {
               }
             }
           },
-          [_vm._v("\n            ENTRAR  \n            "), _vm._m(5)]
+          [
+            _c("span", { attrs: { id: "btn-text co" } }, [_vm._v("ENTRAR  ")]),
+            _vm._v(" "),
+            _c("div", {
+              staticClass: "spinner-border text-light d-none",
+              attrs: { role: "status" }
+            })
+          ]
         )
       ])
     ]
@@ -30753,16 +30777,6 @@ var staticRenderFns = [
         _c("small", [_vm._v("Esqueceu-se do código?")])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "spinner-border text-light", attrs: { role: "status" } },
-      [_c("span", { staticClass: "visually-hidden" }, [_vm._v("Loading...")])]
-    )
   }
 ]
 render._withStripped = true
@@ -43260,10 +43274,11 @@ Vue.compile = compileToFunctions;
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/autenticacao"], () => (__webpack_require__("./resources/js/app.js")))
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/autenticacao"], () => (__webpack_require__("./resources/sass/main.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/autenticacao"], () => (__webpack_require__("./resources/sass/autenticacao/registo.scss")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app","css/autenticacao"], () => (__webpack_require__("./resources/css/app.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/dashboard","css/autenticacao"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/dashboard","css/autenticacao"], () => (__webpack_require__("./resources/sass/main.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/dashboard","css/autenticacao"], () => (__webpack_require__("./resources/sass/autenticacao/registo.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/dashboard","css/autenticacao"], () => (__webpack_require__("./resources/sass/dashboard/dashboard.scss")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app","css/dashboard","css/autenticacao"], () => (__webpack_require__("./resources/css/app.css")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

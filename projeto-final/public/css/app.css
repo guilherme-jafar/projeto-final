@@ -388,6 +388,9 @@ li {
   border-color: #ff8d4b;
   color: white;
 }
+.btn-submit {
+  min-width: 15rem;
+}
 
 i {
   font-size: 2rem;
@@ -398,6 +401,28 @@ i {
 }
 .navbar .navbar-brand .img-fluid {
   width: 50%;
+}
+.navbar .btn-secondary {
+  background-color: transparent;
+  border-radius: 0;
+  border: none;
+  color: #747474;
+}
+.navbar .btn-secondary:hover, .navbar .btn-secondary:focus {
+  border: none;
+  box-shadow: none;
+}
+.navbar .dropdown-menu a {
+  font-size: 1.6rem;
+  font-family: Lato, serif;
+}
+
+section {
+  min-height: 95vh;
+  background-image: url("/assets/background.png");
+  background-size: cover;
+  background-position: center;
+  padding: 5rem;
 }
 
 /*
@@ -658,6 +683,9 @@ li {
   border-color: #ff8d4b;
   color: white;
 }
+.btn-submit {
+  min-width: 15rem;
+}
 
 i {
   font-size: 2rem;
@@ -668,6 +696,28 @@ i {
 }
 .navbar .navbar-brand .img-fluid {
   width: 50%;
+}
+.navbar .btn-secondary {
+  background-color: transparent;
+  border-radius: 0;
+  border: none;
+  color: #747474;
+}
+.navbar .btn-secondary:hover, .navbar .btn-secondary:focus {
+  border: none;
+  box-shadow: none;
+}
+.navbar .dropdown-menu a {
+  font-size: 1.6rem;
+  font-family: Lato, serif;
+}
+
+section {
+  min-height: 95vh;
+  background-image: url("/assets/background.png");
+  background-size: cover;
+  background-position: center;
+  padding: 5rem;
 }
 
 .section-autenticacao {
@@ -807,5 +857,8 @@ i {
 .section-login form small {
   font-size: 1.4rem;
   font-family: lato, serif;
+}
+.section-login form span {
+  color: white;
 }
 

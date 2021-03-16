@@ -171,15 +171,9 @@ class ContaController extends Controller
                      'foto' => $user[0]->foto_perfil,
                  ]);
 
-                 if (strcmp('prof', $user[0]->tipo) == 0){
-                     return response()->json([
-                         'message' => 'prof'
-                     ]);
-                 }else{
-                     return response()->json([
-                         'message' => 'aluno'
-                     ]);
-                 }
+                 return response()->json([
+                     'message' => 'sucess'
+                 ]);
 
              }else{
 
@@ -202,10 +196,14 @@ class ContaController extends Controller
 
     public function logout(Request $request){
 
-         //$request->session()->flush();
+         $request->session()->flush();
 
-         dd($request->session()->has('nome'));
+         return view('/welcome');
 
+    }
+
+    public function teste(){
+        return view('/prof/dashboard');
     }
 
 

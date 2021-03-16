@@ -1,4 +1,6 @@
-<?php
-//var_dump(request()->session());
-//dd(request()->session()->);
-?>
+@extends('layout/layout')
+
+@section('content')
+
+<div>vdfnvbnfdgjknjkfdnjkbfgb</div>
+@endsection

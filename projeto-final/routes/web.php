@@ -41,8 +41,10 @@ Route::post('/Confirmar/aluno', [App\Http\Controllers\ContaController::class, 'c
 //images
 
 
-Route::get('/prof/dashboard', function () {
-    return view('/prof/dashboard');
+
+
+Route::get('/loading', function () {
+    return view('/loading');
 });
 
 Route::get('/logout',[App\Http\Controllers\ContaController::class, 'logout'] );
@@ -53,3 +55,12 @@ Route::get('/mail1', function () {
     return new \App\Mail\ConfirmMail(123);
 });
 
+Route::get('/prof/dashboard', [App\Http\Controllers\ContaController::class, 'teste'])->name('/prof/dashboard');
+
+
+
+//Route::group(['middleware' => ['authenticate', 'roles']], function (){
+//    Route::get('/dashboard', [
+//        'as' => 'dashboard',
+//        'uses' => 'DashboardController@dashboard']);
+//});

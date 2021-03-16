@@ -14,8 +14,22 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
-        if (! $request->expectsJson()) {
-            return route('login');
+
+
+        if (!$request->session()->exists('email')){
+            return route('/');
+        }else {
+            if (request()->session()->get('tipo') == 'prof') {
+                dd('dsfsd');
+                return route('/prof/dashboard');
+            } else {
+                return route('/aluno/dashboard');
+            }
+
+
+//        if (! $request->expectsJson()) {
+//            return route('login');
+//        }
         }
     }
 }

@@ -97,6 +97,10 @@ li{
         }
     }
 
+    &-submit{
+        min-width: 15rem;
+    }
+
 
 }
 
@@ -112,7 +116,35 @@ i{
         }
     }
     box-shadow:  1rem 0.2rem rgba(0,0,0,0.10);
+
+    .btn-secondary{
+        background-color: transparent;
+        border-radius: 0;
+        border: none;
+        color: $cor-letra;
+
+        &:hover, &:focus{
+            border: none;
+            box-shadow: none;
+        }
+    }
+
+    .dropdown-menu{
+
+
+        a{
+            font-size: 1.6rem;
+            font-family: Lato, serif;
+        }
+    }
 }
 
+section{
+    min-height: 95vh;
+    background-image: url('/assets/background.png');
+    background-size: cover;
+    background-position: center;
+    padding: 5rem;
+}
 
 

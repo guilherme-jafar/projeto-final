@@ -24,10 +24,10 @@
 
         <div class="">
 
-            <button name="submit" class="btn btn-primary mt-5 mb-5"  type="button" id="submit" @click="submit()">
-                ENTRAR &nbsp;
-                <div class="spinner-border text-light" role="status">
-                    <span class="visually-hidden">Loading...</span>
+            <button name="submit" class="btn btn-primary mt-5 mb-5 btn-submit"  type="button" id="submit" @click="submit()">
+                <span id="btn-text co">ENTRAR &nbsp;</span>
+                <div class="spinner-border text-light d-none" role="status">
+
                 </div>
             </button>
         </div>
@@ -46,16 +46,20 @@ export default {
     methods: {
         submit() {
 
+            $('#submit span').addClass('d-none');
+            $('#submit div').removeClass('d-none');
+
             if($( "#email" ).val().length === 0 ){
                 $( "#EmailError" ).text("O campo encontra-se vazio").css('color', 'red').css('opacity', '1');
-                $( "#loading" ).removeClass('spinner-border spinner-border-sm');
-                $('#submit').prop('disabled', false);
+                $('#submit span').removeClass('d-none');
+                $('#submit div').addClass('d-none');
+
             }
 
             if($( "#pass" ).val().length === 0 ){
-                $( "#passwordError" ).text("O campo encontra-se vazio").css('color', 'red').css('opacity', '1');
-                $( "#loading" ).removeClass('spinner-border spinner-border-sm');
-                $('#submit').prop('disabled', false);
+                $('#submit span').removeClass('d-none');
+                $('#submit div').addClass('d-none');
+
             }
 
             if ($( "#email" ).val().length !== 0 && $( "#pass" ).val().length !== 0)
@@ -73,8 +77,10 @@ export default {
 
                     if (response.data.message === 'erro'){
                         $('#passwordError').text('O email ou a palavra passe estão incorretos!!');
+                        $('#submit span').removeClass('d-none');
+                        $('#submit div').addClass('d-none');
                     }else{
-                        window.location.replace('prof/dashboard');
+                        window.location.replace('/loading');
                     }
 
                 }.bind(this));
