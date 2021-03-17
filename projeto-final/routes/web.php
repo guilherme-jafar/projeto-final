@@ -30,7 +30,7 @@ Route::get('/confirmar/{token}/{tipo}', function ($token,$tipo) {
 
 Route::get('/login', function () {
     return view('/autenticacao/login');
-});
+})->name('login');
 
 Route::post('/loginroute', [App\Http\Controllers\ContaController::class, 'login']);
 
@@ -55,7 +55,7 @@ Route::get('/mail1', function () {
     return new \App\Mail\ConfirmMail(123);
 });
 
-Route::get('/prof/dashboard', [App\Http\Controllers\ContaController::class, 'teste'])->name('/prof/dashboard');
+Route::get('/prof/dashboard', [App\Http\Controllers\ContaController::class, 'teste'])->middleware('auth');
 
 
 

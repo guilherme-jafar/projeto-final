@@ -4,7 +4,7 @@
         <div class="col-12">
 
             <input name="email" class="form-control mt-2 mb-3 " type="email" id="email" >
-            <label class="label" for="email"><span>Email</span></label>
+            <label class="label" for="email" ><span>Email</span></label>
         </div>
         <div class="col-12 mb-3">
             <p class="error " id="EmailError"></p>

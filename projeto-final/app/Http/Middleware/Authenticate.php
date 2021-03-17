@@ -16,20 +16,27 @@ class Authenticate extends Middleware
     {
 
 
-        if (!$request->session()->exists('email')){
-            return route('/');
-        }else {
-            if (request()->session()->get('tipo') == 'prof') {
-                dd('dsfsd');
-                return route('/prof/dashboard');
-            } else {
-                return route('/aluno/dashboard');
-            }
-
-
-//        if (! $request->expectsJson()) {
-//            return route('login');
+//        if (!$request->session()->exists('email')){
+//            return route('/');
+//        }else {
+//            if (request()->session()->get('tipo') == 'prof') {
+//                dd('dsfsd');
+//                return route('/prof/dashboard');
+//            } else {
+//                return route('/aluno/dashboard');
+//            }
+//
+//
+//
 //        }
+
+        //dd($request->session());
+
+
+
+        if (!$request->session()->exists('email')) {
+            dd(!$request->session()->exists('email'));
+            return route('login');
         }
     }
 }
