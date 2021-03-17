@@ -25,7 +25,7 @@
         <div class="">
 
             <button name="submit" class="btn btn-primary mt-5 mb-5 btn-submit"  type="button" id="submit" @click="submit()">
-                <span id="btn-text co">ENTRAR &nbsp;</span>
+                <span class="">ENTRAR &nbsp;</span>
                 <div class="spinner-border text-light d-none" role="status">
 
                 </div>
@@ -73,7 +73,7 @@ export default {
                 ).then(function (response) {
 
 
-                console.log(response.data.message)
+
 
                     if (response.data.message === 'erro'){
                         $('#passwordError').text('O email ou a palavra passe estão incorretos!!');

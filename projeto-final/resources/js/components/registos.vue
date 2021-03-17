@@ -59,9 +59,12 @@
     </div>
     <div class="">
 
-        <button name="submit" class="btn btn-primary mt-5 mb-5"  type="button" id="submit" @click="submit()">
-            <span class="" role="status" aria-hidden="true" id="laoding"></span>
-            REGISTAR
+
+        <button name="submit" class="btn btn-primary mt-5 mb-5 btn-submit"  type="button" id="submit" @click="submit()">
+            <span class="">REGISTAR &nbsp;</span>
+            <div class="spinner-border text-light d-none" role="status">
+
+            </div>
         </button>
     </div>
 
@@ -81,6 +84,9 @@ export default {
 
 
         submit() {
+            $('#submit span').addClass('d-none');
+            $('#submit div').removeClass('d-none');
+
             $('#submit').prop('disabled', true);
             $( "#loading" ).addClass('spinner-border spinner-border-sm');
             $( "#sError" ).text(" ").css('color', 'red');
@@ -111,31 +117,49 @@ export default {
                 $( "#ConfError" ).text("As passwords estam diferentes").css('color', 'red').css('opacity', '1');
                 $( "#loading" ).removeClass('spinner-border spinner-border-sm');
                 $('#submit').prop('disabled', false);
+
+                $('#submit span').removeClass('d-none');
+                $('#submit div').addClass('d-none');
             }
             else if($( "#pass" ).val().length === 0 ){
                 $( "#passError" ).text("Introduza uma palavra-passe").css('color', 'red').css('opacity', '1');
                 $( "#loading" ).removeClass('spinner-border spinner-border-sm');
                 $('#submit').prop('disabled', false);
+
+                $('#submit span').removeClass('d-none');
+                $('#submit div').addClass('d-none');
             }
             else if($( "#confPass" ).val().length === 0 ){
                 $( "#ConfError" ).text("confirme a password").css('color', 'red').css('opacity', '1');
                 $( "#loading" ).removeClass('spinner-border spinner-border-sm');
                 $('#submit').prop('disabled', false);
+
+                $('#submit span').removeClass('d-none');
+                $('#submit div').addClass('d-none');
             }
             else if($( "#email" ).val().length === 0 ){
                 $( "#emailError" ).text("Introduza um email").css('color', 'red').css('opacity', '1');
                 $( "#loading" ).removeClass('spinner-border spinner-border-sm');
                 $('#submit').prop('disabled', false);
+
+                $('#submit span').removeClass('d-none');
+                $('#submit div').addClass('d-none');
             }
             else if($( "#username" ).val().length === 0 ){
                 $( "#usernameError" ).text("Introduza um username").css('color', 'red').css('opacity', '1');
                 $( "#loading" ).removeClass('spinner-border spinner-border-sm');
                 $('#submit').prop('disabled', false);
+
+                $('#submit span').removeClass('d-none');
+                $('#submit div').addClass('d-none');
             }
             else if(test==='error' ){
                 $( "#sError" ).text("Indique o sexo ").css('color', 'red').css('opacity', '1');
                 $( "#loading" ).removeClass('spinner-border spinner-border-sm');
                 $('#submit').prop('disabled', false);
+
+                $('#submit span').removeClass('d-none');
+                $('#submit div').addClass('d-none');
             }
             else
             {
@@ -161,11 +185,15 @@ export default {
                         $( "#loading" ).removeClass('spinner-border spinner-border-sm');
                         $('#submit').prop('disabled', false);
 
+                        $('#submit span').removeClass('d-none');
+                        $('#submit div').addClass('d-none');
+
                     }
                     else{
                         $( "#loading" ).removeClass('spinner-border spinner-border-sm');
                         $('#submit').prop('disabled', false);
                         window.location.replace('/');
+
                     }
 
                 }.bind(this));

@@ -370,12 +370,17 @@ li {
   border-radius: 3rem;
   padding: 0.5rem 3rem;
   border: 2px solid;
+  font-family: Quicksand, serif;
+  font-weight: 800;
+}
+.btn:hover, .btn:focus {
+  box-shadow: none;
 }
 .btn-primary {
   background-color: #FF7829;
   border-color: #FF7829;
 }
-.btn-primary:hover, .btn-primary:focus {
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
   background-color: #ff8d4b;
   border-color: #ff8d4b;
   box-shadow: none;
@@ -665,12 +670,17 @@ li {
   border-radius: 3rem;
   padding: 0.5rem 3rem;
   border: 2px solid;
+  font-family: Quicksand, serif;
+  font-weight: 800;
+}
+.btn:hover, .btn:focus {
+  box-shadow: none;
 }
 .btn-primary {
   background-color: #FF7829;
   border-color: #FF7829;
 }
-.btn-primary:hover, .btn-primary:focus {
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
   background-color: #ff8d4b;
   border-color: #ff8d4b;
   box-shadow: none;
@@ -797,6 +807,13 @@ section {
   transform: translate(0, -100%);
   font-size: 1.6rem;
   color: #FF7829;
+}
+.section-autenticacao form .form-control #submit span {
+  color: white;
+}
+
+#submit span {
+  color: white;
 }
 
 .section-registo-1 .box-registo {

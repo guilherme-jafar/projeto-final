@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Support\Facades\Auth;
 
 class Authenticate extends Middleware
 {
@@ -15,27 +17,7 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
 
-
-//        if (!$request->session()->exists('email')){
-//            return route('/');
-//        }else {
-//            if (request()->session()->get('tipo') == 'prof') {
-//                dd('dsfsd');
-//                return route('/prof/dashboard');
-//            } else {
-//                return route('/aluno/dashboard');
-//            }
-//
-//
-//
-//        }
-
-        //dd($request->session());
-
-
-
-        if (!$request->session()->exists('email')) {
-            dd(!$request->session()->exists('email'));
+        if (!$request->expectsJson()) {
             return route('login');
         }
     }

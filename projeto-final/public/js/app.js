@@ -1914,8 +1914,6 @@ __webpack_require__.r(__webpack_exports__);
         formData.append('password', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val());
         formData.append('email', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val());
         axios__WEBPACK_IMPORTED_MODULE_0___default().post('/loginroute', formData).then(function (response) {
-          console.log(response.data.message);
-
           if (response.data.message === 'erro') {
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#passwordError').text('O email ou a palavra passe estão incorretos!!');
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
@@ -2030,12 +2028,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "registo",
   methods: {
     submit: function submit() {
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').addClass('d-none');
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').removeClass('d-none');
       jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', true);
       jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").addClass('spinner-border spinner-border-sm');
       jquery__WEBPACK_IMPORTED_MODULE_1___default()("#sError").text(" ").css('color', 'red');
@@ -2061,26 +2064,38 @@ __webpack_require__.r(__webpack_exports__);
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#ConfError").text("As passwords estam diferentes").css('color', 'red').css('opacity', '1');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
       } else if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val().length === 0) {
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#passError").text("Introduza uma palavra-passe").css('color', 'red').css('opacity', '1');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
       } else if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#confPass").val().length === 0) {
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#ConfError").text("confirme a password").css('color', 'red').css('opacity', '1');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
       } else if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val().length === 0) {
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#emailError").text("Introduza um email").css('color', 'red').css('opacity', '1');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
       } else if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#username").val().length === 0) {
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#usernameError").text("Introduza um username").css('color', 'red').css('opacity', '1');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
       } else if (test === 'error') {
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#sError").text("Indique o sexo ").css('color', 'red').css('opacity', '1');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
       } else {
         var tipo = document.URL;
         tipo = tipo.replace('http://127.0.0.1:8000/registo/user/', '');
@@ -2099,6 +2114,8 @@ __webpack_require__.r(__webpack_exports__);
             jquery__WEBPACK_IMPORTED_MODULE_1___default()("#emailError").text(response.data.email).css('color', 'red').css('opacity', '1');
             jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
           } else {
             jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
@@ -30716,7 +30733,7 @@ var render = function() {
             }
           },
           [
-            _c("span", { attrs: { id: "btn-text co" } }, [_vm._v("ENTRAR  ")]),
+            _c("span", {}, [_vm._v("ENTRAR  ")]),
             _vm._v(" "),
             _c("div", {
               staticClass: "spinner-border text-light d-none",
@@ -30829,7 +30846,7 @@ var render = function() {
         _c(
           "button",
           {
-            staticClass: "btn btn-primary mt-5 mb-5",
+            staticClass: "btn btn-primary mt-5 mb-5 btn-submit",
             attrs: { name: "submit", type: "button", id: "submit" },
             on: {
               click: function($event) {
@@ -30838,10 +30855,12 @@ var render = function() {
             }
           },
           [
-            _c("span", {
-              attrs: { role: "status", "aria-hidden": "true", id: "laoding" }
-            }),
-            _vm._v("\r\n            REGISTAR\r\n        ")
+            _c("span", {}, [_vm._v("REGISTAR  ")]),
+            _vm._v(" "),
+            _c("div", {
+              staticClass: "spinner-border text-light d-none",
+              attrs: { role: "status" }
+            })
           ]
         )
       ])

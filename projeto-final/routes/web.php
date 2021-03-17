@@ -16,13 +16,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::get('/registo', function () {
     return view('/autenticacao/registo');
-});
+})->middleware('check.logout');
 
 Route::get('/registo/user/{tipo}', function ($tipo) {
     return view('/autenticacao/registo_user',['tipo'=>$tipo]);
-});
+})->middleware('check.logout');
+
 Route::get('/confirmar/{token}/{tipo}', function ($token,$tipo) {
     return view('/autenticacao/Confirmar',['token'=>$token,'tipo'=>$tipo]);
 });
@@ -30,7 +32,7 @@ Route::get('/confirmar/{token}/{tipo}', function ($token,$tipo) {
 
 Route::get('/login', function () {
     return view('/autenticacao/login');
-})->name('login');
+})->name('login')->middleware('check.logout');
 
 Route::post('/loginroute', [App\Http\Controllers\ContaController::class, 'login']);
 
@@ -55,7 +57,10 @@ Route::get('/mail1', function () {
     return new \App\Mail\ConfirmMail(123);
 });
 
-Route::get('/prof/dashboard', [App\Http\Controllers\ContaController::class, 'teste'])->middleware('auth');
+Route::get('/prof/dashboard', function (){return view('/prof/dashboard');})->middleware(['check.auth', 'tipo.utilizador:prof']);
+
+
+Route::get('/aluno/dashboard', function (){return view('/aluno/dashboard');})->middleware(['check.auth', 'tipo.utilizador:aluno']);
 
 
 

@@ -6,8 +6,10 @@ use App\Mail\ConfirmMail;
 use App\Models\Utilizador;
 use App\Models\utilizador_nao_confirmado;
 use Facade\Ignition\DumpRecorder\Dump;
+use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -79,9 +81,9 @@ class ContaController extends Controller
                 , [intval($id, 36), $name,$email,$hashed,$tipo,intval($token, 36),$sexo]);
 
             if ($tipo=="prof")
-                $ticket='http://127.0.0.1:8000/confirmar/token='.$token.'/prof';
+                $ticket= $request->root() . '/confirmar/token='.$token.'/prof';
             else
-                $ticket='http://127.0.0.1:8000/confirmar/token='.$token.'/aluno';
+                $ticket= $request->root() . '/confirmar/token='.$token.'/aluno';
             Mail::to($email)->send(new ConfirmMail($ticket));
             return response()->json([
                 'message' => 'sucesso',
@@ -151,10 +153,15 @@ class ContaController extends Controller
 
     public function login(Request $request){
 
+
+
         $email = $request->input('email');
         $password = $request->input('password');
 
          $user =  DB::table('utilizador')->where('email','=',$email)->get();
+
+
+
 
          if (!empty($user[0])){
 
@@ -163,13 +170,17 @@ class ContaController extends Controller
                  var_dump(strcmp('prof', $user[0]->tipo));
                  var_dump($user[0]->tipo);
 
-                 $request->session()->put([
+                 $user2 = [
                      'id' =>$user[0]->id,
                      'nome' =>$user[0]->nome,
                      'tipo' =>$user[0]->tipo,
                      'email' => $user[0]->email,
                      'foto' => $user[0]->foto_perfil,
-                 ]);
+                 ];
+
+                 $request->session()->put('utilizador', $user2);
+
+                 Auth::login(new Utilizador($user2));
 
                  return response()->json([
                      'message' => 'sucess'
@@ -196,15 +207,15 @@ class ContaController extends Controller
 
     public function logout(Request $request){
 
+       // dd($request->user());
+
          $request->session()->flush();
 
-         return view('/welcome');
+        return redirect('/');
 
     }
 
-    public function teste(){
-        return view('/prof/dashboard');
-    }
+
 
 
 }

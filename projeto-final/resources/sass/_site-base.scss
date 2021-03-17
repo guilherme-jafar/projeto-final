@@ -76,12 +76,18 @@ li{
     border-radius: 3rem;
     padding: 0.5rem 3rem;
     border: 2px solid;
+    font-family: Quicksand, serif;
+    font-weight: 800;
+
+    &:hover, &:focus{
+        box-shadow: none;
+    }
 
     &-primary{
         background-color: $cor-principal-1;
         border-color: $cor-principal-1;
 
-        &:hover, &:focus{
+        &:hover, &:focus, &:active{
             background-color: $cor-principal-1-light;
             border-color: $cor-principal-1-light;
             box-shadow: none;

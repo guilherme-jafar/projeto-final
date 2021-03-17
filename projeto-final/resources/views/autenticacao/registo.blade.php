@@ -44,14 +44,14 @@
                 <div class="box">
                     <div class="row">
                         <div class="col-md-6">
-                            <a class="box-registo box-registo-1" href="/registo/user/aluno">
+                            <a class="box-registo box-registo-1 me-5" href="/registo/user/aluno">
                                 <h3>Aluno</h3>
 
                                 <div class="mx-auto ">        <i class="bi bi-person align-middle"></i></div>
                             </a>
                         </div>
                         <div class="col-md-6">
-                            <a class="box-registo box-registo-2" href="/registo/user/prof">
+                            <a class="box-registo box-registo-2 ms-5" href="/registo/user/prof">
                                 <h3>Professor</h3>
                                 <div class="mx-auto">  <i class="bi bi-book-fill align-bottom"></i></div>
 

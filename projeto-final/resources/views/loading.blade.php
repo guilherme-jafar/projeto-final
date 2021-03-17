@@ -68,7 +68,7 @@
 
 
 
-@if (request()->session()->get('tipo') == 'prof')
+@if (session()->get('utilizador')['tipo'] == 'prof')
 
     <script> setTimeout(function(){window.location='/prof/dashboard'}, 6000); </script>
 @else
