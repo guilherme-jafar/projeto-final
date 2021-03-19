@@ -18,7 +18,7 @@
             <p class="error " id="passwordError"></p>
         </div>
         <div class="col-12">
-            <a href="#"><small>Esqueceu-se do código?</small></a>
+            <a href="/forgotPass"><small>Esqueceu-se do código?</small></a>
         </div>
 
 

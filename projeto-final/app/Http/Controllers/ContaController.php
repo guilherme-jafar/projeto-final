@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ConfirmMail;
+use App\Mail\resetPass;
 use App\Models\Utilizador;
 use App\Models\utilizador_nao_confirmado;
 use Facade\Ignition\DumpRecorder\Dump;
@@ -41,6 +42,12 @@ class ContaController extends Controller
                 'password' => 'a password e muito pequena',
                 'email' => ' '
             ]);
+        }elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+            return response()->json([
+                'message' => ' ',
+                'password' => ' ',
+                'email' => 'email invalido '
+            ]);
         }
         elseif(!preg_match("#[0-9]+#",$pass)) {
             return response()->json([
@@ -77,8 +84,8 @@ class ContaController extends Controller
 
             $id=rand ( 0 , 1000000 )+rand ( 0 , 1000000 )+time();
             $token=rand ( 0 , 1000000 )+time();
-            DB::insert('insert into utilizador_nao_confirmado (id, nome,email,password,tipo,token,sexo) values (?,?,?,?,?,?,?)'
-                , [intval($id, 36), $name,$email,$hashed,$tipo,intval($token, 36),$sexo]);
+            DB::insert('insert into utilizador_nao_confirmado (id, nome,email,password,tipo,token,sexo,foto_perfil) values (?,?,?,?,?,?,?,?)'
+                , [intval($id, 36), $name,$email,$hashed,$tipo,intval($token, 36),$sexo],'default.png');
 
             if ($tipo=="prof")
                 $ticket= $request->root() . '/confirmar/token='.$token.'/prof';
@@ -215,7 +222,37 @@ class ContaController extends Controller
 
     }
 
+    public function ForgotPassword(Request $request){
 
+        $email=$request->email;
+        $user=DB::table('utilizador')
+            ->where('email','like','%'.$email.'%')
+            ->get();
+
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return response()->json([
+                'message' => 'formato invalido'
+            ]);
+        }else if($user->isEmpty()){
+            return response()->json([
+                'message' => 'Não exite nenhum utilizador com este email'
+            ]);
+        }else{
+            $token=rand ( 0 , 1000000 )+time().$email;
+            //[intval($id, 36)
+            DB::insert('insert into password_resets (email,token) values (?,?)'
+                , [$email,intval($token,36)]);
+
+            Mail::to($email)->send(new resetPass($token));
+            return response()->json([
+                'message' => 'sucesso'
+            ]);
+        }
+
+        //return redirect('/');
+
+    }
 
 
 }
