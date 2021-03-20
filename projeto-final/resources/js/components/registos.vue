@@ -111,17 +111,8 @@ export default {
             }
 
 
-            if ($( "#pass" ).val() !== $( "#confPass" ).val() ){
-                $( "#pass" ).val('')
-                $( "#confPass" ).val('')
-                $( "#ConfError" ).text("As passwords estam diferentes").css('color', 'red').css('opacity', '1');
-                $( "#loading" ).removeClass('spinner-border spinner-border-sm');
-                $('#submit').prop('disabled', false);
 
-                $('#submit span').removeClass('d-none');
-                $('#submit div').addClass('d-none');
-            }
-            else if($( "#pass" ).val().length === 0 ){
+             if($( "#pass" ).val().length === 0 ){
                 $( "#passError" ).text("Introduza uma palavra-passe").css('color', 'red').css('opacity', '1');
                 $( "#loading" ).removeClass('spinner-border spinner-border-sm');
                 $('#submit').prop('disabled', false);
@@ -139,6 +130,15 @@ export default {
             }
             else if($( "#email" ).val().length === 0 ){
                 $( "#emailError" ).text("Introduza um email").css('color', 'red').css('opacity', '1');
+                $( "#loading" ).removeClass('spinner-border spinner-border-sm');
+                $('#submit').prop('disabled', false);
+
+                $('#submit span').removeClass('d-none');
+                $('#submit div').addClass('d-none');
+            }else if ($( "#pass" ).val() !== $( "#confPass" ).val() ){
+                $( "#pass" ).val('')
+                $( "#confPass" ).val('')
+                $( "#ConfError" ).text("As passwords estam diferentes").css('color', 'red').css('opacity', '1');
                 $( "#loading" ).removeClass('spinner-border spinner-border-sm');
                 $('#submit').prop('disabled', false);
 

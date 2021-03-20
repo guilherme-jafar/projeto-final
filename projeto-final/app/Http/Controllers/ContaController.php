@@ -6,6 +6,7 @@ use App\Mail\ConfirmMail;
 use App\Mail\resetPass;
 use App\Models\Utilizador;
 use App\Models\utilizador_nao_confirmado;
+use DateTime;
 use Facade\Ignition\DumpRecorder\Dump;
 use http\Client\Curl\User;
 use Illuminate\Http\Request;
@@ -39,7 +40,7 @@ class ContaController extends Controller
 
             return response()->json([
                 'message' => ' ',
-                'password' => 'a password e muito pequena',
+                'password' => 'a password tem menos de oito carateres',
                 'email' => ' '
             ]);
         }elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)){
@@ -239,20 +240,80 @@ class ContaController extends Controller
                 'message' => 'Não exite nenhum utilizador com este email'
             ]);
         }else{
-            $token=rand ( 0 , 1000000 )+time().$email;
-            //[intval($id, 36)
-            DB::insert('insert into password_resets (email,token) values (?,?)'
-                , [$email,intval($token,36)]);
+            $token=rand ( 0 , 1000000 )+time();
 
-            Mail::to($email)->send(new resetPass($token));
+            date_default_timezone_set(date_default_timezone_get());
+            $date = date('Y-m-d h:i:s ', time());
+            DB::insert('insert into password_resets (email,token,created_at) values (?,?,?)'
+                , [$email,intval($token,24),$date]);
+            $ticket= $request->root() . '/ResetPass/token='.$token;
+            Mail::to($email)->send(new resetPass($ticket));
             return response()->json([
                 'message' => 'sucesso'
             ]);
         }
 
-        //return redirect('/');
+
 
     }
 
 
+
+    public function ResetPassword(Request $request){
+
+        $pass=$request->pass;
+        $token=$request->token;
+        $user=DB::table('password_resets')
+            ->where('token','like','%'.$token.'%')
+            ->get();
+
+        if (strlen($pass)<8) {
+
+            return response()->json([
+                'message' => 'a password tem menos de oito carateres',
+            ]);
+        }
+        elseif(!preg_match("#[0-9]+#",$pass)) {
+            return response()->json([
+                'message' => 'a password não tem numeros',
+
+            ]);
+        }
+        elseif(!preg_match("#[A-Z]+#",$pass)) {
+            return response()->json([
+                'message' => 'a password não tem letras maiusculas ',
+
+            ]);
+        }
+        elseif(!preg_match("#[a-z]+#",$pass)) {
+            return response()->json([
+                'message' => 'a password não tem letras minusculas',
+            ]);
+        }elseif ($user->isEmpty()) {
+
+            return response()->json([
+                'message' => 'não foi possivel mudar a password',
+            ]);
+        }else{
+
+            $hashed = Hash::make($pass, [
+                'rounds' => 12,
+            ]);
+            DB::table('utilizador')
+                ->where('email','like','%'.$user[0]->email.'%')
+                ->update(['password' => $hashed]);
+
+            DB::table('password_resets')
+                ->where('token','like','%'.$token.'%')
+                ->delete();
+            return response()->json([
+                'message' => 'sucesso',
+            ]);
+
+        }
+
+
+
+
+    }
 }

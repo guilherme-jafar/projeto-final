@@ -2058,15 +2058,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
 
-      if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val() !== jquery__WEBPACK_IMPORTED_MODULE_1___default()("#confPass").val()) {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val('');
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#confPass").val('');
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#ConfError").text("As passwords estam diferentes").css('color', 'red').css('opacity', '1');
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
-      } else if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val().length === 0) {
+      if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val().length === 0) {
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#passError").text("Introduza uma palavra-passe").css('color', 'red').css('opacity', '1');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
@@ -2080,6 +2072,14 @@ __webpack_require__.r(__webpack_exports__);
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
       } else if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val().length === 0) {
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#emailError").text("Introduza um email").css('color', 'red').css('opacity', '1');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
+      } else if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val() !== jquery__WEBPACK_IMPORTED_MODULE_1___default()("#confPass").val()) {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val('');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#confPass").val('');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#ConfError").text("As passwords estam diferentes").css('color', 'red').css('opacity', '1');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');

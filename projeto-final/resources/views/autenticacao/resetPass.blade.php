@@ -28,11 +28,7 @@
     <nav class="navbar navbar-light bg-light">
         <div class="container">
             <a class="navbar-brand" href="/"><img class="img-fluid" src="{{URL('/assets/logo.png')}}" alt=""></a>
-            <div class="d-flex">
-                <a class="btn btn-primary" href="{{URL('/registo')}}">REGISTO</a>
 
-
-            </div>
         </div>
     </nav>
 
@@ -51,16 +47,24 @@
                                     <h2 class="mt-5 mb-5">Recuperação da Password</h2>
                                     <div class="col-12">
 
-                                        <input name="email" class="form-control mt-2 mb-3 " type="email" id="email">
-                                        <label class="label" for="email"><span>Email</span></label>
+                                        <input name="pass" class="form-control mt-2 mb-3 " type="password" id="pass">
+                                        <label class="label" for="pass"><span>password</span></label>
                                     </div>
                                     <div class="col-12 mb-3">
-                                        <p class="error " id="EmailError"></p>
+                                        <p class="error " id="PassError"></p>
+                                    </div>
+                                    <div class="col-12">
+
+                                        <input name="ConfPass" class="form-control mt-2 mb-3 " type="password" id="ConfPass">
+                                        <label class="label" for="ConfPass"><span>confirmar password</span></label>
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <p class="error " id="ConfPassError"></p>
                                     </div>
 
                                     <button name="submit" class="btn btn-primary mt-5 mb-5 btn-submit" type="button"
                                             id="submit" onclick="recovery()">
-                                        <span class="">Enviar email &nbsp;</span>
+                                        <span class="">Guardar password &nbsp</span>
                                         <div class="spinner-border text-light d-none" role="status">
 
                                         </div>
@@ -95,32 +99,48 @@
 <script>
 
     function recovery(){
-
-        $('#emailError').text(' ');
         $('#submit').prop('disabled', true);
 
-        if ($('#email').val().length===0){
-            $('#EmailError').text('Tem que inserir um email ').css('color', 'red').css('opacity', '1');
+        $('#PassError').text(' ');
+        $('#ConfPassError').text(' ');
+        console.log({{ $token}})
+
+        if($( "#pass" ).val().length === 0 ){
+            $( "#PassError" ).text("Introduza uma palavra-passe").css('color', 'red').css('opacity', '1');
             $('#submit').prop('disabled', false);
-        }else {
+        } else if($( "#ConfPass" ).val().length === 0 ){
+            console.log("ddd")
+            $( "#ConfPassError" ).text("Confirme a password").css('color', 'red').css('opacity', '1');
+            $('#submit').prop('disabled', false);
+        } else if ($( "#pass" ).val() !== $( "#ConfPass" ).val() ){
+            $( "#pass" ).val('')
+            $( "#ConfPass" ).val('')
+            $( "#ConfPassError" ).text("As passwords estam diferentes").css('color', 'red').css('opacity', '1');
+            $('#submit').prop('disabled', false);
+        }
+        else {
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            $.ajax({
-                url: '/recovery',
+           $.ajax({
+                url: '/SavePass',
                 type: "Post",
                 data: {
                     "_token": "{{ csrf_token() }}",
-                    'email': $('#email').val(),
+                    'pass': $('#pass').val(),
+                    'token': {{$token}}
                 },
                 success: function (response) {//200 response comes here
                     if (response.message==="sucesso") {
-                            alert("foi enviado um link para o seu email");
+                        $('#submit').prop('disabled', true);
+                        alert("password alterada com sucesso");
                         window.location.replace('/');
                     }else {
-                        $('#EmailError').text(response.message.toString()).css('color', 'red').css('opacity', '1');
+                        $('#ConfPassError').text(response.message.toString()).css('color', 'red').css('opacity', '1');
+                        $( "#pass" ).val('')
+                        $( "#ConfPass" ).val('')
                         $('#submit').prop('disabled', false);
                     }
                 },
@@ -128,6 +148,7 @@
 
                 }
             })
+
         }
 
 

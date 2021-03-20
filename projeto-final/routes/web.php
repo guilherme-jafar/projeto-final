@@ -30,7 +30,9 @@ Route::get('/registo/user/{tipo}', function ($tipo) {
 Route::get('/confirmar/{token}/{tipo}', function ($token,$tipo) {
     return view('/autenticacao/Confirmar',['token'=>$token,'tipo'=>$tipo]);
 });
-
+Route::get('/ResetPass/{token}', function ($token) {
+    return view('/autenticacao/resetPass',['token'=>$token]);
+});
 Route::get('/login', function () {
     return view('/autenticacao/login');
 })->name('login')->middleware('check.logout');
@@ -50,6 +52,7 @@ Route::post('/Confirmar/professor', [App\Http\Controllers\ContaController::class
 Route::post('/Confirmar/aluno', [App\Http\Controllers\ContaController::class, 'confirmarAluno']);
 Route::post('/loginroute', [App\Http\Controllers\ContaController::class, 'login']);
 Route::post('/recovery', [App\Http\Controllers\ContaController::class, 'ForgotPassword']);
+Route::post('/SavePass', [App\Http\Controllers\ContaController::class, 'ResetPassword']);
 Route::get('/logout',[App\Http\Controllers\ContaController::class, 'logout'] );
 
 
