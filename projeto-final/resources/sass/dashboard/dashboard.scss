@@ -1,6 +1,30 @@
 @import "../site-base";
 
-.menu{
-    background-color: white;
-    height: 50rem;
+.dashboard{
+    .heanding-1{
+        font-weight: 900;
+        color: $cor-principal-1;
+        text-align: center;
+        font-size: 3rem;
+    }
+
+    .btn-new{
+        background-color: white;
+        color: $cor-letra;
+        border-radius: 1rem;
+        border-color: transparent;
+        padding: 5rem 10rem;
+        box-shadow: 0 0 0.5rem rgb(0 0 0 / 10%);
+        font-size: 2.5rem;
+        display: block;
+
+        i{
+            font-size: 2.5rem;
+        }
+
+    }
+}
+
+.modal{
+
 }
