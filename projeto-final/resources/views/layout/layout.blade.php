@@ -26,42 +26,61 @@
 
 <header >
 
-    <nav class="navbar navbar-light bg-light">
-        <div class="container">
-            <a class="navbar-brand" href="/"><img class="img-fluid" src="{{URL('/assets/logo.png')}}" alt=""></a>
-            <div class="d-flex">
-                <a class="btn btn-primary" href="{{URL('/registo')}}">NOVA DISCIPLINA</a>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="">
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="#">Editar Perfil</a></li>
-                        <li><a class="dropdown-item" href="{{URL('/logout')}}">Logout</a></li>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-md navbar-light">
 
-                    </ul>
-                </div>
+        <div class="container">
+            <!-- Links -->
+            <div class="collapse navbar-collapse" id="basicExampleNav5">
+                <a class="navbar-brand" href="/"><img class="img-fluid" src="{{URL('/assets/logo.png')}}" alt=""></a>
+                <!-- Right -->
+
 
             </div>
+
+            <div class="d-flex">
+                <ul class="navbar-nav nav-flex-icons ml-auto">
+                    <li class="nav-item avatar dropdown d-flex align-items-center">
+                        <a class="btn btn-primary" href="{{URL('/registo')}}">NOVA DISCIPLINA</a>
+                    </li>
+                    <li class="nav-item avatar dropdown d-flex align-items-center">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="@if(session('utilizador')['foto'] == null){{asset('/images/imgDefault.jpg')}}@else {{session('utilizador')['foto']}} @endif" class="rounded-circle z-depth-0"
+                                 alt="avatar image" style="width: 5rem">
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="#">Editar Perfil <i class=" bi bi-pencil-square"></i></a></li>
+                            <li><a class="dropdown-item" href="{{URL('/logout')}}">Logout <i class=" bi bi-box-arrow-right"></i></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- Links -->
         </div>
+
+
+
     </nav>
+    <!-- Navbar -->
 
 </header>
 
 <main>
 
     <section class="" >
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="box">
                     <div class="row">
-                        <div class="col-md-12">
-{{--                            <div id="app">--}}
-{{--                                <login></login>--}}
-{{--                            </div>--}}
+                        <div class="col-md-4">
+                           <div class="menu">
 
-                            @yield('content')
+                           </div>
+                        </div>
+                        <div class="col-md-8">
 
+{{--                            @yield('content')--}}
+                            <dashboard></dashboard>
                         </div>
                     </div>
                 </div>
@@ -87,8 +106,8 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 </html>
 <script>
-    import Login from "../../js/components/login";
+    import Dashboard from "../../js/components/dashboard";
     export default {
-        components: {Login}
+        components: {Dashboard}
     }
 </script>

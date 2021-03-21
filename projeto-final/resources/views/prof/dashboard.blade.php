@@ -2,5 +2,7 @@
 
 @section('content')
 
-<div>vdfnvbnfdgjknjkfdnjkbfgb</div>
+<div>
+    <dashboard></dashboard>
+</div>
 @endsection

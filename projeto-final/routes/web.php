@@ -70,9 +70,11 @@ Route::get('/mail1', function () {
 
 
 //Conta professor
-Route::get('/prof/dashboard', function (){return view('/prof/dashboard');})->middleware(['check.auth', 'tipo.utilizador:prof']);
+//Route::get('/prof/dashboard', function (){return view('/prof/dashboard');})->middleware(['check.auth', 'tipo.utilizador:prof']);
 
-
+Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (){
+    Route::get('/prof/dashboard', function (){return view('/prof/dashboard');});
+});
 
 //conta Aluno
 Route::get('/aluno/dashboard', function (){return view('/aluno/dashboard');})->middleware(['check.auth', 'tipo.utilizador:aluno']);
