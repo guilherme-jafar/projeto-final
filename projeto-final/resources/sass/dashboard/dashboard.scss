@@ -18,8 +18,79 @@
         font-size: 2.5rem;
         display: block;
 
+
         i{
             font-size: 2.5rem;
+        }
+
+    }
+
+    .section-disciplinas{
+
+        .box-search{
+            position: relative;
+            .form-search{
+                font-size: 2rem;
+                //box-shadow: 0 0 0.5rem rgb(0 0 0 / 5%);
+                border: 0px;
+                color: $cor-letra-4;
+            }
+
+            i{
+                position: absolute;
+                right: 17px;
+                top: 6px;
+            }
+        }
+
+        .box-text{
+            display: flex;
+
+            div{
+                margin-left: auto;
+                display: flex;
+
+                label{
+                    font-size: 1.8rem;
+                }
+
+                .form-select{
+                    width: 13rem;
+                    font-size: 1.4rem;
+                    height: 3.2rem;
+                    border: 0;
+                    border-radius: 0.5rem;
+                    option{
+                        font-size: 1.4rem;
+                    }
+                }
+            }
+            h2{
+                color: $cor-principal-1;
+                font-size: 2.85rem;
+                font-weight: 900;
+                margin-right: auto;
+            }
+
+
+
+        }
+
+        .card-box{
+            height: 16rem;
+            box-shadow: 0 0 0.5rem rgb(0 0 0 / 10%);
+            border-radius: 1rem;
+            border: 0;
+            padding: 0.2rem;
+            display: flex;
+            background-color: white;
+
+            .card-image{
+                height: 100%;
+                background-color: black;
+                width: 20rem;
+                border-radius: 1rem;
+            }
         }
 
     }
@@ -113,4 +184,7 @@
 
         }
     }
+
+
+
 }

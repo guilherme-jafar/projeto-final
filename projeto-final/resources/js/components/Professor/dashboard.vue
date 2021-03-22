@@ -1,8 +1,7 @@
 <template>
 
     <div>
-        {{data}}
-        <div v-if="data === 'vazio'" class="mx-auto">
+        <div v-if="disciplinas.length === 0" class="mx-auto">
             <h1 class="heanding-1">Ainda não tem nenhuma disciplina</h1>
             <!-- Button trigger modal -->
             <button type="button" class=" btn btn-new mt-5 mx-auto" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -12,8 +11,42 @@
 
         </div>
 
-        <div v-else >
+        <div v-else class="section-disciplinas " >
+            <div class="box-search mb-5">
+                <input class=" form-control form-control-lg form-search" type="search" placeholder="Pesquisar disciplina...">
+                <i class="bi bi-search"></i>
+            </div>
+            <div class="box-text mt-3 mb-4">
+                <h2>Minhas Disciplinas</h2>
+                <div>
+                    <label for="ordenar" class="me-3">Ordenar Por:</label>
+                    <select id="ordenar" class="form-select ml-3">
+                        <option value="1">Mais Recente</option>
+                        <option value="2">Antigos</option>
+                    </select>
+                </div>
 
+            </div>
+            <ul >
+                <li class="card-box" v-for="disciplina in disciplinas">
+
+                    <div class="card-image">
+
+                    </div>
+
+                    <div class="card-info me-5">
+                        <h2>  {{disciplina['nome']}}</h2>
+                        <p>Aulas: </p>
+                        <div>
+                            <p>Tópicos: </p>
+                            <p>Aluno: </p>
+                            <p>Quizes: </p>
+                        </div>
+
+                    </div>
+
+                </li>
+            </ul>
         </div>
 
         <!-- Modal -->
@@ -83,6 +116,7 @@
     import $ from 'jquery'
     export default {
         name: "dashboard",
+        props: ['disciplinas'],
         methods: {
             submit(){
                 $('#submit span').addClass('d-none');
@@ -153,12 +187,12 @@
                     }.bind(this));
                 }
             },
-            decode(){
-                return JSON.parse(this.data)
-            }
         },
-        props: ['data'],
         computed:{
+
+        },
+        mounted() {
+            this.disciplinas = JSON.parse(this.disciplinas)
 
         }
 

@@ -3,13 +3,13 @@
 @section('content')
 
 <div>
-    <dashboard class="dashboard" :data="'{{json_encode($disciplina, TRUE) }}'"></dashboard>
+    <dashboard class="dashboard" :disciplinas="'{{json_encode($disciplina, TRUE)}}'"></dashboard>
 </div>
 
 <script>
     import dashboard from "../../js/components/Professor/dashboard";
     export default {
-        components: {dashboard}
+        components: {dashboard},
     }
 </script>
 @endsection

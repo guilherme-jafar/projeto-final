@@ -1929,10 +1929,44 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "dashboard",
+  props: ['disciplinas'],
   methods: {
     submit: function submit() {
       jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').addClass('d-none');
@@ -1989,13 +2023,12 @@ __webpack_require__.r(__webpack_exports__);
           }
         }.bind(this));
       }
-    },
-    decode: function decode() {
-      return JSON.parse(this.data);
     }
   },
-  props: ['data'],
-  computed: {}
+  computed: {},
+  mounted: function mounted() {
+    this.disciplinas = JSON.parse(this.disciplinas);
+  }
 });
 
 /***/ }),
@@ -30927,8 +30960,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _vm._v("\n    " + _vm._s(_vm.data) + "\n    "),
-    _vm.data === "vazio"
+    _vm.disciplinas.length === 0
       ? _c("div", { staticClass: "mx-auto" }, [
           _c("h1", { staticClass: "heanding-1" }, [
             _vm._v("Ainda não tem nenhuma disciplina")
@@ -30936,7 +30968,29 @@ var render = function() {
           _vm._v(" "),
           _vm._m(0)
         ])
-      : _c("div"),
+      : _c("div", { staticClass: "section-disciplinas " }, [
+          _vm._m(1),
+          _vm._v(" "),
+          _vm._m(2),
+          _vm._v(" "),
+          _c(
+            "ul",
+            _vm._l(_vm.disciplinas, function(disciplina) {
+              return _c("li", { staticClass: "card-box" }, [
+                _c("div", { staticClass: "card-image" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-info me-5" }, [
+                  _c("h2", [_vm._v("  " + _vm._s(disciplina["nome"]))]),
+                  _vm._v(" "),
+                  _c("p", [_vm._v("Aulas: ")]),
+                  _vm._v(" "),
+                  _vm._m(3, true)
+                ])
+              ])
+            }),
+            0
+          )
+        ]),
     _vm._v(" "),
     _c(
       "div",
@@ -30952,9 +31006,9 @@ var render = function() {
       [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(1),
+            _vm._m(4),
             _vm._v(" "),
-            _vm._m(2),
+            _vm._m(5),
             _vm._v(" "),
             _c("div", { staticClass: "modal-footer" }, [
               _c(
@@ -31012,6 +31066,55 @@ var staticRenderFns = [
         _vm._v("    Adicionar Disciplina\n        ")
       ]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box-search mb-5" }, [
+      _c("input", {
+        staticClass: " form-control form-control-lg form-search",
+        attrs: { type: "search", placeholder: "Pesquisar disciplina..." }
+      }),
+      _vm._v(" "),
+      _c("i", { staticClass: "bi bi-search" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box-text mt-3 mb-4" }, [
+      _c("h2", [_vm._v("Minhas Disciplinas")]),
+      _vm._v(" "),
+      _c("div", [
+        _c("label", { staticClass: "me-3", attrs: { for: "ordenar" } }, [
+          _vm._v("Ordenar Por:")
+        ]),
+        _vm._v(" "),
+        _c(
+          "select",
+          { staticClass: "form-select ml-3", attrs: { id: "ordenar" } },
+          [
+            _c("option", { attrs: { value: "1" } }, [_vm._v("Mais Recente")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "2" } }, [_vm._v("Antigos")])
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("p", [_vm._v("Tópicos: ")]),
+      _vm._v(" "),
+      _c("p", [_vm._v("Aluno: ")]),
+      _vm._v(" "),
+      _c("p", [_vm._v("Quizes: ")])
+    ])
   },
   function() {
     var _vm = this

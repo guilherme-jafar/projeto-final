@@ -11,14 +11,16 @@ class Disciplina extends Controller
     function index(){
 
 
-       // $disciplina = DB::select('select * FROM disciplina d,  prof__disciplina pd WHERE d.id = pd.disciplina_id AND pd.prof__utilizador_id = :id', ['id' =>  session('utilizador')['id']]);
+        $disciplina = DB::select('select * FROM disciplina d,  prof__disciplina pd WHERE d.id = pd.disciplina_id AND pd.prof__utilizador_id = :id', ['id' =>  session('utilizador')['id']]);
 
 
-        if (!empty($disciplina[0])){
+        if (!empty($disciplina)){
             return view('/prof/dashboard', ['disciplina' => $disciplina]);
         }else{
-            return view('/prof/dashboard', ['disciplina' => 'vazio']);
+            return view('/prof/dashboard', ['disciplina' => []]);
         }
+
+
 
 
 

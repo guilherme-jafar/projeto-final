@@ -450,6 +450,60 @@ section {
 .dashboard .btn-new i {
   font-size: 2.5rem;
 }
+.dashboard .section-disciplinas .box-search {
+  position: relative;
+}
+.dashboard .section-disciplinas .box-search .form-search {
+  font-size: 2rem;
+  border: 0px;
+  color: rgba(113, 115, 117, 0.7);
+}
+.dashboard .section-disciplinas .box-search i {
+  position: absolute;
+  right: 17px;
+  top: 6px;
+}
+.dashboard .section-disciplinas .box-text {
+  display: flex;
+}
+.dashboard .section-disciplinas .box-text div {
+  margin-left: auto;
+  display: flex;
+}
+.dashboard .section-disciplinas .box-text div label {
+  font-size: 1.8rem;
+}
+.dashboard .section-disciplinas .box-text div .form-select {
+  width: 13rem;
+  font-size: 1.4rem;
+  height: 3.2rem;
+  border: 0;
+  border-radius: 0.5rem;
+}
+.dashboard .section-disciplinas .box-text div .form-select option {
+  font-size: 1.4rem;
+}
+.dashboard .section-disciplinas .box-text h2 {
+  color: #FF7829;
+  font-size: 2.85rem;
+  font-weight: 900;
+  margin-right: auto;
+}
+.dashboard .section-disciplinas .card-box {
+  height: 16rem;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+  border: 0;
+  padding: 0.2rem;
+  display: flex;
+  background-color: white;
+}
+.dashboard .section-disciplinas .card-box .card-image {
+  height: 100%;
+  background-color: black;
+  width: 20rem;
+  border-radius: 1rem;
+}
 
 .modal .modal-title {
   font-size: 2rem;
