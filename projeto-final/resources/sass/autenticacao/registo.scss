@@ -75,12 +75,7 @@
                 border: 2px solid $cor-principal-1;
             }
 
-            &:focus + label span, &:valid + label span{
-                transform: translate(0, -100%);
-                font-size: 1.6rem;
 
-
-            }
 
             &:focus + label span{
                 transform: translate(0, -100%);
@@ -89,6 +84,12 @@
 
             }
 
+            &:focus + label span, &:valid + label span{
+                transform: translate(0, -100%);
+                font-size: 1.6rem;
+
+
+            }
             #submit span{
                 color: white;
             }

@@ -498,14 +498,14 @@ section {
   box-shadow: none;
   border: 2px solid #FF7829;
 }
-.section-autenticacao form .form-control:focus + label span, .section-autenticacao form .form-control:valid + label span {
-  transform: translate(0, -100%);
-  font-size: 1.6rem;
-}
 .section-autenticacao form .form-control:focus + label span {
   transform: translate(0, -100%);
   font-size: 1.6rem;
   color: #FF7829;
+}
+.section-autenticacao form .form-control:focus + label span, .section-autenticacao form .form-control:valid + label span {
+  transform: translate(0, -100%);
+  font-size: 1.6rem;
 }
 .section-autenticacao form .form-control #submit span {
   color: white;

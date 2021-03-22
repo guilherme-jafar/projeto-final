@@ -3,7 +3,7 @@
 @section('content')
 
 <div>
-    <dashboard class="dashboard" :data="'{{$disciplina}}'"></dashboard>
+    <dashboard class="dashboard" :data="'{{json_encode($disciplina, TRUE) }}'"></dashboard>
 </div>
 
 <script>

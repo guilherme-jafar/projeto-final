@@ -74,6 +74,7 @@ Route::get('/mail1', function () {
 
 Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (){
     Route::get('/prof/dashboard',[App\Http\Controllers\Disciplina::class, 'index']);
+    Route::post('/prof/disciplina/create',[App\Http\Controllers\Disciplina::class, 'create']);
 });
 
 //conta Aluno

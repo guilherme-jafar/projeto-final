@@ -84,6 +84,8 @@ export default {
 
 
         submit() {
+
+
             $('#submit span').addClass('d-none');
             $('#submit div').removeClass('d-none');
 

@@ -1890,12 +1890,112 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "dashboard",
-  methods: {},
-  props: ['data']
+  methods: {
+    submit: function submit() {
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').addClass('d-none');
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').removeClass('d-none');
+      var enviar = true;
+
+      if (jquery__WEBPACK_IMPORTED_MODULE_1___default()('#disciplina').val().length === 0) {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#disciplinaError").text("Introduza o nome da disciplina").css('color', 'red').css('opacity', '1');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
+        enviar = false;
+      } else {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#disciplinaError").text("").css('color', 'red').css('opacity', '1');
+      }
+
+      var radios = document.getElementsByName('presencas');
+      var test;
+
+      for (var i = 0, length = radios.length; i < length; i++) {
+        if (radios[i].checked) {
+          test = radios[i].value;
+          break;
+        } else {
+          test = 'erro';
+        }
+      }
+
+      console.log(test);
+
+      if (test === 'erro') {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#presencasError").text("Escolha uma opção").css('color', 'red').css('opacity', '1');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
+        enviar = false;
+      } else {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#presencasError").text("").css('color', 'red').css('opacity', '1');
+      }
+
+      if (enviar) {
+        console.log(enviar);
+        var formData = new FormData();
+        formData.append('disciplina', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#disciplina").val());
+        formData.append('descricao', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#descricao").val());
+        formData.append('presenca', test);
+        axios__WEBPACK_IMPORTED_MODULE_0___default().post('/prof/disciplina/create', formData).then(function (response) {
+          console.log(response.data.message);
+
+          if (response.data.message !== "sucesso") {
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
+          } else {
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
+          }
+        }.bind(this));
+      }
+    },
+    decode: function decode() {
+      return JSON.parse(this.data);
+    }
+  },
+  props: ['data'],
+  computed: {}
 });
 
 /***/ }),
@@ -30827,6 +30927,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    _vm._v("\n    " + _vm._s(_vm.data) + "\n    "),
     _vm.data === "vazio"
       ? _c("div", { staticClass: "mx-auto" }, [
           _c("h1", { staticClass: "heanding-1" }, [
@@ -30835,9 +30936,60 @@ var render = function() {
           _vm._v(" "),
           _vm._m(0)
         ])
-      : _vm._e(),
+      : _c("div"),
     _vm._v(" "),
-    _vm._m(1)
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "exampleModal",
+          tabindex: "-1",
+          "aria-labelledby": "exampleModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(1),
+            _vm._v(" "),
+            _vm._m(2),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary",
+                  attrs: { type: "button", "data-bs-dismiss": "modal" }
+                },
+                [_vm._v("Cancelar")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      return _vm.submit()
+                    }
+                  }
+                },
+                [
+                  _vm._v("Adicionar\n                        "),
+                  _c("div", {
+                    staticClass: "spinner-border text-light d-none",
+                    attrs: { role: "status" }
+                  })
+                ]
+              )
+            ])
+          ])
+        ])
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -30865,64 +31017,97 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "modal fade",
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Adicionar Disiplina")]
+      ),
+      _vm._v(" "),
+      _c("button", {
+        staticClass: "btn-close",
         attrs: {
-          id: "exampleModal",
-          tabindex: "-1",
-          "aria-labelledby": "exampleModalLabel",
-          "aria-hidden": "true"
+          type: "button",
+          "data-bs-dismiss": "modal",
+          "aria-label": "Close"
         }
-      },
-      [
-        _c("div", { staticClass: "modal-dialog" }, [
-          _c("div", { staticClass: "modal-content" }, [
-            _c("div", { staticClass: "modal-header" }, [
-              _c(
-                "h5",
-                {
-                  staticClass: "modal-title",
-                  attrs: { id: "exampleModalLabel" }
-                },
-                [_vm._v("Adicionar Disiplina")]
-              ),
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-body" }, [
+      _c(
+        "form",
+        { staticClass: "row mx-auto", attrs: { id: "adicionarDisciplina" } },
+        [
+          _c("div", { staticClass: "col-12" }, [
+            _c("input", {
+              staticClass: "form-control mt-2 mb-3 ",
+              attrs: { name: "disciplina", type: "text", id: "disciplina" }
+            }),
+            _vm._v(" "),
+            _c(
+              "label",
+              { staticClass: "label", attrs: { for: "disciplina" } },
+              [_c("span", [_vm._v("Disciplina")])]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12 mb-3" }, [
+            _c("p", { staticClass: "error ", attrs: { id: "disciplinaError" } })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12" }, [
+            _c("label", { staticClass: "label", attrs: { for: "descricao" } }, [
+              _c("span", [_vm._v("Descrição")])
+            ]),
+            _vm._v(" "),
+            _c("textarea", {
+              staticClass: "form-control",
+              attrs: { name: "descricao", id: "descricao", rows: "2" }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12 mt-3" }, [
+            _c("div", [
+              _c("label", [_vm._v("Permitir alunos marcarem presença?")]),
+              _c("br"),
               _vm._v(" "),
-              _c("button", {
-                staticClass: "btn-close",
+              _c("input", {
                 attrs: {
-                  type: "button",
-                  "data-bs-dismiss": "modal",
-                  "aria-label": "Close"
+                  type: "radio",
+                  id: "sim",
+                  name: "presencas",
+                  value: "s"
                 }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "modal-body" }, [
-              _vm._v("\n                    ...\n                ")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "modal-footer" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-secondary",
-                  attrs: { type: "button", "data-bs-dismiss": "modal" }
-                },
-                [_vm._v("Close")]
-              ),
+              }),
               _vm._v(" "),
-              _c(
-                "button",
-                { staticClass: "btn btn-primary", attrs: { type: "button" } },
-                [_vm._v("Save changes")]
-              )
+              _c("label", { staticClass: "me-3", attrs: { for: "sim" } }, [
+                _vm._v("Sim")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                attrs: {
+                  type: "radio",
+                  id: "nao",
+                  name: "presencas",
+                  value: "n"
+                }
+              }),
+              _vm._v(" "),
+              _c("label", { staticClass: "me-3", attrs: { for: "nao" } }, [
+                _vm._v("Não")
+              ]),
+              _vm._v(" "),
+              _c("p", { staticClass: "error", attrs: { id: "presencasError" } })
             ])
           ])
-        ])
-      ]
-    )
+        ]
+      )
+    ])
   }
 ]
 render._withStripped = true
