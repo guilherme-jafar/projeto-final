@@ -393,6 +393,28 @@ li {
   border-color: #ff8d4b;
   color: white;
 }
+.btn-secondary {
+  background-color: #7FBA27;
+  border-color: #7FBA27;
+  color: white;
+}
+.btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active {
+  background-color: #92d32f;
+  border-color: #92d32f;
+  box-shadow: none;
+  color: white;
+}
+.btn-third {
+  color: white;
+  background-color: #F9B000;
+  border-color: #F9B000;
+}
+.btn-third:hover, .btn-third:focus, .btn-third:active {
+  background-color: #ffbc1c;
+  border-color: #ffbc1c;
+  box-shadow: none;
+  color: white;
+}
 .btn-submit {
   min-width: 15rem;
 }

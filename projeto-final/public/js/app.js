@@ -1962,6 +1962,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -30977,15 +30991,17 @@ var render = function() {
             "ul",
             _vm._l(_vm.disciplinas, function(disciplina) {
               return _c("li", { staticClass: "card-box" }, [
-                _c("div", { staticClass: "card-image" }),
+                _c("div", { staticClass: "card-image me-5" }),
                 _vm._v(" "),
-                _c("div", { staticClass: "card-info me-5" }, [
+                _c("div", { staticClass: "card-box-2" }, [
                   _c("h2", [_vm._v("  " + _vm._s(disciplina["nome"]))]),
                   _vm._v(" "),
                   _c("p", [_vm._v("Aulas: ")]),
                   _vm._v(" "),
                   _vm._m(3, true)
-                ])
+                ]),
+                _vm._v(" "),
+                _vm._m(4, true)
               ])
             }),
             0
@@ -31006,9 +31022,9 @@ var render = function() {
       [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(4),
-            _vm._v(" "),
             _vm._m(5),
+            _vm._v(" "),
+            _vm._m(6),
             _vm._v(" "),
             _c("div", { staticClass: "modal-footer" }, [
               _c(
@@ -31108,12 +31124,32 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("p", [_vm._v("Tópicos: ")]),
+    return _c("div", { staticClass: "mt-5" }, [
+      _c("p", [_vm._v("Tópicos: 0")]),
       _vm._v(" "),
-      _c("p", [_vm._v("Aluno: ")]),
+      _c("p", [_vm._v("Alunos: 0")]),
       _vm._v(" "),
-      _c("p", [_vm._v("Quizes: ")])
+      _c("p", [_vm._v("Quizes: 0")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-box-3" }, [
+      _c("div", [
+        _c("i", { staticClass: "bi bi-star" }),
+        _vm._v(" "),
+        _c("i", { staticClass: "bi bi-three-dots-vertical" })
+      ]),
+      _vm._v(" "),
+      _c("div", [
+        _c("button", { staticClass: "btn btn-third" }, [
+          _vm._v("Partilhar Código")
+        ]),
+        _vm._v(" "),
+        _c("button", { staticClass: "btn btn-secondary" }, [_vm._v("Editar")])
+      ])
     ])
   },
   function() {

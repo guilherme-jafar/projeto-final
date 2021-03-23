@@ -106,6 +106,32 @@ li{
         }
     }
 
+    &-secondary{
+        background-color: $cor-principal-3;
+        border-color: $cor-principal-3;
+        color: white;
+
+        &:hover, &:focus, &:active{
+            background-color: $cor-principal-3-light;
+            border-color: $cor-principal-3-light;
+            box-shadow: none;
+            color: white;
+        }
+    }
+
+    &-third{
+        color: white;
+        background-color: $cor-principal-4;
+        border-color: $cor-principal-4;
+
+        &:hover, &:focus, &:active{
+            background-color: $cor-principal-4-light;
+            border-color: $cor-principal-4-light;
+            box-shadow: none;
+            color: white;
+        }
+    }
+
     &-submit{
         min-width: 15rem;
     }

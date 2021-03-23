@@ -30,20 +30,34 @@
             <ul >
                 <li class="card-box" v-for="disciplina in disciplinas">
 
-                    <div class="card-image">
+                    <div class="card-image me-5">
 
                     </div>
 
-                    <div class="card-info me-5">
+                    <div class="card-box-2">
                         <h2>  {{disciplina['nome']}}</h2>
                         <p>Aulas: </p>
-                        <div>
-                            <p>Tópicos: </p>
-                            <p>Aluno: </p>
-                            <p>Quizes: </p>
+                        <div class="mt-5">
+                            <p>Tópicos: 0</p>
+                            <p>Alunos: 0</p>
+                            <p>Quizes: 0</p>
                         </div>
 
                     </div>
+                    <div class="card-box-3">
+                        <div>
+                            <i class="bi bi-star"></i>
+                            <i class="bi bi-three-dots-vertical"></i>
+                        </div>
+                        <div>
+                            <button class="btn btn-third">Partilhar Código</button>
+                            <button class="btn btn-secondary">Editar</button>
+                        </div>
+
+                    </div>
+
+
+
 
                 </li>
             </ul>
