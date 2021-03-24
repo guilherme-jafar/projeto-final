@@ -70,11 +70,7 @@
     <section class="">
         <div class="container">
             <div class="row">
-                <div class="col-md-8 mx-auto">
-                    <div id="app">
-                        @yield('content')
-                    </div>
-                </div>
+                @yield('content')
             </div>
         </div>
     </section>

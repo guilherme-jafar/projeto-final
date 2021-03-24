@@ -1,6 +1,12 @@
 <template>
 
     <div>
+
+        <div class="alert alert-primary alert-dismissible fade show mb-5" role="alert">
+            <strong><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp;Disciplina adicionada com sucesso</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
         <div v-if="disciplinas.length === 0" class="mx-auto">
             <h1 class="heanding-1">Ainda não tem nenhuma disciplina</h1>
             <!-- Button trigger modal -->
@@ -71,42 +77,42 @@
                         <h5 class="modal-title" id="exampleModalLabel">Adicionar Disiplina</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body pt-5 pb-5">
                         <form class="row mx-auto" id="adicionarDisciplina">
                             <div class="col-12">
 
                                 <input name="disciplina" class="form-control mt-2 mb-3 " type="text" id="disciplina">
                                 <label class="label" for="disciplina" ><span>Disciplina</span></label>
                             </div>
-                            <div class="col-12 mb-3">
+                            <div class="col-12 mb-5">
                                 <p class="error " id="disciplinaError"></p>
                             </div>
-                            <div class="col-12">
+                            <div class="col-12 mt-3">
                                 <label class="label" for="descricao"><span>Descrição</span></label>
                                 <textarea class="form-control"  name="descricao" id="descricao" rows="2"></textarea>
                             </div>
 
 
-                            <div class="col-12 mt-3">
-                                <div >
-                                    <label>Permitir alunos marcarem presença?</label><br>
-                                    <input type="radio" id="sim" name="presencas" value="s">
-                                    <label class="me-3"  for="sim" >Sim</label>
-                                    <input type="radio" id="nao" name="presencas" value="n">
-                                    <label class="me-3" for="nao">Não</label>
+<!--                            <div class="col-12 mt-3">-->
+<!--                                <div >-->
+<!--                                    <label>Permitir alunos marcarem presença?</label><br>-->
+<!--                                    <input type="radio" id="sim" name="presencas" value="s">-->
+<!--                                    <label class="me-3"  for="sim" >Sim</label>-->
+<!--                                    <input type="radio" id="nao" name="presencas" value="n">-->
+<!--                                    <label class="me-3" for="nao">Não</label>-->
 
-                                    <p class="error" id="presencasError"></p>
-                                </div>
+<!--                                    <p class="error" id="presencasError"></p>-->
+<!--                                </div>-->
 
 
-                            </div>
+<!--                            </div>-->
 
 
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary" @click="submit()">Adicionar
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" id="submit" class="btn btn-secondary btn-submit" @click="submit()">  <span class="">Adicionar &nbsp;</span>
                             <div class="spinner-border text-light d-none" role="status">
 
                             </div>
@@ -126,11 +132,17 @@
 
 
 <script>
+
     import axios from "axios";
     import $ from 'jquery'
     export default {
         name: "dashboard",
         props: ['disciplinas'],
+        data(){
+            return{
+                myModal: ''
+            }
+        },
         methods: {
             submit(){
                 $('#submit span').addClass('d-none');
@@ -146,34 +158,35 @@
                     $( "#disciplinaError" ).text("").css('color', 'red').css('opacity', '1');
                 }
 
-                var radios = document.getElementsByName('presencas');
 
-                var test;
-                for (var i = 0, length = radios.length; i < length; i++) {
 
-                    if (radios[i].checked) {
+                // var radios = document.getElementsByName('presencas');
+                //
+                // var test;
+                // for (var i = 0, length = radios.length; i < length; i++) {
+                //
+                //     if (radios[i].checked) {
+                //
+                //         test = radios[i].value;
+                //
+                //         break;
+                //     }
+                //     else {
+                //
+                //         test = 'erro';
+                //
+                //     }
+                // }
 
-                        test = radios[i].value;
 
-                        break;
-                    }
-                    else {
-
-                        test = 'erro';
-
-                    }
-                }
-
-                console.log(test)
-
-                if (test === 'erro'){
-                    $( "#presencasError" ).text("Escolha uma opção").css('color', 'red').css('opacity', '1');
-                    $('#submit span').removeClass('d-none');
-                    $('#submit div').addClass('d-none');
-                    enviar = false;
-                }else{
-                    $( "#presencasError" ).text("").css('color', 'red').css('opacity', '1');
-                }
+                // if (test === 'erro'){
+                //     $( "#presencasError" ).text("Escolha uma opção").css('color', 'red').css('opacity', '1');
+                //     $('#submit span').removeClass('d-none');
+                //     $('#submit div').addClass('d-none');
+                //     enviar = false;
+                // }else{
+                //     $( "#presencasError" ).text("").css('color', 'red').css('opacity', '1');
+                // }
 
 
                 if (enviar){
@@ -181,7 +194,7 @@
                     let formData = new FormData();
                     formData.append( 'disciplina',$( "#disciplina" ).val());
                     formData.append( 'descricao',$( "#descricao" ).val());
-                    formData.append( 'presenca',test);
+
                     axios.post('/prof/disciplina/create', formData
                     ).then(function (response) {
 
@@ -196,6 +209,7 @@
                         else{
                             $( "#loading" ).removeClass('spinner-border spinner-border-sm');
                             $('#submit').prop('disabled', false);
+                            this.myModal.hide()
 
                         }
                     }.bind(this));
@@ -207,6 +221,9 @@
         },
         mounted() {
             this.disciplinas = JSON.parse(this.disciplinas)
+            this.myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+
+            })
 
         }
 

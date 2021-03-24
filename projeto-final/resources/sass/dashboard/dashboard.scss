@@ -87,7 +87,9 @@
 
             .card-image{
                 height: 100%;
-                background-color: black;
+                background-image: url("/images/disciplinaPng.png");
+                background-position: center;
+                background-size: cover;
                 width: 20rem;
                 border-radius: 1rem;
             }
@@ -135,6 +137,10 @@
                         }
                     }
                 }
+
+                div:nth-child(2){
+                   margin-top: 4.5rem;
+                }
             }
         }
 
@@ -142,6 +148,10 @@
 }
 
 .modal{
+
+    span{
+        color: white;
+    }
     .modal-title{
         font-size: 2rem;
         color: $cor-principal-1;

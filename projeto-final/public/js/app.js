@@ -1976,11 +1976,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "dashboard",
   props: ['disciplinas'],
+  data: function data() {
+    return {
+      myModal: ''
+    };
+  },
   methods: {
     submit: function submit() {
       jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').addClass('d-none');
@@ -1994,37 +2005,38 @@ __webpack_require__.r(__webpack_exports__);
         enviar = false;
       } else {
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#disciplinaError").text("").css('color', 'red').css('opacity', '1');
-      }
+      } // var radios = document.getElementsByName('presencas');
+      //
+      // var test;
+      // for (var i = 0, length = radios.length; i < length; i++) {
+      //
+      //     if (radios[i].checked) {
+      //
+      //         test = radios[i].value;
+      //
+      //         break;
+      //     }
+      //     else {
+      //
+      //         test = 'erro';
+      //
+      //     }
+      // }
+      // if (test === 'erro'){
+      //     $( "#presencasError" ).text("Escolha uma opção").css('color', 'red').css('opacity', '1');
+      //     $('#submit span').removeClass('d-none');
+      //     $('#submit div').addClass('d-none');
+      //     enviar = false;
+      // }else{
+      //     $( "#presencasError" ).text("").css('color', 'red').css('opacity', '1');
+      // }
 
-      var radios = document.getElementsByName('presencas');
-      var test;
-
-      for (var i = 0, length = radios.length; i < length; i++) {
-        if (radios[i].checked) {
-          test = radios[i].value;
-          break;
-        } else {
-          test = 'erro';
-        }
-      }
-
-      console.log(test);
-
-      if (test === 'erro') {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#presencasError").text("Escolha uma opção").css('color', 'red').css('opacity', '1');
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
-        enviar = false;
-      } else {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#presencasError").text("").css('color', 'red').css('opacity', '1');
-      }
 
       if (enviar) {
         console.log(enviar);
         var formData = new FormData();
         formData.append('disciplina', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#disciplina").val());
         formData.append('descricao', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#descricao").val());
-        formData.append('presenca', test);
         axios__WEBPACK_IMPORTED_MODULE_0___default().post('/prof/disciplina/create', formData).then(function (response) {
           console.log(response.data.message);
 
@@ -2034,6 +2046,7 @@ __webpack_require__.r(__webpack_exports__);
           } else {
             jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
+            this.myModal.hide();
           }
         }.bind(this));
       }
@@ -2042,6 +2055,7 @@ __webpack_require__.r(__webpack_exports__);
   computed: {},
   mounted: function mounted() {
     this.disciplinas = JSON.parse(this.disciplinas);
+    this.myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {});
   }
 });
 
@@ -30974,18 +30988,20 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    _vm._m(0),
+    _vm._v(" "),
     _vm.disciplinas.length === 0
       ? _c("div", { staticClass: "mx-auto" }, [
           _c("h1", { staticClass: "heanding-1" }, [
             _vm._v("Ainda não tem nenhuma disciplina")
           ]),
           _vm._v(" "),
-          _vm._m(0)
+          _vm._m(1)
         ])
       : _c("div", { staticClass: "section-disciplinas " }, [
-          _vm._m(1),
-          _vm._v(" "),
           _vm._m(2),
+          _vm._v(" "),
+          _vm._m(3),
           _vm._v(" "),
           _c(
             "ul",
@@ -30998,10 +31014,10 @@ var render = function() {
                   _vm._v(" "),
                   _c("p", [_vm._v("Aulas: ")]),
                   _vm._v(" "),
-                  _vm._m(3, true)
+                  _vm._m(4, true)
                 ]),
                 _vm._v(" "),
-                _vm._m(4, true)
+                _vm._m(5, true)
               ])
             }),
             0
@@ -31022,15 +31038,15 @@ var render = function() {
       [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(5),
-            _vm._v(" "),
             _vm._m(6),
+            _vm._v(" "),
+            _vm._m(7),
             _vm._v(" "),
             _c("div", { staticClass: "modal-footer" }, [
               _c(
                 "button",
                 {
-                  staticClass: "btn btn-secondary",
+                  staticClass: "btn btn-primary",
                   attrs: { type: "button", "data-bs-dismiss": "modal" }
                 },
                 [_vm._v("Cancelar")]
@@ -31039,8 +31055,8 @@ var render = function() {
               _c(
                 "button",
                 {
-                  staticClass: "btn btn-primary",
-                  attrs: { type: "button" },
+                  staticClass: "btn btn-secondary btn-submit",
+                  attrs: { type: "button", id: "submit" },
                   on: {
                     click: function($event) {
                       return _vm.submit()
@@ -31048,7 +31064,8 @@ var render = function() {
                   }
                 },
                 [
-                  _vm._v("Adicionar\n                        "),
+                  _c("span", {}, [_vm._v("Adicionar  ")]),
+                  _vm._v(" "),
                   _c("div", {
                     staticClass: "spinner-border text-light d-none",
                     attrs: { role: "status" }
@@ -31068,6 +31085,33 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c(
+      "div",
+      {
+        staticClass: "alert alert-primary alert-dismissible fade show mb-5",
+        attrs: { role: "alert" }
+      },
+      [
+        _c("strong", [
+          _c("i", { staticClass: "bi bi-check-circle-fill" }),
+          _vm._v("   Disciplina adicionada com sucesso")
+        ]),
+        _vm._v(" "),
+        _c("button", {
+          staticClass: "btn-close",
+          attrs: {
+            type: "button",
+            "data-bs-dismiss": "alert",
+            "aria-label": "Close"
+          }
+        })
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
       "button",
       {
         staticClass: " btn btn-new mt-5 mx-auto",
@@ -31079,7 +31123,7 @@ var staticRenderFns = [
       },
       [
         _c("i", { staticClass: "bi bi-plus-circle" }),
-        _vm._v("    Adicionar Disciplina\n        ")
+        _vm._v("    Adicionar Disciplina\n            ")
       ]
     )
   },
@@ -31177,7 +31221,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-body" }, [
+    return _c("div", { staticClass: "modal-body pt-5 pb-5" }, [
       _c(
         "form",
         { staticClass: "row mx-auto", attrs: { id: "adicionarDisciplina" } },
@@ -31195,11 +31239,11 @@ var staticRenderFns = [
             )
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-12 mb-3" }, [
+          _c("div", { staticClass: "col-12 mb-5" }, [
             _c("p", { staticClass: "error ", attrs: { id: "disciplinaError" } })
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-12" }, [
+          _c("div", { staticClass: "col-12 mt-3" }, [
             _c("label", { staticClass: "label", attrs: { for: "descricao" } }, [
               _c("span", [_vm._v("Descrição")])
             ]),
@@ -31208,41 +31252,6 @@ var staticRenderFns = [
               staticClass: "form-control",
               attrs: { name: "descricao", id: "descricao", rows: "2" }
             })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-12 mt-3" }, [
-            _c("div", [
-              _c("label", [_vm._v("Permitir alunos marcarem presença?")]),
-              _c("br"),
-              _vm._v(" "),
-              _c("input", {
-                attrs: {
-                  type: "radio",
-                  id: "sim",
-                  name: "presencas",
-                  value: "s"
-                }
-              }),
-              _vm._v(" "),
-              _c("label", { staticClass: "me-3", attrs: { for: "sim" } }, [
-                _vm._v("Sim")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                attrs: {
-                  type: "radio",
-                  id: "nao",
-                  name: "presencas",
-                  value: "n"
-                }
-              }),
-              _vm._v(" "),
-              _c("label", { staticClass: "me-3", attrs: { for: "nao" } }, [
-                _vm._v("Não")
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "error", attrs: { id: "presencasError" } })
-            ])
           ])
         ]
       )

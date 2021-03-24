@@ -33,28 +33,28 @@ class Disciplina extends Controller
         $id=rand ( 0 , 1000000 )+rand ( 0 , 1000000 )+time();
         $nome_disciplina = $request->input('disciplina');
         $descricao = $request->input('descricao');
-        $presenca = $request->input('presenca');
+//        $presenca = $request->input('presenca');
 
-        $disciplina = DB::insert('insert into disciplina (id, nome,descricao,inscritos) values (?,?,?,?)'
-            , [intval($id, 36), $nome_disciplina,$descricao,0]);
-
-        $prf_disciplina = DB::insert('insert into prof__disciplina (prof__utilizador_id, disciplina_id) values (?,?)'
-            , [session('utilizador')['id'],$id]);
+//        $disciplina = DB::insert('insert into disciplina (id, nome,descricao,inscritos) values (?,?,?,?)'
+//            , [intval($id, 36), $nome_disciplina,$descricao,0]);
+//
+//        $prf_disciplina = DB::insert('insert into prof__disciplina (prof__utilizador_id, disciplina_id) values (?,?)'
+//            , [session('utilizador')['id'],$id]);
 
 
        // $get_disciplina = DB::select('select * from disciplina where id = :id', ['id' => $id]);
 
         //dd($get_disciplina);
 
-//        if ($disciplina){
-//            return response()->json([
-//                'message' => 'sucesso',
-//            ]);
-//        }else{
-//            return response()->json([
-//                'message' => 'erro',
-//            ]);
-//        }
+        if (true){
+            return response()->json([
+                'message' => 'sucesso',
+            ]);
+        }else{
+            return response()->json([
+                'message' => 'erro',
+            ]);
+        }
 
     }
 }
