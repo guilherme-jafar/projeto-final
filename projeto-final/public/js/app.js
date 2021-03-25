@@ -1845,10 +1845,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -1982,71 +1980,64 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "dashboard",
-  props: ['disciplinas'],
+  props: ['disciplinas_prop'],
   data: function data() {
     return {
-      myModal: ''
+      myModal: '',
+      toast: '',
+      disciplinas: this.disciplinas_prop
     };
   },
   methods: {
     submit: function submit() {
-      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').addClass('d-none');
-      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').removeClass('d-none');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit span').addClass('d-none');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit div').removeClass('d-none');
       var enviar = true;
 
-      if (jquery__WEBPACK_IMPORTED_MODULE_1___default()('#disciplina').val().length === 0) {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#disciplinaError").text("Introduza o nome da disciplina").css('color', 'red').css('opacity', '1');
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
+      if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('#disciplina').val().length === 0) {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()("#disciplinaError").text("Introduza o nome da disciplina").css('color', 'red').css('opacity', '1');
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit span').removeClass('d-none');
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit div').addClass('d-none');
         enviar = false;
       } else {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#disciplinaError").text("").css('color', 'red').css('opacity', '1');
-      } // var radios = document.getElementsByName('presencas');
-      //
-      // var test;
-      // for (var i = 0, length = radios.length; i < length; i++) {
-      //
-      //     if (radios[i].checked) {
-      //
-      //         test = radios[i].value;
-      //
-      //         break;
-      //     }
-      //     else {
-      //
-      //         test = 'erro';
-      //
-      //     }
-      // }
-      // if (test === 'erro'){
-      //     $( "#presencasError" ).text("Escolha uma opção").css('color', 'red').css('opacity', '1');
-      //     $('#submit span').removeClass('d-none');
-      //     $('#submit div').addClass('d-none');
-      //     enviar = false;
-      // }else{
-      //     $( "#presencasError" ).text("").css('color', 'red').css('opacity', '1');
-      // }
-
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()("#disciplinaError").text("").css('color', 'red').css('opacity', '1');
+      }
 
       if (enviar) {
-        console.log(enviar);
         var formData = new FormData();
-        formData.append('disciplina', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#disciplina").val());
-        formData.append('descricao', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#descricao").val());
-        axios__WEBPACK_IMPORTED_MODULE_0___default().post('/prof/disciplina/create', formData).then(function (response) {
-          console.log(response.data.message);
-
-          if (response.data.message !== "sucesso") {
-            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
-            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
-          } else {
-            jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
-            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
+        formData.append('disciplina', jquery__WEBPACK_IMPORTED_MODULE_0___default()("#disciplina").val());
+        formData.append('descricao', jquery__WEBPACK_IMPORTED_MODULE_0___default()("#descricao").val());
+        axios.post('/prof/disciplina/create', formData).then(function (response) {
+          if (response.data.message !== "erro") {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit span').removeClass('d-none');
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit div').addClass('d-none');
             this.myModal.hide();
+            this.disciplinas = response.data.message;
+            this.toast.show();
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#toast').removeClass('d-none');
+          } else {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit span').removeClass('d-none');
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit div').addClass('d-none');
           }
         }.bind(this));
       }
@@ -2056,6 +2047,10 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.disciplinas = JSON.parse(this.disciplinas);
     this.myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {});
+    this.toast = new bootstrap.Toast(document.getElementById('toast'), {
+      delay: 10000
+    });
+    this.toast.hide();
   }
 });
 
@@ -30990,6 +30985,8 @@ var render = function() {
   return _c("div", [
     _vm._m(0),
     _vm._v(" "),
+    _c("div", { attrs: { role: "alert", id: "myAlert" } }),
+    _vm._v(" "),
     _vm.disciplinas.length === 0
       ? _c("div", { staticClass: "mx-auto" }, [
           _c("h1", { staticClass: "heanding-1" }, [
@@ -31006,19 +31003,23 @@ var render = function() {
           _c(
             "ul",
             _vm._l(_vm.disciplinas, function(disciplina) {
-              return _c("li", { staticClass: "card-box" }, [
-                _c("div", { staticClass: "card-image me-5" }),
-                _vm._v(" "),
-                _c("div", { staticClass: "card-box-2" }, [
-                  _c("h2", [_vm._v("  " + _vm._s(disciplina["nome"]))]),
+              return _c(
+                "li",
+                { key: disciplina["id"], staticClass: "card-box mb-5" },
+                [
+                  _c("div", { staticClass: "card-image me-5" }),
                   _vm._v(" "),
-                  _c("p", [_vm._v("Aulas: ")]),
+                  _c("div", { staticClass: "card-box-2" }, [
+                    _c("h2", [_vm._v("  " + _vm._s(disciplina["nome"]))]),
+                    _vm._v(" "),
+                    _c("p", [_vm._v("Aulas: ")]),
+                    _vm._v(" "),
+                    _vm._m(4, true)
+                  ]),
                   _vm._v(" "),
-                  _vm._m(4, true)
-                ]),
-                _vm._v(" "),
-                _vm._m(5, true)
-              ])
+                  _vm._m(5, true)
+                ]
+              )
             }),
             0
           )
@@ -31087,23 +31088,33 @@ var staticRenderFns = [
     return _c(
       "div",
       {
-        staticClass: "alert alert-primary alert-dismissible fade show mb-5",
-        attrs: { role: "alert" }
+        staticClass: "toast toast-primary align-items-center mb-5 mtn-5 d-none",
+        attrs: {
+          id: "toast",
+          role: "alert",
+          "aria-live": "assertive",
+          "aria-atomic": "true"
+        }
       },
       [
-        _c("strong", [
-          _c("i", { staticClass: "bi bi-check-circle-fill" }),
-          _vm._v("   Disciplina adicionada com sucesso")
-        ]),
-        _vm._v(" "),
-        _c("button", {
-          staticClass: "btn-close",
-          attrs: {
-            type: "button",
-            "data-bs-dismiss": "alert",
-            "aria-label": "Close"
-          }
-        })
+        _c("div", { staticClass: "d-flex" }, [
+          _c("div", { staticClass: "toast-body" }, [
+            _c("strong", [
+              _c("i", { staticClass: "bi bi-check-circle-fill" }),
+              _vm._v("    "),
+              _c("span", [_vm._v("Disciplina adicionada com sucesso")])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("button", {
+            staticClass: "btn-close me-2 m-auto",
+            attrs: {
+              type: "button",
+              "data-bs-dismiss": "toast",
+              "aria-label": "Close"
+            }
+          })
+        ])
       ]
     )
   },
@@ -31188,9 +31199,14 @@ var staticRenderFns = [
       ]),
       _vm._v(" "),
       _c("div", [
-        _c("button", { staticClass: "btn btn-third" }, [
-          _vm._v("Partilhar Código")
-        ]),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-third",
+            attrs: { "data-bs-dismiss": "alert" }
+          },
+          [_vm._v("Partilhar Código")]
+        ),
         _vm._v(" "),
         _c("button", { staticClass: "btn btn-secondary" }, [_vm._v("Editar")])
       ])

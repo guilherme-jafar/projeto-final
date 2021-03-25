@@ -421,23 +421,31 @@ li {
   min-width: 15rem;
 }
 
-.alert {
+.toast {
   width: 50%;
-  font-size: 2rem;
   margin: auto;
   border-radius: 1rem;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
-  padding: 2rem;
+  padding: 1rem;
   border: 0;
 }
-.alert strong {
+.toast strong {
   color: #7FBA27;
 }
-.alert-primary {
+.toast strong i {
+  font-size: 3rem;
+}
+.toast strong span {
+  vertical-align: text-bottom;
+  color: #7FBA27;
+}
+.toast-primary {
   background-color: white;
 }
-.alert .btn-close {
-  padding: 3rem 3rem;
+.toast-body {
+  padding: 0;
+}
+.toast .btn-close {
   font-size: 1.5rem;
 }
 
@@ -764,23 +772,31 @@ li {
   min-width: 15rem;
 }
 
-.alert {
+.toast {
   width: 50%;
-  font-size: 2rem;
   margin: auto;
   border-radius: 1rem;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
-  padding: 2rem;
+  padding: 1rem;
   border: 0;
 }
-.alert strong {
+.toast strong {
   color: #7FBA27;
 }
-.alert-primary {
+.toast strong i {
+  font-size: 3rem;
+}
+.toast strong span {
+  vertical-align: text-bottom;
+  color: #7FBA27;
+}
+.toast-primary {
   background-color: white;
 }
-.alert .btn-close {
-  padding: 3rem 3rem;
+.toast-body {
+  padding: 0;
+}
+.toast .btn-close {
   font-size: 1.5rem;
 }
 

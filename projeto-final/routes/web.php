@@ -73,7 +73,7 @@ Route::get('/mail1', function () {
 //Route::get('/prof/dashboard', function (){return view('/prof/dashboard');})->middleware(['check.auth', 'tipo.utilizador:prof']);
 
 Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (){
-    Route::get('/prof/dashboard',[App\Http\Controllers\Disciplina::class, 'index']);
+    Route::get('/prof/dashboard',[App\Http\Controllers\Disciplina::class, 'index'])->name('prof/dashboard');
     Route::post('/prof/disciplina/create',[App\Http\Controllers\Disciplina::class, 'create']);
 });
 

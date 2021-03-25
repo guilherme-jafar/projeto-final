@@ -15,14 +15,10 @@ class Disciplina extends Controller
 
 
         if (!empty($disciplina)){
-            return view('/prof/dashboard', ['disciplina' => $disciplina]);
+            return view('/prof/dashboard', ['disciplinas' => $disciplina]);
         }else{
             return view('/prof/dashboard', ['disciplina' => []]);
         }
-
-
-
-
 
 
     }
@@ -35,20 +31,19 @@ class Disciplina extends Controller
         $descricao = $request->input('descricao');
 //        $presenca = $request->input('presenca');
 
-//        $disciplina = DB::insert('insert into disciplina (id, nome,descricao,inscritos) values (?,?,?,?)'
-//            , [intval($id, 36), $nome_disciplina,$descricao,0]);
-//
-//        $prf_disciplina = DB::insert('insert into prof__disciplina (prof__utilizador_id, disciplina_id) values (?,?)'
-//            , [session('utilizador')['id'],$id]);
+        $insert_disciplina = DB::insert('insert into disciplina (id, nome,descricao,inscritos) values (?,?,?,?)'
+            , [intval($id, 36), $nome_disciplina,$descricao,0]);
+
+        $insert_prof_disciplina = DB::insert('insert into prof__disciplina (prof__utilizador_id, disciplina_id) values (?,?)'
+            , [session('utilizador')['id'],$id]);
 
 
-       // $get_disciplina = DB::select('select * from disciplina where id = :id', ['id' => $id]);
+        $disciplina = DB::select('select * FROM disciplina d,  prof__disciplina pd WHERE d.id = pd.disciplina_id AND pd.prof__utilizador_id = :id', ['id' =>  session('utilizador')['id']]);
 
-        //dd($get_disciplina);
 
-        if (true){
+        if ($insert_disciplina && $insert_prof_disciplina){
             return response()->json([
-                'message' => 'sucesso',
+                'message' => $disciplina,
             ]);
         }else{
             return response()->json([

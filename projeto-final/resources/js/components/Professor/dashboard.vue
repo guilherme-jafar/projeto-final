@@ -2,10 +2,27 @@
 
     <div>
 
-        <div class="alert alert-primary alert-dismissible fade show mb-5" role="alert">
-            <strong><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp;Disciplina adicionada com sucesso</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<!--        <div class="alert alert-primary alert-dismissible fade show mb-5" role="alert" id="alert">-->
+<!--            <strong><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp;Disciplina adicionada com sucesso</strong>-->
+<!--            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>-->
+<!--        </div>-->
+
+
+        <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <strong><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp; <span>Disciplina adicionada com sucesso</span> </strong>
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
         </div>
+
+        <div class="" role="alert" id="myAlert">
+
+        </div>
+
+
+
 
         <div v-if="disciplinas.length === 0" class="mx-auto">
             <h1 class="heanding-1">Ainda não tem nenhuma disciplina</h1>
@@ -34,7 +51,7 @@
 
             </div>
             <ul >
-                <li class="card-box" v-for="disciplina in disciplinas">
+                <li class="card-box mb-5" v-for="disciplina in disciplinas" :key="disciplina['id']">
 
                     <div class="card-image me-5">
 
@@ -56,7 +73,7 @@
                             <i class="bi bi-three-dots-vertical"></i>
                         </div>
                         <div>
-                            <button class="btn btn-third">Partilhar Código</button>
+                            <button class="btn btn-third"  data-bs-dismiss="alert">Partilhar Código</button>
                             <button class="btn btn-secondary">Editar</button>
                         </div>
 
@@ -133,18 +150,23 @@
 
 <script>
 
-    import axios from "axios";
-    import $ from 'jquery'
+    import $ from 'jquery';
+
     export default {
         name: "dashboard",
-        props: ['disciplinas'],
+        props: ['disciplinas_prop'],
         data(){
             return{
-                myModal: ''
+                myModal: '',
+                toast: '',
+                disciplinas: this.disciplinas_prop
             }
         },
         methods: {
             submit(){
+
+
+
                 $('#submit span').addClass('d-none');
                 $('#submit div').removeClass('d-none');
                 var enviar = true;
@@ -158,39 +180,8 @@
                     $( "#disciplinaError" ).text("").css('color', 'red').css('opacity', '1');
                 }
 
-
-
-                // var radios = document.getElementsByName('presencas');
-                //
-                // var test;
-                // for (var i = 0, length = radios.length; i < length; i++) {
-                //
-                //     if (radios[i].checked) {
-                //
-                //         test = radios[i].value;
-                //
-                //         break;
-                //     }
-                //     else {
-                //
-                //         test = 'erro';
-                //
-                //     }
-                // }
-
-
-                // if (test === 'erro'){
-                //     $( "#presencasError" ).text("Escolha uma opção").css('color', 'red').css('opacity', '1');
-                //     $('#submit span').removeClass('d-none');
-                //     $('#submit div').addClass('d-none');
-                //     enviar = false;
-                // }else{
-                //     $( "#presencasError" ).text("").css('color', 'red').css('opacity', '1');
-                // }
-
-
                 if (enviar){
-                    console.log(enviar)
+
                     let formData = new FormData();
                     formData.append( 'disciplina',$( "#disciplina" ).val());
                     formData.append( 'descricao',$( "#descricao" ).val());
@@ -198,18 +189,21 @@
                     axios.post('/prof/disciplina/create', formData
                     ).then(function (response) {
 
-                        console.log(response.data.message)
 
-                        if (response.data.message !== "sucesso"){
+
+
+                        if (response.data.message !== "erro"){
                             $('#submit span').removeClass('d-none');
                             $('#submit div').addClass('d-none');
-
-
+                            this.myModal.hide()
+                            this.disciplinas = response.data.message;
+                            this.toast.show()
+                            $('#toast').removeClass('d-none');
                         }
                         else{
-                            $( "#loading" ).removeClass('spinner-border spinner-border-sm');
-                            $('#submit').prop('disabled', false);
-                            this.myModal.hide()
+
+                            $('#submit span').removeClass('d-none');
+                            $('#submit div').addClass('d-none');
 
                         }
                     }.bind(this));
@@ -221,9 +215,10 @@
         },
         mounted() {
             this.disciplinas = JSON.parse(this.disciplinas)
-            this.myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+            this.myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {})
+            this.toast = new  bootstrap.Toast(document.getElementById('toast'), {delay: 10000})
+            this.toast.hide()
 
-            })
 
         }
 

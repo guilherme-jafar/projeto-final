@@ -139,24 +139,36 @@ li{
 
 }
 
-.alert{
+.toast{
     width: 50%;
-    font-size: 2rem;
     margin: auto;
     border-radius: 1rem;
     box-shadow: 0 0 0.5rem rgb(0 0 0 / 10%);
-    padding: 2rem;
+    padding: 1rem;
     border: 0;
 
     strong{
         color: $cor-principal-3;
+
+        i{
+            font-size: 3rem;
+        }
+
+        span{
+
+            vertical-align: text-bottom;
+            color: $cor-principal-3;
+        }
     }
     &-primary{
         background-color: white;
     }
 
+    &-body{
+     padding: 0;
+    }
+
     .btn-close{
-        padding: 3rem 3rem;
         font-size: 1.5rem;
     }
 }
