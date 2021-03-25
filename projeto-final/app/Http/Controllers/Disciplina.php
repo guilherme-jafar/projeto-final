@@ -17,7 +17,7 @@ class Disciplina extends Controller
         if (!empty($disciplina)){
             return view('/prof/dashboard', ['disciplinas' => $disciplina]);
         }else{
-            return view('/prof/dashboard', ['disciplina' => []]);
+            return view('/prof/dashboard', ['disciplinas' => []]);
         }
 
 
