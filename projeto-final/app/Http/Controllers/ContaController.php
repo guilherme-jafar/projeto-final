@@ -85,8 +85,8 @@ class ContaController extends Controller
 
             $id=rand ( 0 , 1000000 )+rand ( 0 , 1000000 )+time();
             $token=rand ( 0 , 1000000 )+time();
-            DB::insert('insert into utilizador_nao_confirmado (id, nome,email,password,tipo,token,sexo,foto_perfil) values (?,?,?,?,?,?,?,?)'
-                , [intval($id, 36), $name,$email,$hashed,$tipo,intval($token, 36),$sexo],'default.png');
+            DB::insert('insert into utilizador_nao_confirmado (id, nome,email,password,tipo,token,sexo) values (?,?,?,?,?,?,?)'
+                , [intval($id, 36), $name,$email,$hashed,$tipo,intval($token, 36),$sexo]);
 
             if ($tipo=="prof")
                 $ticket= $request->root() . '/confirmar/token='.$token.'/prof';
@@ -118,10 +118,10 @@ class ContaController extends Controller
             ]);
         }
         else {
-            $newID=intval("p".time().$token, 36);
+
             DB::statement('call inProf(?)',[$token]);
             DB::insert('insert into prof_ (id,utilizador_id) values (?,?)'
-                , ["p".$newID,$user]);
+                , ["p".uniqid(),$user]);
 
 
            return response()->json([
@@ -146,10 +146,10 @@ class ContaController extends Controller
             ]);
         }
         else {
-            $newID=intval("p".time().$token, 36);
+
             DB::statement('call inProf(?)',[$token]);
             DB::insert('insert into aluno (id,utilizador_id) values (?,?)'
-                , ["p".$newID,$user]);
+                , ["p".uniqid(),$user]);
 
 
             return response()->json([

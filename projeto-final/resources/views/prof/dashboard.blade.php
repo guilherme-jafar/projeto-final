@@ -9,8 +9,10 @@
             </div>
         </div>
     </div>
-<script>
+
+<script >
     import dashboard from "../../js/components/Professor/dashboard";
+
     export default {
         components: {dashboard},
     }

@@ -36,22 +36,16 @@
 
         <div v-else class="section-disciplinas " >
             <div class="box-search mb-5">
-                <input class=" form-control form-control-lg form-search" type="search" placeholder="Pesquisar disciplina...">
+                <input class=" form-control form-control-lg form-search" type="text" v-model="search" placeholder="Pesquisar disciplina...">
                 <i class="bi bi-search"></i>
             </div>
             <div class="box-text mt-3 mb-4">
                 <h2>Minhas Disciplinas</h2>
-                <div>
-                    <label for="ordenar" class="me-3">Ordenar Por:</label>
-                    <select id="ordenar" class="form-select ml-3">
-                        <option value="1">Mais Recente</option>
-                        <option value="2">Antigos</option>
-                    </select>
-                </div>
+
 
             </div>
             <ul >
-                <li class="card-box mb-5" v-for="disciplina in disciplinas" :key="disciplina['id']">
+                <li class="card-box mb-5" v-for="disciplina in filter" :key="disciplina['id']">
 
                     <div class="card-image me-5">
 
@@ -59,24 +53,40 @@
 
                     <div class="card-box-2">
                         <h2>  {{disciplina['nome']}}</h2>
-                        <p>Aulas: </p>
+                        <p>Descricao: {{disciplina['descricao']}}</p>
                         <div class="mt-5">
                             <p>Tópicos: 0</p>
-                            <p>Alunos: 0</p>
+                            <p>Alunos: {{disciplina['inscritos']}}</p>
                             <p>Quizes: 0</p>
                         </div>
 
                     </div>
                     <div class="card-box-3">
                         <div>
-                            <i class="bi bi-star"></i>
+
                             <i class="bi bi-three-dots-vertical"></i>
                         </div>
                         <div>
-                            <button class="btn btn-third"  data-bs-dismiss="alert">Partilhar Código</button>
+                            <button type="button" class="btn btn-third"  :data-bs-target="'#d'+disciplina['id']" data-bs-toggle="modal">Partilhar Código</button>
                             <button class="btn btn-secondary">Editar</button>
                         </div>
 
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" :id="'d'+disciplina['id']" tabindex="-1" :aria-labelledby="disciplina['id']" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" :id="'dds'+disciplina['id']">Codigo da disciplina</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h2>{{disciplina['id']}}</h2>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
 
 
@@ -85,6 +95,10 @@
                 </li>
             </ul>
         </div>
+
+
+
+
 
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -153,13 +167,15 @@
             return{
                 myModal: '',
                 toast: '',
-                disciplinas: this.disciplinas_prop
+                search:'',
+                disciplinas: JSON.parse(this.disciplinas_prop)
             }
         },
         methods: {
             submit(){
 
 
+                var toast = new  bootstrap.Toast(document.getElementById('toast'), {delay: 10000})
 
                 $('#submit span').addClass('d-none');
                 $('#submit div').removeClass('d-none');
@@ -190,8 +206,9 @@
                             $('#submit span').removeClass('d-none');
                             $('#submit div').addClass('d-none');
                             this.myModal.hide()
+                            $('#disciplina').val('')
                             this.disciplinas = response.data.message;
-                            this.toast.show()
+                            toast.show();
                             $('#toast').removeClass('d-none');
                         }
                         else{
@@ -205,13 +222,18 @@
             },
         },
         computed:{
-
+            filter:function (){
+                return this.disciplinas.filter((disciplina)=>{
+                    return disciplina['nome'].match(this.search);
+                })
+            }
         },
         mounted() {
-            this.disciplinas = JSON.parse(this.disciplinas)
+
+            // this.disciplinas = JSON.parse(this.disciplinas)
             this.myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {})
-            this.toast = new  bootstrap.Toast(document.getElementById('toast'), {delay: 10000})
-            this.toast.hide()
+            var toast = new  bootstrap.Toast(document.getElementById('toast'), {delay: 10000})
+            toast.hide();
 
 
         }

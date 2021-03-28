@@ -78,8 +78,10 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (
 });
 
 //conta Aluno
-Route::get('/aluno/dashboard', function (){return view('/aluno/dashboard');})->middleware(['check.auth', 'tipo.utilizador:aluno']);
-
+Route::group(['middleware' =>['check.auth', 'tipo.utilizador:aluno']], function () {
+    Route::get('/aluno/dashboard', [App\Http\Controllers\Disciplina::class, 'indexAluno']);
+    Route::post('/aluno/disciplina/addDisciplina',[App\Http\Controllers\Disciplina::class, 'addDisciplina']);
+});
 
 
 //Route::group(['middleware' => ['authenticate', 'roles']], function (){
