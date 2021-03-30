@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class Disciplina extends Controller
 {
@@ -33,6 +34,22 @@ class Disciplina extends Controller
             return view('/aluno/dashboard', ['disciplinas' => $disciplina]);
         }else{
             return view('/aluno/dashboard', ['disciplinas' => []]);
+        }
+
+
+    }
+
+
+    function EnterDiscProf(Request $request){
+
+        $disciplina=\App\Models\Disciplina::find($request->token);
+        $topico = DB::select('select * FROM topicos
+                                    WHERE disciplina_id = :id', ['id' => $request->token ]);
+        $request->session()->put('disciplina', $disciplina);
+        if (!empty($topico)) {
+            return view('/prof/Disciplina', [ 'topico' => $topico]);
+        }else {
+            return view('/prof/Disciplina',[ 'topico' => []]);
         }
 
 

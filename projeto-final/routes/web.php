@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -75,11 +76,15 @@ Route::get('/mail1', function () {
 Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (){
     Route::get('/prof/dashboard',[App\Http\Controllers\Disciplina::class, 'index'])->name('prof/dashboard');
     Route::post('/prof/disciplina/create',[App\Http\Controllers\Disciplina::class, 'create']);
+    Route::post('/prof/Topico/create',[App\Http\Controllers\topicos::class, 'create']);
+    Route::get('/prof/Disciplina/{token}', [App\Http\Controllers\Disciplina::class, 'EnterDiscProf']);
+
 });
 
 //conta Aluno
 Route::group(['middleware' =>['check.auth', 'tipo.utilizador:aluno']], function () {
     Route::get('/aluno/dashboard', [App\Http\Controllers\Disciplina::class, 'indexAluno']);
+
     Route::post('/aluno/disciplina/addDisciplina',[App\Http\Controllers\Disciplina::class, 'addDisciplina']);
 });
 

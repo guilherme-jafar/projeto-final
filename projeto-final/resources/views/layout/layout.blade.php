@@ -19,6 +19,7 @@
 
     {{--    CSS--}}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}" />
 
 
 </head>
@@ -84,6 +85,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 
 <script  src="{{ asset('js/app.js') }}" defer></script>
+
 {{--<script src="{{ asset('js/jquery.min.js') }}"></script>--}}
 {{--<script src="{{ asset('js/jquery.easing.min.js') }}"></script>--}}
 

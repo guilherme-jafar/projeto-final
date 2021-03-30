@@ -68,7 +68,7 @@
                         </div>
                         <div>
                             <button type="button" class="btn btn-third"  :data-bs-target="'#d'+disciplina['id']" data-bs-toggle="modal">Partilhar Código</button>
-                            <button class="btn btn-secondary">Editar</button>
+                            <button type="button" class="btn btn-secondary" @click="Enter(disciplina)">Entrar</button>
                         </div>
 
                     </div>
@@ -172,10 +172,14 @@
             }
         },
         methods: {
+
+            Enter(disciplina){
+
+
+                window.location.replace('/prof/Disciplina/'+disciplina['id'])
+            },
             submit(){
 
-
-                var toast = new  bootstrap.Toast(document.getElementById('toast'), {delay: 10000})
 
                 $('#submit span').addClass('d-none');
                 $('#submit div').removeClass('d-none');
@@ -208,7 +212,7 @@
                             this.myModal.hide()
                             $('#disciplina').val('')
                             this.disciplinas = response.data.message;
-                            toast.show();
+                            this.toast.show();
                             $('#toast').removeClass('d-none');
                         }
                         else{
@@ -232,8 +236,8 @@
 
             // this.disciplinas = JSON.parse(this.disciplinas)
             this.myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {})
-            var toast = new  bootstrap.Toast(document.getElementById('toast'), {delay: 10000})
-            toast.hide();
+            this.toast = new  bootstrap.Toast(document.getElementById('toast'), {delay: 10000})
+            this.toast.hide();
 
 
         }

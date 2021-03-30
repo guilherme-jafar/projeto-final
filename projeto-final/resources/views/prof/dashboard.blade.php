@@ -1,9 +1,11 @@
 @extends('layout/layout')
 
 @section('content')
+
     <div class="col-md-8 mx-auto">
         <div id="app">
             <div>
+
                 <dashboard class="dashboard" :disciplinas_prop="'{{json_encode($disciplinas, TRUE)}}'"></dashboard>
 
             </div>
