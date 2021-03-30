@@ -167,6 +167,4 @@ props: ['topico_prop'] ,
 }
 </script>
 
-<style scoped>
 
-</style>
