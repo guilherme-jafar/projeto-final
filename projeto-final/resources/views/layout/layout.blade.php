@@ -45,7 +45,7 @@
 
 
                         @if(strpos(request()->path(), 'prof/Disciplina') !== false)
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">NOVO TÓPICO</button>
+                            <button class="btn btn-primary" id="newTopic" data-bs-toggle="modal" data-bs-target="#exampleModal">NOVO TÓPICO</button>
                         @else
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">NOVA DISCIPLINA</button>
                         @endif

@@ -117,4 +117,30 @@ class Disciplina extends Controller
         }
 
     }
+
+    function getAlunos(Request $request){
+
+        $id=$request->id;
+
+        $alunos = DB::select('SELECT u.id,u.nome,u.email,u.sexo
+FROM disciplina d,utilizador u,aluno a ,disciplina_aluno dp
+WHERE  a.utilizador_id=u.id
+AND  dp.aluno_utilizador_id=u.id
+AND dp.disciplina_id=d.id
+and d.id=:id', ['id' =>  $id]);
+
+        if (!empty($alunos)){
+            return response()->json([
+                'message' => $alunos,
+            ]);
+        }else{
+            return response()->json([
+                'message' => [],
+            ]);
+        }
+
+
+
+
+    }
 }

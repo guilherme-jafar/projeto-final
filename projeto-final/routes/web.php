@@ -78,6 +78,7 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (
     Route::post('/prof/disciplina/create',[App\Http\Controllers\Disciplina::class, 'create']);
     Route::post('/prof/Topico/create',[App\Http\Controllers\topicos::class, 'create']);
     Route::get('/prof/Disciplina/{token}', [App\Http\Controllers\Disciplina::class, 'EnterDiscProf']);
+    Route::post('/prof/getAlunos',[App\Http\Controllers\Disciplina::class,'getAlunos']);
 
 });
 

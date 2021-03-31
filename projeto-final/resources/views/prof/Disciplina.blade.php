@@ -20,7 +20,7 @@
                                     <i class="bi bi-three-dots-vertical"></i>
                                 </div>
                                 <div>
-                                    <p>Descricao: {{session('disciplina')['id']}}</p>
+                                    <p>Descricao: {{session('disciplina')['descricao']}}</p>
                                 </div>
                                 <div class="mt-1">
                                     <p>Tópicos: 0</p>
@@ -55,6 +55,11 @@
                         <disciplina-prof :topico_prop="'{{json_encode($topico, TRUE)}}'"></disciplina-prof>
 
                     </div>
+                    <div id="alunos">
+
+                        <disciplina-alunos></disciplina-alunos>
+
+                    </div>
 
                 </div>
             </div>
@@ -62,17 +67,29 @@
         </div>
     </div>
 
-
+    <script
+        src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous"></script>
     <script >
+        $( document ).ready(function() {
+
+            $('#topics').show();
+            $('#alunos').hide();
+        });
 
         function chg(index){
 
             switch (index){
                 case 1:
                     $('#topics').fadeIn();
+                    $('#alunos').fadeOut();
+                    $('#newTopic').show();
                     break;
                 case 2:
                     $('#topics').fadeOut();
+                    $('#alunos').fadeIn();
+                    $('#newTopic').hide();
                     break;
             }
         }

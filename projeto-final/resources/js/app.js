@@ -8,6 +8,8 @@ Vue.component('login',require('./components/login.vue').default);
 //prof
 Vue.component('dashboard',require('./components/Professor/dashboard.vue').default);
 Vue.component('disciplinaProf',require('./components/Professor/disciplinaProf').default);
+Vue.component('disciplinaAlunos',require('./components/Professor/listaAlunos').default);
+
 
 //aluno
 Vue.component('alunodashboard',require('./components/aluno/dashboadAluno.vue').default);

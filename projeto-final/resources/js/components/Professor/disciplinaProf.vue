@@ -21,7 +21,7 @@
         </div>
         <div v-else class="section-disciplinas " >
             <div class="box-search mb-5">
-                <input class=" form-control form-control-lg form-search" type="text" v-model="search" placeholder="Pesquisar disciplina...">
+                <input class=" form-control form-control-lg form-search" type="text" v-model="search" placeholder="Pesquisar topicos...">
                 <i class="bi bi-search"></i>
             </div>
         <h2>Os meus topicos</h2>
