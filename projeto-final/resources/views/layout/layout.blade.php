@@ -42,7 +42,13 @@
             <div class="d-flex">
                 <ul class="navbar-nav nav-flex-icons ml-auto">
                     <li class="nav-item avatar dropdown d-flex align-items-center">
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">NOVA DISCIPLINA</button>
+
+
+                        @if(strpos(request()->path(), 'prof/Disciplina') !== false)
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">NOVO TÓPICO</button>
+                        @else
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">NOVA DISCIPLINA</button>
+                        @endif
                     </li>
                     <li class="nav-item avatar dropdown d-flex align-items-center">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -92,6 +98,7 @@
 {{--<script src="{{ asset('js/custom.js') }}"></script>--}}
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 </html>
 <script>
 </script>

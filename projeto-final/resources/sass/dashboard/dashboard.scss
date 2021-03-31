@@ -1,6 +1,6 @@
 @import "../site-base";
 
-.dashboard{
+.section-dashboard{
     .heanding-1{
         font-weight: 900;
         color: $cor-principal-1;
@@ -14,7 +14,7 @@
         border-radius: 1rem;
         border-color: transparent;
         padding: 5rem 10rem;
-        box-shadow: 0 0 0.5rem rgb(0 0 0 / 10%);
+        box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
         font-size: 2.5rem;
         display: block;
 
@@ -24,6 +24,10 @@
         }
 
     }
+}
+
+.dashboard{
+
 
     .section-disciplinas{
 
@@ -78,7 +82,8 @@
 
         .card-box{
             height: 16rem;
-            box-shadow: 0 0 0.5rem rgb(0 0 0 / 10%);
+            //box-shadow: 0 0 0.5rem rgb(0 0 0 / 10%);
+            box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
             border-radius: 1rem;
             border: 0;
             padding: 0.2rem;
@@ -162,7 +167,6 @@
         font-size: 2rem;
         background-color: white;
         padding: 3rem 7rem;
-        width: 50rem;
         border-radius: 2rem;
         font-family: "Lato", serif;
         position: relative;
@@ -241,5 +245,66 @@
     }
 
 
+
+}
+
+.card-disciplina{
+    box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
+    padding: 2rem;
+    border: 0;
+    border-radius: 1rem;
+
+    .card-image{
+        height: 20rem;
+        background-image: url("/images/disciplinaPng.png");
+        background-position: center;
+        background-size: cover;
+        width: 25rem;
+        border-radius: 1rem;
+
+    }
+
+    .card-inside-disciplina{
+
+        div:first-child{
+            display: flex;
+
+            h2{
+                color: $cor-principal-2;
+                font-size: 2.5rem;
+                font-weight: 700;
+            }
+
+            i{
+                margin-left: auto;
+            }
+        }
+
+        div{
+            p{
+                margin-bottom: 0;
+                font-size: 1.6rem;
+            }
+        }
+    }
+
+    .section-disciplinas-prof{
+        .btn-new{
+            background-color: white;
+            color: $cor-letra;
+            border-radius: 1rem;
+            border-color: transparent;
+            padding: 5rem 10rem;
+            box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
+            font-size: 2.5rem;
+            display: block;
+
+
+            i{
+                font-size: 2.5rem;
+            }
+
+        }
+    }
 
 }

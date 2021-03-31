@@ -393,6 +393,16 @@ li {
   border-color: #ff8d4b;
   color: white;
 }
+.btn-ghost-2 {
+  background-color: transparent;
+  border-color: #F9B000;
+  color: #F9B000;
+}
+.btn-ghost-2:hover, .btn-ghost-2:active, .btn-ghost-2:focus {
+  background-color: #F9B000;
+  border-color: #F9B000;
+  color: white;
+}
 .btn-secondary {
   background-color: #7FBA27;
   border-color: #7FBA27;
@@ -481,25 +491,26 @@ section {
   padding: 5rem;
 }
 
-.dashboard .heanding-1 {
+.section-dashboard .heanding-1 {
   font-weight: 900;
   color: #FF7829;
   text-align: center;
   font-size: 3rem;
 }
-.dashboard .btn-new {
+.section-dashboard .btn-new {
   background-color: white;
   color: #747474;
   border-radius: 1rem;
   border-color: transparent;
   padding: 5rem 10rem;
-  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
   font-size: 2.5rem;
   display: block;
 }
-.dashboard .btn-new i {
+.section-dashboard .btn-new i {
   font-size: 2.5rem;
 }
+
 .dashboard .section-disciplinas .box-search {
   position: relative;
 }
@@ -541,7 +552,7 @@ section {
 }
 .dashboard .section-disciplinas .card-box {
   height: 16rem;
-  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
   border-radius: 1rem;
   border: 0;
   padding: 0.2rem;
@@ -605,7 +616,6 @@ section {
   font-size: 2rem;
   background-color: white;
   padding: 3rem 7rem;
-  width: 50rem;
   border-radius: 2rem;
   font-family: "Lato", serif;
   position: relative;
@@ -665,4 +675,47 @@ section {
 }
 .modal form .form-control #submit span {
   color: white;
+}
+
+.card-disciplina {
+  box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
+  padding: 2rem;
+  border: 0;
+  border-radius: 1rem;
+}
+.card-disciplina .card-image {
+  height: 20rem;
+  background-image: url("/images/disciplinaPng.png");
+  background-position: center;
+  background-size: cover;
+  width: 25rem;
+  border-radius: 1rem;
+}
+.card-disciplina .card-inside-disciplina div:first-child {
+  display: flex;
+}
+.card-disciplina .card-inside-disciplina div:first-child h2 {
+  color: #40C0F0;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+.card-disciplina .card-inside-disciplina div:first-child i {
+  margin-left: auto;
+}
+.card-disciplina .card-inside-disciplina div p {
+  margin-bottom: 0;
+  font-size: 1.6rem;
+}
+.card-disciplina .section-disciplinas-prof .btn-new {
+  background-color: white;
+  color: #747474;
+  border-radius: 1rem;
+  border-color: transparent;
+  padding: 5rem 10rem;
+  box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
+  font-size: 2.5rem;
+  display: block;
+}
+.card-disciplina .section-disciplinas-prof .btn-new i {
+  font-size: 2.5rem;
 }

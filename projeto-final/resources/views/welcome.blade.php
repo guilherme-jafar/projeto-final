@@ -23,16 +23,60 @@
 
 <header >
 
-    <nav class="navbar navbar-light bg-light">
-        <div class="container">
-            <a class="navbar-brand"><img class="img-fluid" src="{{URL('/assets/logo.png')}}" alt=""></a>
-            <div class="d-flex">
-                <a class="btn btn-primary me-3" href="{{URL('/registo')}}">REGISTO</a>
-                <a class="btn btn-ghost" href="{{URL('/login')}}">LOGIN &nbsp;<i class="bi bi-box-arrow-in-right"></i></a>
 
+
+    @if(!session()->exists('utilizador'))
+
+        <nav class="navbar navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand"><img class="img-fluid" src="{{URL('/assets/logo.png')}}" alt=""></a>
+                <div class="d-flex">
+                    <a class="btn btn-primary me-3" href="{{URL('/registo')}}">REGISTO</a>
+                    <a class="btn btn-ghost" href="{{URL('/login')}}">LOGIN &nbsp;<i class="bi bi-box-arrow-in-right"></i></a>
+
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+
+    @else
+
+        <nav class="navbar navbar-expand-md navbar-light">
+
+            <div class="container">
+                <!-- Links -->
+                <div class="collapse navbar-collapse" id="basicExampleNav5">
+                    <a class="navbar-brand" href="/"><img class="img-fluid" src="{{URL('/assets/logo.png')}}" alt=""></a>
+                    <!-- Right -->
+
+
+                </div>
+                <div class="d-flex">
+                    <ul class="navbar-nav nav-flex-icons ml-auto">
+                        <li class="nav-item avatar dropdown d-flex align-items-center">
+                            <a href="{{url( '/' . session('utilizador')['tipo'] . '/dashboard')}}" class="btn btn-primary" >Dashboard</a>
+                        </li>
+                        <li class="nav-item avatar dropdown d-flex align-items-center">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="@if(session('utilizador')['foto'] == null){{asset('/images/imgDefault.jpg')}}@else {{session('utilizador')['foto']}} @endif" class="rounded-circle z-depth-0"
+                                     alt="avatar image" style="width: 5rem">
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" href="#">Editar Perfil <i class=" bi bi-pencil-square"></i></a></li>
+                                <li><a class="dropdown-item" href="{{URL('/logout')}}">Logout <i class=" bi bi-box-arrow-right"></i></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Links -->
+            </div>
+
+
+
+        </nav>
+
+    @endif
+
+
 
     <div class="">
 

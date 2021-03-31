@@ -2,7 +2,7 @@
 
 
 
-    <div>
+    <div class="section-disciplinas-prof">
         <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body">
@@ -13,10 +13,10 @@
         </div>
 
         <div v-if="topicos.length === 0" class="mx-auto">
-            <h1 class="heanding-1">Ainda não tem nenhum Topico</h1>
+            <h1 class="heanding-1 mx-auto mt-5">Ainda não tem nenhum Topico</h1>
             <!-- Button trigger modal -->
             <button type="button" class=" btn btn-new mt-5 mx-auto" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <i class="bi bi-plus-circle"></i> &nbsp;&nbsp; Adicionar Disciplina
+                <i class="bi bi-plus-circle"></i> &nbsp;&nbsp; Adicionar Tópico
             </button>
         </div>
         <div v-else class="section-disciplinas " >
@@ -25,15 +25,15 @@
                 <i class="bi bi-search"></i>
             </div>
         <h2>Os meus topicos</h2>
-    <ul >
-        <li class="card-box mb-5" v-for="topico in filter" :key="topico['id']">
+        <ul >
+            <li class="card-box mb-5" v-for="topico in filter" :key="topico['id']">
 
 
-            <h2>{{topico['nome']}}</h2><i class="bi bi-three-dots-vertical"></i>
+                <h2>{{topico['nome']}}</h2><i class="bi bi-three-dots-vertical"></i>
 
 
-        </li>
-    </ul>
+            </li>
+        </ul>
 
 
 

@@ -106,6 +106,18 @@ li{
         }
     }
 
+    &-ghost-2{
+        background-color: transparent;
+        border-color: $cor-principal-4;
+        color: $cor-principal-4;
+
+        &:hover, &:active, &:focus{
+            background-color: $cor-principal-4;
+            border-color: $cor-principal-4;
+            color: white;
+        }
+    }
+
     &-secondary{
         background-color: $cor-principal-3;
         border-color: $cor-principal-3;

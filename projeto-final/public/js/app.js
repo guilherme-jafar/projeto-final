@@ -31885,12 +31885,12 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { staticClass: "section-disciplinas-prof" }, [
     _vm._m(0),
     _vm._v(" "),
     _vm.topicos.length === 0
       ? _c("div", { staticClass: "mx-auto" }, [
-          _c("h1", { staticClass: "heanding-1" }, [
+          _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
             _vm._v("Ainda não tem nenhum Topico")
           ]),
           _vm._v(" "),
@@ -32050,7 +32050,7 @@ var staticRenderFns = [
       },
       [
         _c("i", { staticClass: "bi bi-plus-circle" }),
-        _vm._v("    Adicionar Disciplina\n        ")
+        _vm._v("    Adicionar Tópico\n        ")
       ]
     )
   },
