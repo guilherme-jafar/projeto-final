@@ -56,7 +56,9 @@ Route::post('/recovery', [App\Http\Controllers\ContaController::class, 'ForgotPa
 Route::post('/SavePass', [App\Http\Controllers\ContaController::class, 'ResetPassword']);
 Route::get('/logout',[App\Http\Controllers\ContaController::class, 'logout'] );
 
-
+Route::get('/editarperfil', function (){
+    return view('/autenticacao/editarPerfil');
+});
 
 
 
@@ -72,6 +74,8 @@ Route::get('/mail1', function () {
 
 //Conta professor
 //Route::get('/prof/dashboard', function (){return view('/prof/dashboard');})->middleware(['check.auth', 'tipo.utilizador:prof']);
+
+
 
 Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (){
     Route::get('/prof/dashboard',[App\Http\Controllers\Disciplina::class, 'index'])->name('prof/dashboard');

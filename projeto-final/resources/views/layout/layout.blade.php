@@ -44,9 +44,11 @@
                     <li class="nav-item avatar dropdown d-flex align-items-center">
 
 
-                        @if(strpos(request()->path(), 'prof/Disciplina') !== false)
+                        @if(strpos(request()->path(), 'prof/Disciplina') === 0)
                             <button class="btn btn-primary" id="newTopic" data-bs-toggle="modal" data-bs-target="#exampleModal">NOVO TÓPICO</button>
-                        @else
+                        @elseif(strpos(request()->path(), 'editarperfil') === 0)
+                            <a class="btn btn-primary" href="{{url( session('utilizador')['tipo'] . '/dashboard')}}" >Dashboard</a>
+                        @elseif(strpos(request()->path(), 'prof/dashboard') === 0)
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">NOVA DISCIPLINA</button>
                         @endif
                     </li>
@@ -56,7 +58,7 @@
                                  alt="avatar image" style="width: 5rem">
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="#">Editar Perfil <i class=" bi bi-pencil-square"></i></a></li>
+                            <li><a class="dropdown-item" href="{{URL('/editarperfil')}}">Editar Perfil <i class=" bi bi-pencil-square"></i></a></li>
                             <li><a class="dropdown-item" href="{{URL('/logout')}}">Logout <i class=" bi bi-box-arrow-right"></i></a></li>
                         </ul>
                     </li>

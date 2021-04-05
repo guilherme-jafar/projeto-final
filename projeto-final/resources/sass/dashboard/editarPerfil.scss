@@ -1,0 +1,21 @@
+@import "../variaveis";
+.section-editarPerfil{
+
+
+    .card{
+        box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
+        border: 0;
+        border-radius: 1rem;
+        background-color: white;
+        font-size: 2rem;
+
+        .form{
+
+            .form-control{
+                font-size: 2rem;
+            }
+        }
+
+    }
+
+}

@@ -4,6 +4,7 @@ Window.Vue=require('vue');
 
 Vue.component('registos',require('./components/registos.vue').default);
 Vue.component('login',require('./components/login.vue').default);
+Vue.component('editarPerfil',require('./components/editarPerfil').default);
 
 //prof
 Vue.component('dashboard',require('./components/Professor/dashboard.vue').default);
