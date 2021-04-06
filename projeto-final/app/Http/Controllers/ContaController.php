@@ -316,4 +316,45 @@ class ContaController extends Controller
 
 
     }
+
+    public function editarPerfil(Request $request){
+
+
+        if ($request->foto != null){
+
+            $nomeImagem = time() . '.' . $request->foto->getClientOriginalExtension();
+
+            error_log($nomeImagem);
+            $request->foto->move(public_path('images'), $nomeImagem);
+
+        }else{
+            $nomeImagem = session('utilizador')['foto'];
+        }
+
+
+        DB::table('utilizador')
+            ->where('id','=',session('utilizador')['id'])
+            ->update(['nome' => $request->input('nome'), 'email' => $request->input('email'), 'foto_perfil' => $nomeImagem]);
+
+        $user =  DB::table('utilizador')->where('id','=',session('utilizador')['id'])->get();
+
+        $user2 = [
+            'id' =>$user[0]->id,
+            'nome' =>$user[0]->nome,
+            'tipo' =>$user[0]->tipo,
+            'email' => $user[0]->email,
+            'foto' => $user[0]->foto_perfil,
+        ];
+
+        $request->session()->put('utilizador', $user2);
+
+        return response()->json([
+            'message' => 'sucesso'
+        ]);
+
+    }
+
+    public function sucesso(){
+        return redirect('/' . session('utilizador')['tipo'] . '/dashboard')->with('estado', 'sucesso');
+    }
 }

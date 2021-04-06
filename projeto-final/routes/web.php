@@ -60,6 +60,9 @@ Route::get('/editarperfil', function (){
     return view('/autenticacao/editarPerfil');
 });
 
+Route::post('alterarInformacao', [App\Http\Controllers\ContaController::class, 'editarPerfil']);
+Route::get('/sucesso', [App\Http\Controllers\ContaController::class, 'sucesso']);
+
 
 
 

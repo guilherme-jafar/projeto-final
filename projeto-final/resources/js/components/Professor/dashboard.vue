@@ -2,10 +2,8 @@
 
     <div>
 
-<!--        <div class="alert alert-primary alert-dismissible fade show mb-5" role="alert" id="alert">-->
-<!--            <strong><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp;Disciplina adicionada com sucesso</strong>-->
-<!--            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>-->
-<!--        </div>-->
+
+
 
 
         <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toast" role="alert" aria-live="assertive" aria-atomic="true">

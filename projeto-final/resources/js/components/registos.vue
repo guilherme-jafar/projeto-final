@@ -140,7 +140,7 @@ export default {
             }else if ($( "#pass" ).val() !== $( "#confPass" ).val() ){
                 $( "#pass" ).val('')
                 $( "#confPass" ).val('')
-                $( "#ConfError" ).text("As passwords estam diferentes").css('color', 'red').css('opacity', '1');
+                $( "#ConfError" ).text("As passwords são diferentes").css('color', 'red').css('opacity', '1');
                 $( "#loading" ).removeClass('spinner-border spinner-border-sm');
                 $('#submit').prop('disabled', false);
 

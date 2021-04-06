@@ -2003,8 +2003,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "dashboard",
@@ -2660,6 +2658,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2667,54 +2680,62 @@ __webpack_require__.r(__webpack_exports__);
   props: ['utilizador_props'],
   data: function data() {
     return {
-      utilizador: JSON.parse(this.utilizador_props)
+      utilizador: JSON.parse(this.utilizador_props),
+      imagem: ''
     };
   },
   methods: {
     submit: function submit() {
       jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').addClass('d-none');
       jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').removeClass('d-none');
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#imagemError").text(" ").css('color', 'red');
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#emailError").text(" ").css('color', 'red');
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()("#passError").text(" ").css('color', 'red');
+      var imagem = jquery__WEBPACK_IMPORTED_MODULE_1___default()('#imagem').val();
+      var imagemErro = false;
+
+      if (imagem !== "") {
+        if (imagem.includes(".jpeg") || imagem.includes(".png") || imagem.includes("jpg")) {
+          jquery__WEBPACK_IMPORTED_MODULE_1___default()("#imagemError").text(" ").css('color', 'red');
+          imagemErro = false;
+        } else {
+          imagemErro = true;
+        }
+      }
 
       if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val().length === 0) {
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#EmailError").text("O campo encontra-se vazio").css('color', 'red').css('opacity', '1');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
-      }
-
-      if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val().length === 0) {
+      } else if (imagemErro) {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#imagemError").text("Introduza uma imagem válida.").css('color', 'red').css('opacity', '1');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
-      }
-
-      if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val().length !== 0 && jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val().length !== 0) {
+      } else if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#nome").val().length === 0) {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#nomeError").text("O campo encontra-se vazio").css('color', 'red').css('opacity', '1');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
+      } else {
         var formData = new FormData();
-        formData.append('password', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val());
+        formData.append('nome', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#nome").val());
         formData.append('email', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val());
-        axios__WEBPACK_IMPORTED_MODULE_0___default().post('/loginroute', formData).then(function (response) {
-          if (response.data.message === 'erro') {
-            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#passwordError').text('O email ou a palavra passe estão incorretos!!');
+        formData.append('foto', this.imagem);
+        axios__WEBPACK_IMPORTED_MODULE_0___default().post('/alterarInformacao', formData).then(function (response) {
+          if (response.data.message !== "sucesso") {
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
           } else {
-            window.location.replace('/loading');
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
+            window.location.replace('/sucesso');
           }
         }.bind(this));
-      }
-    },
-    verPassword: function verPassword() {
-      var password = document.getElementById('pass').type;
-
-      if (password === 'password') {
-        document.getElementById('pass').type = 'text';
-        document.getElementById('password-eye').innerHTML = '<i class="bi bi-eye-slash"></i>';
-      } else {
-        document.getElementById('pass').type = 'password';
-        document.getElementById('password-eye').innerHTML = '<i class="bi bi-eye"></i>';
       }
     },
     alterarFoto: function alterarFoto(e) {
       var imagem = document.getElementById("imgPerfil");
       imagem.src = URL.createObjectURL(e.target.files[0]);
+      this.imagem = e.target.files[0];
     },
     computed: {},
     mounted: function mounted() {
@@ -2974,7 +2995,7 @@ __webpack_require__.r(__webpack_exports__);
       } else if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val() !== jquery__WEBPACK_IMPORTED_MODULE_1___default()("#confPass").val()) {
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val('');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#confPass").val('');
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#ConfError").text("As passwords estam diferentes").css('color', 'red').css('opacity', '1');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#ConfError").text("As passwords são diferentes").css('color', 'red').css('opacity', '1');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#loading").removeClass('spinner-border spinner-border-sm');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit').prop('disabled', false);
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
@@ -33001,160 +33022,242 @@ var render = function() {
       _c("div", { staticClass: "col" }, [
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col mb-3" }, [
-            _c("form", { staticClass: "card " }, [
-              _c("div", { staticClass: "card-body" }, [
-                _c("div", { staticClass: "e-profile" }, [
-                  _c("div", { staticClass: "row" }, [
-                    _c("div", { staticClass: "col-12 col-sm-auto mb-3" }, [
+            _c(
+              "form",
+              { staticClass: "card ", attrs: { id: "editarPerfil" } },
+              [
+                _c("div", { staticClass: "card-body" }, [
+                  _c("div", { staticClass: "e-profile" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-12 col-sm-auto mb-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "mx-auto",
+                            staticStyle: { width: "140px" }
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "d-flex justify-content-center align-items-center rounded",
+                                staticStyle: {
+                                  height: "140px",
+                                  "background-color": "rgb(233, 236, 239)"
+                                }
+                              },
+                              [
+                                _vm.utilizador["foto"] === null
+                                  ? _c("img", {
+                                      staticClass: "img-perfil img-fluid",
+                                      attrs: {
+                                        src: "/images/imgDefault.jpg",
+                                        id: "imgPerfil",
+                                        alt: "Foto de perfil"
+                                      }
+                                    })
+                                  : _c("img", {
+                                      staticClass: "img-perfil img-fluid",
+                                      attrs: {
+                                        src:
+                                          "/images/" + _vm.utilizador["foto"],
+                                        id: "imgPerfil",
+                                        alt: "Foto de perfil"
+                                      }
+                                    })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("p", {
+                              staticClass: "error ",
+                              attrs: { id: "imagemError" }
+                            })
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
                       _c(
                         "div",
                         {
-                          staticClass: "mx-auto",
-                          staticStyle: { width: "140px" }
+                          staticClass:
+                            "col d-flex flex-column flex-sm-row justify-content-between mb-3"
                         },
                         [
                           _c(
                             "div",
                             {
                               staticClass:
-                                "d-flex justify-content-center align-items-center rounded",
-                              staticStyle: {
-                                height: "140px",
-                                "background-color": "rgb(233, 236, 239)"
-                              }
+                                "text-left text-sm-left mb-2 mb-sm-0 ms-4"
                             },
                             [
-                              _vm.utilizador["foto"] === null
-                                ? _c("img", {
-                                    staticClass: "img-perfil img-fluid",
-                                    attrs: {
-                                      src: "/images/imgDefault.jpg",
-                                      id: "imgPerfil",
-                                      alt: "Foto de perfil"
-                                    }
-                                  })
-                                : _c("img", {
-                                    staticClass: "img-perfil img-fluid",
-                                    attrs: {
-                                      src: "/images/" + _vm.utilizador["foto"],
-                                      id: "imgPerfil",
-                                      alt: "Foto de perfil"
-                                    }
-                                  })
+                              _c("h4", {
+                                staticClass: "pt-sm-2 pb-1 mb-0 text-nowrap"
+                              }),
+                              _vm._v(" "),
+                              _c("p", { staticClass: "mb-0" }, [
+                                _vm._v(_vm._s(_vm.utilizador["nome"]))
+                              ]),
+                              _vm._v(" "),
+                              _c("p", { staticClass: "mb-0" }, [
+                                _vm._v(_vm._s(_vm.utilizador["email"]))
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                { staticClass: "badge bg-secondary" },
+                                [
+                                  _vm._v(
+                                    _vm._s(
+                                      _vm.utilizador["tipo"] === "prof"
+                                        ? "Professor"
+                                        : "Aluno"
+                                    )
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "mt-2" }, [
+                                _vm._m(0),
+                                _vm._v(" "),
+                                _c("input", {
+                                  staticClass: "form-control form-control-lg",
+                                  staticStyle: { visibility: "hidden" },
+                                  attrs: {
+                                    name: "imagem",
+                                    accept: "image/*",
+                                    id: "imagem",
+                                    type: "file"
+                                  },
+                                  on: { change: _vm.alterarFoto }
+                                })
+                              ])
                             ]
                           )
                         ]
                       )
                     ]),
                     _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "col d-flex flex-column flex-sm-row justify-content-between mb-3"
-                      },
-                      [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "text-left text-sm-left mb-2 mb-sm-0 ms-4"
-                          },
-                          [
-                            _c("h4", {
-                              staticClass: "pt-sm-2 pb-1 mb-0 text-nowrap"
-                            }),
-                            _vm._v(" "),
-                            _c("p", { staticClass: "mb-0" }, [
-                              _vm._v(_vm._s(_vm.utilizador["nome"]))
-                            ]),
-                            _vm._v(" "),
-                            _c("p", { staticClass: "mb-0" }, [
-                              _vm._v(_vm._s(_vm.utilizador["email"]))
-                            ]),
-                            _vm._v(" "),
-                            _c("span", { staticClass: "badge bg-secondary" }, [
-                              _vm._v(
-                                _vm._s(
-                                  _vm.utilizador["tipo"] === "prof"
-                                    ? "Professor"
-                                    : "Aluno"
-                                )
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "mt-2" }, [
-                              _vm._m(0),
-                              _vm._v(" "),
-                              _c("input", {
-                                staticClass: "form-control form-control-lg",
-                                staticStyle: { visibility: "hidden" },
-                                attrs: {
-                                  name: "imagem",
-                                  id: "imagem",
-                                  type: "file"
-                                },
-                                on: { change: _vm.alterarFoto }
-                              })
-                            ])
-                          ]
-                        )
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(1),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "tab-content pt-3" }, [
-                    _c("div", { staticClass: "tab-pane active" }, [
-                      _c("div", { staticClass: "form" }, [
-                        _c("div", { staticClass: "row" }, [
-                          _c("div", { staticClass: "col" }, [
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col" }, [
-                                _c("div", { staticClass: "form-group" }, [
-                                  _c("label", [_vm._v("Nome")]),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    staticClass: "form-control",
-                                    attrs: {
-                                      type: "text",
-                                      name: "nome",
-                                      placeholder: _vm.utilizador["nome"]
-                                    },
-                                    domProps: { value: _vm.utilizador["nome"] }
-                                  })
-                                ])
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col" }, [
-                                _c("div", { staticClass: "form-group" }, [
-                                  _c("label", [_vm._v("Email")]),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    staticClass: "form-control",
-                                    attrs: {
-                                      type: "email",
-                                      name: "",
-                                      placeholder: _vm.utilizador["email"]
-                                    },
-                                    domProps: { value: _vm.utilizador["email"] }
-                                  })
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "tab-content pt-3" }, [
+                      _c("div", { staticClass: "tab-pane active" }, [
+                        _c("div", { staticClass: "form" }, [
+                          _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "col-12" }, [
+                              _c("div", { staticClass: "row" }, [
+                                _c("div", { staticClass: "col" }, [
+                                  _c("div", { staticClass: "form-group" }, [
+                                    _c("label", { attrs: { for: "nome" } }, [
+                                      _vm._v("Nome")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "text",
+                                        name: "nome",
+                                        id: "nome",
+                                        placeholder: _vm.utilizador["nome"]
+                                      },
+                                      domProps: {
+                                        value: _vm.utilizador["nome"]
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("p", {
+                                      staticClass: "error ",
+                                      attrs: { id: "nomeError" }
+                                    })
+                                  ])
                                 ])
                               ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-12" }, [
+                              _c("div", { staticClass: "form-group" }, [
+                                _c("label", { attrs: { for: "email" } }, [
+                                  _vm._v("Email")
+                                ]),
+                                _vm._v(" "),
+                                _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "email",
+                                    name: "email",
+                                    id: "email",
+                                    placeholder: _vm.utilizador["email"]
+                                  },
+                                  domProps: { value: _vm.utilizador["email"] }
+                                }),
+                                _vm._v(" "),
+                                _c("p", {
+                                  staticClass: "error ",
+                                  attrs: { id: "emailError" }
+                                })
+                              ])
                             ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "row" }, [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "col d-flex justify-content-end mt-5 mb-5"
+                              },
+                              [
+                                _c(
+                                  "a",
+                                  {
+                                    staticClass: "btn btn-primary mt-5 me-3",
+                                    attrs: { href: "/dashboard" }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                                            Cancelar\n                                                        "
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      "btn btn-primary mt-5  btn-submit",
+                                    attrs: {
+                                      name: "submit",
+                                      type: "button",
+                                      id: "submit"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.submit()
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("span", {}, [
+                                      _vm._v("Salvar Alterações  ")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("div", {
+                                      staticClass:
+                                        "spinner-border text-light d-none",
+                                      attrs: { role: "status" }
+                                    })
+                                  ]
+                                )
+                              ]
+                            )
                           ])
-                        ]),
-                        _vm._v(" "),
-                        _vm._m(2),
-                        _vm._v(" "),
-                        _vm._m(3)
+                        ])
                       ])
                     ])
                   ])
                 ])
-              ])
-            ])
+              ]
+            )
           ])
         ])
       ])
@@ -33182,56 +33285,6 @@ var staticRenderFns = [
           _vm._v("Editar Perfil")
         ])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-12 mb-5 mt-4" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-6" }, [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", [_vm._v("Nova Password")]),
-              _vm._v(" "),
-              _c("input", {
-                staticClass: "form-control",
-                attrs: { type: "password", placeholder: "••••••" }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-6" }, [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", [_vm._v("confirmar Password")]),
-              _vm._v(" "),
-              _c("input", {
-                staticClass: "form-control",
-                attrs: { type: "password", placeholder: "••••••" }
-              })
-            ])
-          ])
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c(
-        "div",
-        { staticClass: "col d-flex justify-content-center mt-5 mb-5" },
-        [
-          _c(
-            "button",
-            { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-            [_vm._v("Salvar Alterações")]
-          )
-        ]
-      )
     ])
   }
 ]
