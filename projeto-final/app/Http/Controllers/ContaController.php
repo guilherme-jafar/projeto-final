@@ -169,22 +169,33 @@ class ContaController extends Controller
          $user =  DB::table('utilizador')->where('email','=',$email)->get();
 
 
-
-
          if (!empty($user[0])){
 
              if (Hash::check($password, $user[0]->password)){
 
-                 var_dump(strcmp('prof', $user[0]->tipo));
-                 var_dump($user[0]->tipo);
+                 if ($user[0]->tipo === 'prof'){
+                     $prof =  DB::table('prof_')->where('utilizador_id','=',$user[0]->id)->get();
+                     $user2 = [
+                         'id' =>$user[0]->id,
+                         'nome' =>$user[0]->nome,
+                         'tipo' =>$user[0]->tipo,
+                         'email' => $user[0]->email,
+                         'foto' => $user[0]->foto_perfil,
+                         'descricao' => $prof[0]->descricao,
+                         'instituicao' => $user[0]->instituicao
+                     ];
+                 }else{
+                     $user2 = [
+                         'id' =>$user[0]->id,
+                         'nome' =>$user[0]->nome,
+                         'tipo' =>$user[0]->tipo,
+                         'email' => $user[0]->email,
+                         'foto' => $user[0]->foto_perfil,
+                         'instituicao' => $user[0]->instituicao
+                     ];
+                 }
 
-                 $user2 = [
-                     'id' =>$user[0]->id,
-                     'nome' =>$user[0]->nome,
-                     'tipo' =>$user[0]->tipo,
-                     'email' => $user[0]->email,
-                     'foto' => $user[0]->foto_perfil,
-                 ];
+
 
                  $request->session()->put('utilizador', $user2);
 
@@ -324,33 +335,63 @@ class ContaController extends Controller
 
             $nomeImagem = time() . '.' . $request->foto->getClientOriginalExtension();
 
-            error_log($nomeImagem);
             $request->foto->move(public_path('images'), $nomeImagem);
 
         }else{
             $nomeImagem = session('utilizador')['foto'];
         }
 
+       $email = $request->input('email');
 
-        DB::table('utilizador')
-            ->where('id','=',session('utilizador')['id'])
-            ->update(['nome' => $request->input('nome'), 'email' => $request->input('email'), 'foto_perfil' => $nomeImagem]);
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return response()->json([
+                'message' => 'Formato do email é invalido!!'
+            ]);
+        }else{
+            DB::table('utilizador')
+                ->where('id','=',session('utilizador')['id'])
+                ->update(['nome' => $request->input('nome'), 'email' => $email, 'foto_perfil' => $nomeImagem, 'instituicao' => $request->input('instituicao')]);
 
-        $user =  DB::table('utilizador')->where('id','=',session('utilizador')['id'])->get();
+            $user =  DB::table('utilizador')->where('id','=',session('utilizador')['id'])->get();
 
-        $user2 = [
-            'id' =>$user[0]->id,
-            'nome' =>$user[0]->nome,
-            'tipo' =>$user[0]->tipo,
-            'email' => $user[0]->email,
-            'foto' => $user[0]->foto_perfil,
-        ];
+            if (session('utilizador')['tipo'] === 'prof'){
+                DB::table('prof_')
+                    ->where('utilizador_id','=',session('utilizador')['id'])
+                    ->update(['descricao' => $request->input('descricao')]);
 
-        $request->session()->put('utilizador', $user2);
+                $prof =  DB::table('prof_')->where('utilizador_id','=',$user[0]->id)->get();
 
-        return response()->json([
-            'message' => 'sucesso'
-        ]);
+                $user2 = [
+                    'id' =>$user[0]->id,
+                    'nome' =>$user[0]->nome,
+                    'tipo' =>$user[0]->tipo,
+                    'email' => $user[0]->email,
+                    'foto' => $user[0]->foto_perfil,
+                    'descricao' => $prof[0]->descricao,
+                    'instituicao' => $user[0]->instituicao
+                ];
+            }else{
+                $user2 = [
+                    'id' =>$user[0]->id,
+                    'nome' =>$user[0]->nome,
+                    'tipo' =>$user[0]->tipo,
+                    'email' => $user[0]->email,
+                    'foto' => $user[0]->foto_perfil,
+                    'instituicao' => $user[0]->instituicao
+                ];
+            }
+
+
+
+            $request->session()->put('utilizador', $user2);
+
+            return response()->json([
+                'message' => 'sucesso'
+            ]);
+        }
+
+
+
 
     }
 

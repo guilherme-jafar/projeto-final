@@ -41,9 +41,7 @@ Route::get('/login', function () {
 Route::get('/forgotPass', function () {
     return view('/autenticacao/forgotPass');
 });
-Route::get('/loading', function () {
-    return view('/loading');
-});
+
 
 
 
@@ -58,7 +56,7 @@ Route::get('/logout',[App\Http\Controllers\ContaController::class, 'logout'] );
 
 Route::get('/editarperfil', function (){
     return view('/autenticacao/editarPerfil');
-});
+})->middleware('check.auth');
 
 Route::post('alterarInformacao', [App\Http\Controllers\ContaController::class, 'editarPerfil']);
 Route::get('/sucesso', [App\Http\Controllers\ContaController::class, 'sucesso']);
@@ -86,6 +84,9 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (
     Route::post('/prof/Topico/create',[App\Http\Controllers\topicos::class, 'create']);
     Route::get('/prof/Disciplina/{token}', [App\Http\Controllers\Disciplina::class, 'EnterDiscProf']);
     Route::post('/prof/getAlunos',[App\Http\Controllers\Disciplina::class,'getAlunos']);
+    Route::get('/loading', function () {
+        return view('/loading');
+    });
 
 });
 
@@ -94,6 +95,9 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:aluno']], function 
     Route::get('/aluno/dashboard', [App\Http\Controllers\Disciplina::class, 'indexAluno']);
 
     Route::post('/aluno/disciplina/addDisciplina',[App\Http\Controllers\Disciplina::class, 'addDisciplina']);
+    Route::get('/loading', function () {
+        return view('/loading');
+    });
 });
 
 

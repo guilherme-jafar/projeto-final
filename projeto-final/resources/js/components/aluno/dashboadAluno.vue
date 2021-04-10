@@ -90,7 +90,7 @@
                             <div class="col-11">
 
                                 <input name="disciplina" class="form-control mt-2 mb-2 " type="text" id="disciplina">
-                                <label class="label" for="disciplina" ><span>Codiogo Disciplina</span></label>
+                                <label class="label" for="disciplina" ><span>Código Disciplina</span></label>
                             </div>
                             <div class="col-12 mb-4">
                                 <p class="error " id="disciplinaError"></p>
@@ -144,7 +144,7 @@ export default {
             var enviar = true;
 
             if ($('#disciplina').val().length === 0){
-                $( "#disciplinaError" ).text("Introduza o codigo de uma disciplina").css('color', 'red').css('opacity', '1');
+                $( "#disciplinaError" ).text("Introduza o código de uma disciplina").css('color', 'red').css('opacity', '1');
                 $('#submit span').removeClass('d-none');
                 $('#submit div').addClass('d-none');
                 enviar = false;

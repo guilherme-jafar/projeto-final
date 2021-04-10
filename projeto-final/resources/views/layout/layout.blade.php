@@ -48,7 +48,7 @@
                             <button class="btn btn-primary" id="newTopic" data-bs-toggle="modal" data-bs-target="#exampleModal">NOVO TÓPICO</button>
                         @elseif(strpos(request()->path(), 'editarperfil') === 0)
                             <a class="btn btn-primary" href="{{url( session('utilizador')['tipo'] . '/dashboard')}}" >Dashboard</a>
-                        @elseif(strpos(request()->path(), 'prof/dashboard') === 0)
+                        @elseif(strpos(request()->path(), 'prof/dashboard') === 0 || strpos(request()->path(), 'aluno/dashboard') === 0)
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">NOVA DISCIPLINA</button>
                         @endif
                     </li>

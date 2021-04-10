@@ -2495,7 +2495,7 @@ __webpack_require__.r(__webpack_exports__);
       var enviar = true;
 
       if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('#disciplina').val().length === 0) {
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()("#disciplinaError").text("Introduza o codigo de uma disciplina").css('color', 'red').css('opacity', '1');
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()("#disciplinaError").text("Introduza o código de uma disciplina").css('color', 'red').css('opacity', '1');
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit span').removeClass('d-none');
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit div').addClass('d-none');
         enviar = false;
@@ -2673,6 +2673,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2703,8 +2717,10 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
 
+      console.log(jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val().length);
+
       if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val().length === 0) {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#EmailError").text("O campo encontra-se vazio").css('color', 'red').css('opacity', '1');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#emailError").text("O campo encontra-se vazio").css('color', 'red').css('opacity', '1');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
       } else if (imagemErro) {
@@ -2720,10 +2736,19 @@ __webpack_require__.r(__webpack_exports__);
         formData.append('nome', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#nome").val());
         formData.append('email', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val());
         formData.append('foto', this.imagem);
+        formData.append('instituicao', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#instituicao").val());
+
+        if (this.utilizador['tipo'] === 'prof') {
+          formData.append('descricao', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#descricao").val());
+        }
+
         axios__WEBPACK_IMPORTED_MODULE_0___default().post('/alterarInformacao', formData).then(function (response) {
+          console.log();
+
           if (response.data.message !== "sucesso") {
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()("#emailError").text("Formato do email é invalido!!").css('color', 'red').css('opacity', '1');
           } else {
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
@@ -32983,7 +33008,7 @@ var staticRenderFns = [
             _c(
               "label",
               { staticClass: "label", attrs: { for: "disciplina" } },
-              [_c("span", [_vm._v("Codiogo Disciplina")])]
+              [_c("span", [_vm._v("Código Disciplina")])]
             )
           ]),
           _vm._v(" "),
@@ -33174,7 +33199,7 @@ var render = function() {
                               ])
                             ]),
                             _vm._v(" "),
-                            _c("div", { staticClass: "col-12" }, [
+                            _c("div", { staticClass: "col-12 mt-3" }, [
                               _c("div", { staticClass: "form-group" }, [
                                 _c("label", { attrs: { for: "email" } }, [
                                   _vm._v("Email")
@@ -33196,7 +33221,58 @@ var render = function() {
                                   attrs: { id: "emailError" }
                                 })
                               ])
-                            ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-12 mt-3" }, [
+                              _c("div", { staticClass: "form-group" }, [
+                                _c("label", { attrs: { for: "instituicao" } }, [
+                                  _vm._v("Instituição de Ensino")
+                                ]),
+                                _vm._v(" "),
+                                _c("input", {
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    name: "instituicao",
+                                    id: "instituicao",
+                                    placeholder: _vm.utilizador["instituicao"]
+                                  },
+                                  domProps: {
+                                    value: _vm.utilizador["instituicao"]
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("p", {
+                                  staticClass: "error ",
+                                  attrs: { id: "instituicaoError" }
+                                })
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _vm.utilizador["tipo"] === "prof"
+                              ? _c("div", { staticClass: "col-12 mt-3" }, [
+                                  _c("div", { staticClass: "form-group" }, [
+                                    _c(
+                                      "label",
+                                      { attrs: { for: "descricao" } },
+                                      [_vm._v("Descrição")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("textarea", {
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        id: "descricao",
+                                        name: "descricao",
+                                        rows: "3",
+                                        placeholder: _vm.utilizador["descricao"]
+                                      },
+                                      domProps: {
+                                        value: _vm.utilizador["descricao"]
+                                      }
+                                    })
+                                  ])
+                                ])
+                              : _vm._e()
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "row" }, [
