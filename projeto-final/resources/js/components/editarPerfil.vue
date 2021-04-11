@@ -97,7 +97,7 @@
 <!--                                                </div>-->
                                                 <div class="row">
                                                     <div class="col d-flex justify-content-end mt-5 mb-5">
-                                                        <a href="/dashboard" class="btn btn-primary mt-5 me-3">
+                                                        <a :href="utilizador['tipo'] + '/dashboard'" class="btn btn-primary mt-5 me-3">
                                                             Cancelar
                                                         </a>
                                                         <button name="submit" class="btn btn-primary mt-5  btn-submit"  type="button" id="submit" @click="submit()">

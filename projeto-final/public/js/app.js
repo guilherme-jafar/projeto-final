@@ -33287,7 +33287,10 @@ var render = function() {
                                   "a",
                                   {
                                     staticClass: "btn btn-primary mt-5 me-3",
-                                    attrs: { href: "/dashboard" }
+                                    attrs: {
+                                      href:
+                                        _vm.utilizador["tipo"] + "/dashboard"
+                                    }
                                   },
                                   [
                                     _vm._v(
