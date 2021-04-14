@@ -78,7 +78,7 @@ export default {
         ).then(function (response) {
 
             this.alunos=response.data.message;
-            console.log(this.alunos)
+
 
         }.bind(this));
 

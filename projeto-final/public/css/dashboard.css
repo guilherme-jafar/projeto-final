@@ -635,6 +635,35 @@ section {
   margin-top: 4.5rem;
 }
 
+.insertAnsewr {
+  border-radius: 5px;
+  background-color: #e9ecef;
+  padding: 10px;
+}
+
+.input-group-text {
+  background-color: white;
+  border: none;
+}
+
+.center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.pergunta_input {
+  padding-top: 10px;
+}
+
+.Pergunta_file {
+  margin-top: 20px;
+  display: block;
+  padding: 16px;
+  border-style: dashed;
+}
+
 .modal span {
   color: white;
 }

@@ -10,7 +10,7 @@ Vue.component('editarPerfil',require('./components/editarPerfil').default);
 Vue.component('dashboard',require('./components/Professor/dashboard.vue').default);
 Vue.component('disciplinaProf',require('./components/Professor/disciplinaProf').default);
 Vue.component('disciplinaAlunos',require('./components/Professor/listaAlunos').default);
-
+Vue.component('perguntaTopico',require('./components/Professor/pergunta').default);
 
 //aluno
 Vue.component('alunodashboard',require('./components/aluno/dashboadAluno.vue').default);

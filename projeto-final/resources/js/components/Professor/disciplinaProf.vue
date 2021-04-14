@@ -30,7 +30,7 @@
 
 
                 <h2>{{topico['nome']}}</h2><i class="bi bi-three-dots-vertical"></i>
-
+                <pergunta-topico :topico_id="topico['id']"></pergunta-topico>
 
             </li>
         </ul>

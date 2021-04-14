@@ -82,8 +82,9 @@
 
             switch (index){
                 case 1:
-                    $('#topics').fadeIn();
                     $('#alunos').fadeOut();
+                    $('#topics').fadeIn();
+
                     $('#newTopic').show();
                     break;
                 case 2:

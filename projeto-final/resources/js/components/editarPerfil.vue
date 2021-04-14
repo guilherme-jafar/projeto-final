@@ -196,7 +196,7 @@
                     axios.post('/alterarInformacao', formData
                     ).then(function (response) {
 
-                        console.log();
+
 
                         if (response.data.message !== "sucesso"){
 

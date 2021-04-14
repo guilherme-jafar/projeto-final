@@ -2336,8 +2336,321 @@ __webpack_require__.r(__webpack_exports__);
     formData.append('id', l[l.length - 1]);
     axios.post('/prof/getAlunos', formData).then(function (response) {
       this.alunos = response.data.message;
-      console.log(this.alunos);
     }.bind(this));
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/pergunta.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/pergunta.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "pergunta",
+  props: ['topico_id'],
+  data: function data() {
+    return {
+      topicos: this.topico_id
+    };
+  },
+  methods: {
+    submit: function submit(top) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + top).text(" ").css('color', 'red').css('opacity', '1');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#TError' + top).text(" ").css('color', 'red').css('opacity', '1');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#PerguntaError' + top).text(" ").css('color', 'red').css('opacity', '1');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#fileError' + top).text(" ").css('color', 'red').css('opacity', '1');
+      var form = new FormData();
+      var file = document.getElementById("file" + top).files[0];
+      var type,
+          flag = false,
+          corret;
+      var array = [];
+      var validImageTypes = ["image/gif", "image/jpeg", "image/png", "image/PNG", "video/mp4", "video/mpg", "video/avi"];
+      var index = 0;
+
+      if (document.getElementById("pergunta" + top).value.length <= 0) {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#PerguntaError' + top).text("indique o enunciado da pergunta").css('color', 'red').css('opacity', '1');
+      } else {
+        form.append('topico', top);
+        form.append('pergunta', document.getElementById("pergunta" + top).value);
+        form.append('tempo', document.getElementById("tempo" + top).value);
+        form.append('tipo', document.getElementById("tipo" + top).value);
+        form.append('pontos', document.getElementById("pontos" + top).value);
+
+        if (file != null) {
+          type = file['type'];
+
+          if (jquery__WEBPACK_IMPORTED_MODULE_0___default().inArray(type, validImageTypes) < 0) {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#fileError' + top).text("Ficheiro invalido").css('color', 'red').css('opacity', '1');
+          }
+
+          form.append('file', file);
+        } else {
+          form.append('file', null);
+        }
+
+        if (document.getElementById("tipo" + top).value === "multiple") {
+          var radios = document.getElementsByName("corret" + top);
+
+          for (var i = 1; i < 5; i++) {
+            if (!document.getElementById("re" + i + top).value.length <= 0) {
+              array.push(document.getElementById("re" + i + top).value);
+              index++;
+            }
+
+            if (radios[i - 1].checked) {
+              flag = true;
+              corret = radios[i - 1].value;
+            }
+          }
+
+          if (index < 2) {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + top).text("Uma pergunta tem de ter pelo menos 2 respostas").css('color', 'red').css('opacity', '1');
+          } else if (!flag) {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + top).text("Indique a resposta certa").css('color', 'red').css('opacity', '1');
+          } else {
+            form.append('array', JSON.stringify(array));
+            form.append('resposta', document.getElementById(corret).value);
+            this.send(form, top);
+          }
+        } else if (document.getElementById("tipo" + top).value === "true/false") {
+          var radios = document.getElementsByName("TF" + top);
+
+          for (var _i = 0; _i < 2; _i++) {
+            if (radios[_i].checked) {
+              flag = true;
+              corret = radios[_i].value;
+            }
+          }
+
+          if (!flag) {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#TError' + top).text("Indique a resposta certa").css('color', 'red').css('opacity', '1');
+          } else {
+            form.append('resposta', corret);
+            this.send(form);
+          }
+        }
+      }
+    },
+    send: function send(form, top) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit' + top).prop('disabled', true);
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/insertQuestion', form).then(function (response) {
+        if (response.data.message === "erro") {
+          alert("erro a enserir a pergunta");
+        }
+
+        document.getElementById("pergunta" + top).value = "";
+        document.getElementById("file" + top).value = "";
+        var radios = document.getElementsByName("corret" + top);
+
+        for (var i = 1; i < 5; i++) {
+          document.getElementById("re" + i + top).value = " ";
+
+          if (radios[i - 1].checked) {
+            radios[i - 1].checked = false;
+          }
+        }
+
+        var radios2 = document.getElementsByName("TF" + top);
+
+        for (var _i2 = 0; _i2 < 2; _i2++) {
+          if (radios2[_i2].checked) {
+            radios2[_i2 - 1].checked = false;
+          }
+        }
+
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit' + top).prop('disabled', false);
+        this.modal.hide();
+      }.bind(this));
+    },
+    alter: function alter() {
+      var id = "trueFalse" + this.topicos;
+      var id2 = "multiple" + this.topicos;
+
+      if (document.getElementById("tipo" + this.topicos).value === "multiple") {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).hide();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).show();
+      } else if (document.getElementById("tipo" + this.topicos).value === "true/false") {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).show();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).hide();
+      }
+    }
+  },
+  mounted: function mounted() {
+    this.modal = new bootstrap.Modal(document.getElementById('Up' + this.topicos), {});
+    var id = "trueFalse" + this.topicos;
+    var id2 = "multiple" + this.topicos;
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).hide();
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).show();
   }
 });
 
@@ -2743,8 +3056,6 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         axios__WEBPACK_IMPORTED_MODULE_0___default().post('/alterarInformacao', formData).then(function (response) {
-          console.log();
-
           if (response.data.message !== "sucesso") {
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
@@ -3085,7 +3396,8 @@ Vue.component('editarPerfil', __webpack_require__(/*! ./components/editarPerfil 
 
 Vue.component('dashboard', __webpack_require__(/*! ./components/Professor/dashboard.vue */ "./resources/js/components/Professor/dashboard.vue").default);
 Vue.component('disciplinaProf', __webpack_require__(/*! ./components/Professor/disciplinaProf */ "./resources/js/components/Professor/disciplinaProf.vue").default);
-Vue.component('disciplinaAlunos', __webpack_require__(/*! ./components/Professor/listaAlunos */ "./resources/js/components/Professor/listaAlunos.vue").default); //aluno
+Vue.component('disciplinaAlunos', __webpack_require__(/*! ./components/Professor/listaAlunos */ "./resources/js/components/Professor/listaAlunos.vue").default);
+Vue.component('perguntaTopico', __webpack_require__(/*! ./components/Professor/pergunta */ "./resources/js/components/Professor/pergunta.vue").default); //aluno
 
 Vue.component('alunodashboard', __webpack_require__(/*! ./components/aluno/dashboadAluno.vue */ "./resources/js/components/aluno/dashboadAluno.vue").default);
 var app = new Vue({
@@ -31592,6 +31904,45 @@ component.options.__file = "resources/js/components/Professor/listaAlunos.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/Professor/pergunta.vue":
+/*!********************************************************!*\
+  !*** ./resources/js/components/Professor/pergunta.vue ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _pergunta_vue_vue_type_template_id_669a61fb_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./pergunta.vue?vue&type=template&id=669a61fb&scoped=true& */ "./resources/js/components/Professor/pergunta.vue?vue&type=template&id=669a61fb&scoped=true&");
+/* harmony import */ var _pergunta_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./pergunta.vue?vue&type=script&lang=js& */ "./resources/js/components/Professor/pergunta.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _pergunta_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _pergunta_vue_vue_type_template_id_669a61fb_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _pergunta_vue_vue_type_template_id_669a61fb_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "669a61fb",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Professor/pergunta.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/aluno/dashboadAluno.vue":
 /*!*********************************************************!*\
   !*** ./resources/js/components/aluno/dashboadAluno.vue ***!
@@ -31796,6 +32147,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Professor/pergunta.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/Professor/pergunta.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_pergunta_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./pergunta.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/pergunta.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_pergunta_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/components/aluno/dashboadAluno.vue?vue&type=script&lang=js&":
 /*!**********************************************************************************!*\
   !*** ./resources/js/components/aluno/dashboadAluno.vue?vue&type=script&lang=js& ***!
@@ -31907,6 +32274,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_listaAlunos_vue_vue_type_template_id_df4ea060_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_listaAlunos_vue_vue_type_template_id_df4ea060_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./listaAlunos.vue?vue&type=template&id=df4ea060&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/listaAlunos.vue?vue&type=template&id=df4ea060&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Professor/pergunta.vue?vue&type=template&id=669a61fb&scoped=true&":
+/*!***************************************************************************************************!*\
+  !*** ./resources/js/components/Professor/pergunta.vue?vue&type=template&id=669a61fb&scoped=true& ***!
+  \***************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_pergunta_vue_vue_type_template_id_669a61fb_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_pergunta_vue_vue_type_template_id_669a61fb_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_pergunta_vue_vue_type_template_id_669a61fb_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./pergunta.vue?vue&type=template&id=669a61fb&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/pergunta.vue?vue&type=template&id=669a61fb&scoped=true&");
 
 
 /***/ }),
@@ -32404,8 +32788,11 @@ var render = function() {
                 { key: topico["id"], staticClass: "card-box mb-5" },
                 [
                   _c("h2", [_vm._v(_vm._s(topico["nome"]))]),
-                  _c("i", { staticClass: "bi bi-three-dots-vertical" })
-                ]
+                  _c("i", { staticClass: "bi bi-three-dots-vertical" }),
+                  _vm._v(" "),
+                  _c("pergunta-topico", { attrs: { topico_id: topico["id"] } })
+                ],
+                1
               )
             }),
             0
@@ -32737,6 +33124,506 @@ var render = function() {
   ])
 }
 var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/pergunta.vue?vue&type=template&id=669a61fb&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/pergunta.vue?vue&type=template&id=669a61fb&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-primary",
+        attrs: {
+          type: "button",
+          "data-bs-toggle": "modal",
+          "data-bs-target": "#p" + _vm.topicos
+        }
+      },
+      [_vm._v("\nAdicionar pergunta\n    ")]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "p" + _vm.topicos,
+          tabindex: "-1",
+          "aria-labelledby": "exampleModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _c("div", { attrs: { alight: "right" } }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: {
+                      type: "button",
+                      "data-bs-dismiss": "modal",
+                      "data-bs-toggle": "modal",
+                      "data-bs-target": "#Up" + _vm.topicos
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                        Adicionar pergunta\n                    "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: {
+                      type: "button",
+                      "data-bs-dismiss": "modal",
+                      "data-bs-toggle": "modal",
+                      "data-bs-target": "#cp" + _vm.topicos
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                        Adicionar conjunto de  perguntas\n                    "
+                    )
+                  ]
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._m(1)
+          ])
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "cp" + _vm.topicos,
+          tabindex: "-1",
+          "aria-labelledby": "exampleModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [_vm._m(2)]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "Up" + _vm.topicos,
+          tabindex: "-1",
+          "aria-labelledby": "exampleModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", staticStyle: { width: "200%" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(3),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("input", {
+                  attrs: {
+                    type: "text",
+                    placeholder: "pergunta",
+                    id: "pergunta" + _vm.topicos
+                  }
+                }),
+                _c("br"),
+                _vm._v(" "),
+                _c("p", { attrs: { id: "PerguntaError" + _vm.topicos } }),
+                _vm._v(" "),
+                _c("input", {
+                  staticClass: "Pergunta_file",
+                  attrs: { type: "file", id: "file" + _vm.topicos }
+                }),
+                _vm._v(" "),
+                _c("label", {
+                  staticClass: "pergunta_input",
+                  attrs: { file: "file" + _vm.topicos }
+                }),
+                _vm._v(" "),
+                _c("p", { attrs: { id: "fileError" + _vm.topicos } }),
+                _vm._v(" "),
+                _c("label", { attrs: { for: "tipo" + _vm.topicos } }, [
+                  _vm._v(
+                    "\n                            Indique o tipo de pergunta"
+                  ),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      attrs: { name: "tipo", id: "tipo" + _vm.topicos },
+                      on: {
+                        change: function($event) {
+                          return _vm.alter()
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "multiple" } }, [
+                        _vm._v("escolha multipla")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "true/false" } }, [
+                        _vm._v("verdadeiro/falso")
+                      ])
+                    ]
+                  )
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c("label", { attrs: { for: "tempo" + _vm.topicos } }, [
+                  _vm._v(
+                    "\n                            Indique o tempo de pergunta"
+                  ),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    { attrs: { name: "tipo", id: "tempo" + _vm.topicos } },
+                    [
+                      _c("option", { attrs: { value: "5" } }, [_vm._v("5")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "10" } }, [_vm._v("10")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "20" } }, [_vm._v("20")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "30" } }, [_vm._v("30")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "60" } }, [
+                        _vm._v("1 minuto")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "90" } }, [
+                        _vm._v("1 minuto e 30 segundos")
+                      ])
+                    ]
+                  )
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c("label", { attrs: { for: "pontos" + _vm.topicos } }, [
+                  _vm._v("\n                            Indique a pontuação"),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    { attrs: { name: "pontos", id: "pontos" + _vm.topicos } },
+                    [
+                      _c("option", { attrs: { value: "Normal" } }, [
+                        _vm._v("Normal")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "Pontos duplos" } }, [
+                        _vm._v("Pontos duplos")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "Sem pontos" } }, [
+                        _vm._v("Sem pontos")
+                      ])
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticStyle: { "margin-top": "20px" },
+                    attrs: { id: "multiple" + _vm.topicos }
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "input-group mb-3 insertAnsewr" },
+                      [
+                        _c("input", {
+                          staticClass: " form-control",
+                          staticStyle: { border: "none" },
+                          attrs: {
+                            type: "text",
+                            id: "re1" + _vm.topicos,
+                            "aria-label": "Text input with radio button"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group-text" }, [
+                          _c("input", {
+                            staticClass: "form-check-input",
+                            attrs: {
+                              type: "radio",
+                              name: "corret" + _vm.topicos
+                            },
+                            domProps: { value: "re1" + _vm.topicos }
+                          })
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "input-group mb-3 insertAnsewr" },
+                      [
+                        _c("input", {
+                          staticClass: " form-control",
+                          staticStyle: { border: "none" },
+                          attrs: {
+                            type: "text",
+                            id: "re2" + _vm.topicos,
+                            "aria-label": "Text input with radio button"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group-text" }, [
+                          _c("input", {
+                            staticClass: "form-check-input",
+                            attrs: {
+                              type: "radio",
+                              name: "corret" + _vm.topicos
+                            },
+                            domProps: { value: "re2" + _vm.topicos }
+                          })
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "input-group mb-3 insertAnsewr" },
+                      [
+                        _c("input", {
+                          staticClass: " form-control",
+                          staticStyle: { border: "none" },
+                          attrs: {
+                            type: "text",
+                            id: "re3" + _vm.topicos,
+                            "aria-label": "Text input with radio button"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group-text" }, [
+                          _c("input", {
+                            staticClass: "form-check-input",
+                            attrs: {
+                              type: "radio",
+                              name: "corret" + _vm.topicos
+                            },
+                            domProps: { value: "re3" + _vm.topicos }
+                          })
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "input-group mb-3 insertAnsewr" },
+                      [
+                        _c("input", {
+                          staticClass: " form-control",
+                          staticStyle: { border: "none" },
+                          attrs: {
+                            type: "text",
+                            id: "re4" + _vm.topicos,
+                            "aria-label": "Text input with radio button"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group-text" }, [
+                          _c("input", {
+                            staticClass: "form-check-input",
+                            attrs: {
+                              type: "radio",
+                              name: "corret" + _vm.topicos
+                            },
+                            domProps: { value: "re4" + _vm.topicos }
+                          })
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("p", { attrs: { id: "RError" + _vm.topicos } })
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { attrs: { id: "trueFalse" + _vm.topicos } }, [
+                  _vm._v("\n                            true"),
+                  _c("input", {
+                    staticClass: "form-check-input",
+                    attrs: {
+                      type: "radio",
+                      name: "TF" + _vm.topicos,
+                      value: "true"
+                    }
+                  }),
+                  _vm._v("\n                            false"),
+                  _c("input", {
+                    staticClass: "form-check-input",
+                    attrs: {
+                      type: "radio",
+                      name: "TF" + _vm.topicos,
+                      value: "false"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("p", { attrs: { id: "TError" + _vm.topicos } })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-footer" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "button", id: "submit" + _vm.topicos },
+                      on: {
+                        click: function($event) {
+                          return _vm.submit(_vm.topicos)
+                        }
+                      }
+                    },
+                    [_vm._v("inserir")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-secondary",
+                      attrs: { type: "button", "data-bs-dismiss": "modal" }
+                    },
+                    [_vm._v("Cancelar")]
+                  )
+                ])
+              ])
+            ])
+          ]
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "staticBackdropLabel" } },
+        [_vm._v("Nova Pergunta")]
+      ),
+      _vm._v(" "),
+      _c("button", {
+        staticClass: "btn-close",
+        attrs: {
+          type: "button",
+          "data-bs-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          attrs: { type: "button", "data-bs-dismiss": "modal" }
+        },
+        [_vm._v("Cancelar")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-dialog" }, [
+      _c("div", { staticClass: "modal-content" }, [
+        _c("div", { staticClass: "modal-header" }, [
+          _c("h5", { staticClass: "modal-title" }, [_vm._v("Nova Pergunta")]),
+          _vm._v(" "),
+          _c("button", {
+            staticClass: "btn-close",
+            attrs: {
+              type: "button",
+              "data-bs-dismiss": "modal",
+              "aria-label": "Close"
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "modal-body" }),
+        _vm._v(" "),
+        _c("div", { staticClass: "modal-footer" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-secondary",
+              attrs: { type: "button", "data-bs-dismiss": "modal" }
+            },
+            [_vm._v("Cancelar")]
+          )
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h5", { staticClass: "modal-title" }, [_vm._v("Nova Pergunta")]),
+      _vm._v(" "),
+      _c("button", {
+        staticClass: "btn-close",
+        attrs: {
+          type: "button",
+          "data-bs-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      })
+    ])
+  }
+]
 render._withStripped = true
 
 
