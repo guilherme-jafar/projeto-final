@@ -635,35 +635,6 @@ section {
   margin-top: 4.5rem;
 }
 
-.insertAnsewr {
-  border-radius: 5px;
-  background-color: #e9ecef;
-  padding: 10px;
-}
-
-.input-group-text {
-  background-color: white;
-  border: none;
-}
-
-.center {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.pergunta_input {
-  padding-top: 10px;
-}
-
-.Pergunta_file {
-  margin-top: 20px;
-  display: block;
-  padding: 16px;
-  border-style: dashed;
-}
-
 .modal span {
   color: white;
 }
@@ -790,7 +761,7 @@ section {
   font-size: 2rem;
   border: 0px;
   color: rgba(113, 115, 117, 0.7);
-  background-color: #E0E9EC;
+  background-color: rgba(224, 233, 236, 0.5);
 }
 .card-disciplina .section-disciplinas-items .box-search i {
   position: absolute;
@@ -824,4 +795,99 @@ section {
   color: #40C0F0;
   font-size: 2.5rem;
   font-weight: 700;
+}
+.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .modal-title {
+  font-size: 2rem;
+  font-weight: 700;
+}
+.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .modal-body {
+  background-image: url("/assets/background.png");
+  background-size: cover;
+  background-position: center;
+}
+.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .form-control {
+  font-size: 3rem;
+  background-color: white;
+  color: #747474;
+  border-radius: 1rem;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+  border-color: transparent;
+  padding: 2rem;
+}
+.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .form-control-pergunta {
+  border-radius: 1rem;
+}
+.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .form-select {
+  font-size: 1.8rem;
+  border: none;
+  border-radius: 0.3rem;
+}
+.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .insertAnsewr {
+  padding: 10px;
+}
+.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .input-group-text {
+  background-color: white;
+  border: none;
+  padding: 2rem;
+  border-bottom-right-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .pergunta_input {
+  padding-top: 10px;
+}
+.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .Pergunta_file {
+  display: block;
+  padding: 50px;
+  border-style: dashed;
+}
+.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .label-tf {
+  width: 100%;
+  font-size: 3rem;
+  background-color: white;
+  color: #747474;
+  border-radius: 1rem;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+  border-color: transparent;
+  padding: 2rem;
+  cursor: pointer;
+}
+.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .label-tf input {
+  position: absolute;
+  opacity: 0;
+  right: 6rem;
+  border-radius: 50%;
+  height: 5rem;
+  width: 5rem;
+}
+.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .label-tf input:checked ~ span:after {
+  display: block;
+}
+.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .label-tf span {
+  position: absolute;
+  right: 6rem;
+  border-radius: 50%;
+  height: 5rem;
+  width: 5rem;
+  border: 2px solid #7FBA27;
+}
+.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .label-tf span:after {
+  content: "";
+  position: absolute;
+  display: none;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background: #7FBA27;
+  transform: translate(6%, -6%);
 }
