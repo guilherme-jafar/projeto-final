@@ -765,7 +765,7 @@ section {
   margin-bottom: 0;
   font-size: 1.6rem;
 }
-.card-disciplina .section-disciplinas-prof .btn-new {
+.card-disciplina .section-disciplinas-items .btn-new {
   background-color: white;
   color: #747474;
   border-radius: 1rem;
@@ -775,6 +775,53 @@ section {
   font-size: 2.5rem;
   display: block;
 }
-.card-disciplina .section-disciplinas-prof .btn-new i {
+.card-disciplina .section-disciplinas-items .btn-new i {
   font-size: 2.5rem;
+}
+.card-disciplina .section-disciplinas-items h1 {
+  color: #FF7829;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+.card-disciplina .section-disciplinas-items .box-search {
+  position: relative;
+}
+.card-disciplina .section-disciplinas-items .box-search .form-search {
+  font-size: 2rem;
+  border: 0px;
+  color: rgba(113, 115, 117, 0.7);
+  background-color: #E0E9EC;
+}
+.card-disciplina .section-disciplinas-items .box-search i {
+  position: absolute;
+  right: 17px;
+  top: 6px;
+}
+.card-disciplina .section-disciplinas-items .card-box {
+  background-color: white;
+  color: #747474;
+  border-radius: 1rem;
+  border-color: transparent;
+  padding: 2rem;
+  box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
+  font-size: 2.5rem;
+}
+.card-disciplina .section-disciplinas-items .card-box-text {
+  display: flex;
+}
+.card-disciplina .section-disciplinas-items .card-box-text h2 {
+  color: #40C0F0;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+.card-disciplina .section-disciplinas-items .card-box-text:first-child i {
+  margin-left: auto;
+}
+.card-disciplina .section-disciplinas-items .card-box-alunos {
+  display: flex;
+}
+.card-disciplina .section-disciplinas-items .card-box-alunos h2 {
+  color: #40C0F0;
+  font-size: 2.5rem;
+  font-weight: 700;
 }

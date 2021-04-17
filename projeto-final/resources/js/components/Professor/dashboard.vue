@@ -2,10 +2,6 @@
 
     <div>
 
-
-
-
-
         <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body">

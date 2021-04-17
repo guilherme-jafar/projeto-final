@@ -5,17 +5,18 @@
         <h1 class="heanding-1 mx-auto mt-5">Ainda não tem nenhum alunos inscrito</h1>
 
     </div>
-    <div v-else class="section-disciplinas " >
+    <div v-else class="section-disciplinas-items mt-5 me-md-5 ms-md-5" >
         <div class="box-search mb-5">
             <input class=" form-control form-control-lg form-search" type="text" v-model="search" placeholder="Pesquisar aluno...">
             <i class="bi bi-search"></i>
         </div>
-        <h2>Alunos inscritos</h2>
+        <h1>Alunos inscritos</h1>
         <ul >
-            <li class="card-box mb-5" v-for="aluno in filter" :key="aluno['id']">
+            <li class="card-box card-box-alunos mb-5 mt-4" v-for="aluno in filter" :key="aluno['id']">
 
 
-                <h2>{{aluno['nome']}}</h2><button type="button" class="btn btn-secondary ms-2" data-bs-toggle="modal" :data-bs-target="'#a'+aluno['id']"  >detalhes</button>
+                <h2>{{aluno['nome']}}</h2>
+                <button type="button" class="btn btn-secondary ms-2 ms-auto" data-bs-toggle="modal" :data-bs-target="'#a'+aluno['id']"  >detalhes</button>
 
 
                 <div class="modal fade" :id="'a'+aluno['id']" tabindex="-1" :aria-labelledby="aluno['id']" aria-hidden="true">
@@ -25,17 +26,18 @@
                                 <h5 class="modal-title" :id="'al'+aluno['id']">{{aluno['nome']}}</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
-                                <h2>{{aluno['nome']}}</h2><br>
-                                <h2>email-{{aluno['email']}}</h2><br>
+                            <div class="modal-body p-5">
+                                <p>{{aluno['nome']}}</p>
+                                <p>Email: {{aluno['email']}}</p>
+                                <p>Pontos: </p>
                                 <div v-if="aluno['sexo'] === 'm'">
-                                    <h2>sexo-masculino</h2><br>
+                                    <p class="">sexo-masculino</p>
                                 </div>
                                 <div v-else-if="aluno['sexo'] === 'f'">
-                                    <h2>sexo-femenino</h2><br>
+                                    <p>sexo-femenino</p>
                                 </div>
                                 <div v-else-if="aluno['sexo'] === 'o'">
-                                    <h2>sexo-outro</h2><br>
+                                    <p>sexo-outro</p>
                                 </div>
 
                             </div>

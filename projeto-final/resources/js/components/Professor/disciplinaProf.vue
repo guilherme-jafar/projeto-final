@@ -2,7 +2,7 @@
 
 
 
-    <div class="section-disciplinas-prof">
+    <div class="section-topicos mt-5 me-md-5 ms-md-5">
         <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body">
@@ -19,18 +19,23 @@
                 <i class="bi bi-plus-circle"></i> &nbsp;&nbsp; Adicionar Tópico
             </button>
         </div>
-        <div v-else class="section-disciplinas " >
+        <div v-else class="section-disciplinas-items " >
             <div class="box-search mb-5">
                 <input class=" form-control form-control-lg form-search" type="text" v-model="search" placeholder="Pesquisar topicos...">
                 <i class="bi bi-search"></i>
             </div>
-        <h2>Os meus topicos</h2>
+        <h1>Tópicos</h1>
         <ul >
-            <li class="card-box mb-5" v-for="topico in filter" :key="topico['id']">
+            <li class="card-box mb-5 mt-4" v-for="topico in filter" :key="topico['id']">
 
+                <div class="card-box-text">
+                    <h2>{{topico['nome']}}</h2><i class="bi bi-three-dots-vertical"></i>
+                </div>
 
-                <h2>{{topico['nome']}}</h2><i class="bi bi-three-dots-vertical"></i>
-                <pergunta-topico :topico_id="topico['id']"></pergunta-topico>
+                <div class="mt-2">
+                    <p>Perguntas: </p>
+                    <pergunta-topico :topico_id="topico['id']"></pergunta-topico>
+                </div>
 
             </li>
         </ul>

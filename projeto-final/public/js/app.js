@@ -1999,10 +1999,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "dashboard",
@@ -2088,6 +2084,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2312,6 +2313,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "listaAlunos",
@@ -2357,6 +2360,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -32740,7 +32758,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "section-disciplinas-prof" }, [
+  return _c("div", { staticClass: "section-topicos mt-5 me-md-5 ms-md-5" }, [
     _vm._m(0),
     _vm._v(" "),
     _vm.topicos.length === 0
@@ -32751,7 +32769,7 @@ var render = function() {
           _vm._v(" "),
           _vm._m(1)
         ])
-      : _c("div", { staticClass: "section-disciplinas " }, [
+      : _c("div", { staticClass: "section-disciplinas-items " }, [
           _c("div", { staticClass: "box-search mb-5" }, [
             _c("input", {
               directives: [
@@ -32778,21 +32796,33 @@ var render = function() {
             _c("i", { staticClass: "bi bi-search" })
           ]),
           _vm._v(" "),
-          _c("h2", [_vm._v("Os meus topicos")]),
+          _c("h1", [_vm._v("Tópicos")]),
           _vm._v(" "),
           _c(
             "ul",
             _vm._l(_vm.filter, function(topico) {
               return _c(
                 "li",
-                { key: topico["id"], staticClass: "card-box mb-5" },
+                { key: topico["id"], staticClass: "card-box mb-5 mt-4" },
                 [
-                  _c("h2", [_vm._v(_vm._s(topico["nome"]))]),
-                  _c("i", { staticClass: "bi bi-three-dots-vertical" }),
+                  _c("div", { staticClass: "card-box-text" }, [
+                    _c("h2", [_vm._v(_vm._s(topico["nome"]))]),
+                    _c("i", { staticClass: "bi bi-three-dots-vertical" })
+                  ]),
                   _vm._v(" "),
-                  _c("pergunta-topico", { attrs: { topico_id: topico["id"] } })
-                ],
-                1
+                  _c(
+                    "div",
+                    { staticClass: "mt-2" },
+                    [
+                      _c("p", [_vm._v("Perguntas: ")]),
+                      _vm._v(" "),
+                      _c("pergunta-topico", {
+                        attrs: { topico_id: topico["id"] }
+                      })
+                    ],
+                    1
+                  )
+                ]
               )
             }),
             0
@@ -33001,126 +33031,129 @@ var render = function() {
             _vm._v("Ainda não tem nenhum alunos inscrito")
           ])
         ])
-      : _c("div", { staticClass: "section-disciplinas " }, [
-          _c("div", { staticClass: "box-search mb-5" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.search,
-                  expression: "search"
-                }
-              ],
-              staticClass: " form-control form-control-lg form-search",
-              attrs: { type: "text", placeholder: "Pesquisar aluno..." },
-              domProps: { value: _vm.search },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+      : _c(
+          "div",
+          { staticClass: "section-disciplinas-items mt-5 me-md-5 ms-md-5" },
+          [
+            _c("div", { staticClass: "box-search mb-5" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.search,
+                    expression: "search"
                   }
-                  _vm.search = $event.target.value
+                ],
+                staticClass: " form-control form-control-lg form-search",
+                attrs: { type: "text", placeholder: "Pesquisar aluno..." },
+                domProps: { value: _vm.search },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.search = $event.target.value
+                  }
                 }
-              }
-            }),
+              }),
+              _vm._v(" "),
+              _c("i", { staticClass: "bi bi-search" })
+            ]),
             _vm._v(" "),
-            _c("i", { staticClass: "bi bi-search" })
-          ]),
-          _vm._v(" "),
-          _c("h2", [_vm._v("Alunos inscritos")]),
-          _vm._v(" "),
-          _c(
-            "ul",
-            _vm._l(_vm.filter, function(aluno) {
-              return _c(
-                "li",
-                { key: aluno["id"], staticClass: "card-box mb-5" },
-                [
-                  _c("h2", [_vm._v(_vm._s(aluno["nome"]))]),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-secondary ms-2",
-                      attrs: {
-                        type: "button",
-                        "data-bs-toggle": "modal",
-                        "data-bs-target": "#a" + aluno["id"]
-                      }
-                    },
-                    [_vm._v("detalhes")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass: "modal fade",
-                      attrs: {
-                        id: "a" + aluno["id"],
-                        tabindex: "-1",
-                        "aria-labelledby": aluno["id"],
-                        "aria-hidden": "true"
-                      }
-                    },
-                    [
-                      _c("div", { staticClass: "modal-dialog" }, [
-                        _c("div", { staticClass: "modal-content" }, [
-                          _c("div", { staticClass: "modal-header" }, [
-                            _c(
-                              "h5",
-                              {
-                                staticClass: "modal-title",
-                                attrs: { id: "al" + aluno["id"] }
-                              },
-                              [_vm._v(_vm._s(aluno["nome"]))]
-                            ),
-                            _vm._v(" "),
-                            _c("button", {
-                              staticClass: "btn-close",
-                              attrs: {
-                                type: "button",
-                                "data-bs-dismiss": "modal",
-                                "aria-label": "Close"
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "modal-body" }, [
-                            _c("h2", [_vm._v(_vm._s(aluno["nome"]))]),
-                            _c("br"),
-                            _vm._v(" "),
-                            _c("h2", [
-                              _vm._v("email-" + _vm._s(aluno["email"]))
+            _c("h1", [_vm._v("Alunos inscritos")]),
+            _vm._v(" "),
+            _c(
+              "ul",
+              _vm._l(_vm.filter, function(aluno) {
+                return _c(
+                  "li",
+                  {
+                    key: aluno["id"],
+                    staticClass: "card-box card-box-alunos mb-5 mt-4"
+                  },
+                  [
+                    _c("h2", [_vm._v(_vm._s(aluno["nome"]))]),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-secondary ms-2 ms-auto",
+                        attrs: {
+                          type: "button",
+                          "data-bs-toggle": "modal",
+                          "data-bs-target": "#a" + aluno["id"]
+                        }
+                      },
+                      [_vm._v("detalhes")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "modal fade",
+                        attrs: {
+                          id: "a" + aluno["id"],
+                          tabindex: "-1",
+                          "aria-labelledby": aluno["id"],
+                          "aria-hidden": "true"
+                        }
+                      },
+                      [
+                        _c("div", { staticClass: "modal-dialog" }, [
+                          _c("div", { staticClass: "modal-content" }, [
+                            _c("div", { staticClass: "modal-header" }, [
+                              _c(
+                                "h5",
+                                {
+                                  staticClass: "modal-title",
+                                  attrs: { id: "al" + aluno["id"] }
+                                },
+                                [_vm._v(_vm._s(aluno["nome"]))]
+                              ),
+                              _vm._v(" "),
+                              _c("button", {
+                                staticClass: "btn-close",
+                                attrs: {
+                                  type: "button",
+                                  "data-bs-dismiss": "modal",
+                                  "aria-label": "Close"
+                                }
+                              })
                             ]),
-                            _c("br"),
                             _vm._v(" "),
-                            aluno["sexo"] === "m"
-                              ? _c("div", [
-                                  _c("h2", [_vm._v("sexo-masculino")]),
-                                  _c("br")
-                                ])
-                              : aluno["sexo"] === "f"
-                              ? _c("div", [
-                                  _c("h2", [_vm._v("sexo-femenino")]),
-                                  _c("br")
-                                ])
-                              : aluno["sexo"] === "o"
-                              ? _c("div", [
-                                  _c("h2", [_vm._v("sexo-outro")]),
-                                  _c("br")
-                                ])
-                              : _vm._e()
+                            _c("div", { staticClass: "modal-body p-5" }, [
+                              _c("p", [_vm._v(_vm._s(aluno["nome"]))]),
+                              _vm._v(" "),
+                              _c("p", [
+                                _vm._v("Email: " + _vm._s(aluno["email"]))
+                              ]),
+                              _vm._v(" "),
+                              _c("p", [_vm._v("Pontos: ")]),
+                              _vm._v(" "),
+                              aluno["sexo"] === "m"
+                                ? _c("div", [
+                                    _c("p", {}, [_vm._v("sexo-masculino")])
+                                  ])
+                                : aluno["sexo"] === "f"
+                                ? _c("div", [
+                                    _c("p", [_vm._v("sexo-femenino")])
+                                  ])
+                                : aluno["sexo"] === "o"
+                                ? _c("div", [_c("p", [_vm._v("sexo-outro")])])
+                                : _vm._e()
+                            ])
                           ])
                         ])
-                      ])
-                    ]
-                  )
-                ]
-              )
-            }),
-            0
-          )
-        ])
+                      ]
+                    )
+                  ]
+                )
+              }),
+              0
+            )
+          ]
+        )
   ])
 }
 var staticRenderFns = []
@@ -33147,18 +33180,20 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c(
-      "button",
-      {
-        staticClass: "btn btn-primary",
-        attrs: {
-          type: "button",
-          "data-bs-toggle": "modal",
-          "data-bs-target": "#p" + _vm.topicos
-        }
-      },
-      [_vm._v("\nAdicionar pergunta\n    ")]
-    ),
+    _c("div", { staticClass: "text-end" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-third",
+          attrs: {
+            type: "button",
+            "data-bs-toggle": "modal",
+            "data-bs-target": "#p" + _vm.topicos
+          }
+        },
+        [_vm._v("\n            Adicionar pergunta\n        ")]
+      )
+    ]),
     _vm._v(" "),
     _c(
       "div",
@@ -33191,7 +33226,7 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n                        Adicionar pergunta\n                    "
+                      "\n                            Adicionar pergunta\n                        "
                     )
                   ]
                 ),
@@ -33209,7 +33244,7 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n                        Adicionar conjunto de  perguntas\n                    "
+                      "\n                            Adicionar conjunto de perguntas\n                        "
                     )
                   ]
                 )
@@ -33281,7 +33316,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("label", { attrs: { for: "tipo" + _vm.topicos } }, [
                   _vm._v(
-                    "\n                            Indique o tipo de pergunta"
+                    "\n                        Indique o tipo de pergunta"
                   ),
                   _c("br"),
                   _vm._v(" "),
@@ -33310,7 +33345,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("label", { attrs: { for: "tempo" + _vm.topicos } }, [
                   _vm._v(
-                    "\n                            Indique o tempo de pergunta"
+                    "\n                        Indique o tempo de pergunta"
                   ),
                   _c("br"),
                   _vm._v(" "),
@@ -33339,7 +33374,7 @@ var render = function() {
                 _c("br"),
                 _vm._v(" "),
                 _c("label", { attrs: { for: "pontos" + _vm.topicos } }, [
-                  _vm._v("\n                            Indique a pontuação"),
+                  _vm._v("\n                        Indique a pontuação"),
                   _c("br"),
                   _vm._v(" "),
                   _c(
@@ -33481,7 +33516,7 @@ var render = function() {
                 ),
                 _vm._v(" "),
                 _c("div", { attrs: { id: "trueFalse" + _vm.topicos } }, [
-                  _vm._v("\n                            true"),
+                  _vm._v("\n                        true"),
                   _c("input", {
                     staticClass: "form-check-input",
                     attrs: {
@@ -33490,7 +33525,7 @@ var render = function() {
                       value: "true"
                     }
                   }),
-                  _vm._v("\n                            false"),
+                  _vm._v("\n                        false"),
                   _c("input", {
                     staticClass: "form-check-input",
                     attrs: {
@@ -33515,7 +33550,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("inserir")]
+                    [_vm._v("inserir\n                        ")]
                   ),
                   _vm._v(" "),
                   _c(

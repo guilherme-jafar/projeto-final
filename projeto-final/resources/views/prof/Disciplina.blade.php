@@ -71,6 +71,9 @@
         src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
         crossorigin="anonymous"></script>
+
+
+
     <script >
         $( document ).ready(function() {
 
@@ -84,12 +87,19 @@
                 case 1:
                     $('#alunos').fadeOut();
                     $('#topics').fadeIn();
-
+                    $('#btn-chg-2').addClass('btn-third')
+                    $('#btn-chg-2').removeClass('btn-ghost-2')
+                    $('#btn-chg-3').removeClass('btn-third')
+                    $('#btn-chg-3').addClass('btn-ghost-2')
                     $('#newTopic').show();
                     break;
                 case 2:
                     $('#topics').fadeOut();
                     $('#alunos').fadeIn();
+                    $('#btn-chg-3').addClass('btn-third')
+                    $('#btn-chg-3').removeClass('btn-ghost-2')
+                    $('#btn-chg-2').removeClass('btn-third')
+                    $('#btn-chg-2').addClass('btn-ghost-2')
                     $('#newTopic').hide();
                     break;
             }
