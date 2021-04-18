@@ -85,6 +85,8 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (
     Route::get('/prof/Disciplina/{token}', [App\Http\Controllers\Disciplina::class, 'EnterDiscProf']);
     Route::post('/prof/getAlunos',[App\Http\Controllers\Disciplina::class,'getAlunos']);
     Route::post("/insertQuestion",[App\Http\Controllers\topicos::class,'insertQuestion']);
+    Route::post("/getQuizz",[\App\Http\Controllers\Quizz::class,'listQuizz']);
+    Route::post("/insertQuizz",[App\Http\Controllers\Quizz::class,'insertQuizz']);
     Route::get('/loading', function () {
         return view('/loading');
     });

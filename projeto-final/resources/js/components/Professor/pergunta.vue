@@ -313,7 +313,7 @@ export default {
                     } else {
 
                         form.append('resposta', corret)
-                        this.send(form)
+                        this.send(form,top)
                     }
 
 
@@ -332,24 +332,33 @@ export default {
 
                     alert("erro a enserir a pergunta");
                 }
+                else {
+                    $('#submit' + top).prop('disabled', false);
+                    this.modal.hide();
+                }
                 document.getElementById("pergunta" + top).value = ""
                 document.getElementById("file" + top).value = ""
-                var radios = document.getElementsByName("corret" + top);
-                for (let i = 1; i < 5; i++) {
-                    document.getElementById("re" + i + top).value = " "
 
-                    if (radios[i - 1].checked) {
-                        radios[i - 1].checked = false;
+
+                if (document.getElementById("tipo" + top).value === "multiple") {
+                    var radios = document.getElementsByName("corret" + top);
+                    for (let i = 1; i < 5; i++) {
+                        document.getElementById("re" + i + top).value = " "
+
+                        if (radios[i - 1].checked) {
+                            radios[i - 1].checked = false;
+                        }
                     }
-                }
-                var radios2 = document.getElementsByName("TF" + top);
-                for (let i = 0; i < 2; i++) {
-                    if (radios2[i].checked) {
-                        radios2[i - 1].checked = false;
+
+                } else if (document.getElementById("tipo" + top).value === "true/false") {
+                    var radios2 = document.getElementsByName("TF" + top);
+                    for (let i = 0; i < 2; i++) {
+                        if (radios2[i].checked) {
+                            radios2[i - 1].checked = false;
+                        }
                     }
+
                 }
-                $('#submit' + top).prop('disabled', false);
-                this.modal.hide();
             }.bind(this));
         },
         alter() {

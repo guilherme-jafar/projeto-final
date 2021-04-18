@@ -11,6 +11,7 @@ Vue.component('dashboard',require('./components/Professor/dashboard.vue').defaul
 Vue.component('disciplinaProf',require('./components/Professor/disciplinaProf').default);
 Vue.component('disciplinaAlunos',require('./components/Professor/listaAlunos').default);
 Vue.component('perguntaTopico',require('./components/Professor/pergunta').default);
+Vue.component('quizzProf',require('./components/Professor/quizz').default);
 
 //aluno
 Vue.component('alunodashboard',require('./components/aluno/dashboadAluno.vue').default);

@@ -32,7 +32,7 @@
                                 <button type="button" class="btn btn-secondary ms-2" id="btn-chg-1" onclick="chg(2)">Editar</button>
                                 <button type="button" class="btn btn-third ms-5" id="btn-chg-2" onclick="chg(1)">Topicos</button>
                                 <button type="button" class="btn btn-ghost-2 ms-5" id="btn-chg-3" onclick="chg(2)">Alunos</button>
-                                <button type="button" class="btn btn-ghost-2 ms-5" id="btn-chg-4" onclick="chg(2)">Quizz</button>
+                                <button type="button" class="btn btn-ghost-2 ms-5" id="btn-chg-4" onclick="chg(3)">Quizz</button>
                             </div>
 
                         </div>
@@ -60,6 +60,12 @@
                         <disciplina-alunos></disciplina-alunos>
 
                     </div>
+                    <div id="quizz">
+                        <quizz-prof :topico_prop="'{{json_encode($topico, TRUE)}}'" ></quizz-prof>
+                    </div>
+
+
+
 
                 </div>
             </div>
@@ -79,6 +85,7 @@
 
             $('#topics').show();
             $('#alunos').hide();
+            $('#quizz').hide();
         });
 
         function chg(index){
@@ -86,6 +93,8 @@
             switch (index){
                 case 1:
                     $('#alunos').fadeOut();
+                    $('#quizz').fadeOut();
+
                     $('#topics').fadeIn();
                     $('#btn-chg-2').addClass('btn-third')
                     $('#btn-chg-2').removeClass('btn-ghost-2')
@@ -96,13 +105,31 @@
                 case 2:
                     $('#topics').fadeOut();
                     $('#alunos').fadeIn();
+                    $('#quizz').fadeOut();
                     $('#btn-chg-3').addClass('btn-third')
                     $('#btn-chg-3').removeClass('btn-ghost-2')
                     $('#btn-chg-2').removeClass('btn-third')
                     $('#btn-chg-2').addClass('btn-ghost-2')
                     $('#newTopic').hide();
                     break;
+                case 3:
+                    $('#topics').fadeOut();
+                    $('#alunos').fadeOut();
+                    $('#quizz').fadeIn();
+                    $('#btn-chg-3').addClass('btn-third')
+                    $('#btn-chg-3').removeClass('btn-ghost-2')
+                    $('#btn-chg-2').removeClass('btn-third')
+                    $('#btn-chg-2').addClass('btn-ghost-2')
+                    $('#newTopic').show();
+
+
+                    break;
             }
+
+
+
+
+
         }
 
         // import disciplinaProf from "../../js/components/Professor/disciplinaProf";
