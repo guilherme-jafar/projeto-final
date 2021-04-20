@@ -634,6 +634,13 @@ section {
 .dashboard .section-disciplinas .card-box-3 div:nth-child(2) {
   margin-top: 4.5rem;
 }
+.dashboard .section-disciplinas .card-box-3 .dropdown button {
+  background-color: transparent;
+  border: none;
+}
+.dashboard .section-disciplinas .card-box-3 .dropdown a, .dashboard .section-disciplinas .card-box-3 .dropdown button {
+  font-size: 1.7rem;
+}
 
 .modal span {
   color: white;

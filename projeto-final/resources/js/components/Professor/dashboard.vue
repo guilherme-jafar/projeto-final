@@ -11,6 +11,15 @@
             </div>
         </div>
 
+        <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toastEliminar" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <strong><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp; <span>Disciplina eliminada com sucesso</span> </strong>
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+
         <div class="" role="alert" id="myAlert">
 
         </div>
@@ -56,16 +65,63 @@
 
                     </div>
                     <div class="card-box-3">
+
+
                         <div>
 
-                            <i class="bi bi-three-dots-vertical"></i>
+                            <div class="ms-auto dropdown">
+                                <button class="" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-three-dots-vertical"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li>
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="dropdown-item" data-bs-toggle="modal" :data-bs-target="'#eliminar' + disciplina['id']">
+                                            Eliminar
+                                        </button>
+
+
+
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Editar</a></li>
+                                    <li><a class="dropdown-item" href="#">Entrar</a></li>
+                                </ul>
+                            </div>
                         </div>
+
                         <div>
                             <button type="button" class="btn btn-third"  :data-bs-target="'#d'+disciplina['id']" data-bs-toggle="modal">Partilhar Código</button>
                             <button type="button" class="btn btn-secondary" @click="Enter(disciplina)">Entrar</button>
                         </div>
 
+
+
                     </div>
+                    <!-- Modal -->
+                    <div class="modal fade" :id="'eliminar' + disciplina['id']" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" :id="'tituloEliminar' + disciplina['id']">{{disciplina['nome']}}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                   <h2>Tem certea que deseja eliminar a disciplina {{disciplina['nome']}}?</h2>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-primary eliminar-btn" :id="'eliminarUtilizadorBtn' + disciplina['id']" @click="eliminarDisciplina(disciplina)" >
+                                        <span class="">Sim</span>
+                                        <div class="spinner-border text-light d-none" role="status">
+
+                                        </div>
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
 
                     <!-- Modal -->
                     <div class="modal fade" :id="'d'+disciplina['id']" tabindex="-1" :aria-labelledby="disciplina['id']" aria-hidden="true">
@@ -162,11 +218,38 @@
                 myModal: '',
                 toast: '',
                 search:'',
-                disciplinas: JSON.parse(this.disciplinas_prop)
+                disciplinas: JSON.parse(this.disciplinas_prop),
+                toastEliminar: '',
+                modalDelete: ''
             }
         },
         methods: {
 
+            eliminarDisciplina(disciplina){
+
+                $('.eliminar-btn span').addClass('d-none');
+                $('.eliminar-btn div').removeClass('d-none');
+
+                 this.modalDelete = new bootstrap.Modal(document.getElementById('eliminar' + disciplina['id']), {});
+
+
+                axios.delete('/prof/disciplina/delete/' + disciplina['id']).then(
+                    function (response) {
+
+                        if (response.data.message !== "erro"){
+                            $('.eliminar-btn span').removeClass('d-none');
+                            $('.eliminar-btn div').addClass('d-none');
+                            this.toastEliminar.show();
+                            $('#toastEliminar').removeClass('d-none');
+                            this.disciplinas = response.data.message
+                            $('.modal-backdrop').remove();
+                            this.modalDelete.hide();
+                        }
+                    }.bind(this));
+
+
+
+            },
             Enter(disciplina){
 
 
@@ -196,9 +279,6 @@
 
                     axios.post('/prof/disciplina/create', formData
                     ).then(function (response) {
-
-
-
 
                         if (response.data.message !== "erro"){
                             $('#submit span').removeClass('d-none');
@@ -232,8 +312,8 @@
             this.myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {})
             this.toast = new  bootstrap.Toast(document.getElementById('toast'), {delay: 10000})
             this.toast.hide();
-
-
+            this.toastEliminar = new  bootstrap.Toast(document.getElementById('toastEliminar'), {delay: 10000})
+            this.toastEliminar.hide()
         }
 
 

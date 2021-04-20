@@ -12,6 +12,7 @@
     <!-- viewport -->
     <meta name='viewport' content='width=device-width'>
     <meta name='viewport' content='width=1024'>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">

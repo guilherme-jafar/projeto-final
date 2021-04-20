@@ -146,6 +146,18 @@
                 div:nth-child(2){
                    margin-top: 4.5rem;
                 }
+
+                .dropdown{
+                    button{
+                        background-color: transparent;
+                        border: none;
+                    }
+
+                    a, button{
+                        font-size: 1.7rem;
+                    }
+
+                }
             }
         }
 

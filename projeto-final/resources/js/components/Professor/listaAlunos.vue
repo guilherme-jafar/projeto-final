@@ -18,7 +18,7 @@
                 <h2>{{aluno['nome']}}</h2>
                 <button type="button" class="btn btn-secondary ms-2 ms-auto" data-bs-toggle="modal" :data-bs-target="'#a'+aluno['id']"  >detalhes</button>
 
-
+php
                 <div class="modal fade" :id="'a'+aluno['id']" tabindex="-1" :aria-labelledby="aluno['id']" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">

@@ -90,6 +90,7 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (
     Route::get('/loading', function () {
         return view('/loading');
     });
+    Route::delete("/prof/disciplina/delete/{id}", [App\Http\Controllers\Disciplina::class,'destroy']);
 
 });
 

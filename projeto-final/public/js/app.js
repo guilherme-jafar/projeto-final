@@ -1999,6 +1999,62 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "dashboard",
@@ -2008,10 +2064,28 @@ __webpack_require__.r(__webpack_exports__);
       myModal: '',
       toast: '',
       search: '',
-      disciplinas: JSON.parse(this.disciplinas_prop)
+      disciplinas: JSON.parse(this.disciplinas_prop),
+      toastEliminar: '',
+      modalDelete: ''
     };
   },
   methods: {
+    eliminarDisciplina: function eliminarDisciplina(disciplina) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn span').addClass('d-none');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn div').removeClass('d-none');
+      this.modalDelete = new bootstrap.Modal(document.getElementById('eliminar' + disciplina['id']), {});
+      axios["delete"]('/prof/disciplina/delete/' + disciplina['id']).then(function (response) {
+        if (response.data.message !== "erro") {
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn span').removeClass('d-none');
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn div').addClass('d-none');
+          this.toastEliminar.show();
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#toastEliminar').removeClass('d-none');
+          this.disciplinas = response.data.message;
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.modal-backdrop').remove();
+          this.modalDelete.hide();
+        }
+      }.bind(this));
+    },
     Enter: function Enter(disciplina) {
       window.location.replace('/prof/Disciplina/' + disciplina['id']);
     },
@@ -2066,6 +2140,10 @@ __webpack_require__.r(__webpack_exports__);
       delay: 10000
     });
     this.toast.hide();
+    this.toastEliminar = new bootstrap.Toast(document.getElementById('toastEliminar'), {
+      delay: 10000
+    });
+    this.toastEliminar.hide();
   }
 });
 
@@ -32840,6 +32918,8 @@ var render = function() {
   return _c("div", [
     _vm._m(0),
     _vm._v(" "),
+    _vm._m(1),
+    _vm._v(" "),
     _c("div", { attrs: { role: "alert", id: "myAlert" } }),
     _vm._v(" "),
     _vm.disciplinas.length === 0
@@ -32848,7 +32928,7 @@ var render = function() {
             _vm._v("Ainda não tem nenhuma disciplina")
           ]),
           _vm._v(" "),
-          _vm._m(1)
+          _vm._m(2)
         ])
       : _c("div", { staticClass: "section-disciplinas " }, [
           _c("div", { staticClass: "box-search mb-5" }, [
@@ -32877,7 +32957,7 @@ var render = function() {
             _c("i", { staticClass: "bi bi-search" })
           ]),
           _vm._v(" "),
-          _vm._m(2),
+          _vm._m(3),
           _vm._v(" "),
           _c(
             "ul",
@@ -32907,7 +32987,44 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "card-box-3" }, [
-                    _vm._m(3, true),
+                    _c("div", [
+                      _c("div", { staticClass: "ms-auto dropdown" }, [
+                        _vm._m(4, true),
+                        _vm._v(" "),
+                        _c(
+                          "ul",
+                          {
+                            staticClass: "dropdown-menu",
+                            attrs: { "aria-labelledby": "dropdownMenuButton1" }
+                          },
+                          [
+                            _c("li", [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "dropdown-item",
+                                  attrs: {
+                                    type: "button",
+                                    "data-bs-toggle": "modal",
+                                    "data-bs-target":
+                                      "#eliminar" + disciplina["id"]
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                            Eliminar\n                                        "
+                                  )
+                                ]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _vm._m(5, true),
+                            _vm._v(" "),
+                            _vm._m(6, true)
+                          ]
+                        )
+                      ])
+                    ]),
                     _vm._v(" "),
                     _c("div", [
                       _c(
@@ -32938,6 +33055,95 @@ var render = function() {
                       )
                     ])
                   ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "modal fade",
+                      attrs: {
+                        id: "eliminar" + disciplina["id"],
+                        tabindex: "-1",
+                        "aria-labelledby": "exampleModalLabel",
+                        "aria-hidden": "true"
+                      }
+                    },
+                    [
+                      _c("div", { staticClass: "modal-dialog" }, [
+                        _c("div", { staticClass: "modal-content" }, [
+                          _c("div", { staticClass: "modal-header" }, [
+                            _c(
+                              "h5",
+                              {
+                                staticClass: "modal-title",
+                                attrs: {
+                                  id: "tituloEliminar" + disciplina["id"]
+                                }
+                              },
+                              [_vm._v(_vm._s(disciplina["nome"]))]
+                            ),
+                            _vm._v(" "),
+                            _c("button", {
+                              staticClass: "btn-close",
+                              attrs: {
+                                type: "button",
+                                "data-bs-dismiss": "modal",
+                                "aria-label": "Close"
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "modal-body" }, [
+                            _c("h2", [
+                              _vm._v(
+                                "Tem certea que deseja eliminar a disciplina " +
+                                  _vm._s(disciplina["nome"]) +
+                                  "?"
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "modal-footer" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-secondary",
+                                attrs: {
+                                  type: "button",
+                                  "data-bs-dismiss": "modal"
+                                }
+                              },
+                              [_vm._v("Cancelar")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-primary eliminar-btn",
+                                attrs: {
+                                  type: "button",
+                                  id: "eliminarUtilizadorBtn" + disciplina["id"]
+                                },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.eliminarDisciplina(disciplina)
+                                  }
+                                }
+                              },
+                              [
+                                _c("span", {}, [_vm._v("Sim")]),
+                                _vm._v(" "),
+                                _c("div", {
+                                  staticClass:
+                                    "spinner-border text-light d-none",
+                                  attrs: { role: "status" }
+                                })
+                              ]
+                            )
+                          ])
+                        ])
+                      ])
+                    ]
+                  ),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -33001,9 +33207,9 @@ var render = function() {
       [
         _c("div", { staticClass: "modal-dialog modal-dialog-centered" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(4),
+            _vm._m(7),
             _vm._v(" "),
-            _vm._m(5),
+            _vm._m(8),
             _vm._v(" "),
             _c("div", { staticClass: "modal-footer" }, [
               _c(
@@ -33085,6 +33291,43 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c(
+      "div",
+      {
+        staticClass: "toast toast-primary align-items-center mb-5 mtn-5 d-none",
+        attrs: {
+          id: "toastEliminar",
+          role: "alert",
+          "aria-live": "assertive",
+          "aria-atomic": "true"
+        }
+      },
+      [
+        _c("div", { staticClass: "d-flex" }, [
+          _c("div", { staticClass: "toast-body" }, [
+            _c("strong", [
+              _c("i", { staticClass: "bi bi-check-circle-fill" }),
+              _vm._v("    "),
+              _c("span", [_vm._v("Disciplina eliminada com sucesso")])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("button", {
+            staticClass: "btn-close me-2 m-auto",
+            attrs: {
+              type: "button",
+              "data-bs-dismiss": "toast",
+              "aria-label": "Close"
+            }
+          })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
       "button",
       {
         staticClass: " btn btn-new mt-5 mx-auto",
@@ -33112,7 +33355,38 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [_c("i", { staticClass: "bi bi-three-dots-vertical" })])
+    return _c(
+      "button",
+      {
+        attrs: {
+          type: "button",
+          id: "dropdownMenuButton1",
+          "data-bs-toggle": "dropdown",
+          "aria-expanded": "false"
+        }
+      },
+      [_c("i", { staticClass: "bi bi-three-dots-vertical" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [
+      _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+        _vm._v("Editar")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [
+      _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+        _vm._v("Entrar")
+      ])
+    ])
   },
   function() {
     var _vm = this
@@ -33527,7 +33801,7 @@ var render = function() {
                       },
                       [_vm._v("detalhes")]
                     ),
-                    _vm._v(" "),
+                    _vm._v("\n\nphp\n                "),
                     _c(
                       "div",
                       {
