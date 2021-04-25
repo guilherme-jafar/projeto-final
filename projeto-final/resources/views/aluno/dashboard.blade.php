@@ -19,13 +19,5 @@
         </div>
     </div>
 
-    <script>
-        import alunodashboard from "../../js/components/aluno/dashboadAluno";
 
-
-        export default {
-
-            components: {alunodashboard},
-        }
-    </script>
 @endsection

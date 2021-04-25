@@ -99,6 +99,11 @@ class topicos extends Controller
                 $request->file->move(public_path('.\images\Pergunta\Multimedia'),$nomeFile );
                 DB::insert('insert into multimedia (id, link,perguntas_id) values (?,?,?)'
                     , [$idMulti,$nomeFile,$id]);
+            }else{
+                $idMulti=uniqid().time();
+                DB::insert('insert into multimedia (id,perguntas_id) values (?,?)'
+                    , [$idMulti,$id]);
+
             }
 
 

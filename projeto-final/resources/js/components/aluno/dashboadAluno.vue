@@ -65,7 +65,7 @@
                         </div>
                         <div>
 
-                            <button class="btn btn-secondary">Entrar</button>
+                            <button class="btn btn-secondary" @click="Enter(disciplina['id'])">Entrar</button>
                         </div>
 
                     </div>
@@ -183,6 +183,9 @@ export default {
                 }.bind(this));
             }
         },
+        Enter(id){
+            window.location.replace('/aluno/AlunoDisciplina/'+id)
+        }
     },
     computed:{
         filter(){

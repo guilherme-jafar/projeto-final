@@ -58,6 +58,22 @@ class Disciplina extends Controller
 
     }
 
+    function EnterDiscAluno(Request $request)
+    {
+
+        $disciplina = \App\Models\Disciplina::find($request->token);
+        $quizz = DB::select('select * FROM quizz
+                                    WHERE disciplina_id = :id', ['id' => $request->token]);
+        $request->session()->put('disciplina', $disciplina);
+        if (!empty($quizz)) {
+            return view('/aluno/AlunoDisciplina', ['quizz' => $quizz]);
+        } else {
+            return view('/aluno/AlunoDisciplina', ['quizz' => []]);
+        }
+
+
+    }
+
     function addDisciplina(Request $request)
     {
 

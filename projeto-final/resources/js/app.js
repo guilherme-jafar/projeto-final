@@ -15,6 +15,8 @@ Vue.component('quizzProf',require('./components/Professor/quizz').default);
 
 //aluno
 Vue.component('alunodashboard',require('./components/aluno/dashboadAluno.vue').default);
+Vue.component('alunosQuizz',require('./components/aluno/quizzAluno').default);
+Vue.component('perguntaQuizz', require('./components/quizz/perguntaQuizz').default)
 
 
 

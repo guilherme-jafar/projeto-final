@@ -254,7 +254,7 @@ export default {
             let file = document.getElementById("file" + top).files[0]
             let type, flag = false, corret;
             let array = [];
-            var validImageTypes = ["image/gif", "image/jpeg", "image/png", "image/PNG", "video/mp4", "video/mpg", "video/avi"];
+            var validImageTypes = ["image/gif", "image/jpeg", "image/png", "image/PNG", "video/mp4", "video/mpg", "video/avi,","audio/mpeg","audio/ogg","audio/mp3"];
 
             let index = 0;
 

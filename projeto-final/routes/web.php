@@ -102,6 +102,13 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:aluno']], function 
     Route::get('/loading', function () {
         return view('/loading');
     });
+    Route::get('/aluno/AlunoDisciplina/{token}', [App\Http\Controllers\Disciplina::class, 'EnterDiscAluno']);
+    Route::get('/quizzTeste/{token}/{sessionID}',[App\Http\Controllers\Quizz::class ,'Enterquizz']);
+    Route::post('/getRespostas',[App\Http\Controllers\Quizz::class,'getRespostas']);
+    Route::post('/setResposta',[App\Http\Controllers\Quizz::class,'setResposta']);
+
+
+
 });
 
 
