@@ -1,5 +1,32 @@
 <template>
     <div class="section-add-pergunta">
+
+        <div class="collapse" :id="'collapse'+topicos">
+
+            <p>Perguntas: </p>
+        <div v-if="perguntas.length === 0" class="mx-auto">
+            <h3>Ainda não tem nenhum Pergunta</h3>
+
+        </div>
+
+        <div v-else class="section-disciplinas-items " >
+
+        <ul >
+            <li  v-for="pergunta in perguntas" :key="pergunta['id']">
+
+
+                    <h3>{{pergunta['enunciado']}}</h3  >
+
+            </li>
+        </ul>
+        </div>
+
+
+
+
+
+
+
         <div class="text-end">
             <button type="button" class="btn btn-third" data-bs-toggle="modal" :data-bs-target="'#p'+topicos">
                 Adicionar pergunta
@@ -51,14 +78,22 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Nova Pergunta</h5>
-                        <button type="button" class="btn-close" data-bs-toogle="modal" aria-label="Close"
-                                :data-bs-target="'#Up'+topicos"></button>
+                        <button type="button" class="btn-close" data-bs-toogle="modal" aria-label="Close" data-bs-dismiss="modal"
+                                ></button>
                     </div>
                     <div class="modal-body">
 
 
+                            <a href="/assets/cvsPerguntas.xlsx" download>importar csv</a>
+                        <div class="col-md-12 mt-5">
+                            <input type="file" :id="'file' + topicos" class="Pergunta_file mx-auto">
+                            <label :file="'Insertfile' + topicos" class="pergunta_input"></label>
+                            <p :id="'InsertfileError'+topicos"></p>
+                        </div>
+
                     </div>
                     <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="InsertFile(topicos)">Inserir</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
 
                     </div>
@@ -112,6 +147,8 @@
                                             <option value="30">30</option>
                                             <option value="60">1 minuto</option>
                                             <option value="90">1 minuto e 30 segundos</option>
+                                            <option value="120">2 minutos</option>
+                                            <option value="240">4 minutos</option>
 
                                         </select>
                                     </label>
@@ -213,6 +250,7 @@
             </div>
 
         </div>
+        </div>
     </div>
 </template>
 
@@ -227,38 +265,47 @@ export default {
 
     data() {
         return {
-            topicos: this.topico_id
+            topicos: this.topico_id,
+            perguntas:''
         }
     },
     methods: {
 
+        getPerguntas(){
+            let form =new FormData()
+            form.append('id',this.topicos)
+            axios.post('/getPerguntas',form).then(function (response){
+
+
+                    this.perguntas= response.data.message;
+
+
+
+
+                }.bind(this)
+            );
+
+
+
+        },
+
         submit(top) {
-           // var radios = document.getElementsByName('TF')
-           //
-           //  console.log(radios.length)
-           //
-           //  for (var i = 0, length = radios.length; i < length; i++) {
-           //      if (radios[i].checked) {
-           //          // do whatever you want with the checked radio
-           //          alert(radios[i].value);
-           //
-           //          // only one radio can be logically checked, don't check the rest
-           //          break;
-           //      }
-           //  }
+
+
+            let index = 0;
             $('#RError' + top).text(" ").css('color', 'red').css('opacity', '1');
             $('#TError' + top).text(" ").css('color', 'red').css('opacity', '1');
             $('#PerguntaError' + top).text(" ").css('color', 'red').css('opacity', '1');
             $('#fileError' + top).text(" ").css('color', 'red').css('opacity', '1');
             let form = new FormData();
             let file = document.getElementById("file" + top).files[0]
-            let type, flag = false, corret;
+            let type, flag = false ,flag2 = false, corret;
             let array = [];
             var validImageTypes = ["image/gif", "image/jpeg", "image/png", "image/PNG", "video/mp4", "video/mpg", "video/avi,","audio/mpeg","audio/ogg","audio/mp3"];
 
-            let index = 0;
 
-
+            flag = false
+            flag2 = false
             if (document.getElementById("pergunta" + top).value.length <= 0) {
                 $('#PerguntaError' + top).text("indique o enunciado da pergunta").css('color', 'red').css('opacity', '1');
             } else {
@@ -280,19 +327,32 @@ export default {
 
                 if (document.getElementById("tipo" + top).value === "multiple") {
                     var radios = document.getElementsByName("corret" + top);
+
+
                     for (let i = 1; i < 5; i++) {
-                        if (!document.getElementById("re" + i + top).value.length <= 0) {
+                        if (document.getElementById("re" + i + top).value.length > 0 && document.getElementById("re" + i + top).value.length <=100) {
                             array.push(document.getElementById("re" + i + top).value)
                             index++;
+                        }
+
+                        if(document.getElementById("re" + i + top).value.length >=100){
+                            flag2 = true;
+                            break;
+
                         }
                         if (radios[i - 1].checked) {
                             flag = true;
                             corret = radios[i - 1].value;
                         }
                     }
-                    if (index < 2) {
+                     if (flag2) {
+                        $('#RError' + top).text("Uma das respostas e demasiado grande").css('color', 'red').css('opacity', '1');
+
+                    }
+                     else if (index < 2) {
                         $('#RError' + top).text("Uma pergunta tem de ter pelo menos 2 respostas").css('color', 'red').css('opacity', '1');
-                    } else if (!flag) {
+                    }
+                    else if (!flag) {
                         $('#RError' + top).text("Indique a resposta certa").css('color', 'red').css('opacity', '1');
                     } else {
                         form.append('array', JSON.stringify(array));
@@ -359,7 +419,12 @@ export default {
                     }
 
                 }
+                this.getPerguntas();
             }.bind(this));
+        },
+        InsertFile(topicos){
+
+
         },
         alter() {
             let id = "trueFalse" + this.topicos;
@@ -376,6 +441,7 @@ export default {
         }
     },
     mounted() {
+        this.getPerguntas();
         this.modal = new bootstrap.Modal(document.getElementById('Up' + this.topicos), {})
         let id = "trueFalse" + this.topicos;
         let id2 = "multiple" + this.topicos;

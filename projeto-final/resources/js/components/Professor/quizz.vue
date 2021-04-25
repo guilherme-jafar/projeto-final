@@ -27,10 +27,32 @@
                 <li class="card-box mb-5 mt-4" v-for="quizz in filter" :key="quizz['id']">
 
                     <div class="card-box-text">
-                        <h2>{{quizz['nome']}}</h2><i class="bi bi-three-dots-vertical"></i>
+                        <h2>{{quizz['nome']}}</h2  > <button type="button"  data-bs-toggle="modal"  :data-bs-target="'#t'+quizz['id']" class="btn btn-secondary ms-2" >quizz</button><i class="bi bi-three-dots-vertical"></i>
                     </div>
 
 
+
+                    <div class="modal fade" :id="'t'+quizz['id']" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog ">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Entrar em quizz</h5>
+                                    <button type="button" class="btn-close" data-bs-toogle="modal" aria-label="Close"
+                                            data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+
+                                    Tem a certeza que quer iniciar este teste?
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="EnterQuizz(quizz['id'])">Sim</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                 </li>
             </ul>
@@ -167,6 +189,12 @@ name: "quizz",
 
     methods:{
 
+        EnterQuizz(quizz){
+            let session='_' + Math.random().toString(36).substr(2, 9);
+            window.location.replace('/WaitRoom/' + quizz+'/'+session)
+
+        },
+
         submitNewQuizz() {
             let l=window.location.href.split('/');
             var flagTime, corretTime,flagVisibel, corretVisibel;
@@ -280,7 +308,7 @@ name: "quizz",
         },
         topicsCheck(){
             if (this.topicos.length===0){
-                console.log(this.topicos);
+
                 $('#submitQuizz').prop('disabled', true);
             }
             else{

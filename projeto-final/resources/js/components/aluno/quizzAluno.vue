@@ -92,14 +92,14 @@
                                     <div class="modal-header">
                                         <h5 class="modal-title">Entrar em quizz</h5>
                                         <button type="button" class="btn-close" data-bs-toogle="modal" aria-label="Close"
-                                                :data-bs-target="'#session'+quizz['id']"></button>
+                                                data-bs-dismiss="modal"></button>
                                     </div>
                                     <div class="modal-body">
                                         Tem a certeza que quer fazer este teste
 
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="teste(quizz)">Sim</button>
+                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="teste(quizz['id'])">Sim</button>
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
 
                                     </div>
@@ -143,11 +143,11 @@ name: "quizzAluno",
 
         teste(quizz) {
 
-            console.log(quizz['id']);
+
 
             let session='_' + Math.random().toString(36).substr(2, 9);
 
-            window.location.replace('/quizzTeste/' + quizz['id']+'/'+session)
+            window.location.replace('/quizzTeste/' + quizz+'/'+session)
         }
     },
     mounted() {
@@ -155,8 +155,6 @@ name: "quizzAluno",
         // this.disciplinas = JSON.parse(this.disciplinas)
 
 
-
-        console.log(this.quizz)
     }
 
 

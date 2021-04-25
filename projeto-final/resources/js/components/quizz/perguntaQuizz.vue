@@ -62,7 +62,7 @@ export default {
             enunciado:'',
             valor:'',
             resposta:'',
-            resultado:'',
+            resultado:0,
             res:0,
             index:0,
             countDown:0,
@@ -77,10 +77,11 @@ export default {
             if(this.countDown > 0) {
 
                this.timer= setTimeout(() => {
-                   console.log("pddoise")
+
                         this.countDown -= 1
 
-
+                   $cookies.config('1d')
+                   $cookies.set('quizz', this.session+"@"+this.index + '@' + this.resultado+'@'+this.countDown);
                     this.countDownTimer()
 
 
@@ -113,14 +114,28 @@ export default {
 
             this.index++;
             $cookies.config('1d')
-            $cookies.set('quizz',this.index+'@'+this.resultado);
-            this.getRespostas();
-            this.countDown=this.pergunta[this.index]['tempo']
-            this.enunciado=this.pergunta[this.index]['enunciado']
-            this.valor=this.pergunta[this.index]['valor']
-            this.res=0
-            $('.wrapper').hide();
-            this.countDownTimer()
+            $cookies.set('quizz', this.session+"@"+this.index + '@' + this.resultado+"@"+this.pergunta[this.index-1]['tempo']);
+            console.log(this.pergunta.length)
+            console.log(this.index)
+            if (this.index<this.pergunta.length) {
+
+                this.getRespostas();
+                this.countDown = this.pergunta[this.index]['tempo']
+                this.enunciado = this.pergunta[this.index]['enunciado']
+                this.valor = this.pergunta[this.index]['valor']
+                this.res = 0
+                $('.wrapper').hide();
+                this.countDownTimer()
+            }
+            else{
+                clearTimeout(this.timer)
+
+
+                    window.location.replace('/EndQuizz/'+this.session);
+
+
+
+            }
 
         },
 
@@ -132,7 +147,7 @@ export default {
             var resposta=$('#'+id).html()
             if (id!=='erro') {
                 if (resposta.toLowerCase() === this.resposta.toLowerCase())
-                    this.res = (valorTotal * tempo) / tempoTotal;
+                    this.res =Math.round( (valorTotal * tempo) / tempoTotal);
                 else
                     this.res = 0;
             }else{
@@ -153,12 +168,6 @@ export default {
             this.countDown=0;
 
 
-
-
-
-
-
-
             let form = new FormData();
             form.append('id',this.pergunta[this.index]['id'])
             form.append('pergunta',this.pergunta[this.index]['enunciado'])
@@ -170,11 +179,12 @@ export default {
 
             axios.post('/setResposta', form).then(function (response) {
 
-                this.sleep(1500)
-
-                console.log("pois")
-
                 this.change()
+                this.sleep(2500)
+
+
+
+
 
 
             }.bind(this));
@@ -195,12 +205,13 @@ export default {
 
                 if (response.data.message === 'erro') {
                     this.index++;
-                    $cookies.set('index', this.index);
+
+
                     this.enunciado = this.pergunta[this.index]['enunciado']
                     this.getRespostas();
                 } else {
                     respostas = response.data.message
-                    console.log(respostas)
+
                     if (this.pergunta[this.index]['tipo'] === 'true/false') {
 
                         this.resposta = respostas[0]['resposta']
@@ -237,17 +248,19 @@ export default {
 
         fileCheck(){
 
-            if (!this.pergunta[this.index]['link']) {
+            if (this.pergunta[this.index]['link']===null) {
                 return 0;
             } else {
 
                 let ext = this.getExtension(this.pergunta[this.index]['link'])
-                //console.log(this.pergunta[this.index]['link'])
+
                 switch (ext.toLowerCase()) {
                     case 'jpeg':
                     case 'gif':
                     case 'bmp':
                     case 'png':
+                    case 'jpg':
+
                         //etc
 
                         return 1;
@@ -273,7 +286,7 @@ export default {
 
                         // etc
                         $('#questionMultiAudio').attr("src", 'audio/' + ext);
-                        console.log(ext)
+
                         return 3;
                 }
             }
@@ -287,14 +300,11 @@ export default {
             },
         startQuestion() {
 
-            this.countDown = this.pergunta[this.index]['tempo']
+
             this.questionType = this.pergunta[this.index]['tipo']
             this.enunciado = this.pergunta[this.index]['enunciado']
             this.valor = this.pergunta[this.index]['valor']
-            // if ($cookies.get('index'))
-            //     this.index = $cookies.get('index')
-            // else
-                this.index=0;
+
 
 
 
@@ -303,10 +313,42 @@ export default {
 
     },
     mounted() {
-        this.getRespostas();
-        this.startQuestion();
         $('.wrapper').hide();
-        this.countDownTimer();
+        if ($cookies.get('quizz')) {
+            let cookie = $cookies.get('quizz')
+            cookie=cookie.split('@')
+
+            if (this.session===cookie[0]) {
+
+                this.index = cookie[1];
+                this.res = cookie[2];
+                this.countDown=cookie[3];
+                this.getRespostas();
+                this.startQuestion();
+
+                this.countDownTimer();
+            }
+            else {
+                console.log("www")
+                this.index = 0;
+                this.countDown = this.pergunta[this.index]['tempo']+1
+                this.getRespostas();
+                this.startQuestion();
+
+                this.countDownTimer();
+            }
+        }else {
+            console.log("www")
+            this.index = 0;
+            this.countDown = this.pergunta[this.index]['tempo']+1
+            this.getRespostas();
+            this.startQuestion();
+
+            this.countDownTimer();
+        }
+
+
+
     }
 
 

@@ -29,11 +29,13 @@
             <li class="card-box mb-5 mt-4" v-for="topico in filter" :key="topico['id']">
 
                 <div class="card-box-text">
-                    <h2>{{topico['nome']}}</h2><i class="bi bi-three-dots-vertical"></i>
+                    <h2>{{topico['nome']}}</h2><i class="bi bi-three-dots-vertical"></i><span  data-bs-toggle="collapse" :data-bs-target="'#collapse'+topico['id']" aria-expanded="false" :aria-controls="'collapse'+topico['id']" class="material-icons" @click="changeButton(topico['id'])" >
+<img :id="'img'+topico['id']" src="/assets/expand_more_black_24dp.svg">
+</span>
                 </div>
 
                 <div class="mt-2">
-                    <p>Perguntas: </p>
+
                     <pergunta-topico :topico_id="topico['id']"></pergunta-topico>
                 </div>
 
@@ -105,6 +107,14 @@ props: ['topico_prop'] ,
             topicos:JSON.parse(this.topico_prop)
         }
     },  methods: {
+
+        changeButton(id){
+            if ($('#img'+id).attr('src')==='/assets/expand_more_black_24dp.svg') {
+                $('#img'+id).attr('src','/assets/expand_less_black_24dp.svg')
+            }else if($('#img'+id).attr('src')==='/assets/expand_less_black_24dp.svg'){
+                $('#img'+id).attr('src','/assets/expand_more_black_24dp.svg')
+            }
+        },
 
         submit(){
             let l=window.location.href.split('/');

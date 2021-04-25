@@ -118,4 +118,26 @@ class topicos extends Controller
             ]);
         };
     }
+
+
+    function getPerguntas(Request $request){
+
+       $res= DB::select('SELECT *
+FROM topicos t ,perguntas p
+WHERE t.id=p.topicos_id
+AND t.id=:id',['id'=>$request->id]);
+
+
+        if (!empty($res)){
+            return response()->json([
+                'message' => $res,
+            ]);
+        }else{
+            return response()->json([
+                'message' => [],
+            ]);
+        }
+
+
+    }
 }

@@ -159,5 +159,49 @@ class Quizz extends Controller
 
     }
 
+    function EndQuizz(Request $request){
+
+      $query=  DB::select('SELECT s.nomequizz AS "nome" , SUM(rq.resultado) AS "res"
+FROM sessao s ,respostas_quizz rq ,utilizador u
+WHERE s.id= :sessionId
+AND s.id=rq.sessao_id
+AND  u.id= :id
+GROUP BY s.nomequizz',['id' => session('utilizador')['id'] ,'sessionId'=> $request->sessionId]);
+
+        return view('/quizz/EndQuizz', ['res' =>$query[0]->res ,'nome'=>$query[0]->nome]);
+
+    }
+
+
+    function CreateWaitRoom(Request $request)
+    {
+
+
+        $id = $request->token;
+        $session = $request->sessionID;
+
+        $quizz = DB::select('SELECT p.id ,p.enunciado ,p.tempo ,p.valor , p.tipo , q.numeroperguntas ,q.nome,q.tipo AS "quizzTipo",m.link
+                                   FROM quizz q, pergunta_quizz pq, perguntas p,multimedia m
+                                   WHERE q.id = pq.quizz_id
+                                   AND p.id = pq.id_pergunta
+                                   AND m.perguntas_id=p.id
+                                   AND q.id  = :id', ['id' => $id]);
+
+        $check = DB::select('select * from sessao where id = :id', ['id' => $session]);
+
+        if (!empty($quizz)) {
+            if (empty($check)) {
+                DB::insert('insert into sessao (id, nomequizz ,tipo,quizz_id,iduser,tipoUser) values (?,?,?,?,?,?)'
+                    , [$session, $quizz[0]->nome, $quizz[0]->quizzTipo, $id, session('utilizador')['id'], session('utilizador')['tipo']]);
+
+                return view('/quizz/WaitRoom', ['quizz' => $quizz, 'session' => $session]);
+
+            } else {
+                return view('/quizz/WaitRoom', ['quizz' => $quizz, 'session' => $session]);
+            }
+
+        }
+    }
+
 
 }
