@@ -1,5 +1,6 @@
 
 require('./bootstrap');
+
 Window.Vue=require('vue');
 
 Vue.component('registos',require('./components/registos.vue').default);

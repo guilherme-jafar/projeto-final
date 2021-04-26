@@ -83,8 +83,8 @@
                             </div>
                             <div class="col-12 mt-3">
 
-                                <textarea class="form-control"  name="descricao" id="descricao" rows="2"></textarea>
-                                <label class="label" for="descricao"><span>Descrição</span></label>
+                                <textarea class="form-control"  name="quizzdescricao" id="quizzdescricao" rows="2"></textarea>
+                                <label class="label" for="quizzdescricao"><span>Descrição</span></label>
                             </div>
 
                                 <div id="realTime" class="mb-1 mt-5">
@@ -226,7 +226,7 @@ name: "quizz",
 
                     form.append('realtime', corretTime);
                     form.append('titulo', $('#titulo').val());
-                    form.append('descricao', $('#descricao').val());
+                    form.append('descricao', $('#quizzdescricao').val());
                     var radios2 = document.getElementsByName("Visivelop" );
                     for (let i = 0; i < 2; i++) {
                         if (radios2[i].checked) {

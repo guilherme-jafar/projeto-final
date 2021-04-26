@@ -2703,6 +2703,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2741,6 +2744,8 @@ __webpack_require__.r(__webpack_exports__);
 
       if (document.getElementById("pergunta" + top).value.length <= 0) {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#PerguntaError' + top).text("indique o enunciado da pergunta").css('color', 'red').css('opacity', '1');
+      } else if (document.getElementById("pergunta" + top).value.length > 120) {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#PerguntaError' + top).text("O enunciado e demasiado grande").css('color', 'red').css('opacity', '1');
       } else {
         form.append('topico', top);
         form.append('pergunta', document.getElementById("pergunta" + top).value);
@@ -2846,7 +2851,51 @@ __webpack_require__.r(__webpack_exports__);
         this.getPerguntas();
       }.bind(this));
     },
-    InsertFile: function InsertFile(topicos) {},
+    InsertFile: function InsertFile(topicos) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#InsertfileButton' + topicos).prop('disabled', true);
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#InsertfileError' + topicos).text("").css('color', 'red').css('opacity', '1');
+      var newPerguntas = [];
+      var flag = false;
+      var form = new FormData();
+      var status = this;
+      var file = document.getElementById("Insertfile" + topicos).files[0];
+      readXlsxFile(file).then(function (data) {
+        console.log();
+
+        for (var i = 4; i < 104; i++) {
+          if (data[i][1] !== null) {
+            newPerguntas.push(data[i]);
+          }
+        }
+
+        for (var _i3 = 0; _i3 < newPerguntas.length; _i3++) {
+          if (newPerguntas[_i3][1].length <= 120 && newPerguntas[_i3][2].length <= 120 && newPerguntas[_i3][2].length <= 120 && newPerguntas[_i3][2].length <= 120 && newPerguntas[_i3][2].length <= 120) {
+            if (newPerguntas[_i3][newPerguntas[_i3][7] + 1] === null) {
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('#InsertfileError' + topicos).text("Erro no ficheiro").css('color', 'red').css('opacity', '1');
+              flag = true;
+            }
+          } else {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#InsertfileError' + topicos).text("Erro no ficheiro").css('color', 'red').css('opacity', '1');
+            flag = true;
+          }
+        }
+
+        if (!flag) {
+          form.append('array', JSON.stringify(newPerguntas));
+          form.append('topico', topicos);
+          axios__WEBPACK_IMPORTED_MODULE_1___default().post('/multiQuestion', form).then(function (response) {
+            if (response.data.message === "sucesso") {
+              status.getPerguntas();
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('#InsertfileButton' + topicos).prop('disabled', false);
+              status.modal2.hide();
+            } else {
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('#InsertfileButton' + topicos).prop('disabled', false);
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('#InsertfileError' + topicos).text("Erro no ficheiro").css('color', 'red').css('opacity', '1');
+            }
+          }.bind(this));
+        }
+      });
+    },
     alter: function alter() {
       var id = "trueFalse" + this.topicos;
       var id2 = "multiple" + this.topicos;
@@ -2863,6 +2912,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.getPerguntas();
     this.modal = new bootstrap.Modal(document.getElementById('Up' + this.topicos), {});
+    this.modal2 = new bootstrap.Modal(document.getElementById('cp' + this.topicos), {});
     var id = "trueFalse" + this.topicos;
     var id2 = "multiple" + this.topicos;
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).hide();
@@ -3105,7 +3155,7 @@ __webpack_require__.r(__webpack_exports__);
         } else {
           form.append('realtime', corretTime);
           form.append('titulo', jquery__WEBPACK_IMPORTED_MODULE_0___default()('#titulo').val());
-          form.append('descricao', jquery__WEBPACK_IMPORTED_MODULE_0___default()('#descricao').val());
+          form.append('descricao', jquery__WEBPACK_IMPORTED_MODULE_0___default()('#quizzdescricao').val());
           var radios2 = document.getElementsByName("Visivelop");
 
           for (var _i = 0; _i < 2; _i++) {
@@ -34875,7 +34925,11 @@ var render = function() {
                   _c("div", { staticClass: "col-md-12 mt-5" }, [
                     _c("input", {
                       staticClass: "Pergunta_file mx-auto",
-                      attrs: { type: "file", id: "file" + _vm.topicos }
+                      attrs: {
+                        type: "file",
+                        id: "Insertfile" + _vm.topicos,
+                        accept: ".xlsx"
+                      }
                     }),
                     _vm._v(" "),
                     _c("label", {
@@ -34892,7 +34946,10 @@ var render = function() {
                     "button",
                     {
                       staticClass: "btn btn-primary",
-                      attrs: { type: "button", "data-bs-dismiss": "modal" },
+                      attrs: {
+                        type: "button",
+                        id: "InsertfileButton" + _vm.topicos
+                      },
                       on: {
                         click: function($event) {
                           return _vm.InsertFile(_vm.topicos)
@@ -35788,10 +35845,10 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-12 mt-3" }, [
       _c("textarea", {
         staticClass: "form-control",
-        attrs: { name: "descricao", id: "descricao", rows: "2" }
+        attrs: { name: "quizzdescricao", id: "quizzdescricao", rows: "2" }
       }),
       _vm._v(" "),
-      _c("label", { staticClass: "label", attrs: { for: "descricao" } }, [
+      _c("label", { staticClass: "label", attrs: { for: "quizzdescricao" } }, [
         _c("span", [_vm._v("Descrição")])
       ])
     ])

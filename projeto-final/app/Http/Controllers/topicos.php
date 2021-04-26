@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\pergunta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PHPExcel_IOFactory;
+use Vtiful\Kernel\Excel;
+
+
 
 class topicos extends Controller
 {
@@ -140,4 +145,45 @@ AND t.id=:id',['id'=>$request->id]);
 
 
     }
+
+
+    function MultiQuestion(Request $request)
+    {
+        $array = json_decode($request->array);
+
+
+        foreach ($array as $value) {
+            $id = uniqid();
+            DB::insert('insert into perguntas (id, enunciado,tempo,tipo,valor,topicos_id) values (?,?,?,?,?,?)'
+                , [$id, $value[1], $value[6], "multiple", 1000, $request->topico]);
+            DB::insert('insert into multimedia (id,perguntas_id) values (?,?)'
+                , [uniqid(), $id]);
+
+
+            for ($i = 2; $i < 6; $i++) {
+                $idRes = time() . uniqid();
+                if ($i == $value[7] + 1) {
+                    DB::insert('insert into respostas (id,resposta,resultado,perguntas_id) values (?,?,?,?)'
+                        , [$idRes, $value[$i], 1, $id]);
+
+                } else {
+                    DB::insert('insert into respostas (id,resposta,resultado,perguntas_id) values (?,?,?,?)'
+                        , [$idRes, $value[$i], 0, $id]);
+                }
+
+            }
+        }
+
+
+            return response()->json([
+                'message' => 'sucesso',
+            ]);
+
+
+    }
+
+
+
+
+
 }

@@ -21,8 +21,13 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "csvtojson": "^2.0.10",
+        "fs": "^0.0.1-security",
         "jquery": "^3.6.0",
         "vue": "^2.6.12",
         "vue-cookies": "^1.7.4"
+    },
+    "browser": {
+        "fs": false
     }
 }

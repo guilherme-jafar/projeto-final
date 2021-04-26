@@ -89,6 +89,7 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (
     Route::post("/insertQuizz",[App\Http\Controllers\Quizz::class,'insertQuizz']);
     Route::post("/getPerguntas",[App\Http\Controllers\topicos::class,'getPerguntas']);
     Route::get("/WaitRoom/{token}/{sessionID}",[App\Http\Controllers\Quizz::class,'EnterWaitRoom']);
+    Route::post("/multiQuestion",[App\Http\Controllers\topicos::class,"MultiQuestion"]);
     Route::get('/loading', function () {
         return view('/loading');
     });

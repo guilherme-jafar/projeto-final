@@ -86,14 +86,14 @@
 
                             <a href="/assets/cvsPerguntas.xlsx" download>importar csv</a>
                         <div class="col-md-12 mt-5">
-                            <input type="file" :id="'file' + topicos" class="Pergunta_file mx-auto">
+                            <input type="file" :id="'Insertfile' + topicos" class="Pergunta_file mx-auto" accept=".xlsx">
                             <label :file="'Insertfile' + topicos" class="pergunta_input"></label>
                             <p :id="'InsertfileError'+topicos"></p>
                         </div>
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="InsertFile(topicos)">Inserir</button>
+                        <button type="button" class="btn btn-primary" :id="'InsertfileButton'+topicos"  @click="InsertFile(topicos)">Inserir</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
 
                     </div>
@@ -254,10 +254,16 @@
     </div>
 </template>
 
+
+
+
 <script>
 
 import $ from 'jquery';
 import axios from "axios";
+
+
+
 
 export default {
     name: "pergunta",
@@ -306,9 +312,13 @@ export default {
 
             flag = false
             flag2 = false
-            if (document.getElementById("pergunta" + top).value.length <= 0) {
+            if (document.getElementById("pergunta" + top).value.length <= 0 ) {
                 $('#PerguntaError' + top).text("indique o enunciado da pergunta").css('color', 'red').css('opacity', '1');
-            } else {
+            } else if (document.getElementById("pergunta" + top).value.length >120){
+                $('#PerguntaError' + top).text("O enunciado e demasiado grande").css('color', 'red').css('opacity', '1');
+            }
+
+            else {
                 form.append('topico', top);
                 form.append('pergunta', document.getElementById("pergunta" + top).value);
                 form.append('tempo', document.getElementById("tempo" + top).value);
@@ -422,10 +432,78 @@ export default {
                 this.getPerguntas();
             }.bind(this));
         },
+
+
         InsertFile(topicos){
+
+            $('#InsertfileButton'+topicos).prop('disabled', true);
+            $('#InsertfileError'+topicos).text("").css('color', 'red').css('opacity', '1');
+            let newPerguntas =[];
+            let flag= false;
+            let form = new FormData()
+            let status=this;
+            let file = document.getElementById("Insertfile" + topicos).files[0];
+
+              readXlsxFile(file).then(function (data){
+
+                  console.log()
+                    for (let i=4; i<104 ;i++){
+
+                        if (data[i][1]!==null) {
+
+                            newPerguntas.push(data[i])
+                        }
+                    }
+
+                    for (let i=0; i<newPerguntas.length ;i++) {
+                        if(newPerguntas[i][1].length<=120 && newPerguntas[i][2].length<=120 && newPerguntas[i][2].length<=120 && newPerguntas[i][2].length<=120 && newPerguntas[i][2].length<=120){
+
+                            if (newPerguntas[i][newPerguntas[i][7]+1]===null){
+                                $('#InsertfileError'+topicos).text("Erro no ficheiro").css('color', 'red').css('opacity', '1');
+                                flag=true;
+                            }
+
+                        }
+                        else{
+                            $('#InsertfileError'+topicos).text("Erro no ficheiro").css('color', 'red').css('opacity', '1');
+                            flag=true;
+
+                        }
+                    }
+                    if (!flag) {
+
+                        form.append('array', JSON.stringify(newPerguntas))
+                        form.append('topico', topicos)
+                        axios.post('/multiQuestion',form).then(function (response){
+
+                            if (response.data.message==="sucesso"){
+                                status.getPerguntas()
+                                $('#InsertfileButton'+topicos).prop('disabled', false);
+                                status.modal2.hide();
+                            }else{
+
+                                $('#InsertfileButton'+topicos).prop('disabled', false);
+                                $('#InsertfileError'+topicos).text("Erro no ficheiro").css('color', 'red').css('opacity', '1');
+                            }
+
+
+
+                            }.bind(this)
+
+                        );
+
+                    }
+                });
+
+
+
+
+
 
 
         },
+
+
         alter() {
             let id = "trueFalse" + this.topicos;
             let id2 = "multiple" + this.topicos;
@@ -443,6 +521,7 @@ export default {
     mounted() {
         this.getPerguntas();
         this.modal = new bootstrap.Modal(document.getElementById('Up' + this.topicos), {})
+        this.modal2 = new bootstrap.Modal(document.getElementById('cp' + this.topicos), {})
         let id = "trueFalse" + this.topicos;
         let id2 = "multiple" + this.topicos;
         $('#' + id).hide();
@@ -451,6 +530,7 @@ export default {
     }
 }
 </script>
+
 
 <style scoped>
 
