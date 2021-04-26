@@ -416,9 +416,6 @@ li {
   font-family: Quicksand, serif;
   font-weight: 600;
 }
-.btn:hover, .btn:focus {
-  box-shadow: none;
-}
 .btn-primary {
   background-color: #FF7829;
   border-color: #FF7829;

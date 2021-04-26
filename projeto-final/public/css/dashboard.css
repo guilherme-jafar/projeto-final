@@ -416,9 +416,6 @@ li {
   font-family: Quicksand, serif;
   font-weight: 600;
 }
-.btn:hover, .btn:focus {
-  box-shadow: none;
-}
 .btn-primary {
   background-color: #FF7829;
   border-color: #FF7829;
@@ -715,18 +712,14 @@ section {
   position: relative;
 }
 .modal form .label {
-  position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  padding-left: 1rem;
   pointer-events: none;
 }
 .modal form .label span {
   font-family: "Lato", serif;
   text-transform: capitalize;
-  position: absolute;
   bottom: 31%;
   left: 1.5rem;
   transition: all 0.3s ease;
@@ -747,11 +740,9 @@ section {
   border: 2px solid #FF7829;
 }
 .modal form .form-control:focus + label span, .modal form .form-control:valid + label span {
-  transform: translate(0, -100%);
   font-size: 1.6rem;
 }
 .modal form .form-control:focus + label span {
-  transform: translate(0, -100%);
   font-size: 1.6rem;
   color: #FF7829;
 }
@@ -942,4 +933,12 @@ section {
   border-radius: 50%;
   background: #7FBA27;
   transform: translate(6%, -6%);
+}
+.card-disciplina .section-quizz .modal-quizz form {
+  padding: 0;
+}
+.card-disciplina .section-quizz .modal-quizz form .card-box-topicos {
+  box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
+  padding: 2rem;
+  border-radius: 5px;
 }

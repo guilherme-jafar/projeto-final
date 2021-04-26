@@ -100,7 +100,10 @@
                     $('#btn-chg-2').removeClass('btn-ghost-2')
                     $('#btn-chg-3').removeClass('btn-third')
                     $('#btn-chg-3').addClass('btn-ghost-2')
+                    $('#btn-chg-4').removeClass('btn-third')
+                    $('#btn-chg-4').addClass('btn-ghost-2')
                     $('#newTopic').show();
+                    $('#newQuiz').addClass('d-none');
                     break;
                 case 2:
                     $('#topics').fadeOut();
@@ -110,20 +113,27 @@
                     $('#btn-chg-3').removeClass('btn-ghost-2')
                     $('#btn-chg-2').removeClass('btn-third')
                     $('#btn-chg-2').addClass('btn-ghost-2')
+                    $('#btn-chg-4').removeClass('btn-third')
+                    $('#btn-chg-4').addClass('btn-ghost-2')
                     $('#newTopic').hide();
+                    $('#newQuiz').addClass('d-none');
                     break;
                 case 3:
                     $('#topics').fadeOut();
                     $('#alunos').fadeOut();
                     $('#quizz').fadeIn();
-                    $('#btn-chg-3').addClass('btn-third')
-                    $('#btn-chg-3').removeClass('btn-ghost-2')
+                    $('#btn-chg-3').removeClass('btn-third')
+                    $('#btn-chg-3').addClass('btn-ghost-2')
                     $('#btn-chg-2').removeClass('btn-third')
                     $('#btn-chg-2').addClass('btn-ghost-2')
-                    $('#newTopic').show();
+                    $('#newTopic').hide();
+                    $('#newQuiz').removeClass('d-none');
+                    $('#btn-chg-4').removeClass('btn-third')
+                    $('#btn-chg-4').addClass('btn-ghost-2')
 
 
                     break;
+
             }
 
 

@@ -59,17 +59,17 @@
                     <div class="modal-body pt-5 pb-5">
                         <form class="row mx-auto" id="adicionarDisciplina">
                             <div class="col-12">
-
+                                <label class="label" for="topico" >Topico</label>
                                 <input name="disciplina" class="form-control mt-2 mb-3 " type="text" id="topico">
-                                <label class="label" for="topico" ><span>Topico</span></label>
+
                             </div>
-                            <div class="col-12 mb-5">
+                            <div class="col-12 ">
                                 <p class="error " id="disciplinaError"></p>
                             </div>
-                            <div class="col-12 mt-3">
-
+                            <div class="col-12 mt-2">
+                                <label class="label" for="descricao">Descrição</label>
                                 <textarea class="form-control"  name="descricao" id="descricao" rows="2"></textarea>
-                                <label class="label" for="descricao"><span>Descrição</span></label>
+
                             </div>
 
 

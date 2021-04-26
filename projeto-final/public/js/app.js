@@ -3105,9 +3105,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -34294,25 +34291,25 @@ var staticRenderFns = [
         { staticClass: "row mx-auto", attrs: { id: "adicionarDisciplina" } },
         [
           _c("div", { staticClass: "col-12" }, [
-            _c("input", {
-              staticClass: "form-control mt-2 mb-3 ",
-              attrs: { name: "disciplina", type: "text", id: "disciplina" }
-            }),
-            _vm._v(" "),
             _c(
               "label",
               { staticClass: "label", attrs: { for: "disciplina" } },
-              [_c("span", [_vm._v("Disciplina")])]
-            )
+              [_vm._v("Disciplina")]
+            ),
+            _vm._v(" "),
+            _c("input", {
+              staticClass: "form-control mt-2 mb-3 ",
+              attrs: { name: "disciplina", type: "text", id: "disciplina" }
+            })
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-12 mb-5" }, [
+          _c("div", { staticClass: "col-12" }, [
             _c("p", { staticClass: "error ", attrs: { id: "disciplinaError" } })
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-12 mt-3" }, [
+          _c("div", { staticClass: "col-12 mt-2" }, [
             _c("label", { staticClass: "label", attrs: { for: "descricao" } }, [
-              _c("span", [_vm._v("Descrição")])
+              _vm._v("Descrição")
             ]),
             _vm._v(" "),
             _c("textarea", {
@@ -34585,29 +34582,29 @@ var staticRenderFns = [
         { staticClass: "row mx-auto", attrs: { id: "adicionarDisciplina" } },
         [
           _c("div", { staticClass: "col-12" }, [
+            _c("label", { staticClass: "label", attrs: { for: "topico" } }, [
+              _vm._v("Topico")
+            ]),
+            _vm._v(" "),
             _c("input", {
               staticClass: "form-control mt-2 mb-3 ",
               attrs: { name: "disciplina", type: "text", id: "topico" }
-            }),
-            _vm._v(" "),
-            _c("label", { staticClass: "label", attrs: { for: "topico" } }, [
-              _c("span", [_vm._v("Topico")])
-            ])
+            })
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-12 mb-5" }, [
+          _c("div", { staticClass: "col-12 " }, [
             _c("p", { staticClass: "error ", attrs: { id: "disciplinaError" } })
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-12 mt-3" }, [
+          _c("div", { staticClass: "col-12 mt-2" }, [
+            _c("label", { staticClass: "label", attrs: { for: "descricao" } }, [
+              _vm._v("Descrição")
+            ]),
+            _vm._v(" "),
             _c("textarea", {
               staticClass: "form-control",
               attrs: { name: "descricao", id: "descricao", rows: "2" }
-            }),
-            _vm._v(" "),
-            _c("label", { staticClass: "label", attrs: { for: "descricao" } }, [
-              _c("span", [_vm._v("Descrição")])
-            ])
+            })
           ])
         ]
       )
@@ -35498,7 +35495,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "section-topicos mt-5 me-md-5 ms-md-5" }, [
+  return _c("div", { staticClass: "section-quizz mt-5 me-md-5 ms-md-5" }, [
     _vm._m(0),
     _vm._v(" "),
     _vm.quizz.length === 0
@@ -35509,7 +35506,7 @@ var render = function() {
           _vm._v(" "),
           _vm._m(1)
         ])
-      : _c("div", { staticClass: "section-disciplinas-items " }, [
+      : _c("div", { staticClass: "section-disciplinas-items" }, [
           _c("div", { staticClass: "box-search mb-5" }, [
             _c("input", {
               directives: [
@@ -35558,8 +35555,9 @@ var render = function() {
                           "data-bs-target": "#t" + quizz["id"]
                         }
                       },
-                      [_vm._v("quizz")]
+                      [_vm._v("quizz\n                    ")]
                     ),
+                    _vm._v(" "),
                     _c("i", { staticClass: "bi bi-three-dots-vertical" })
                   ]),
                   _vm._v(" "),
@@ -35600,7 +35598,7 @@ var render = function() {
                                   }
                                 }
                               },
-                              [_vm._v("Sim")]
+                              [_vm._v("Sim\n                                ")]
                             ),
                             _vm._v(" "),
                             _c(
@@ -35629,7 +35627,7 @@ var render = function() {
     _c(
       "div",
       {
-        staticClass: "modal fade",
+        staticClass: "modal fade modal-quizz",
         attrs: {
           id: "exampleModal2",
           tabindex: "-1",
@@ -35638,7 +35636,7 @@ var render = function() {
         }
       },
       [
-        _c("div", { staticClass: "modal-dialog" }, [
+        _c("div", { staticClass: "modal-dialog modal-dialog-scrollable" }, [
           _c("div", { staticClass: "modal-content" }, [
             _vm._m(3),
             _vm._v(" "),
@@ -35661,27 +35659,46 @@ var render = function() {
                   _vm._v(" "),
                   _vm._m(10),
                   _vm._v(" "),
-                  _vm._l(_vm.topicos, function(topico) {
-                    return _c(
-                      "div",
-                      { key: topico["id"], staticClass: "card-box mb-5 mt-4" },
-                      [
-                        _c("div", { staticClass: "card-box-text" }, [
-                          _c("label", [
-                            _c("h2", [_vm._v(_vm._s(topico["nome"]))]),
-                            _c("input", {
-                              attrs: { type: "checkbox", name: "topico" },
-                              domProps: { value: topico["id"] }
-                            })
+                  _c(
+                    "div",
+                    { staticClass: "col-12" },
+                    _vm._l(_vm.topicos, function(topico) {
+                      return _c(
+                        "div",
+                        {
+                          key: topico["id"],
+                          staticClass: "card-box  mb-5 mt-4"
+                        },
+                        [
+                          _c("div", { staticClass: "card-box-topicos" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "d-flex ",
+                                attrs: { for: "inputTopico" + topico["id"] }
+                              },
+                              [
+                                _c("h2", [_vm._v(_vm._s(topico["nome"]))]),
+                                _c("input", {
+                                  staticClass: "ms-auto mt-3",
+                                  attrs: {
+                                    id: "inputTopico" + topico["id"],
+                                    type: "checkbox",
+                                    name: "topico"
+                                  },
+                                  domProps: { value: topico["id"] }
+                                })
+                              ]
+                            )
                           ])
-                        ])
-                      ]
-                    )
-                  }),
+                        ]
+                      )
+                    }),
+                    0
+                  ),
                   _vm._v(" "),
                   _vm._m(11)
-                ],
-                2
+                ]
               )
             ]),
             _vm._v(" "),
@@ -35739,7 +35756,7 @@ var staticRenderFns = [
           _c("div", { staticClass: "toast-body" }, [
             _c("strong", [
               _c("i", { staticClass: "bi bi-check-circle-fill" }),
-              _vm._v("    "),
+              _vm._v("   \n                    "),
               _c("span", [_vm._v("Quizz adicionada com sucesso")])
             ])
           ]),
@@ -35802,7 +35819,7 @@ var staticRenderFns = [
       _c(
         "h5",
         { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
-        [_vm._v("Adicionar  Novo Topico")]
+        [_vm._v("Adicionar Novo Topico")]
       ),
       _vm._v(" "),
       _c("button", {
@@ -35820,21 +35837,21 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-12" }, [
+      _c("label", { staticClass: "label", attrs: { for: "titulo" } }, [
+        _vm._v("Titulo")
+      ]),
+      _vm._v(" "),
       _c("input", {
         staticClass: "form-control mt-2 mb-3 ",
         attrs: { name: "titulo", type: "text", id: "titulo" }
-      }),
-      _vm._v(" "),
-      _c("label", { staticClass: "label", attrs: { for: "titulo" } }, [
-        _c("span", [_vm._v("Titulo")])
-      ])
+      })
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-12 mb-5" }, [
+    return _c("div", { staticClass: "col-12" }, [
       _c("p", { staticClass: "error ", attrs: { id: "TituloError" } })
     ])
   },
@@ -35843,13 +35860,39 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-12 mt-3" }, [
+      _c("label", { staticClass: "label", attrs: { for: "quizzdescricao" } }, [
+        _vm._v("Descrição")
+      ]),
+      _vm._v(" "),
       _c("textarea", {
         staticClass: "form-control",
         attrs: { name: "quizzdescricao", id: "quizzdescricao", rows: "2" }
-      }),
-      _vm._v(" "),
-      _c("label", { staticClass: "label", attrs: { for: "quizzdescricao" } }, [
-        _c("span", [_vm._v("Descrição")])
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6 mb-5 mb-xs-0 text-center" }, [
+      _c("div", { staticClass: "mb-1 mt-5", attrs: { id: "realTime" } }, [
+        _c("h4", [_vm._v("Realtime")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "mb-1" }, [
+          _c("input", {
+            attrs: { type: "radio", name: "realtimeop", value: "true" }
+          }),
+          _vm._v(" Sim\n                                ")
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c("input", {
+            attrs: { type: "radio", name: "realtimeop", value: "false" }
+          }),
+          _vm._v(" Não\n                                ")
+        ]),
+        _vm._v(" "),
+        _c("p", { attrs: { id: "TError" } })
       ])
     ])
   },
@@ -35857,71 +35900,41 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "mb-1 mt-5", attrs: { id: "realTime" } }, [
-      _c("h4", [_vm._v("Realtime")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "mb-1 mt-5" }, [
-        _c("input", {
-          attrs: { type: "radio", name: "realtimeop", value: "true" }
-        }),
-        _vm._v(
-          "\n                                       Sim\n\n                                "
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", [
-        _c("input", {
-          attrs: { type: "radio", name: "realtimeop", value: "false" }
-        }),
-        _vm._v(
-          "\n                                       Não\n\n\n                                "
-        )
-      ]),
-      _vm._v(" "),
-      _c("p", { attrs: { id: "TError" } })
+    return _c("div", { staticClass: "col-md-6 mb-5 mb-xs-0 text-center" }, [
+      _c("div", { staticClass: "mb-1 mt-5", attrs: { id: "Visivel" } }, [
+        _c("h4", [_vm._v("Visivel")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "mb-1" }, [
+          _c("input", {
+            attrs: { type: "radio", name: "Visivelop", value: "true" }
+          }),
+          _vm._v(" Sim\n                                ")
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c("input", {
+            attrs: { type: "radio", name: "Visivelop", value: "false" }
+          }),
+          _vm._v(" Não\n                                ")
+        ]),
+        _vm._v(" "),
+        _c("p", { attrs: { id: "ErrorVisivel" } })
+      ])
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "mb-1 mt-5", attrs: { id: "Visivel" } }, [
-      _c("h4", [_vm._v("Visivel")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "mb-1 mt-5" }, [
-        _c("input", {
-          attrs: { type: "radio", name: "Visivelop", value: "true" }
-        }),
-        _vm._v(
-          "\n                                        Sim\n\n                                    "
-        )
+    return _c("div", { staticClass: "col-12 mt-1" }, [
+      _c("label", { staticClass: "label", attrs: { for: "nPerguntas" } }, [
+        _vm._v("Numero perguntas")
       ]),
       _vm._v(" "),
-      _c("div", [
-        _c("input", {
-          attrs: { type: "radio", name: "Visivelop", value: "false" }
-        }),
-        _vm._v(
-          "\n                                        Não\n\n\n                                    "
-        )
-      ]),
-      _vm._v(" "),
-      _c("p", { attrs: { id: "ErrorVisivel" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-12 mt-3" }, [
       _c("input", {
         staticClass: "form-control",
         attrs: { name: "nPerguntas", id: "nPerguntas", type: "number" }
-      }),
-      _vm._v(" "),
-      _c("label", { staticClass: "label", attrs: { for: "nPerguntas" } }, [
-        _c("span", [_vm._v("Numero perguntas")])
-      ])
+      })
     ])
   },
   function() {
@@ -37117,7 +37130,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { attrs: { id: "container" } }, [
-    _vm._v("\n\n    " + _vm._s(_vm.countDown) + "\n\n\n    "),
+    _vm._v("\r\n\r\n    " + _vm._s(_vm.countDown) + "\r\n\r\n\r\n    "),
     _c("p", [_vm._v(_vm._s(_vm.enunciado))]),
     _vm._v(" "),
     _vm.fileCheck() === 1
