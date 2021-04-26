@@ -20,9 +20,7 @@
             </div>
         </div>
 
-        <div class="" role="alert" id="myAlert">
 
-        </div>
 
 
 
@@ -106,7 +104,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                   <h2>Tem certea que deseja eliminar a disciplina {{disciplina['nome']}}?</h2>
+                                   <h2>Tem certeza que deseja eliminar a disciplina {{disciplina['nome']}}?</h2>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

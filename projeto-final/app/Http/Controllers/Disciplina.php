@@ -165,12 +165,27 @@ class Disciplina extends Controller
 
     function destroy(Request $request){
 
-        DB::statement('call deleteDisciplina(?)',[$request->id]);
+        if (session()->get('utilizador')['tipo'] == 'prof'){
 
-        $disciplina = DB::select('select * FROM disciplina d,  prof__disciplina pd WHERE d.id = pd.disciplina_id AND pd.prof__utilizador_id = :id', ['id' => session('utilizador')['id']]);
-        return response()->json([
-            'message' => $disciplina,
-        ]);
+            DB::statement('call deleteDisciplina(?)',[$request->id]);
+
+            $disciplina = DB::select('select * FROM disciplina d,  prof__disciplina pd WHERE d.id = pd.disciplina_id AND pd.prof__utilizador_id = :id', ['id' => session('utilizador')['id']]);
+            return response()->json([
+                'message' => $disciplina,
+            ]);
+
+        }elseif (session()->get('utilizador')['tipo'] == 'aluno'){
+
+            DB::statement('delete from disciplina_aluno where disciplina_id = ? and aluno_utilizador_id = ?',[$request->id, session('utilizador')['id']]);
+            $disciplina = DB::select('select * FROM disciplina d, disciplina_aluno pd WHERE d.id = pd.disciplina_id AND pd.aluno_utilizador_id = :id', ['id' => session('utilizador')['id']]);
+
+            return response()->json([
+                'message' => $disciplina,
+            ]);
+
+        }
+
+
     }
 
 }

@@ -110,6 +110,7 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:aluno']], function 
     Route::post('/getRespostas',[App\Http\Controllers\Quizz::class,'getRespostas']);
     Route::post('/setResposta',[App\Http\Controllers\Quizz::class,'setResposta']);
     Route::get('/EndQuizz/{sessionId}',[App\Http\Controllers\Quizz::class,'EndQuizz']);
+    Route::delete("/aluno/disciplina/delete/{id}", [App\Http\Controllers\Disciplina::class,'destroy']);
 
 
 });
