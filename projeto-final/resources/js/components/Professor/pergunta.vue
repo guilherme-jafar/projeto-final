@@ -461,12 +461,14 @@ export default {
                             if (newPerguntas[i][newPerguntas[i][7]+1]===null){
                                 $('#InsertfileError'+topicos).text("Erro no ficheiro").css('color', 'red').css('opacity', '1');
                                 flag=true;
+                                $('#InsertfileButton'+topicos).prop('disabled', false);
                             }
 
                         }
                         else{
                             $('#InsertfileError'+topicos).text("Erro no ficheiro").css('color', 'red').css('opacity', '1');
                             flag=true;
+                            $('#InsertfileButton'+topicos).prop('disabled', false);
 
                         }
                     }

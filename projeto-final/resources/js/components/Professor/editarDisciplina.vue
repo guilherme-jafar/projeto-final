@@ -63,7 +63,7 @@
                     $( "#editarDisciplinaError" ).text("Introduza o nome da disciplina").css('color', 'red').css('opacity', '1');
                     $('#submit span').removeClass('d-none');
                     $('#submit div').addClass('d-none');
-                    enviar = false;
+                    //enviar = false;
                 }else{
                     let formData = new FormData();
                     formData.append( 'disciplina',$( "#disciplina" ).val());
