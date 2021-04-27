@@ -53,7 +53,10 @@
     <section class="">
         <div class="container">
             <div class="row">
-                @yield('content2')
+                <div class="col-md-10 mx-auto">
+                    @yield('content2')
+                </div>
+
             </div>
         </div>
     </section>

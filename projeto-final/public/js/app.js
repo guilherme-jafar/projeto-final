@@ -2398,8 +2398,7 @@ __webpack_require__.r(__webpack_exports__);
       if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('#disciplina').val().length === 0) {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()("#editarDisciplinaError").text("Introduza o nome da disciplina").css('color', 'red').css('opacity', '1');
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit span').removeClass('d-none');
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit div').addClass('d-none');
-        enviar = false;
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit div').addClass('d-none'); //enviar = false;
       } else {
         var formData = new FormData();
         formData.append('disciplina', jquery__WEBPACK_IMPORTED_MODULE_0___default()("#disciplina").val());
@@ -2958,10 +2957,12 @@ __webpack_require__.r(__webpack_exports__);
             if (newPerguntas[_i3][newPerguntas[_i3][7] + 1] === null) {
               jquery__WEBPACK_IMPORTED_MODULE_0___default()('#InsertfileError' + topicos).text("Erro no ficheiro").css('color', 'red').css('opacity', '1');
               flag = true;
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('#InsertfileButton' + topicos).prop('disabled', false);
             }
           } else {
             jquery__WEBPACK_IMPORTED_MODULE_0___default()('#InsertfileError' + topicos).text("Erro no ficheiro").css('color', 'red').css('opacity', '1');
             flag = true;
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#InsertfileButton' + topicos).prop('disabled', false);
           }
         }
 
@@ -3747,6 +3748,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "quizzAluno",
   props: ['quizz_prop'],
@@ -4178,6 +4180,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -4235,8 +4248,9 @@ __webpack_require__.r(__webpack_exports__);
         this.enunciado = this.pergunta[this.index]['enunciado'];
         this.valor = this.pergunta[this.index]['valor'];
         this.res = 0;
+        this.countDownTimer(); //this.sleep(2500)
+
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('.wrapper').hide();
-        this.countDownTimer();
       } else {
         clearTimeout(this.timer);
         window.location.replace('/EndQuizz/' + this.session);
@@ -4257,9 +4271,13 @@ __webpack_require__.r(__webpack_exports__);
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('.wrapper').show();
 
       if (this.res > 0) {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#wrapper').css('background-color', '#7FBA27');
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#couter').html(this.res);
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#corretoErrado').html('<span>Correto</span><i class="bi bi-check"></i><br>');
       } else {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#wrapper').css('background-color', '#dc3545');
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#couter').html(0);
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#corretoErrado').html('<span>Errada</span><i class="bi bi-x"></i><br>');
       }
 
       this.resultado += this.res;
@@ -36859,14 +36877,14 @@ var render = function() {
                           _vm._v(" "),
                           _c("p", { staticStyle: { "font-size": "16px" } }, [
                             _vm._v(
-                              "numero de perguntas=" +
-                                _vm._s(quizz["numeroperguntas"])
+                              "  Perguntas: " + _vm._s(quizz["numeroperguntas"])
                             )
                           ]),
+                          _vm._v(" "),
                           _c(
                             "button",
                             {
-                              staticClass: "btn btn-secondary ms-2",
+                              staticClass: "btn btn-secondary ms-2 ms-auto",
                               attrs: {
                                 type: "button",
                                 "data-bs-toggle": "modal",
@@ -36889,50 +36907,59 @@ var render = function() {
                             }
                           },
                           [
-                            _c("div", { staticClass: "modal-dialog  " }, [
-                              _c("div", { staticClass: "modal-content" }, [
-                                _vm._m(0, true),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "modal-body" }, [
-                                  _c("div", { staticClass: "pt-4 pb-5" }, [
-                                    _c(
-                                      "div",
-                                      { staticClass: "row text-center" },
-                                      [
-                                        _vm._m(1, true),
-                                        _vm._v(" "),
-                                        _c(
-                                          "div",
-                                          {
-                                            staticClass: "col-md-6 mt-5 mt-md-0"
-                                          },
-                                          [
-                                            _c(
-                                              "button",
-                                              {
-                                                staticClass: "btn btn-primary",
-                                                attrs: {
-                                                  type: "button",
-                                                  "data-bs-toggle": "modal",
-                                                  "data-bs-dismiss": "modal",
-                                                  "data-bs-target":
-                                                    "#session" + quizz["id"]
-                                                }
-                                              },
-                                              [
-                                                _vm._v(
-                                                  "\n                                                 juntar sessão\n                                             "
-                                                )
-                                              ]
-                                            )
-                                          ]
-                                        )
-                                      ]
-                                    )
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "modal-dialog  modal-dialog-centered"
+                              },
+                              [
+                                _c("div", { staticClass: "modal-content" }, [
+                                  _vm._m(0, true),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "modal-body" }, [
+                                    _c("div", { staticClass: "pt-4 pb-5" }, [
+                                      _c(
+                                        "div",
+                                        { staticClass: "row text-center" },
+                                        [
+                                          _vm._m(1, true),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "col-md-6 mt-5 mt-md-0"
+                                            },
+                                            [
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass:
+                                                    "btn btn-primary",
+                                                  attrs: {
+                                                    type: "button",
+                                                    "data-bs-toggle": "modal",
+                                                    "data-bs-dismiss": "modal",
+                                                    "data-bs-target":
+                                                      "#session" + quizz["id"]
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                                 juntar sessão\n                                             "
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ])
                                   ])
                                 ])
-                              ])
-                            ])
+                              ]
+                            )
                           ]
                         ),
                         _vm._v(" "),
@@ -36948,33 +36975,40 @@ var render = function() {
                             }
                           },
                           [
-                            _c("div", { staticClass: "modal-dialog " }, [
-                              _c("div", { staticClass: "modal-content" }, [
-                                _vm._m(2, true),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "modal-body" }, [
-                                  _c("div", { staticClass: "col-md-12" }, [
-                                    _c("input", {
-                                      staticClass:
-                                        "form-control form-control-pergunta",
-                                      attrs: {
-                                        type: "text",
-                                        placeholder:
-                                          "Escreva o id do quizz aqui",
-                                        id: "sessionId" + quizz["id"]
-                                      }
-                                    }),
-                                    _c("br"),
-                                    _vm._v(" "),
-                                    _c("p", {
-                                      attrs: { id: "Error" + quizz["id"] }
-                                    })
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _vm._m(3, true)
-                              ])
-                            ])
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "modal-dialog modal-dialog-centered"
+                              },
+                              [
+                                _c("div", { staticClass: "modal-content" }, [
+                                  _vm._m(2, true),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "modal-body" }, [
+                                    _c("div", { staticClass: "col-md-12" }, [
+                                      _c("input", {
+                                        staticClass:
+                                          "form-control form-control-pergunta",
+                                        attrs: {
+                                          type: "text",
+                                          placeholder:
+                                            "Escreva o id do quizz aqui",
+                                          id: "sessionId" + quizz["id"]
+                                        }
+                                      }),
+                                      _c("br"),
+                                      _vm._v(" "),
+                                      _c("p", {
+                                        attrs: { id: "Error" + quizz["id"] }
+                                      })
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _vm._m(3, true)
+                                ])
+                              ]
+                            )
                           ]
                         )
                       ])
@@ -36985,14 +37019,14 @@ var render = function() {
                           _vm._v(" "),
                           _c("p", { staticStyle: { "font-size": "16px" } }, [
                             _vm._v(
-                              "numero de perguntas=" +
-                                _vm._s(quizz["numeroperguntas"])
+                              "  Perguntas: " + _vm._s(quizz["numeroperguntas"])
                             )
                           ]),
+                          _vm._v(" "),
                           _c(
                             "button",
                             {
-                              staticClass: "btn btn-secondary ms-2",
+                              staticClass: "btn btn-secondary ms-2 ms-auto",
                               attrs: {
                                 type: "button",
                                 "data-bs-toggle": "modal",
@@ -37015,48 +37049,55 @@ var render = function() {
                             }
                           },
                           [
-                            _c("div", { staticClass: "modal-dialog " }, [
-                              _c("div", { staticClass: "modal-content" }, [
-                                _vm._m(4, true),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "modal-body" }, [
-                                  _vm._v(
-                                    "\n                                     Tem a certeza que quer fazer este teste\n\n                                 "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "modal-footer" }, [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-primary",
-                                      attrs: {
-                                        type: "button",
-                                        "data-bs-dismiss": "modal"
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.teste(quizz["id"])
-                                        }
-                                      }
-                                    },
-                                    [_vm._v("Sim")]
-                                  ),
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "modal-dialog modal-dialog-centered"
+                              },
+                              [
+                                _c("div", { staticClass: "modal-content" }, [
+                                  _vm._m(4, true),
                                   _vm._v(" "),
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-secondary",
-                                      attrs: {
-                                        type: "button",
-                                        "data-bs-dismiss": "modal"
-                                      }
-                                    },
-                                    [_vm._v("Não")]
-                                  )
+                                  _c("div", { staticClass: "modal-body" }, [
+                                    _vm._v(
+                                      "\n                                     Tem a certeza que quer fazer este teste?\n                                 "
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "modal-footer" }, [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-primary",
+                                        attrs: {
+                                          type: "button",
+                                          "data-bs-dismiss": "modal"
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.teste(quizz["id"])
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("Sim")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-secondary",
+                                        attrs: {
+                                          type: "button",
+                                          "data-bs-dismiss": "modal"
+                                        }
+                                      },
+                                      [_vm._v("Não")]
+                                    )
+                                  ])
                                 ])
-                              ])
-                            ])
+                              ]
+                            )
                           ]
                         )
                       ])
@@ -37667,128 +37708,162 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { attrs: { id: "container" } }, [
-    _vm._v("\r\n\r\n    " + _vm._s(_vm.countDown) + "\r\n\r\n\r\n    "),
-    _c("p", [_vm._v(_vm._s(_vm.enunciado))]),
-    _vm._v(" "),
-    _vm.fileCheck() === 1
-      ? _c("div", [
-          _c("img", {
-            attrs: {
-              src:
-                "/images/Pergunta/Multimedia/" +
-                _vm.pergunta[_vm.index]["link"],
-              alt: "imagem da pergunta",
-              height: "40%",
-              width: "40%"
-            }
-          })
-        ])
-      : _vm.fileCheck() === 2
-      ? _c("div", [
-          _c(
-            "video",
-            { attrs: { width: "320", height: "240", controls: "" } },
-            [
+  return _c(
+    "div",
+    {
+      staticClass: "fazerTeste mx-auto text-center",
+      attrs: { id: "container" }
+    },
+    [
+      _c("div", { staticClass: "counter " }, [
+        _c("span", [_vm._v(_vm._s(_vm.countDown))])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "pergunta text-start" }, [
+        _c("p", [_vm._v(_vm._s(_vm.enunciado))])
+      ]),
+      _vm._v(" "),
+      _vm.fileCheck() === 1
+        ? _c("div", [
+            _c("img", {
+              staticClass: "mx-auto",
+              attrs: {
+                src:
+                  "/images/Pergunta/Multimedia/" +
+                  _vm.pergunta[_vm.index]["link"],
+                alt: "imagem da pergunta",
+                height: "40%",
+                width: "40%"
+              }
+            })
+          ])
+        : _vm.fileCheck() === 2
+        ? _c("div", [
+            _c(
+              "video",
+              { attrs: { width: "320", height: "240", controls: "" } },
+              [
+                _c("source", {
+                  attrs: {
+                    id: "questionMulti",
+                    src:
+                      "/images/Pergunta/Multimedia/" +
+                      _vm.pergunta[this.index]["link"],
+                    type: ""
+                  }
+                })
+              ]
+            )
+          ])
+        : _vm.fileCheck() === 3
+        ? _c("div", [
+            _c("audio", { attrs: { controls: "" } }, [
               _c("source", {
                 attrs: {
-                  id: "questionMulti",
+                  id: "questionMultiAudio",
                   src:
                     "/images/Pergunta/Multimedia/" +
                     _vm.pergunta[this.index]["link"],
                   type: ""
                 }
               })
-            ]
-          )
-        ])
-      : _vm.fileCheck() === 3
-      ? _c("div", [
-          _c("audio", { attrs: { controls: "" } }, [
-            _c("source", {
-              attrs: {
-                id: "questionMultiAudio",
-                src:
-                  "/images/Pergunta/Multimedia/" +
-                  _vm.pergunta[this.index]["link"],
-                type: ""
-              }
-            })
+            ])
           ])
-        ])
-      : _vm.fileCheck() === 0
-      ? _c("div")
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.pergunta[_vm.index]["tipo"] === "multiple"
-      ? _c("div", [
-          _c("button", {
-            attrs: { id: "m1" },
-            on: {
-              click: function($event) {
-                return _vm.response("m1")
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("button", {
-            attrs: { id: "m2" },
-            on: {
-              click: function($event) {
-                return _vm.response("m2")
-              }
-            }
-          }),
-          _c("br"),
-          _vm._v(" "),
-          _c("button", {
-            attrs: { id: "m3" },
-            on: {
-              click: function($event) {
-                return _vm.response("m3")
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("button", {
-            attrs: { id: "m4" },
-            on: {
-              click: function($event) {
-                return _vm.response("m4")
-              }
-            }
-          })
-        ])
-      : _vm.pergunta[_vm.index]["tipo"] === "true/false"
-      ? _c("div", [
-          _c(
-            "button",
-            {
-              attrs: { id: "tf1", value: "true" },
-              on: {
-                click: function($event) {
-                  return _vm.response("tf1")
-                }
-              }
-            },
-            [_vm._v("True")]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              attrs: { id: "tf2", value: "true" },
-              on: {
-                click: function($event) {
-                  return _vm.response("tf2")
-                }
-              }
-            },
-            [_vm._v("False")]
-          )
-        ])
-      : _vm._e()
-  ])
+        : _vm.fileCheck() === 0
+        ? _c("div")
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.pergunta[_vm.index]["tipo"] === "multiple"
+        ? _c("div", { staticClass: "respostas mt-5" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("button", {
+                  staticClass: "respostas-btn respostas-btn-1",
+                  attrs: { id: "m1" },
+                  on: {
+                    click: function($event) {
+                      return _vm.response("m1")
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("button", {
+                  staticClass: "respostas-btn respostas-btn-2",
+                  attrs: { id: "m2" },
+                  on: {
+                    click: function($event) {
+                      return _vm.response("m2")
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("button", {
+                  staticClass: "respostas-btn respostas-btn-3 mt-4",
+                  attrs: { id: "m3" },
+                  on: {
+                    click: function($event) {
+                      return _vm.response("m3")
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("button", {
+                  staticClass: "respostas-btn respostas-btn-4 mt-4",
+                  attrs: { id: "m4" },
+                  on: {
+                    click: function($event) {
+                      return _vm.response("m4")
+                    }
+                  }
+                })
+              ])
+            ])
+          ])
+        : _vm.pergunta[_vm.index]["tipo"] === "true/false"
+        ? _c("div", { staticClass: "respostas mt-5" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-6" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "respostas-btn respostas-btn-1",
+                    attrs: { id: "tf1", value: "true" },
+                    on: {
+                      click: function($event) {
+                        return _vm.response("tf1")
+                      }
+                    }
+                  },
+                  [_vm._v("True")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "respostas-btn respostas-btn-2",
+                    attrs: { id: "tf2", value: "true" },
+                    on: {
+                      click: function($event) {
+                        return _vm.response("tf2")
+                      }
+                    }
+                  },
+                  [_vm._v("False")]
+                )
+              ])
+            ])
+          ])
+        : _vm._e()
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

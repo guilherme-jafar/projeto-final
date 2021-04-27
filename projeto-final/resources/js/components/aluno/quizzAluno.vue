@@ -1,7 +1,7 @@
 <template>
 
 
-   <div>
+   <div >
         <div v-if="quizz.length === 0" class="mx-auto">
             <h1 class="heanding-1 mx-auto mt-5">Ainda não tem nenhum Quizz</h1>
 
@@ -19,14 +19,15 @@
                     <div v-if="quizz['tipo']==='true'">
                     <div class="card-box-text">
                         <h2>{{quizz['nome']}}</h2><br>
-                        <p style="font-size: 16px">numero de perguntas={{quizz['numeroperguntas']}}</p><button type="button"  data-bs-toggle="modal"  :data-bs-target="'#p'+quizz['id']" class="btn btn-secondary ms-2" >quizz</button>
+                        <p style="font-size: 16px">&nbsp;&nbsp;Perguntas: {{quizz['numeroperguntas']}}</p>
+                        <button type="button"  data-bs-toggle="modal"  :data-bs-target="'#p'+quizz['id']" class="btn btn-secondary ms-2 ms-auto" >quizz</button>
                     </div>
 
 
 
 
                     <div class="modal fade" :id="'p'+quizz['id']" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog  ">
+                        <div class="modal-dialog  modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="staticBackdropLabel">Iniciar Quizz</h5>
@@ -55,7 +56,7 @@
 
 
                         <div class="modal fade" :id="'session'+quizz['id']" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog ">
+                            <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title">Entrar em quizz</h5>
@@ -82,12 +83,13 @@
                     <div v-else>
                         <div class="card-box-text">
                             <h2>{{quizz['nome']}}</h2><br>
-                            <p style="font-size: 16px">numero de perguntas={{quizz['numeroperguntas']}}</p><button type="button"   class="btn btn-secondary ms-2"  data-bs-toggle="modal"  :data-bs-target="'#t'+quizz['id']" >Teste</button>
+                            <p style="font-size: 16px">&nbsp;&nbsp;Perguntas: {{quizz['numeroperguntas']}}</p>
+                            <button type="button"   class="btn btn-secondary ms-2 ms-auto"  data-bs-toggle="modal"  :data-bs-target="'#t'+quizz['id']" >Teste</button>
                         </div>
 
 
                         <div class="modal fade" :id="'t'+quizz['id']" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog ">
+                            <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title">Entrar em quizz</h5>
@@ -95,8 +97,7 @@
                                                 data-bs-dismiss="modal"></button>
                                     </div>
                                     <div class="modal-body">
-                                        Tem a certeza que quer fazer este teste
-
+                                        Tem a certeza que quer fazer este teste?
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="teste(quizz['id'])">Sim</button>

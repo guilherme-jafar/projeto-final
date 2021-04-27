@@ -529,5 +529,55 @@
 
 }
 
+.fazerTeste{
+    background-color: white;
+    box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
+    padding: 2rem;
+    border-radius: 5px;
+
+    .counter{
+        span{
+            font-size: 5rem;
+            color: $cor-principal-1;
+
+        }
+
+    }
+
+    .pergunta p{
+        font-size: 4rem;
+    }
+
+    .respostas{
+
+        &-btn{
+            background-color: white;
+            border: none;
+            box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
+            padding: 2rem;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 3rem;
+
+           &-1{
+               background-color: $cor-principal-1;
+           }
+
+            &-2{
+                background-color: $cor-principal-2;
+            }
+
+            &-3{
+                background-color: $cor-principal-3;
+            }
+
+            &-4{
+                background-color: $cor-principal-4;
+            }
+        }
+
+    }
+}
+
 
 
