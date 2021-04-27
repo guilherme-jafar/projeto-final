@@ -60,7 +60,7 @@
     <div class="">
 
 
-        <button name="submit" class="btn btn-primary mt-5 mb-5 btn-submit"  type="button" id="submit" @click="submit()">
+        <button name="submit" class="btn btn-primary mt-5 mb-5 btn-loading"  type="button" id="submit" @click="submit()">
             <span class="">REGISTAR &nbsp;</span>
             <div class="spinner-border text-light d-none" role="status">
 

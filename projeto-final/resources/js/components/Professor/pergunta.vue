@@ -35,7 +35,7 @@
 
 
         <div class="modal fade" :id="'p'+topicos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog  ">
+            <div class="modal-dialog modal-dialog-centered ">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="staticBackdropLabel">Nova Pergunta</h5>
@@ -74,7 +74,7 @@
 
 
         <div class="modal fade" :id="'cp'+topicos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog ">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Nova Pergunta</h5>
@@ -84,7 +84,7 @@
                     <div class="modal-body">
 
 
-                            <a href="/assets/cvsPerguntas.xlsx" download>importar csv</a>
+                            <a class="text-center" href="/assets/cvsPerguntas.xlsx" download>Exportar csv</a>
                         <div class="col-md-12 mt-5">
                             <input type="file" :id="'Insertfile' + topicos" class="Pergunta_file mx-auto" accept=".xlsx">
                             <label :file="'Insertfile' + topicos" class="pergunta_input"></label>

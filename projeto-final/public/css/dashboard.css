@@ -467,7 +467,7 @@ li {
   box-shadow: none;
   color: white;
 }
-.btn-submit {
+.btn-loading {
   min-width: 15rem;
 }
 
@@ -684,14 +684,14 @@ section {
   font-size: 1.7rem;
 }
 
-.modal span {
+.modal span, .forms span {
   color: white;
 }
-.modal .modal-title {
+.modal .modal-title, .forms .modal-title {
   font-size: 2rem;
   color: #FF7829;
 }
-.modal form {
+.modal form, .forms form {
   font-size: 2rem;
   background-color: white;
   padding: 3rem 7rem;
@@ -699,25 +699,25 @@ section {
   font-family: "Lato", serif;
   position: relative;
 }
-.modal form .error {
+.modal form .error, .forms form .error {
   font-size: 1.3rem;
   color: red;
 }
-.modal form h2 {
+.modal form h2, .forms form h2 {
   font-size: 3rem;
   text-align: center;
   color: #40C0F0;
 }
-.modal form div {
+.modal form div, .forms form div {
   position: relative;
 }
-.modal form .label {
+.modal form .label, .forms form .label {
   bottom: 0;
   left: 0;
   width: 100%;
   pointer-events: none;
 }
-.modal form .label span {
+.modal form .label span, .forms form .label span {
   font-family: "Lato", serif;
   text-transform: capitalize;
   bottom: 31%;
@@ -727,26 +727,26 @@ section {
   background-color: white;
   color: #747474;
 }
-.modal form .form-control {
+.modal form .form-control, .forms form .form-control {
   border: 1.5px solid #C3DEE7;
   font-size: 2rem;
   padding-top: 1rem;
   border-radius: 0.5rem;
   outline: 0;
 }
-.modal form .form-control:focus {
+.modal form .form-control:focus, .forms form .form-control:focus {
   outline: none;
   box-shadow: none;
   border: 2px solid #FF7829;
 }
-.modal form .form-control:focus + label span, .modal form .form-control:valid + label span {
+.modal form .form-control:focus + label span, .modal form .form-control:valid + label span, .forms form .form-control:focus + label span, .forms form .form-control:valid + label span {
   font-size: 1.6rem;
 }
-.modal form .form-control:focus + label span {
+.modal form .form-control:focus + label span, .forms form .form-control:focus + label span {
   font-size: 1.6rem;
   color: #FF7829;
 }
-.modal form .form-control #submit span {
+.modal form .form-control #submit span, .forms form .form-control #submit span {
   color: white;
 }
 

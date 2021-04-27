@@ -4,6 +4,14 @@
 @section('content')
 
     <div class="col-md-10 mx-auto">
+
+        @if(session('estado'))
+            <div class="alert alert-primary alert-dismissible fade show mb-5" role="alert" id="alert">
+                <strong><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp;Disciplina editada com sucesso</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <div class="card card-disciplina section-dashboard">
             <div class="card-box mb-5">
                 <div class="card-box-2">
@@ -28,11 +36,12 @@
                                     <p>Quizes: 0</p>
                                 </div>
                             </div>
+
                             <div id="app2" class="mt-4">
-                                <button type="button" class="btn btn-secondary ms-2" id="btn-chg-1" onclick="chg(2)">Editar</button>
                                 <button type="button" class="btn btn-third ms-5" id="btn-chg-2" onclick="chg(1)">Topicos</button>
                                 <button type="button" class="btn btn-ghost-2 ms-5" id="btn-chg-3" onclick="chg(2)">Alunos</button>
                                 <button type="button" class="btn btn-ghost-2 ms-5" id="btn-chg-4" onclick="chg(3)">Quizz</button>
+                                <button type="button" class="btn btn-secondary ms-2" id="btn-chg-1" onclick="chg(4)">Editar</button>
                             </div>
 
                         </div>
@@ -51,6 +60,10 @@
                 </div>
 
                 <div id="app">
+                    <div id="editarDisciplina">
+                      <editar-disciplina :disciplina_prop="'{{json_encode(session('disciplina'), TRUE)}}'"></editar-disciplina>
+
+                    </div>
                     <div id="topics">
                         <disciplina-prof :topico_prop="'{{json_encode($topico, TRUE)}}'"></disciplina-prof>
 
@@ -83,9 +96,10 @@
     <script >
         $( document ).ready(function() {
 
-            $('#topics').show();
+            $('#topics').hide();
             $('#alunos').hide();
             $('#quizz').hide();
+            $('#editarDisciplina').show()
         });
 
         function chg(index){
@@ -94,7 +108,7 @@
                 case 1:
                     $('#alunos').fadeOut();
                     $('#quizz').fadeOut();
-
+                    $('#editarDisciplina').fadeOut()
                     $('#topics').fadeIn();
                     $('#btn-chg-2').addClass('btn-third')
                     $('#btn-chg-2').removeClass('btn-ghost-2')
@@ -109,6 +123,7 @@
                     $('#topics').fadeOut();
                     $('#alunos').fadeIn();
                     $('#quizz').fadeOut();
+                    $('#editarDisciplina').fadeOut();
                     $('#btn-chg-3').addClass('btn-third')
                     $('#btn-chg-3').removeClass('btn-ghost-2')
                     $('#btn-chg-2').removeClass('btn-third')
@@ -122,6 +137,7 @@
                     $('#topics').fadeOut();
                     $('#alunos').fadeOut();
                     $('#quizz').fadeIn();
+                    $('#editarDisciplina').fadeOut();
                     $('#btn-chg-3').removeClass('btn-third')
                     $('#btn-chg-3').addClass('btn-ghost-2')
                     $('#btn-chg-2').removeClass('btn-third')
@@ -132,6 +148,20 @@
                     $('#btn-chg-4').addClass('btn-ghost-2')
 
 
+                    break;
+                case 4:
+                    $('#topics').fadeOut();
+                    $('#alunos').fadeOut();
+                    $('#quizz').fadeOut();
+                    $('#editarDisciplina').fadeIn();
+                    $('#btn-chg-3').removeClass('btn-third')
+                    $('#btn-chg-3').addClass('btn-ghost-2')
+                    $('#btn-chg-2').removeClass('btn-third')
+                    $('#btn-chg-2').addClass('btn-ghost-2')
+                    $('#newTopic').hide();
+                    $('#newQuiz').addClass('d-none');
+                    $('#btn-chg-4').removeClass('btn-third')
+                    $('#btn-chg-4').addClass('btn-ghost-2')
                     break;
 
             }

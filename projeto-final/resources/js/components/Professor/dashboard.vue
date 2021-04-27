@@ -21,10 +21,6 @@
         </div>
 
 
-
-
-
-
         <div v-if="disciplinas.length === 0" class="mx-auto">
             <h1 class="heanding-1">Ainda não tem nenhuma disciplina</h1>
             <!-- Button trigger modal -->
@@ -82,7 +78,11 @@
 
                                     </li>
                                     <li><a class="dropdown-item" href="#">Editar</a></li>
-                                    <li><a class="dropdown-item" href="#">Entrar</a></li>
+                                    <li>
+                                        <button type="button" class="dropdown-item"  @click="Enter(disciplina)">
+                                            Entrar
+                                        </button>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -97,7 +97,7 @@
                     </div>
                     <!-- Modal -->
                     <div class="modal fade" :id="'eliminar' + disciplina['id']" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
+                        <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" :id="'tituloEliminar' + disciplina['id']">{{disciplina['nome']}}</h5>
@@ -123,7 +123,7 @@
 
                     <!-- Modal -->
                     <div class="modal fade" :id="'d'+disciplina['id']" tabindex="-1" :aria-labelledby="disciplina['id']" aria-hidden="true">
-                        <div class="modal-dialog">
+                        <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" :id="'dds'+disciplina['id']">Codigo da disciplina</h5>
@@ -137,16 +137,9 @@
                         </div>
                     </div>
 
-
-
-
                 </li>
             </ul>
         </div>
-
-
-
-
 
         <!-- Modal -->
         <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

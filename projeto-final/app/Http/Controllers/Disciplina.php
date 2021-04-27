@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 
 namespace App\Http\Controllers;
 
@@ -46,6 +46,9 @@ class Disciplina extends Controller
     {
 
         $disciplina = \App\Models\Disciplina::find($request->token);
+//        $disciplina = DB::select('select * FROM disciplina
+//                                    WHERE id = :id', ['id' => $request->token]);
+       //dd($disciplina);
         $topico = DB::select('select * FROM topicos
                                     WHERE disciplina_id = :id', ['id' => $request->token]);
         $request->session()->put('disciplina', $disciplina);
@@ -185,7 +188,38 @@ class Disciplina extends Controller
 
         }
 
+        return response()->json([
+            'message' => 'erro',
+        ]);
 
+
+    }
+
+    function editar(Request $request){
+
+
+        DB::table('disciplina')
+            ->where('id','=',$request->input('id'))
+            ->update(['nome' => $request->input('disciplina'), 'descricao' => $request->input('descricao')]);
+
+        return response()->json([
+            'message' => 'sucesso',
+        ]);
+
+    }
+
+    public function sucesso(){
+       // return redirect('/prof/disciplina/sucesso'. session('disciplina')['id'])->with('estado', 'sucesso');
+        dd(session('disciplina')['id']);
+        $disciplina = \App\Models\Disciplina::find(session('disciplina'));
+        $topico = DB::select('select * FROM topicos
+                                    WHERE disciplina_id = :id', ['id' => session('disciplina')['id']]);
+        session()->put('disciplina', $disciplina);
+        if (!empty($topico)) {
+            return view('/prof/Disciplina/' + session('disciplina')['id'], ['topico' => $topico])->with('estado', 'sucesso');
+        } else {
+            return view('/prof/Disciplina/' + session('disciplina')['id'], ['topico' => []])->with('estado', 'sucesso');
+        }
     }
 
 }

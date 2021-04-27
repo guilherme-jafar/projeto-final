@@ -23,7 +23,7 @@
                                     <p>Descricao: {{session('disciplina')['descricao']}}</p>
                                 </div>
                                 <div class="mt-1">
-                                    <p>Alunos: {{session('disciplina')['inscritos']}}</p>
+                                    <p>Pontos: </p>
                                     <p>Quizes: 0</p>
                                 </div>
                             </div>
