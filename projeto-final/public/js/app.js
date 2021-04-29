@@ -2251,6 +2251,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "disciplinaProf",
@@ -2790,6 +2801,61 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2798,7 +2864,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       topicos: this.topico_id,
-      perguntas: ''
+      perguntas: '',
+      toastPergunta: ''
     };
   },
   methods: {
@@ -2829,7 +2896,7 @@ __webpack_require__.r(__webpack_exports__);
       if (document.getElementById("pergunta" + top).value.length <= 0) {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#PerguntaError' + top).text("indique o enunciado da pergunta").css('color', 'red').css('opacity', '1');
       } else if (document.getElementById("pergunta" + top).value.length > 120) {
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#PerguntaError' + top).text("O enunciado e demasiado grande").css('color', 'red').css('opacity', '1');
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#PerguntaError' + top).text("O enunciado é demasiado grande").css('color', 'red').css('opacity', '1');
       } else {
         form.append('topico', top);
         form.append('pergunta', document.getElementById("pergunta" + top).value);
@@ -2870,7 +2937,7 @@ __webpack_require__.r(__webpack_exports__);
           }
 
           if (flag2) {
-            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + top).text("Uma das respostas e demasiado grande").css('color', 'red').css('opacity', '1');
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + top).text("Uma das respostas tem mais de 100 letras").css('color', 'red').css('opacity', '1');
           } else if (index < 2) {
             jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + top).text("Uma pergunta tem de ter pelo menos 2 respostas").css('color', 'red').css('opacity', '1');
           } else if (!flag) {
@@ -2896,6 +2963,45 @@ __webpack_require__.r(__webpack_exports__);
             form.append('resposta', corret);
             this.send(form, top);
           }
+        } else if (document.getElementById("tipo" + top).value === "multiple-select") {
+          var opcoes = jquery__WEBPACK_IMPORTED_MODULE_0___default()('input[name="corret' + top + '[]"]:checked');
+          var opcoesEscolhidas = [];
+          var respostas = [];
+          var guardarOpcoes = true;
+
+          if (opcoes.length <= 1) {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + top).text("Escolha duas ou mais opções corretas!!").css('color', 'red').css('opacity', '1');
+          } else {
+            for (var _i2 = 0; _i2 < opcoes.length; _i2++) {
+              opcoesEscolhidas[_i2] = opcoes[_i2].value;
+
+              if (document.getElementById("rem" + (_i2 + 1) + top).value.length === 0) {
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + top).text("Não pode escolher uma opção vazia como certa!!").css('color', 'red').css('opacity', '1');
+                guardarOpcoes = false;
+                break;
+              } else if (document.getElementById("rem" + (_i2 + 1) + top).value.length > 100) {
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + top).text("Uma das respostas tem mais de 100 letras").css('color', 'red').css('opacity', '1');
+                guardarOpcoes = false;
+                break;
+              }
+            }
+
+            if (guardarOpcoes) {
+              for (var _i3 = 1; _i3 < 5; _i3++) {
+                if (document.getElementById("rem" + _i3 + top).value.length > 0 && document.getElementById("rem" + _i3 + top).value.length <= 100) {
+                  respostas[_i3 - 1] = document.getElementById("rem" + _i3 + top).value;
+                }
+              }
+
+              if (respostas.length >= 2) {
+                form.append('array', JSON.stringify(respostas));
+                form.append('respostas', JSON.stringify(opcoesEscolhidas));
+                this.send(form, top);
+              } else {
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + top).text("Só pode introduzir duas ou mais opcões!!").css('color', 'red').css('opacity', '1');
+              }
+            }
+          }
         }
       }
     },
@@ -2903,10 +3009,12 @@ __webpack_require__.r(__webpack_exports__);
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit' + top).prop('disabled', true);
       axios__WEBPACK_IMPORTED_MODULE_1___default().post('/insertQuestion', form).then(function (response) {
         if (response.data.message === "erro") {
-          alert("erro a enserir a pergunta");
+          alert("Erro a inserir a pergunta");
         } else {
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit' + top).prop('disabled', false);
           this.modal.hide();
+          this.toastPergunta.show();
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#toast-pergunta').removeClass('d-none');
         }
 
         document.getElementById("pergunta" + top).value = "";
@@ -2916,7 +3024,7 @@ __webpack_require__.r(__webpack_exports__);
           var radios = document.getElementsByName("corret" + top);
 
           for (var i = 1; i < 5; i++) {
-            document.getElementById("re" + i + top).value = " ";
+            document.getElementById("re" + i + top).value = "";
 
             if (radios[i - 1].checked) {
               radios[i - 1].checked = false;
@@ -2925,10 +3033,17 @@ __webpack_require__.r(__webpack_exports__);
         } else if (document.getElementById("tipo" + top).value === "true/false") {
           var radios2 = document.getElementsByName("TF" + top);
 
-          for (var _i2 = 0; _i2 < 2; _i2++) {
-            if (radios2[_i2].checked) {
-              radios2[_i2 - 1].checked = false;
+          for (var _i4 = 0; _i4 < 2; _i4++) {
+            if (radios2[_i4].checked) {
+              radios2[_i4 - 1].checked = false;
             }
+          }
+        } else if (document.getElementById("tipo" + top).value === "multiple-select") {
+          var checkboxRe = document.getElementsByName("corret" + top + "[]");
+
+          for (var _i5 = 1; _i5 < 5; _i5++) {
+            checkboxRe[_i5 - 1].checked = false;
+            document.getElementById("rem" + _i5 + top).value = "";
           }
         }
 
@@ -2952,9 +3067,9 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
 
-        for (var _i3 = 0; _i3 < newPerguntas.length; _i3++) {
-          if (newPerguntas[_i3][1].length <= 120 && newPerguntas[_i3][2].length <= 120 && newPerguntas[_i3][2].length <= 120 && newPerguntas[_i3][2].length <= 120 && newPerguntas[_i3][2].length <= 120) {
-            if (newPerguntas[_i3][newPerguntas[_i3][7] + 1] === null) {
+        for (var _i6 = 0; _i6 < newPerguntas.length; _i6++) {
+          if (newPerguntas[_i6][1].length <= 120 && newPerguntas[_i6][2].length <= 120 && newPerguntas[_i6][2].length <= 120 && newPerguntas[_i6][2].length <= 120 && newPerguntas[_i6][2].length <= 120) {
+            if (newPerguntas[_i6][newPerguntas[_i6][7] + 1] === null) {
               jquery__WEBPACK_IMPORTED_MODULE_0___default()('#InsertfileError' + topicos).text("Erro no ficheiro").css('color', 'red').css('opacity', '1');
               flag = true;
               jquery__WEBPACK_IMPORTED_MODULE_0___default()('#InsertfileButton' + topicos).prop('disabled', false);
@@ -2985,13 +3100,20 @@ __webpack_require__.r(__webpack_exports__);
     alter: function alter() {
       var id = "trueFalse" + this.topicos;
       var id2 = "multiple" + this.topicos;
+      var id3 = "multiple-select" + this.topicos;
 
       if (document.getElementById("tipo" + this.topicos).value === "multiple") {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).hide();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).show();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).hide();
       } else if (document.getElementById("tipo" + this.topicos).value === "true/false") {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).show();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).hide();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).hide();
+      } else if (document.getElementById("tipo" + this.topicos).value === "multiple-select") {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).hide();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).hide();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).show();
       }
     }
   },
@@ -3001,8 +3123,14 @@ __webpack_require__.r(__webpack_exports__);
     this.modal2 = new bootstrap.Modal(document.getElementById('cp' + this.topicos), {});
     var id = "trueFalse" + this.topicos;
     var id2 = "multiple" + this.topicos;
+    var id3 = "multiple-select" + this.topicos;
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).hide();
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).show();
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).hide();
+    this.toastPergunta = new bootstrap.Toast(document.getElementById('toast-pergunta'), {
+      delay: 10000
+    });
+    this.toastPergunta.hide();
   }
 });
 
@@ -34615,13 +34743,15 @@ var render = function() {
   return _c("div", { staticClass: "section-topicos mt-5 me-md-5 ms-md-5" }, [
     _vm._m(0),
     _vm._v(" "),
+    _vm._m(1),
+    _vm._v(" "),
     _vm.topicos.length === 0
       ? _c("div", { staticClass: "mx-auto" }, [
           _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
             _vm._v("Ainda não tem nenhum Topico")
           ]),
           _vm._v(" "),
-          _vm._m(1)
+          _vm._m(2)
         ])
       : _c("div", { staticClass: "section-disciplinas-items " }, [
           _c("div", { staticClass: "box-search mb-5" }, [
@@ -34721,9 +34851,9 @@ var render = function() {
       [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(2),
-            _vm._v(" "),
             _vm._m(3),
+            _vm._v(" "),
+            _vm._m(4),
             _vm._v(" "),
             _c("div", { staticClass: "modal-footer" }, [
               _c(
@@ -34785,6 +34915,44 @@ var staticRenderFns = [
               _c("i", { staticClass: "bi bi-check-circle-fill" }),
               _vm._v("   \n                    "),
               _c("span", [_vm._v("Topico adicionada com sucesso")])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("button", {
+            staticClass: "btn-close me-2 m-auto",
+            attrs: {
+              type: "button",
+              "data-bs-dismiss": "toast",
+              "aria-label": "Close"
+            }
+          })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "toast toast-primary align-items-center mb-5 mtn-5 d-none",
+        staticStyle: { width: "60%" },
+        attrs: {
+          id: "toast-pergunta",
+          role: "alert",
+          "aria-live": "assertive",
+          "aria-atomic": "true"
+        }
+      },
+      [
+        _c("div", { staticClass: "d-flex" }, [
+          _c("div", { staticClass: "toast-body" }, [
+            _c("strong", [
+              _c("i", { staticClass: "bi bi-check-circle-fill" }),
+              _vm._v("   \n                    "),
+              _c("span", [_vm._v("Pergunta adicionada com sucesso!!")])
             ])
           ]),
           _vm._v(" "),
@@ -35157,14 +35325,20 @@ var render = function() {
         _vm._v(" "),
         _vm.perguntas.length === 0
           ? _c("div", { staticClass: "mx-auto" }, [
-              _c("h3", [_vm._v("Ainda não tem nenhum Pergunta")])
+              _c("h3", [_vm._v("Ainda não tem nenhuma Pergunta")])
             ])
-          : _c("div", { staticClass: "section-disciplinas-items " }, [
+          : _c("div", { staticClass: "lista-perguntas" }, [
               _c(
                 "ul",
                 _vm._l(_vm.perguntas, function(pergunta) {
                   return _c("li", { key: pergunta["id"] }, [
-                    _c("h3", [_vm._v(_vm._s(pergunta["enunciado"]))])
+                    _c("div", { staticClass: "d-flex mb-5 card" }, [
+                      _c("h3", [_vm._v(_vm._s(pergunta["enunciado"]))]),
+                      _vm._v(" "),
+                      _c("button", { staticClass: "btn btn-primary ms-auto" }, [
+                        _vm._v("Ver Detalhes")
+                      ])
+                    ])
                   ])
                 }),
                 0
@@ -35416,7 +35590,13 @@ var render = function() {
                                   _c(
                                     "option",
                                     { attrs: { value: "multiple" } },
-                                    [_vm._v("Escolha múltipla")]
+                                    [_vm._v("Seleção Única")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "multiple-select" } },
+                                    [_vm._v("Seleção Múltipla")]
                                   ),
                                   _vm._v(" "),
                                   _c(
@@ -35674,9 +35854,7 @@ var render = function() {
                                     ]
                                   )
                                 ]
-                              ),
-                              _vm._v(" "),
-                              _c("p", { attrs: { id: "RError" + _vm.topicos } })
+                              )
                             ]
                           )
                         ]),
@@ -35723,6 +35901,161 @@ var render = function() {
                               _c("p", { attrs: { id: "TError" + _vm.topicos } })
                             ]
                           )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-12 " }, [
+                          _c(
+                            "div",
+                            {
+                              staticStyle: { "margin-top": "20px" },
+                              attrs: { id: "multiple-select" + _vm.topicos }
+                            },
+                            [
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "input-group mb-3 insertAnsewr"
+                                },
+                                [
+                                  _c("input", {
+                                    staticClass: " form-control",
+                                    staticStyle: { border: "none" },
+                                    attrs: {
+                                      type: "text",
+                                      id: "rem1" + _vm.topicos,
+                                      "aria-label":
+                                        "Text input with radio button",
+                                      placeholder: "Opção 1"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "input-group-text" },
+                                    [
+                                      _c("input", {
+                                        staticClass: "form-check-input",
+                                        attrs: {
+                                          type: "checkbox",
+                                          name: "corret" + _vm.topicos + "[]"
+                                        },
+                                        domProps: { value: "re1" + _vm.topicos }
+                                      })
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "input-group mb-3 insertAnsewr"
+                                },
+                                [
+                                  _c("input", {
+                                    staticClass: " form-control",
+                                    staticStyle: { border: "none" },
+                                    attrs: {
+                                      type: "text",
+                                      id: "rem2" + _vm.topicos,
+                                      "aria-label":
+                                        "Text input with radio button",
+                                      placeholder: "Opção 2"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "input-group-text" },
+                                    [
+                                      _c("input", {
+                                        staticClass: "form-check-input",
+                                        attrs: {
+                                          type: "checkbox",
+                                          name: "corret" + _vm.topicos + "[]"
+                                        },
+                                        domProps: { value: "re2" + _vm.topicos }
+                                      })
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "input-group mb-3 insertAnsewr"
+                                },
+                                [
+                                  _c("input", {
+                                    staticClass: " form-control",
+                                    staticStyle: { border: "none" },
+                                    attrs: {
+                                      type: "text",
+                                      id: "rem3" + _vm.topicos,
+                                      "aria-label":
+                                        "Text input with radio button",
+                                      placeholder: "Opção 3"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "input-group-text" },
+                                    [
+                                      _c("input", {
+                                        staticClass: "form-check-input",
+                                        attrs: {
+                                          type: "checkbox",
+                                          name: "corret" + _vm.topicos + "[]"
+                                        },
+                                        domProps: { value: "re3" + _vm.topicos }
+                                      })
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "input-group mb-3 insertAnsewr"
+                                },
+                                [
+                                  _c("input", {
+                                    staticClass: " form-control",
+                                    staticStyle: { border: "none" },
+                                    attrs: {
+                                      type: "text",
+                                      id: "rem4" + _vm.topicos,
+                                      "aria-label":
+                                        "Text input with radio button",
+                                      placeholder: "Opção 4"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "input-group-text" },
+                                    [
+                                      _c("input", {
+                                        staticClass: "form-check-input",
+                                        attrs: {
+                                          type: "checkbox",
+                                          name: "corret" + _vm.topicos + "[]"
+                                        },
+                                        domProps: { value: "re4" + _vm.topicos }
+                                      })
+                                    ]
+                                  )
+                                ]
+                              )
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c("p", { attrs: { id: "RError" + _vm.topicos } })
                         ])
                       ])
                     ]),

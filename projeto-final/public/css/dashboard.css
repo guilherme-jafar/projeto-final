@@ -849,6 +849,11 @@ section {
   font-size: 2.5rem;
   font-weight: 700;
 }
+.card-disciplina .section-disciplinas-items .card-box .lista-perguntas .card {
+  flex-direction: inherit;
+  padding: 0.5rem;
+  border: none;
+}
 .card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .modal-title {
   font-size: 2rem;
   font-weight: 700;

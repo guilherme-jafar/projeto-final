@@ -96,10 +96,10 @@
     <script >
         $( document ).ready(function() {
 
-            $('#topics').hide();
+            $('#topics').show();
             $('#alunos').hide();
             $('#quizz').hide();
-            $('#editarDisciplina').show()
+            $('#editarDisciplina').hide()
         });
 
         function chg(index){
@@ -144,8 +144,8 @@
                     $('#btn-chg-2').addClass('btn-ghost-2')
                     $('#newTopic').hide();
                     $('#newQuiz').removeClass('d-none');
-                    $('#btn-chg-4').removeClass('btn-third')
-                    $('#btn-chg-4').addClass('btn-ghost-2')
+                    $('#btn-chg-4').addClass('btn-third')
+                    $('#btn-chg-4').removeClass('btn-ghost-2')
 
 
                     break;

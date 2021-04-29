@@ -380,6 +380,15 @@
                 }
             }
 
+            .lista-perguntas{
+                .card{
+                   // box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
+                    flex-direction: inherit;
+                    padding: 0.5rem;
+                    border: none;
+                }
+            }
+
             .section-add-pergunta{
                 .modal-adicionar-pergunta{
                     .modal-title{
