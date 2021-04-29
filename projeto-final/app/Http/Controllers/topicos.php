@@ -102,12 +102,12 @@ class topicos extends Controller
                 DB::insert('insert into perguntas (id, enunciado,tempo,tipo,valor,topicos_id) values (?,?,?,?,?,?)'
                     , [$id, $pergunta, $tempo, $tipo, $p, $topico]);
 
-                for ($i = 0; $i <= count($question); $i++) {
+                for ($i = 0; $i < count($question); $i++) {
                     $idRes = time() . uniqid();
 
 
                     var_dump(in_array("re" . ($i+1) . $topico, $resposta));
-                    var_dump($resposta[$i]);
+
                     var_dump("re" . ($i+1) . $topico . "/n");
                     if (in_array("re" . ($i+1) . $topico, $resposta)) {
                         DB::insert('insert into respostas (id,resposta,resultado,perguntas_id) values (?,?,?,?)'

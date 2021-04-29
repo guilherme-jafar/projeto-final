@@ -1,15 +1,16 @@
 <template>
     <div class="section-quizz mt-5 me-md-5 ms-md-5">
-        <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toast" role="alert"
+        <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toast-quiz" role="alert"
              aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body">
                     <strong><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp;
-                        <span>Quizz adicionada com sucesso</span> </strong>
+                        <span>Quizz adicionado com sucesso!!</span> </strong>
                 </div>
                 <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
+
 
         <div v-if="quizz.length === 0" class="mx-auto">
             <h1 class="heanding-1 mx-auto mt-5">Ainda não tem nenhum Quizz</h1>
@@ -177,7 +178,7 @@
         data() {
             return {
                 modal: '',
-                toast: '',
+                toastQuiz: '',
                 search: '',
                 topicos: JSON.parse(this.topico_prop),
                 quizz: ''
@@ -319,8 +320,8 @@
         mounted() {
 
             this.modal = new bootstrap.Modal(document.getElementById('exampleModal2'), {})
-            this.toast = new bootstrap.Toast(document.getElementById('toast'), {delay: 10000})
-            this.toast.hide();
+            this.toastQuiz = new bootstrap.Toast(document.getElementById('toast-quiz'), {delay: 10000})
+            this.toastQuiz.hide();
             this.topicsCheck();
             this.listQuizz();
         }

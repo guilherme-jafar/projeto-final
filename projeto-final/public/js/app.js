@@ -3319,6 +3319,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3327,7 +3328,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       modal: '',
-      toast: '',
+      toastQuiz: '',
       search: '',
       topicos: JSON.parse(this.topico_prop),
       quizz: ''
@@ -3450,10 +3451,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.modal = new bootstrap.Modal(document.getElementById('exampleModal2'), {});
-    this.toast = new bootstrap.Toast(document.getElementById('toast'), {
+    this.toastQuiz = new bootstrap.Toast(document.getElementById('toast-quiz'), {
       delay: 10000
     });
-    this.toast.hide();
+    this.toastQuiz.hide();
     this.topicsCheck();
     this.listQuizz();
   }
@@ -4319,6 +4320,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -4336,7 +4351,11 @@ __webpack_require__.r(__webpack_exports__);
       index: 0,
       countDown: 0,
       session: JSON.parse(this.quizz_session),
-      pergunta: JSON.parse(this.pergunta_prop)
+      pergunta: JSON.parse(this.pergunta_prop),
+      first: 0,
+      respostasMultiplas: [],
+      respostasCertas: 0,
+      respostasEscolhidas: []
     };
   },
   methods: {
@@ -4380,8 +4399,60 @@ __webpack_require__.r(__webpack_exports__);
 
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('.wrapper').hide();
       } else {
-        clearTimeout(this.timer);
-        window.location.replace('/EndQuizz/' + this.session);
+        clearTimeout(this.timer); //window.location.replace('/EndQuizz/' + this.session);
+      }
+    },
+    responseMultiplas: function responseMultiplas(id) {
+      var resposta = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).html();
+
+      if (id !== 'erro') {
+        for (var i = 0; i < this.respostasMultiplas.length; i++) {
+          if (resposta.toLowerCase() === this.respostasMultiplas[i].toLowerCase()) {
+            this.respostasCertas++;
+          }
+        }
+
+        this.first++;
+        this.respostasEscolhidas.push(resposta);
+
+        if (this.first === this.respostasMultiplas.length) {
+          if (this.respostasCertas === this.respostasMultiplas.length) {
+            var tempo = this.countDown;
+            var tempoTotal = this.pergunta[this.index]['tempo'];
+            var valorTotal = this.pergunta[this.index]['valor'];
+            this.res = Math.round(valorTotal * tempo / tempoTotal);
+          } else {
+            this.res = 0;
+          }
+
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.wrapper').show();
+
+          if (this.res > 0) {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#wrapper').css('background-color', '#7FBA27');
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#couter').html(this.res);
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#corretoErrado').html('<span>Correto</span><i class="bi bi-check"></i><br>');
+          } else {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#wrapper').css('background-color', '#dc3545');
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#couter').html(0);
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#corretoErrado').html('<span>Errada</span><i class="bi bi-x"></i><br>');
+          }
+
+          this.resultado += this.res;
+          clearTimeout(this.timer);
+          this.countDown = 0;
+          console.log(JSON.stringify(this.respostasEscolhidas));
+          var form = new FormData();
+          form.append('id', this.pergunta[this.index]['id']);
+          form.append('pergunta', this.pergunta[this.index]['enunciado']);
+          form.append('resposta', JSON.stringify(this.respostasEscolhidas));
+          form.append('resultado', this.res);
+          form.append('tipo', this.pergunta[this.index]['tipo']);
+          form.append('sessioId', this.session);
+          axios.post('/setResposta', form).then(function (response) {
+            this.change();
+            this.sleep(2500);
+          }.bind(this));
+        }
       }
     },
     response: function response(id) {
@@ -4452,6 +4523,26 @@ __webpack_require__.r(__webpack_exports__);
                 jquery__WEBPACK_IMPORTED_MODULE_0___default()('#m' + k).val(respostas[i]['resposta']);
               }
             }
+          } else if (this.pergunta[this.index]['tipo'] === 'multiple-select') {
+            this.first = 0;
+            console.log(respostas);
+
+            for (var _i = 0; _i < respostas.length; _i++) {
+              var _k = _i + 1;
+
+              if (respostas[_i]['resposta'] === " ") {
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#m' + _k).hide();
+              } else {
+                if (respostas[_i]['resultado'] === 1) {
+                  this.respostasMultiplas.push(respostas[_i]['resposta']);
+                  console.log(this.respostasMultiplas);
+                }
+
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#m' + _k).show();
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#m' + _k).html(respostas[_i]['resposta']);
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#m' + _k).val(respostas[_i]['resposta']);
+              }
+            }
           }
         }
       }.bind(this));
@@ -4519,7 +4610,6 @@ __webpack_require__.r(__webpack_exports__);
         this.startQuestion();
         this.countDownTimer();
       } else {
-        console.log("www");
         this.index = 0;
         this.countDown = this.pergunta[this.index]['tempo'] + 1;
         this.getRespostas();
@@ -4527,7 +4617,6 @@ __webpack_require__.r(__webpack_exports__);
         this.countDownTimer();
       }
     } else {
-      console.log("www");
       this.index = 0;
       this.countDown = this.pergunta[this.index]['tempo'] + 1;
       this.getRespostas();
@@ -36439,7 +36528,7 @@ var staticRenderFns = [
       {
         staticClass: "toast toast-primary align-items-center mb-5 mtn-5 d-none",
         attrs: {
-          id: "toast",
+          id: "toast-quiz",
           role: "alert",
           "aria-live": "assertive",
           "aria-atomic": "true"
@@ -36451,7 +36540,7 @@ var staticRenderFns = [
             _c("strong", [
               _c("i", { staticClass: "bi bi-check-circle-fill" }),
               _vm._v("   \n                    "),
-              _c("span", [_vm._v("Quizz adicionada com sucesso")])
+              _c("span", [_vm._v("Quizz adicionado com sucesso!!")])
             ])
           ]),
           _vm._v(" "),
@@ -38191,6 +38280,58 @@ var render = function() {
                   },
                   [_vm._v("False")]
                 )
+              ])
+            ])
+          ])
+        : _vm.pergunta[_vm.index]["tipo"] === "multiple-select"
+        ? _c("div", { staticClass: "respostas mt-5" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("button", {
+                  staticClass: "respostas-btn respostas-btn-1",
+                  attrs: { id: "m1" },
+                  on: {
+                    click: function($event) {
+                      return _vm.responseMultiplas("m1")
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("button", {
+                  staticClass: "respostas-btn respostas-btn-2",
+                  attrs: { id: "m2" },
+                  on: {
+                    click: function($event) {
+                      return _vm.responseMultiplas("m2")
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("button", {
+                  staticClass: "respostas-btn respostas-btn-3 mt-4",
+                  attrs: { id: "m3" },
+                  on: {
+                    click: function($event) {
+                      return _vm.responseMultiplas("m3")
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("button", {
+                  staticClass: "respostas-btn respostas-btn-4 mt-4",
+                  attrs: { id: "m4" },
+                  on: {
+                    click: function($event) {
+                      return _vm.responseMultiplas("m4")
+                    }
+                  }
+                })
               ])
             ])
           ])

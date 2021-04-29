@@ -55,6 +55,20 @@
 
         </div>
 
+        <div class="respostas mt-5" v-else-if="pergunta[index]['tipo']==='multiple-select'">
+
+            <div class="row">
+                <div class="col-md-6"><button class="respostas-btn respostas-btn-1" id="m1" @click="responseMultiplas('m1')"></button></div>
+                <div class="col-md-6"><button  class="respostas-btn respostas-btn-2" id="m2" @click="responseMultiplas('m2')"></button></div>
+
+                <div class="col-md-6"><button  class="respostas-btn respostas-btn-3 mt-4" id="m3" @click="responseMultiplas('m3')"></button></div>
+                <div class="col-md-6"> <button  class="respostas-btn respostas-btn-4 mt-4" id="m4" @click="responseMultiplas('m4')"></button></div>
+            </div>
+
+
+
+        </div>
+
 
     </div>
 </template>
@@ -78,7 +92,11 @@
                 index: 0,
                 countDown: 0,
                 session: JSON.parse(this.quizz_session),
-                pergunta: JSON.parse(this.pergunta_prop)
+                pergunta: JSON.parse(this.pergunta_prop),
+                first: 0,
+                respostasMultiplas: [],
+                respostasCertas: 0,
+                respostasEscolhidas: []
             }
         },
         methods: {
@@ -143,14 +161,75 @@
                     clearTimeout(this.timer)
 
 
-                    window.location.replace('/EndQuizz/' + this.session);
+                    //window.location.replace('/EndQuizz/' + this.session);
 
 
                 }
 
             },
 
+            responseMultiplas(id){
+                var resposta = $('#' + id).html()
 
+                if (id !== 'erro'){
+
+                    for (let i = 0; i < this.respostasMultiplas.length; i++){
+
+                        if (resposta.toLowerCase() === this.respostasMultiplas[i].toLowerCase()){
+                            this.respostasCertas ++;
+                        }
+                    }
+                    this.first++;
+                    this.respostasEscolhidas.push(resposta);
+                    if (this.first === this.respostasMultiplas.length){
+                        if (this.respostasCertas === this.respostasMultiplas.length){
+                            var tempo = this.countDown;
+                            var tempoTotal = this.pergunta[this.index]['tempo']
+                            var valorTotal = this.pergunta[this.index]['valor']
+                            this.res = Math.round((valorTotal * tempo) / tempoTotal);
+                        }else {
+                            this.res = 0;
+                        }
+
+                        $('.wrapper').show();
+
+                        if (this.res > 0) {
+
+                            $('#wrapper').css('background-color', '#7FBA27')
+                            $('#couter').html(this.res)
+                            $('#corretoErrado').html('<span>Correto</span><i class="bi bi-check"></i><br>')
+                        } else {
+                            $('#wrapper').css('background-color', '#dc3545')
+                            $('#couter').html(0)
+                            $('#corretoErrado').html('<span>Errada</span><i class="bi bi-x"></i><br>')
+                        }
+                        this.resultado += this.res;
+                        clearTimeout(this.timer)
+                        this.countDown = 0;
+
+                        console.log( JSON.stringify(this.respostasEscolhidas))
+                        let form = new FormData();
+                        form.append('id', this.pergunta[this.index]['id'])
+                        form.append('pergunta', this.pergunta[this.index]['enunciado'])
+                        form.append('resposta', JSON.stringify(this.respostasEscolhidas))
+                        form.append('resultado', this.res)
+                        form.append('tipo', this.pergunta[this.index]['tipo'])
+                        form.append('sessioId', this.session)
+
+
+                        axios.post('/setResposta', form).then(function (response) {
+
+                            this.change()
+                            this.sleep(2500)
+
+
+                        }.bind(this));
+                    }
+                }
+
+
+
+            },
             response(id) {
                 var tempo = this.countDown;
                 var tempoTotal = this.pergunta[this.index]['tempo']
@@ -205,6 +284,7 @@
             getRespostas() {
                 var respostas;
                 let form = new FormData();
+
                 form.append('id', this.pergunta[this.index]['id'])
                 axios.post('/getRespostas', form).then(function (response) {
 
@@ -242,6 +322,29 @@
                             }
 
 
+                        } else if (this.pergunta[this.index]['tipo'] === 'multiple-select'){
+                            this.first = 0;
+                            console.log(respostas)
+
+                            for (let i = 0; i < respostas.length; i++) {
+
+                                let k = i + 1
+
+                                if (respostas[i]['resposta'] === " ") {
+                                    $('#m' + k).hide()
+                                } else {
+                                    if (respostas[i]['resultado'] === 1){
+                                        this.respostasMultiplas.push(respostas[i]['resposta'])
+                                        console.log(this.respostasMultiplas)
+                                    }
+
+
+
+                                    $('#m' + k).show()
+                                    $('#m' + k).html(respostas[i]['resposta']);
+                                    $('#m' + k).val(respostas[i]['resposta']);
+                                }
+                            }
                         }
 
 
@@ -317,6 +420,7 @@
         },
         mounted() {
             $('.wrapper').hide();
+
             if ($cookies.get('quizz')) {
                 let cookie = $cookies.get('quizz')
                 cookie = cookie.split('@')
@@ -331,7 +435,7 @@
 
                     this.countDownTimer();
                 } else {
-                    console.log("www")
+
                     this.index = 0;
                     this.countDown = this.pergunta[this.index]['tempo'] + 1
                     this.getRespostas();
@@ -340,13 +444,14 @@
                     this.countDownTimer();
                 }
             } else {
-                console.log("www")
+
                 this.index = 0;
                 this.countDown = this.pergunta[this.index]['tempo'] + 1
                 this.getRespostas();
                 this.startQuestion();
 
                 this.countDownTimer();
+
             }
 
 

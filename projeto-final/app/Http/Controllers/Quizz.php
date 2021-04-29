@@ -11,10 +11,13 @@ class Quizz extends Controller
     function listQuizz(Request $request)
     {
 
-
+        var_dump( session('disciplina')['id']);
+        //TODO: o id da disciplina está errado
         $Quizz = DB::table('quizz')
             ->where('disciplina_id', '=', session('disciplina')['id'])
             ->get();
+
+
 
         if (!empty($Quizz)) {
             return response()->json([
@@ -152,6 +155,8 @@ class Quizz extends Controller
 
     function setResposta(Request $request){
 
+
+        var_dump($request->resposta);
 
         DB::insert('insert into respostas_quizz (id, resposta ,resultado,tipo,sessao_id,aluno_utilizador_id,pergunta_id) values (?,?,?,?,?,?,?)'
             , [uniqid(), $request->resposta, $request->resultado, $request->tipo, $request->sessioId, session('utilizador')['id'],$request->id]);

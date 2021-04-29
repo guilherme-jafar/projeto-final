@@ -5,6 +5,7 @@
 
 
     <div id="app">
+
         <pergunta-quizz :pergunta_prop="'{{json_encode($quizz, TRUE)}}'"
                         :quizz_session="'{{json_encode($session, TRUE)}}'"></pergunta-quizz>
 
