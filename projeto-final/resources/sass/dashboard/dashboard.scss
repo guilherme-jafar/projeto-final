@@ -1,6 +1,18 @@
 @import "../site-base";
 
 .section-dashboard{
+
+    .dropdown{
+        button{
+            background-color: transparent;
+            border: none;
+        }
+
+        a, button{
+            font-size: 1.7rem;
+        }
+
+    }
     .heanding-1{
         font-weight: 900;
         color: $cor-principal-1;
@@ -27,6 +39,8 @@
 }
 
 .dashboard{
+
+
 
 
     .section-disciplinas{
@@ -147,17 +161,7 @@
                    margin-top: 4.5rem;
                 }
 
-                .dropdown{
-                    button{
-                        background-color: transparent;
-                        border: none;
-                    }
 
-                    a, button{
-                        font-size: 1.7rem;
-                    }
-
-                }
             }
         }
 
@@ -363,6 +367,10 @@
                     color: $cor-principal-2;
                     font-size: 2.5rem;
                     font-weight: 700;
+                }
+
+                button{
+                    margin-left: auto;
                 }
 
                 &:first-child i {
@@ -585,6 +593,59 @@
             }
         }
 
+    }
+}
+
+
+.card-loading {
+    margin: 0;
+    width: 100%;
+    background: #fff;
+    border-radius: 5px;
+    //box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
+    .image {
+        img {
+            max-width: 100%;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+    }
+
+    .content {
+        padding: 20px 30px;
+    }
+}
+
+.card-loading.is-loading {
+    .image,
+    h2,
+    p {
+        background: #eee;
+        background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+        border-radius: 5px;
+        background-size: 200% 100%;
+        animation: 1.5s shine linear infinite;
+    }
+
+    .image {
+        height: 200px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    h2 {
+        height: 30px;
+    }
+
+    p {
+        height: 70px;
+    }
+}
+
+@keyframes shine {
+    to {
+        background-position-x: -200%;
     }
 }
 

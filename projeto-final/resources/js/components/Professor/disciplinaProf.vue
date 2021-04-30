@@ -7,7 +7,7 @@
             <div class="d-flex">
                 <div class="toast-body">
                     <strong><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp;
-                        <span>Topico adicionada com sucesso</span> </strong>
+                        <span>Tópico adicionado com sucesso!!</span> </strong>
                 </div>
                 <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
@@ -23,6 +23,7 @@
                 <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
+
 
         <div v-if="topicos.length === 0" class="mx-auto">
             <h1 class="heanding-1 mx-auto mt-5">Ainda não tem nenhum Topico</h1>

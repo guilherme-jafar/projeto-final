@@ -10,4 +10,6 @@ class Disciplina extends Model
     protected $table = 'disciplina';
     use HasFactory;
     protected $fillable = [''];
+    protected $casts = ['id' => 'string'];
+
 }

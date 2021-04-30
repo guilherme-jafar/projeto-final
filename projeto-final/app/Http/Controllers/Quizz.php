@@ -11,8 +11,6 @@ class Quizz extends Controller
     function listQuizz(Request $request)
     {
 
-        var_dump( session('disciplina')['id']);
-        //TODO: o id da disciplina está errado
         $Quizz = DB::table('quizz')
             ->where('disciplina_id', '=', session('disciplina')['id'])
             ->get();
@@ -107,6 +105,7 @@ class Quizz extends Controller
                                    AND q.id  = :id', ['id' => $id]);
 
                 $check=DB::select('select * from sessao where id = :id',['id' => $session]);
+
 
         if (!empty($quizz)) {
             if (empty($check)) {

@@ -573,6 +573,13 @@ section {
   padding: 5rem;
 }
 
+.section-dashboard .dropdown button {
+  background-color: transparent;
+  border: none;
+}
+.section-dashboard .dropdown a, .section-dashboard .dropdown button {
+  font-size: 1.7rem;
+}
 .section-dashboard .heanding-1 {
   font-weight: 900;
   color: #FF7829;
@@ -685,13 +692,6 @@ section {
 }
 .dashboard .section-disciplinas .card-box-3 div:nth-child(2) {
   margin-top: 4.5rem;
-}
-.dashboard .section-disciplinas .card-box-3 .dropdown button {
-  background-color: transparent;
-  border: none;
-}
-.dashboard .section-disciplinas .card-box-3 .dropdown a, .dashboard .section-disciplinas .card-box-3 .dropdown button {
-  font-size: 1.7rem;
 }
 
 .modal span, .forms span {
@@ -837,6 +837,9 @@ section {
   color: #40C0F0;
   font-size: 2.5rem;
   font-weight: 700;
+}
+.card-disciplina .section-disciplinas-items .card-box-text button {
+  margin-left: auto;
 }
 .card-disciplina .section-disciplinas-items .card-box-text:first-child i {
   margin-left: auto;
@@ -991,4 +994,54 @@ section {
 }
 .fazerTeste .respostas-btn-4 {
   background-color: #F9B000;
+}
+
+.card-loading {
+  margin: 0;
+  width: 100%;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
+}
+.card-loading .image img {
+  max-width: 100%;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.card-loading .content {
+  padding: 20px 30px;
+}
+
+.card-loading.is-loading .image,
+.card-loading.is-loading h2,
+.card-loading.is-loading p {
+  background: #eee;
+  background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+  border-radius: 5px;
+  background-size: 200% 100%;
+  -webkit-animation: 1.5s shine linear infinite;
+          animation: 1.5s shine linear infinite;
+}
+.card-loading.is-loading .image {
+  height: 200px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.card-loading.is-loading h2 {
+  height: 30px;
+}
+.card-loading.is-loading p {
+  height: 70px;
+}
+
+@-webkit-keyframes shine {
+  to {
+    background-position-x: -200%;
+  }
+}
+
+@keyframes shine {
+  to {
+    background-position-x: -200%;
+  }
 }

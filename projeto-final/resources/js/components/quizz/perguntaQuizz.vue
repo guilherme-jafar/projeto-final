@@ -1,9 +1,10 @@
 <template>
 
-    <div id="container" class="fazerTeste mx-auto text-center">
+    <div id="container" class="fazerTeste mx-auto">
 
-        <div class="counter ">
+        <div class="counter d-flex">
             <span>{{ countDown }}</span>
+            <span class="ms-auto">{{index + 1}} de {{pergunta.length}}</span>
         </div>
 
 
@@ -35,11 +36,11 @@
 
         <div class="respostas mt-5" v-if="pergunta[index]['tipo']==='multiple'">
             <div class="row">
-                <div class="col-md-6"><button class="respostas-btn respostas-btn-1" id="m1" @click="response('m1')"></button></div>
-                <div class="col-md-6"><button  class="respostas-btn respostas-btn-2" id="m2" @click="response('m2')"></button></div>
+                <div class="col-md-6"><button class="respostas-btn respostas-btn-1" id="m1" @click="response('m1')">&nbsp;</button></div>
+                <div class="col-md-6"><button  class="respostas-btn respostas-btn-2" id="m2" @click="response('m2')">&nbsp;</button></div>
 
-                <div class="col-md-6"><button  class="respostas-btn respostas-btn-3 mt-4" id="m3" @click="response('m3')"></button></div>
-                <div class="col-md-6"> <button  class="respostas-btn respostas-btn-4 mt-4" id="m4" @click="response('m4')"></button></div>
+                <div class="col-md-6"><button  class="respostas-btn respostas-btn-3 mt-4" id="m3" @click="response('m3')">&nbsp;</button></div>
+                <div class="col-md-6"> <button  class="respostas-btn respostas-btn-4 mt-4" id="m4" @click="response('m4')">&nbsp;</button></div>
             </div>
 
 
@@ -58,11 +59,12 @@
         <div class="respostas mt-5" v-else-if="pergunta[index]['tipo']==='multiple-select'">
 
             <div class="row">
-                <div class="col-md-6"><button class="respostas-btn respostas-btn-1" id="m1" @click="responseMultiplas('m1')"></button></div>
-                <div class="col-md-6"><button  class="respostas-btn respostas-btn-2" id="m2" @click="responseMultiplas('m2')"></button></div>
+                <p class="text-center">Escolha Múltipla com várias seleções</p>
+                <div class="col-md-6"><button class="respostas-btn respostas-btn-1" id="m1" @click="responseMultiplas('m1')">&nbsp;</button></div>
+                <div class="col-md-6"><button  class="respostas-btn respostas-btn-2" id="m2" @click="responseMultiplas('m2')">&nbsp;</button></div>
 
-                <div class="col-md-6"><button  class="respostas-btn respostas-btn-3 mt-4" id="m3" @click="responseMultiplas('m3')"></button></div>
-                <div class="col-md-6"> <button  class="respostas-btn respostas-btn-4 mt-4" id="m4" @click="responseMultiplas('m4')"></button></div>
+                <div class="col-md-6"><button  class="respostas-btn respostas-btn-3 mt-4" id="m3" @click="responseMultiplas('m3')">&nbsp;</button></div>
+                <div class="col-md-6"> <button  class="respostas-btn respostas-btn-4 mt-4" id="m4" @click="responseMultiplas('m4')">&nbsp;</button></div>
             </div>
 
 
@@ -143,8 +145,7 @@
                 this.index++;
                 $cookies.config('1d')
                 $cookies.set('quizz', this.session + "@" + this.index + '@' + this.resultado + "@" + this.pergunta[this.index - 1]['tempo']);
-                console.log(this.pergunta.length)
-                console.log(this.index)
+
                 if (this.index < this.pergunta.length) {
 
                     this.getRespostas();
@@ -161,7 +162,7 @@
                     clearTimeout(this.timer)
 
 
-                    //window.location.replace('/EndQuizz/' + this.session);
+                    window.location.replace('/EndQuizz/' + this.session);
 
 
                 }
@@ -176,17 +177,22 @@
                     for (let i = 0; i < this.respostasMultiplas.length; i++){
 
                         if (resposta.toLowerCase() === this.respostasMultiplas[i].toLowerCase()){
+
                             this.respostasCertas ++;
+
                         }
                     }
                     this.first++;
                     this.respostasEscolhidas.push(resposta);
                     if (this.first === this.respostasMultiplas.length){
+
                         if (this.respostasCertas === this.respostasMultiplas.length){
+
                             var tempo = this.countDown;
                             var tempoTotal = this.pergunta[this.index]['tempo']
                             var valorTotal = this.pergunta[this.index]['valor']
                             this.res = Math.round((valorTotal * tempo) / tempoTotal);
+
                         }else {
                             this.res = 0;
                         }
@@ -207,7 +213,7 @@
                         clearTimeout(this.timer)
                         this.countDown = 0;
 
-                        console.log( JSON.stringify(this.respostasEscolhidas))
+
                         let form = new FormData();
                         form.append('id', this.pergunta[this.index]['id'])
                         form.append('pergunta', this.pergunta[this.index]['enunciado'])
@@ -291,7 +297,6 @@
                     if (response.data.message === 'erro') {
                         this.index++;
 
-
                         this.enunciado = this.pergunta[this.index]['enunciado']
                         this.getRespostas();
                     } else {
@@ -324,7 +329,7 @@
 
                         } else if (this.pergunta[this.index]['tipo'] === 'multiple-select'){
                             this.first = 0;
-                            console.log(respostas)
+                            this.respostasMultiplas = [];
 
                             for (let i = 0; i < respostas.length; i++) {
 
@@ -335,15 +340,18 @@
                                 } else {
                                     if (respostas[i]['resultado'] === 1){
                                         this.respostasMultiplas.push(respostas[i]['resposta'])
-                                        console.log(this.respostasMultiplas)
+
                                     }
 
 
 
-                                    $('#m' + k).show()
-                                    $('#m' + k).html(respostas[i]['resposta']);
-                                    $('#m' + k).val(respostas[i]['resposta']);
+
                                 }
+                                this.respostasCertas = 0;
+
+                                $('#m' + k).show()
+                                $('#m' + k).html(respostas[i]['resposta']);
+                                $('#m' + k).val(respostas[i]['resposta']);
                             }
                         }
 
@@ -355,6 +363,7 @@
             },
 
             fileCheck() {
+
 
                 if (this.pergunta[this.index]['link'] === null) {
                     return 0;
@@ -432,6 +441,7 @@
                     this.countDown = cookie[3];
                     this.getRespostas();
                     this.startQuestion();
+
 
                     this.countDownTimer();
                 } else {

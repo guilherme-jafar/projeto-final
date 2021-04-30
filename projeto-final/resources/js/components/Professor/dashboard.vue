@@ -73,11 +73,7 @@
                                         <button type="button" class="dropdown-item" data-bs-toggle="modal" :data-bs-target="'#eliminar' + disciplina['id']">
                                             Eliminar
                                         </button>
-
-
-
                                     </li>
-                                    <li><a class="dropdown-item" href="#">Editar</a></li>
                                     <li>
                                         <button type="button" class="dropdown-item"  @click="Enter(disciplina)">
                                             Entrar
