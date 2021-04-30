@@ -1,17 +1,28 @@
 <template>
     <div class="section-quizz mt-5 me-md-5 ms-md-5">
-        <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toast" role="alert"
+
+
+        <div class="card-loading is-loading mt-5" id="card-loading-quiz">
+            <div class="content">
+                <h2></h2>
+                <br><br>
+                <p></p>
+            </div>
+        </div>
+
+        <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toast-quiz" role="alert"
              aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body">
                     <strong><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp;
-                        <span>Quizz adicionada com sucesso</span> </strong>
+                        <span>Quizz adicionado com sucesso!!</span> </strong>
                 </div>
                 <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
 
-        <div v-if="quizz.length === 0" class="mx-auto">
+
+        <div v-if="quizz.length === 0" class="mx-auto" id="quiz-adicionar">
             <h1 class="heanding-1 mx-auto mt-5">Ainda não tem nenhum Quizz</h1>
             <!-- Button trigger modal -->
             <button type="button" class=" btn btn-new mt-5 mx-auto" data-bs-toggle="modal"
@@ -20,7 +31,7 @@
             </button>
         </div>
 
-        <div v-else class="section-disciplinas-items">
+        <div v-else class="section-disciplinas-items" id="lista-quizes">
             <div class="box-search mb-5">
                 <input class=" form-control form-control-lg form-search" type="text" v-model="search"
                        placeholder="Pesquisar Quizz...">
@@ -28,14 +39,14 @@
             </div>
             <h1>Quizz</h1>
             <ul>
-                <li class="card-box mb-5 mt-4" v-for="quizz in filter" :key="quizz['id']">
+                <li class="card-box mb-5 mt-5" v-for="quizz in filter" :key="quizz['id']">
 
                     <div class="card-box-text">
                         <h2>{{quizz['nome']}}</h2>
                         <button type="button" data-bs-toggle="modal" :data-bs-target="'#t'+quizz['id']"
-                                class="btn btn-secondary ms-2">quizz
+                                class="btn btn-secondary ms-auto ">quizz
                         </button>
-                        <i class="bi bi-three-dots-vertical"></i>
+                        <i class="bi bi-three-dots-vertical ms-0"></i>
                     </div>
 
 
@@ -72,10 +83,10 @@
 
         <div class="modal fade modal-quizz" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel"
              aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Adicionar Novo Topico</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Adicionar Novo Quizz</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body pt-5 pb-5">
@@ -111,10 +122,11 @@
                                 <div id="Visivel" class="mb-1 mt-5">
                                     <h4>Visivel</h4>
                                     <div class="mb-1">
-                                        <input type="radio" name="Visivelop" value="true" class=""> Sim
+                                        <label><input type="radio" name="Visivelop" value="true" class="">&nbsp; Sim</label>
                                     </div>
                                     <div>
-                                        <input type="radio" name="Visivelop" value="false" class=""> Não
+                                        <label><input type="radio" name="Visivelop" value="false" class="">&nbsp; Não</label>
+
                                     </div>
                                     <p id="ErrorVisivel"></p>
                                 </div>
@@ -177,7 +189,7 @@
         data() {
             return {
                 modal: '',
-                toast: '',
+                toastQuiz: '',
                 search: '',
                 topicos: JSON.parse(this.topico_prop),
                 quizz: ''
@@ -270,6 +282,7 @@
             sendQuizz(form) {
                 $('#submitQuizz').prop('disabled', true);
                 var vm = this;
+                console.log(this)
                 axios.post('/insertQuizz', form
                 ).then(function (response) {
                     if (response.data.message === "sucesso") {
@@ -289,11 +302,8 @@
 
                 });
             }, listQuizz() {
-                axios.post('/getQuizz'
-                ).then(function (response) {
 
-                    this.quizz = response.data.message;
-                }.bind(this));
+
 
 
             },
@@ -319,10 +329,24 @@
         mounted() {
 
             this.modal = new bootstrap.Modal(document.getElementById('exampleModal2'), {})
-            this.toast = new bootstrap.Toast(document.getElementById('toast'), {delay: 10000})
-            this.toast.hide();
+            this.toastQuiz = new bootstrap.Toast(document.getElementById('toast-quiz'), {delay: 10000})
+            this.toastQuiz.hide();
             this.topicsCheck();
-            this.listQuizz();
+            axios.post('/getQuizz'
+            ).then(function (response) {
+
+                this.quizz = response.data.message;
+
+                $('#card-loading-quiz').hide();
+                $('#lista-quizes').show();
+                $('#quiz-adicionar').show();
+
+
+            }.bind(this));
+            $('#card-loading-quiz').show();
+            $('#lista-quizes').hide();
+            $('#quiz-adicionar').hide();
+
         }
 
     }

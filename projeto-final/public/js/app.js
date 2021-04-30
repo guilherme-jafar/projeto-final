@@ -2042,10 +2042,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "dashboard",
@@ -2153,6 +2149,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2486,6 +2494,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "listaAlunos",
@@ -2510,7 +2526,13 @@ __webpack_require__.r(__webpack_exports__);
     formData.append('id', l[l.length - 1]);
     axios.post('/prof/getAlunos', formData).then(function (response) {
       this.alunos = response.data.message;
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card-loading-alunos').hide();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#lista-alunos').show();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#alunos-adicionar').show();
     }.bind(this));
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card-loading-alunos').show();
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#lista-alunos').hide();
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#alunos-adicionar').hide();
   }
 });
 
@@ -2790,6 +2812,61 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2798,7 +2875,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       topicos: this.topico_id,
-      perguntas: ''
+      perguntas: '',
+      toastPergunta: ''
     };
   },
   methods: {
@@ -2829,7 +2907,7 @@ __webpack_require__.r(__webpack_exports__);
       if (document.getElementById("pergunta" + top).value.length <= 0) {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#PerguntaError' + top).text("indique o enunciado da pergunta").css('color', 'red').css('opacity', '1');
       } else if (document.getElementById("pergunta" + top).value.length > 120) {
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#PerguntaError' + top).text("O enunciado e demasiado grande").css('color', 'red').css('opacity', '1');
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#PerguntaError' + top).text("O enunciado é demasiado grande").css('color', 'red').css('opacity', '1');
       } else {
         form.append('topico', top);
         form.append('pergunta', document.getElementById("pergunta" + top).value);
@@ -2870,7 +2948,7 @@ __webpack_require__.r(__webpack_exports__);
           }
 
           if (flag2) {
-            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + top).text("Uma das respostas e demasiado grande").css('color', 'red').css('opacity', '1');
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + top).text("Uma das respostas tem mais de 100 letras").css('color', 'red').css('opacity', '1');
           } else if (index < 2) {
             jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + top).text("Uma pergunta tem de ter pelo menos 2 respostas").css('color', 'red').css('opacity', '1');
           } else if (!flag) {
@@ -2896,6 +2974,45 @@ __webpack_require__.r(__webpack_exports__);
             form.append('resposta', corret);
             this.send(form, top);
           }
+        } else if (document.getElementById("tipo" + top).value === "multiple-select") {
+          var opcoes = jquery__WEBPACK_IMPORTED_MODULE_0___default()('input[name="corret' + top + '[]"]:checked');
+          var opcoesEscolhidas = [];
+          var respostas = [];
+          var guardarOpcoes = true;
+
+          if (opcoes.length <= 1) {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + top).text("Escolha duas ou mais opções corretas!!").css('color', 'red').css('opacity', '1');
+          } else {
+            for (var _i2 = 0; _i2 < opcoes.length; _i2++) {
+              opcoesEscolhidas[_i2] = opcoes[_i2].value;
+
+              if (document.getElementById("rem" + (_i2 + 1) + top).value.length === 0) {
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + top).text("Não pode escolher uma opção vazia como certa!!").css('color', 'red').css('opacity', '1');
+                guardarOpcoes = false;
+                break;
+              } else if (document.getElementById("rem" + (_i2 + 1) + top).value.length > 100) {
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + top).text("Uma das respostas tem mais de 100 letras").css('color', 'red').css('opacity', '1');
+                guardarOpcoes = false;
+                break;
+              }
+            }
+
+            if (guardarOpcoes) {
+              for (var _i3 = 1; _i3 < 5; _i3++) {
+                if (document.getElementById("rem" + _i3 + top).value.length > 0 && document.getElementById("rem" + _i3 + top).value.length <= 100) {
+                  respostas[_i3 - 1] = document.getElementById("rem" + _i3 + top).value;
+                }
+              }
+
+              if (respostas.length >= 2) {
+                form.append('array', JSON.stringify(respostas));
+                form.append('respostas', JSON.stringify(opcoesEscolhidas));
+                this.send(form, top);
+              } else {
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + top).text("Só pode introduzir duas ou mais opcões!!").css('color', 'red').css('opacity', '1');
+              }
+            }
+          }
         }
       }
     },
@@ -2903,10 +3020,12 @@ __webpack_require__.r(__webpack_exports__);
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit' + top).prop('disabled', true);
       axios__WEBPACK_IMPORTED_MODULE_1___default().post('/insertQuestion', form).then(function (response) {
         if (response.data.message === "erro") {
-          alert("erro a enserir a pergunta");
+          alert("Erro a inserir a pergunta");
         } else {
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit' + top).prop('disabled', false);
           this.modal.hide();
+          this.toastPergunta.show();
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#toast-pergunta').removeClass('d-none');
         }
 
         document.getElementById("pergunta" + top).value = "";
@@ -2916,7 +3035,7 @@ __webpack_require__.r(__webpack_exports__);
           var radios = document.getElementsByName("corret" + top);
 
           for (var i = 1; i < 5; i++) {
-            document.getElementById("re" + i + top).value = " ";
+            document.getElementById("re" + i + top).value = "";
 
             if (radios[i - 1].checked) {
               radios[i - 1].checked = false;
@@ -2925,10 +3044,17 @@ __webpack_require__.r(__webpack_exports__);
         } else if (document.getElementById("tipo" + top).value === "true/false") {
           var radios2 = document.getElementsByName("TF" + top);
 
-          for (var _i2 = 0; _i2 < 2; _i2++) {
-            if (radios2[_i2].checked) {
-              radios2[_i2 - 1].checked = false;
+          for (var _i4 = 0; _i4 < 2; _i4++) {
+            if (radios2[_i4].checked) {
+              radios2[_i4 - 1].checked = false;
             }
+          }
+        } else if (document.getElementById("tipo" + top).value === "multiple-select") {
+          var checkboxRe = document.getElementsByName("corret" + top + "[]");
+
+          for (var _i5 = 1; _i5 < 5; _i5++) {
+            checkboxRe[_i5 - 1].checked = false;
+            document.getElementById("rem" + _i5 + top).value = "";
           }
         }
 
@@ -2952,9 +3078,9 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
 
-        for (var _i3 = 0; _i3 < newPerguntas.length; _i3++) {
-          if (newPerguntas[_i3][1].length <= 120 && newPerguntas[_i3][2].length <= 120 && newPerguntas[_i3][2].length <= 120 && newPerguntas[_i3][2].length <= 120 && newPerguntas[_i3][2].length <= 120) {
-            if (newPerguntas[_i3][newPerguntas[_i3][7] + 1] === null) {
+        for (var _i6 = 0; _i6 < newPerguntas.length; _i6++) {
+          if (newPerguntas[_i6][1].length <= 120 && newPerguntas[_i6][2].length <= 120 && newPerguntas[_i6][2].length <= 120 && newPerguntas[_i6][2].length <= 120 && newPerguntas[_i6][2].length <= 120) {
+            if (newPerguntas[_i6][newPerguntas[_i6][7] + 1] === null) {
               jquery__WEBPACK_IMPORTED_MODULE_0___default()('#InsertfileError' + topicos).text("Erro no ficheiro").css('color', 'red').css('opacity', '1');
               flag = true;
               jquery__WEBPACK_IMPORTED_MODULE_0___default()('#InsertfileButton' + topicos).prop('disabled', false);
@@ -2985,13 +3111,20 @@ __webpack_require__.r(__webpack_exports__);
     alter: function alter() {
       var id = "trueFalse" + this.topicos;
       var id2 = "multiple" + this.topicos;
+      var id3 = "multiple-select" + this.topicos;
 
       if (document.getElementById("tipo" + this.topicos).value === "multiple") {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).hide();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).show();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).hide();
       } else if (document.getElementById("tipo" + this.topicos).value === "true/false") {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).show();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).hide();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).hide();
+      } else if (document.getElementById("tipo" + this.topicos).value === "multiple-select") {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).hide();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).hide();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).show();
       }
     }
   },
@@ -3001,8 +3134,14 @@ __webpack_require__.r(__webpack_exports__);
     this.modal2 = new bootstrap.Modal(document.getElementById('cp' + this.topicos), {});
     var id = "trueFalse" + this.topicos;
     var id2 = "multiple" + this.topicos;
+    var id3 = "multiple-select" + this.topicos;
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).hide();
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).show();
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).hide();
+    this.toastPergunta = new bootstrap.Toast(document.getElementById('toast-pergunta'), {
+      delay: 10000
+    });
+    this.toastPergunta.hide();
   }
 });
 
@@ -3191,6 +3330,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3199,7 +3350,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       modal: '',
-      toast: '',
+      toastQuiz: '',
       search: '',
       topicos: JSON.parse(this.topico_prop),
       quizz: ''
@@ -3282,6 +3433,7 @@ __webpack_require__.r(__webpack_exports__);
     sendQuizz: function sendQuizz(form) {
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submitQuizz').prop('disabled', true);
       var vm = this;
+      console.log(this);
       axios__WEBPACK_IMPORTED_MODULE_1___default().post('/insertQuizz', form).then(function (response) {
         if (response.data.message === "sucesso") {
           vm.listQuizz();
@@ -3298,11 +3450,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    listQuizz: function listQuizz() {
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/getQuizz').then(function (response) {
-        this.quizz = response.data.message;
-      }.bind(this));
-    },
+    listQuizz: function listQuizz() {},
     topicsCheck: function topicsCheck() {
       if (this.topicos.length === 0) {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submitQuizz').prop('disabled', true);
@@ -3322,12 +3470,20 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.modal = new bootstrap.Modal(document.getElementById('exampleModal2'), {});
-    this.toast = new bootstrap.Toast(document.getElementById('toast'), {
+    this.toastQuiz = new bootstrap.Toast(document.getElementById('toast-quiz'), {
       delay: 10000
     });
-    this.toast.hide();
+    this.toastQuiz.hide();
     this.topicsCheck();
-    this.listQuizz();
+    axios__WEBPACK_IMPORTED_MODULE_1___default().post('/getQuizz').then(function (response) {
+      this.quizz = response.data.message;
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card-loading-quiz').hide();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#lista-quizes').show();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#quiz-adicionar').show();
+    }.bind(this));
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card-loading-quiz').show();
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#lista-quizes').hide();
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#quiz-adicionar').hide();
   }
 });
 
@@ -3626,6 +3782,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
 //
 //
 //
@@ -4179,6 +4336,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -4196,7 +4380,11 @@ __webpack_require__.r(__webpack_exports__);
       index: 0,
       countDown: 0,
       session: JSON.parse(this.quizz_session),
-      pergunta: JSON.parse(this.pergunta_prop)
+      pergunta: JSON.parse(this.pergunta_prop),
+      first: 0,
+      respostasMultiplas: [],
+      respostasCertas: 0,
+      respostasEscolhidas: []
     };
   },
   methods: {
@@ -4227,8 +4415,6 @@ __webpack_require__.r(__webpack_exports__);
       this.index++;
       $cookies.config('1d');
       $cookies.set('quizz', this.session + "@" + this.index + '@' + this.resultado + "@" + this.pergunta[this.index - 1]['tempo']);
-      console.log(this.pergunta.length);
-      console.log(this.index);
 
       if (this.index < this.pergunta.length) {
         this.getRespostas();
@@ -4236,11 +4422,64 @@ __webpack_require__.r(__webpack_exports__);
         this.enunciado = this.pergunta[this.index]['enunciado'];
         this.valor = this.pergunta[this.index]['valor'];
         this.res = 0;
+        this.countDownTimer(); //this.sleep(2500)
+
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('.wrapper').hide();
-        this.countDownTimer();
       } else {
         clearTimeout(this.timer);
         window.location.replace('/EndQuizz/' + this.session);
+      }
+    },
+    responseMultiplas: function responseMultiplas(id) {
+      var resposta = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).html();
+
+      if (id !== 'erro') {
+        for (var i = 0; i < this.respostasMultiplas.length; i++) {
+          if (resposta.toLowerCase() === this.respostasMultiplas[i].toLowerCase()) {
+            this.respostasCertas++;
+          }
+        }
+
+        this.first++;
+        this.respostasEscolhidas.push(resposta);
+
+        if (this.first === this.respostasMultiplas.length) {
+          if (this.respostasCertas === this.respostasMultiplas.length) {
+            var tempo = this.countDown;
+            var tempoTotal = this.pergunta[this.index]['tempo'];
+            var valorTotal = this.pergunta[this.index]['valor'];
+            this.res = Math.round(valorTotal * tempo / tempoTotal);
+          } else {
+            this.res = 0;
+          }
+
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.wrapper').show();
+
+          if (this.res > 0) {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#wrapper').css('background-color', '#7FBA27');
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#couter').html(this.res);
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#corretoErrado').html('<span>Correto</span><i class="bi bi-check"></i><br>');
+          } else {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#wrapper').css('background-color', '#dc3545');
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#couter').html(0);
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#corretoErrado').html('<span>Errada</span><i class="bi bi-x"></i><br>');
+          }
+
+          this.resultado += this.res;
+          clearTimeout(this.timer);
+          this.countDown = 0;
+          var form = new FormData();
+          form.append('id', this.pergunta[this.index]['id']);
+          form.append('pergunta', this.pergunta[this.index]['enunciado']);
+          form.append('resposta', JSON.stringify(this.respostasEscolhidas));
+          form.append('resultado', this.res);
+          form.append('tipo', this.pergunta[this.index]['tipo']);
+          form.append('sessioId', this.session);
+          axios.post('/setResposta', form).then(function (response) {
+            this.change();
+            this.sleep(2500);
+          }.bind(this));
+        }
       }
     },
     response: function response(id) {
@@ -4258,9 +4497,13 @@ __webpack_require__.r(__webpack_exports__);
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('.wrapper').show();
 
       if (this.res > 0) {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#wrapper').css('background-color', '#7FBA27');
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#couter').html(this.res);
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#corretoErrado').html('<span>Correto</span><i class="bi bi-check"></i><br>');
       } else {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#wrapper').css('background-color', '#dc3545');
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#couter').html(0);
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#corretoErrado').html('<span>Errada</span><i class="bi bi-x"></i><br>');
       }
 
       this.resultado += this.res;
@@ -4306,6 +4549,26 @@ __webpack_require__.r(__webpack_exports__);
                 jquery__WEBPACK_IMPORTED_MODULE_0___default()('#m' + k).html(respostas[i]['resposta']);
                 jquery__WEBPACK_IMPORTED_MODULE_0___default()('#m' + k).val(respostas[i]['resposta']);
               }
+            }
+          } else if (this.pergunta[this.index]['tipo'] === 'multiple-select') {
+            this.first = 0;
+            this.respostasMultiplas = [];
+
+            for (var _i = 0; _i < respostas.length; _i++) {
+              var _k = _i + 1;
+
+              if (respostas[_i]['resposta'] === " ") {
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#m' + _k).hide();
+              } else {
+                if (respostas[_i]['resultado'] === 1) {
+                  this.respostasMultiplas.push(respostas[_i]['resposta']);
+                }
+              }
+
+              this.respostasCertas = 0;
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('#m' + _k).show();
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('#m' + _k).html(respostas[_i]['resposta']);
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('#m' + _k).val(respostas[_i]['resposta']);
             }
           }
         }
@@ -4374,7 +4637,6 @@ __webpack_require__.r(__webpack_exports__);
         this.startQuestion();
         this.countDownTimer();
       } else {
-        console.log("www");
         this.index = 0;
         this.countDown = this.pergunta[this.index]['tempo'] + 1;
         this.getRespostas();
@@ -4382,7 +4644,6 @@ __webpack_require__.r(__webpack_exports__);
         this.countDownTimer();
       }
     } else {
-      console.log("www");
       this.index = 0;
       this.countDown = this.pergunta[this.index]['tempo'] + 1;
       this.getRespostas();
@@ -34124,8 +34385,6 @@ var render = function() {
                               )
                             ]),
                             _vm._v(" "),
-                            _vm._m(5, true),
-                            _vm._v(" "),
                             _c("li", [
                               _c(
                                 "button",
@@ -34340,9 +34599,9 @@ var render = function() {
       [
         _c("div", { staticClass: "modal-dialog modal-dialog-centered" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(6),
+            _vm._m(5),
             _vm._v(" "),
-            _vm._m(7),
+            _vm._m(6),
             _vm._v(" "),
             _c("div", { staticClass: "modal-footer" }, [
               _c(
@@ -34505,16 +34764,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("li", [
-      _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-        _vm._v("Editar")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-header" }, [
       _c(
         "h5",
@@ -34598,13 +34847,15 @@ var render = function() {
   return _c("div", { staticClass: "section-topicos mt-5 me-md-5 ms-md-5" }, [
     _vm._m(0),
     _vm._v(" "),
+    _vm._m(1),
+    _vm._v(" "),
     _vm.topicos.length === 0
       ? _c("div", { staticClass: "mx-auto" }, [
           _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
             _vm._v("Ainda não tem nenhum Topico")
           ]),
           _vm._v(" "),
-          _vm._m(1)
+          _vm._m(2)
         ])
       : _c("div", { staticClass: "section-disciplinas-items " }, [
           _c("div", { staticClass: "box-search mb-5" }, [
@@ -34704,9 +34955,9 @@ var render = function() {
       [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(2),
-            _vm._v(" "),
             _vm._m(3),
+            _vm._v(" "),
+            _vm._m(4),
             _vm._v(" "),
             _c("div", { staticClass: "modal-footer" }, [
               _c(
@@ -34767,7 +35018,45 @@ var staticRenderFns = [
             _c("strong", [
               _c("i", { staticClass: "bi bi-check-circle-fill" }),
               _vm._v("   \n                    "),
-              _c("span", [_vm._v("Topico adicionada com sucesso")])
+              _c("span", [_vm._v("Tópico adicionado com sucesso!!")])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("button", {
+            staticClass: "btn-close me-2 m-auto",
+            attrs: {
+              type: "button",
+              "data-bs-dismiss": "toast",
+              "aria-label": "Close"
+            }
+          })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "toast toast-primary align-items-center mb-5 mtn-5 d-none",
+        staticStyle: { width: "60%" },
+        attrs: {
+          id: "toast-pergunta",
+          role: "alert",
+          "aria-live": "assertive",
+          "aria-atomic": "true"
+        }
+      },
+      [
+        _c("div", { staticClass: "d-flex" }, [
+          _c("div", { staticClass: "toast-body" }, [
+            _c("strong", [
+              _c("i", { staticClass: "bi bi-check-circle-fill" }),
+              _vm._v("   \n                    "),
+              _c("span", [_vm._v("Pergunta adicionada com sucesso!!")])
             ])
           ]),
           _vm._v(" "),
@@ -34973,15 +35262,24 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    _vm._m(0),
+    _vm._v(" "),
     _vm.alunos.length === 0
-      ? _c("div", { staticClass: "mx-auto" }, [
-          _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
-            _vm._v("Ainda não tem nenhum alunos inscrito")
-          ])
-        ])
+      ? _c(
+          "div",
+          { staticClass: "mx-auto", attrs: { id: "alunos-adicionar" } },
+          [
+            _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
+              _vm._v("Ainda não tem nenhum alunos inscrito")
+            ])
+          ]
+        )
       : _c(
           "div",
-          { staticClass: "section-disciplinas-items mt-5 me-md-5 ms-md-5" },
+          {
+            staticClass: "section-disciplinas-items mt-5 me-md-5 ms-md-5",
+            attrs: { id: "lista-alunos" }
+          },
           [
             _c("div", { staticClass: "box-search mb-5" }, [
               _c("input", {
@@ -35108,7 +35406,30 @@ var render = function() {
         )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "card-loading is-loading mt-5",
+        attrs: { id: "card-loading-alunos" }
+      },
+      [
+        _c("div", { staticClass: "content" }, [
+          _c("h2"),
+          _vm._v(" "),
+          _c("br"),
+          _c("br"),
+          _vm._v(" "),
+          _c("p")
+        ])
+      ]
+    )
+  }
+]
 render._withStripped = true
 
 
@@ -35140,14 +35461,20 @@ var render = function() {
         _vm._v(" "),
         _vm.perguntas.length === 0
           ? _c("div", { staticClass: "mx-auto" }, [
-              _c("h3", [_vm._v("Ainda não tem nenhum Pergunta")])
+              _c("h3", [_vm._v("Ainda não tem nenhuma Pergunta")])
             ])
-          : _c("div", { staticClass: "section-disciplinas-items " }, [
+          : _c("div", { staticClass: "lista-perguntas" }, [
               _c(
                 "ul",
                 _vm._l(_vm.perguntas, function(pergunta) {
                   return _c("li", { key: pergunta["id"] }, [
-                    _c("h3", [_vm._v(_vm._s(pergunta["enunciado"]))])
+                    _c("div", { staticClass: "d-flex mb-5 card" }, [
+                      _c("h3", [_vm._v(_vm._s(pergunta["enunciado"]))]),
+                      _vm._v(" "),
+                      _c("button", { staticClass: "btn btn-primary ms-auto" }, [
+                        _vm._v("Ver Detalhes")
+                      ])
+                    ])
                   ])
                 }),
                 0
@@ -35399,7 +35726,13 @@ var render = function() {
                                   _c(
                                     "option",
                                     { attrs: { value: "multiple" } },
-                                    [_vm._v("Escolha múltipla")]
+                                    [_vm._v("Seleção Única")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "multiple-select" } },
+                                    [_vm._v("Seleção Múltipla")]
                                   ),
                                   _vm._v(" "),
                                   _c(
@@ -35657,9 +35990,7 @@ var render = function() {
                                     ]
                                   )
                                 ]
-                              ),
-                              _vm._v(" "),
-                              _c("p", { attrs: { id: "RError" + _vm.topicos } })
+                              )
                             ]
                           )
                         ]),
@@ -35706,6 +36037,161 @@ var render = function() {
                               _c("p", { attrs: { id: "TError" + _vm.topicos } })
                             ]
                           )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-12 " }, [
+                          _c(
+                            "div",
+                            {
+                              staticStyle: { "margin-top": "20px" },
+                              attrs: { id: "multiple-select" + _vm.topicos }
+                            },
+                            [
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "input-group mb-3 insertAnsewr"
+                                },
+                                [
+                                  _c("input", {
+                                    staticClass: " form-control",
+                                    staticStyle: { border: "none" },
+                                    attrs: {
+                                      type: "text",
+                                      id: "rem1" + _vm.topicos,
+                                      "aria-label":
+                                        "Text input with radio button",
+                                      placeholder: "Opção 1"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "input-group-text" },
+                                    [
+                                      _c("input", {
+                                        staticClass: "form-check-input",
+                                        attrs: {
+                                          type: "checkbox",
+                                          name: "corret" + _vm.topicos + "[]"
+                                        },
+                                        domProps: { value: "re1" + _vm.topicos }
+                                      })
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "input-group mb-3 insertAnsewr"
+                                },
+                                [
+                                  _c("input", {
+                                    staticClass: " form-control",
+                                    staticStyle: { border: "none" },
+                                    attrs: {
+                                      type: "text",
+                                      id: "rem2" + _vm.topicos,
+                                      "aria-label":
+                                        "Text input with radio button",
+                                      placeholder: "Opção 2"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "input-group-text" },
+                                    [
+                                      _c("input", {
+                                        staticClass: "form-check-input",
+                                        attrs: {
+                                          type: "checkbox",
+                                          name: "corret" + _vm.topicos + "[]"
+                                        },
+                                        domProps: { value: "re2" + _vm.topicos }
+                                      })
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "input-group mb-3 insertAnsewr"
+                                },
+                                [
+                                  _c("input", {
+                                    staticClass: " form-control",
+                                    staticStyle: { border: "none" },
+                                    attrs: {
+                                      type: "text",
+                                      id: "rem3" + _vm.topicos,
+                                      "aria-label":
+                                        "Text input with radio button",
+                                      placeholder: "Opção 3"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "input-group-text" },
+                                    [
+                                      _c("input", {
+                                        staticClass: "form-check-input",
+                                        attrs: {
+                                          type: "checkbox",
+                                          name: "corret" + _vm.topicos + "[]"
+                                        },
+                                        domProps: { value: "re3" + _vm.topicos }
+                                      })
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "input-group mb-3 insertAnsewr"
+                                },
+                                [
+                                  _c("input", {
+                                    staticClass: " form-control",
+                                    staticStyle: { border: "none" },
+                                    attrs: {
+                                      type: "text",
+                                      id: "rem4" + _vm.topicos,
+                                      "aria-label":
+                                        "Text input with radio button",
+                                      placeholder: "Opção 4"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "input-group-text" },
+                                    [
+                                      _c("input", {
+                                        staticClass: "form-check-input",
+                                        attrs: {
+                                          type: "checkbox",
+                                          name: "corret" + _vm.topicos + "[]"
+                                        },
+                                        domProps: { value: "re4" + _vm.topicos }
+                                      })
+                                    ]
+                                  )
+                                ]
+                              )
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c("p", { attrs: { id: "RError" + _vm.topicos } })
                         ])
                       ])
                     ]),
@@ -35842,131 +36328,144 @@ var render = function() {
   return _c("div", { staticClass: "section-quizz mt-5 me-md-5 ms-md-5" }, [
     _vm._m(0),
     _vm._v(" "),
+    _vm._m(1),
+    _vm._v(" "),
     _vm.quizz.length === 0
-      ? _c("div", { staticClass: "mx-auto" }, [
+      ? _c("div", { staticClass: "mx-auto", attrs: { id: "quiz-adicionar" } }, [
           _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
             _vm._v("Ainda não tem nenhum Quizz")
           ]),
           _vm._v(" "),
-          _vm._m(1)
+          _vm._m(2)
         ])
-      : _c("div", { staticClass: "section-disciplinas-items" }, [
-          _c("div", { staticClass: "box-search mb-5" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.search,
-                  expression: "search"
-                }
-              ],
-              staticClass: " form-control form-control-lg form-search",
-              attrs: { type: "text", placeholder: "Pesquisar Quizz..." },
-              domProps: { value: _vm.search },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+      : _c(
+          "div",
+          {
+            staticClass: "section-disciplinas-items",
+            attrs: { id: "lista-quizes" }
+          },
+          [
+            _c("div", { staticClass: "box-search mb-5" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.search,
+                    expression: "search"
                   }
-                  _vm.search = $event.target.value
+                ],
+                staticClass: " form-control form-control-lg form-search",
+                attrs: { type: "text", placeholder: "Pesquisar Quizz..." },
+                domProps: { value: _vm.search },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.search = $event.target.value
+                  }
                 }
-              }
-            }),
+              }),
+              _vm._v(" "),
+              _c("i", { staticClass: "bi bi-search" })
+            ]),
             _vm._v(" "),
-            _c("i", { staticClass: "bi bi-search" })
-          ]),
-          _vm._v(" "),
-          _c("h1", [_vm._v("Quizz")]),
-          _vm._v(" "),
-          _c(
-            "ul",
-            _vm._l(_vm.filter, function(quizz) {
-              return _c(
-                "li",
-                { key: quizz["id"], staticClass: "card-box mb-5 mt-4" },
-                [
-                  _c("div", { staticClass: "card-box-text" }, [
-                    _c("h2", [_vm._v(_vm._s(quizz["nome"]))]),
+            _c("h1", [_vm._v("Quizz")]),
+            _vm._v(" "),
+            _c(
+              "ul",
+              _vm._l(_vm.filter, function(quizz) {
+                return _c(
+                  "li",
+                  { key: quizz["id"], staticClass: "card-box mb-5 mt-5" },
+                  [
+                    _c("div", { staticClass: "card-box-text" }, [
+                      _c("h2", [_vm._v(_vm._s(quizz["nome"]))]),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-secondary ms-auto ",
+                          attrs: {
+                            type: "button",
+                            "data-bs-toggle": "modal",
+                            "data-bs-target": "#t" + quizz["id"]
+                          }
+                        },
+                        [_vm._v("quizz\n                    ")]
+                      ),
+                      _vm._v(" "),
+                      _c("i", { staticClass: "bi bi-three-dots-vertical ms-0" })
+                    ]),
                     _vm._v(" "),
                     _c(
-                      "button",
+                      "div",
                       {
-                        staticClass: "btn btn-secondary ms-2",
+                        staticClass: "modal fade",
                         attrs: {
-                          type: "button",
-                          "data-bs-toggle": "modal",
-                          "data-bs-target": "#t" + quizz["id"]
+                          id: "t" + quizz["id"],
+                          tabindex: "-1",
+                          "aria-labelledby": "exampleModalLabel",
+                          "aria-hidden": "true"
                         }
                       },
-                      [_vm._v("quizz\n                    ")]
-                    ),
-                    _vm._v(" "),
-                    _c("i", { staticClass: "bi bi-three-dots-vertical" })
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass: "modal fade",
-                      attrs: {
-                        id: "t" + quizz["id"],
-                        tabindex: "-1",
-                        "aria-labelledby": "exampleModalLabel",
-                        "aria-hidden": "true"
-                      }
-                    },
-                    [
-                      _c("div", { staticClass: "modal-dialog " }, [
-                        _c("div", { staticClass: "modal-content" }, [
-                          _vm._m(2, true),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "modal-body" }, [
-                            _vm._v(
-                              "\n\n                                Tem a certeza que quer iniciar este teste?\n\n                            "
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "modal-footer" }, [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-primary",
-                                attrs: {
-                                  type: "button",
-                                  "data-bs-dismiss": "modal"
-                                },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.EnterQuizz(quizz["id"])
-                                  }
-                                }
-                              },
-                              [_vm._v("Sim\n                                ")]
-                            ),
+                      [
+                        _c("div", { staticClass: "modal-dialog " }, [
+                          _c("div", { staticClass: "modal-content" }, [
+                            _vm._m(3, true),
                             _vm._v(" "),
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-secondary",
-                                attrs: {
-                                  type: "button",
-                                  "data-bs-dismiss": "modal"
-                                }
-                              },
-                              [_vm._v("Não")]
-                            )
+                            _c("div", { staticClass: "modal-body" }, [
+                              _vm._v(
+                                "\n\n                                Tem a certeza que quer iniciar este teste?\n\n                            "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "modal-footer" }, [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-primary",
+                                  attrs: {
+                                    type: "button",
+                                    "data-bs-dismiss": "modal"
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.EnterQuizz(quizz["id"])
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "Sim\n                                "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-secondary",
+                                  attrs: {
+                                    type: "button",
+                                    "data-bs-dismiss": "modal"
+                                  }
+                                },
+                                [_vm._v("Não")]
+                              )
+                            ])
                           ])
                         ])
-                      ])
-                    ]
-                  )
-                ]
-              )
-            }),
-            0
-          )
-        ]),
+                      ]
+                    )
+                  ]
+                )
+              }),
+              0
+            )
+          ]
+        ),
     _vm._v(" "),
     _c(
       "div",
@@ -35980,101 +36479,108 @@ var render = function() {
         }
       },
       [
-        _c("div", { staticClass: "modal-dialog modal-dialog-scrollable" }, [
-          _c("div", { staticClass: "modal-content" }, [
-            _vm._m(3),
-            _vm._v(" "),
-            _c("div", { staticClass: "modal-body pt-5 pb-5" }, [
-              _c(
-                "form",
-                { staticClass: "row mx-auto", attrs: { id: "adicionarQuizz" } },
-                [
-                  _vm._m(4),
-                  _vm._v(" "),
-                  _vm._m(5),
-                  _vm._v(" "),
-                  _vm._m(6),
-                  _vm._v(" "),
-                  _vm._m(7),
-                  _vm._v(" "),
-                  _vm._m(8),
-                  _vm._v(" "),
-                  _vm._m(9),
-                  _vm._v(" "),
-                  _vm._m(10),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "col-12" },
-                    _vm._l(_vm.topicos, function(topico) {
-                      return _c(
-                        "div",
-                        {
-                          key: topico["id"],
-                          staticClass: "card-box  mb-5 mt-4"
-                        },
-                        [
-                          _c("div", { staticClass: "card-box-topicos" }, [
-                            _c(
-                              "label",
-                              {
-                                staticClass: "d-flex ",
-                                attrs: { for: "inputTopico" + topico["id"] }
-                              },
-                              [
-                                _c("h2", [_vm._v(_vm._s(topico["nome"]))]),
-                                _c("input", {
-                                  staticClass: "ms-auto mt-3",
-                                  attrs: {
-                                    id: "inputTopico" + topico["id"],
-                                    type: "checkbox",
-                                    name: "topico"
-                                  },
-                                  domProps: { value: topico["id"] }
-                                })
-                              ]
-                            )
-                          ])
-                        ]
-                      )
-                    }),
-                    0
-                  ),
-                  _vm._v(" "),
-                  _vm._m(11)
-                ]
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "modal-footer" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary",
-                  attrs: { type: "button", "data-bs-dismiss": "modal" }
-                },
-                [_vm._v("Cancelar")]
-              ),
+        _c(
+          "div",
+          { staticClass: "modal-dialog modal-dialog-scrollable modal-lg" },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(4),
               _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-secondary btn-submit",
-                  attrs: { type: "button", id: "submitQuizz" },
-                  on: { click: _vm.submitNewQuizz }
-                },
-                [
-                  _c("span", {}, [_vm._v("Adicionar  ")]),
-                  _vm._v(" "),
-                  _c("div", {
-                    staticClass: "spinner-border text-light d-none",
-                    attrs: { role: "status" }
-                  })
-                ]
-              )
+              _c("div", { staticClass: "modal-body pt-5 pb-5" }, [
+                _c(
+                  "form",
+                  {
+                    staticClass: "row mx-auto",
+                    attrs: { id: "adicionarQuizz" }
+                  },
+                  [
+                    _vm._m(5),
+                    _vm._v(" "),
+                    _vm._m(6),
+                    _vm._v(" "),
+                    _vm._m(7),
+                    _vm._v(" "),
+                    _vm._m(8),
+                    _vm._v(" "),
+                    _vm._m(9),
+                    _vm._v(" "),
+                    _vm._m(10),
+                    _vm._v(" "),
+                    _vm._m(11),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-12" },
+                      _vm._l(_vm.topicos, function(topico) {
+                        return _c(
+                          "div",
+                          {
+                            key: topico["id"],
+                            staticClass: "card-box  mb-5 mt-4"
+                          },
+                          [
+                            _c("div", { staticClass: "card-box-topicos" }, [
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "d-flex ",
+                                  attrs: { for: "inputTopico" + topico["id"] }
+                                },
+                                [
+                                  _c("h2", [_vm._v(_vm._s(topico["nome"]))]),
+                                  _c("input", {
+                                    staticClass: "ms-auto mt-3",
+                                    attrs: {
+                                      id: "inputTopico" + topico["id"],
+                                      type: "checkbox",
+                                      name: "topico"
+                                    },
+                                    domProps: { value: topico["id"] }
+                                  })
+                                ]
+                              )
+                            ])
+                          ]
+                        )
+                      }),
+                      0
+                    ),
+                    _vm._v(" "),
+                    _vm._m(12)
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button", "data-bs-dismiss": "modal" }
+                  },
+                  [_vm._v("Cancelar")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary btn-submit",
+                    attrs: { type: "button", id: "submitQuizz" },
+                    on: { click: _vm.submitNewQuizz }
+                  },
+                  [
+                    _c("span", {}, [_vm._v("Adicionar  ")]),
+                    _vm._v(" "),
+                    _c("div", {
+                      staticClass: "spinner-border text-light d-none",
+                      attrs: { role: "status" }
+                    })
+                  ]
+                )
+              ])
             ])
-          ])
-        ])
+          ]
+        )
       ]
     )
   ])
@@ -36087,9 +36593,31 @@ var staticRenderFns = [
     return _c(
       "div",
       {
+        staticClass: "card-loading is-loading mt-5",
+        attrs: { id: "card-loading-quiz" }
+      },
+      [
+        _c("div", { staticClass: "content" }, [
+          _c("h2"),
+          _vm._v(" "),
+          _c("br"),
+          _c("br"),
+          _vm._v(" "),
+          _c("p")
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
         staticClass: "toast toast-primary align-items-center mb-5 mtn-5 d-none",
         attrs: {
-          id: "toast",
+          id: "toast-quiz",
           role: "alert",
           "aria-live": "assertive",
           "aria-atomic": "true"
@@ -36101,7 +36629,7 @@ var staticRenderFns = [
             _c("strong", [
               _c("i", { staticClass: "bi bi-check-circle-fill" }),
               _vm._v("   \n                    "),
-              _c("span", [_vm._v("Quizz adicionada com sucesso")])
+              _c("span", [_vm._v("Quizz adicionado com sucesso!!")])
             ])
           ]),
           _vm._v(" "),
@@ -36163,7 +36691,7 @@ var staticRenderFns = [
       _c(
         "h5",
         { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
-        [_vm._v("Adicionar Novo Topico")]
+        [_vm._v("Adicionar Novo Quizz")]
       ),
       _vm._v(" "),
       _c("button", {
@@ -36249,17 +36777,21 @@ var staticRenderFns = [
         _c("h4", [_vm._v("Visivel")]),
         _vm._v(" "),
         _c("div", { staticClass: "mb-1" }, [
-          _c("input", {
-            attrs: { type: "radio", name: "Visivelop", value: "true" }
-          }),
-          _vm._v(" Sim\n                                ")
+          _c("label", [
+            _c("input", {
+              attrs: { type: "radio", name: "Visivelop", value: "true" }
+            }),
+            _vm._v("  Sim")
+          ])
         ]),
         _vm._v(" "),
         _c("div", [
-          _c("input", {
-            attrs: { type: "radio", name: "Visivelop", value: "false" }
-          }),
-          _vm._v(" Não\n                                ")
+          _c("label", [
+            _c("input", {
+              attrs: { type: "radio", name: "Visivelop", value: "false" }
+            }),
+            _vm._v("  Não")
+          ])
         ]),
         _vm._v(" "),
         _c("p", { attrs: { id: "ErrorVisivel" } })
@@ -36860,14 +37392,14 @@ var render = function() {
                           _vm._v(" "),
                           _c("p", { staticStyle: { "font-size": "16px" } }, [
                             _vm._v(
-                              "numero de perguntas=" +
-                                _vm._s(quizz["numeroperguntas"])
+                              "  Perguntas: " + _vm._s(quizz["numeroperguntas"])
                             )
                           ]),
+                          _vm._v(" "),
                           _c(
                             "button",
                             {
-                              staticClass: "btn btn-secondary ms-2",
+                              staticClass: "btn btn-secondary ms-2 ms-auto",
                               attrs: {
                                 type: "button",
                                 "data-bs-toggle": "modal",
@@ -36890,50 +37422,59 @@ var render = function() {
                             }
                           },
                           [
-                            _c("div", { staticClass: "modal-dialog  " }, [
-                              _c("div", { staticClass: "modal-content" }, [
-                                _vm._m(0, true),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "modal-body" }, [
-                                  _c("div", { staticClass: "pt-4 pb-5" }, [
-                                    _c(
-                                      "div",
-                                      { staticClass: "row text-center" },
-                                      [
-                                        _vm._m(1, true),
-                                        _vm._v(" "),
-                                        _c(
-                                          "div",
-                                          {
-                                            staticClass: "col-md-6 mt-5 mt-md-0"
-                                          },
-                                          [
-                                            _c(
-                                              "button",
-                                              {
-                                                staticClass: "btn btn-primary",
-                                                attrs: {
-                                                  type: "button",
-                                                  "data-bs-toggle": "modal",
-                                                  "data-bs-dismiss": "modal",
-                                                  "data-bs-target":
-                                                    "#session" + quizz["id"]
-                                                }
-                                              },
-                                              [
-                                                _vm._v(
-                                                  "\n                                                 juntar sessão\n                                             "
-                                                )
-                                              ]
-                                            )
-                                          ]
-                                        )
-                                      ]
-                                    )
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "modal-dialog  modal-dialog-centered"
+                              },
+                              [
+                                _c("div", { staticClass: "modal-content" }, [
+                                  _vm._m(0, true),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "modal-body" }, [
+                                    _c("div", { staticClass: "pt-4 pb-5" }, [
+                                      _c(
+                                        "div",
+                                        { staticClass: "row text-center" },
+                                        [
+                                          _vm._m(1, true),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "col-md-6 mt-5 mt-md-0"
+                                            },
+                                            [
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass:
+                                                    "btn btn-primary",
+                                                  attrs: {
+                                                    type: "button",
+                                                    "data-bs-toggle": "modal",
+                                                    "data-bs-dismiss": "modal",
+                                                    "data-bs-target":
+                                                      "#session" + quizz["id"]
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                                 juntar sessão\n                                             "
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ])
                                   ])
                                 ])
-                              ])
-                            ])
+                              ]
+                            )
                           ]
                         ),
                         _vm._v(" "),
@@ -36949,33 +37490,40 @@ var render = function() {
                             }
                           },
                           [
-                            _c("div", { staticClass: "modal-dialog " }, [
-                              _c("div", { staticClass: "modal-content" }, [
-                                _vm._m(2, true),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "modal-body" }, [
-                                  _c("div", { staticClass: "col-md-12" }, [
-                                    _c("input", {
-                                      staticClass:
-                                        "form-control form-control-pergunta",
-                                      attrs: {
-                                        type: "text",
-                                        placeholder:
-                                          "Escreva o id do quizz aqui",
-                                        id: "sessionId" + quizz["id"]
-                                      }
-                                    }),
-                                    _c("br"),
-                                    _vm._v(" "),
-                                    _c("p", {
-                                      attrs: { id: "Error" + quizz["id"] }
-                                    })
-                                  ])
-                                ]),
-                                _vm._v(" "),
-                                _vm._m(3, true)
-                              ])
-                            ])
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "modal-dialog modal-dialog-centered"
+                              },
+                              [
+                                _c("div", { staticClass: "modal-content" }, [
+                                  _vm._m(2, true),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "modal-body" }, [
+                                    _c("div", { staticClass: "col-md-12" }, [
+                                      _c("input", {
+                                        staticClass:
+                                          "form-control form-control-pergunta",
+                                        attrs: {
+                                          type: "text",
+                                          placeholder:
+                                            "Escreva o id do quizz aqui",
+                                          id: "sessionId" + quizz["id"]
+                                        }
+                                      }),
+                                      _c("br"),
+                                      _vm._v(" "),
+                                      _c("p", {
+                                        attrs: { id: "Error" + quizz["id"] }
+                                      })
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _vm._m(3, true)
+                                ])
+                              ]
+                            )
                           ]
                         )
                       ])
@@ -36986,14 +37534,14 @@ var render = function() {
                           _vm._v(" "),
                           _c("p", { staticStyle: { "font-size": "16px" } }, [
                             _vm._v(
-                              "numero de perguntas=" +
-                                _vm._s(quizz["numeroperguntas"])
+                              "  Perguntas: " + _vm._s(quizz["numeroperguntas"])
                             )
                           ]),
+                          _vm._v(" "),
                           _c(
                             "button",
                             {
-                              staticClass: "btn btn-secondary ms-2",
+                              staticClass: "btn btn-secondary ms-2 ms-auto",
                               attrs: {
                                 type: "button",
                                 "data-bs-toggle": "modal",
@@ -37016,48 +37564,55 @@ var render = function() {
                             }
                           },
                           [
-                            _c("div", { staticClass: "modal-dialog " }, [
-                              _c("div", { staticClass: "modal-content" }, [
-                                _vm._m(4, true),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "modal-body" }, [
-                                  _vm._v(
-                                    "\n                                     Tem a certeza que quer fazer este teste\n\n                                 "
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "modal-footer" }, [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-primary",
-                                      attrs: {
-                                        type: "button",
-                                        "data-bs-dismiss": "modal"
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.teste(quizz["id"])
-                                        }
-                                      }
-                                    },
-                                    [_vm._v("Sim")]
-                                  ),
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "modal-dialog modal-dialog-centered"
+                              },
+                              [
+                                _c("div", { staticClass: "modal-content" }, [
+                                  _vm._m(4, true),
                                   _vm._v(" "),
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-secondary",
-                                      attrs: {
-                                        type: "button",
-                                        "data-bs-dismiss": "modal"
-                                      }
-                                    },
-                                    [_vm._v("Não")]
-                                  )
+                                  _c("div", { staticClass: "modal-body" }, [
+                                    _vm._v(
+                                      "\n                                     Tem a certeza que quer fazer este teste?\n                                 "
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "modal-footer" }, [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-primary",
+                                        attrs: {
+                                          type: "button",
+                                          "data-bs-dismiss": "modal"
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.teste(quizz["id"])
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("Sim")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-secondary",
+                                        attrs: {
+                                          type: "button",
+                                          "data-bs-dismiss": "modal"
+                                        }
+                                      },
+                                      [_vm._v("Não")]
+                                    )
+                                  ])
                                 ])
-                              ])
-                            ])
+                              ]
+                            )
                           ]
                         )
                       ])
@@ -37668,128 +38223,251 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { attrs: { id: "container" } }, [
-    _vm._v("\r\n\r\n    " + _vm._s(_vm.countDown) + "\r\n\r\n\r\n    "),
-    _c("p", [_vm._v(_vm._s(_vm.enunciado))]),
-    _vm._v(" "),
-    _vm.fileCheck() === 1
-      ? _c("div", [
-          _c("img", {
-            attrs: {
-              src:
-                "/images/Pergunta/Multimedia/" +
-                _vm.pergunta[_vm.index]["link"],
-              alt: "imagem da pergunta",
-              height: "40%",
-              width: "40%"
-            }
-          })
+  return _c(
+    "div",
+    { staticClass: "fazerTeste mx-auto", attrs: { id: "container" } },
+    [
+      _c("div", { staticClass: "counter d-flex" }, [
+        _c("span", [_vm._v(_vm._s(_vm.countDown))]),
+        _vm._v(" "),
+        _c("span", { staticClass: "ms-auto" }, [
+          _vm._v(_vm._s(_vm.index + 1) + " de " + _vm._s(_vm.pergunta.length))
         ])
-      : _vm.fileCheck() === 2
-      ? _c("div", [
-          _c(
-            "video",
-            { attrs: { width: "320", height: "240", controls: "" } },
-            [
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "pergunta text-start" }, [
+        _c("p", [_vm._v(_vm._s(_vm.enunciado))])
+      ]),
+      _vm._v(" "),
+      _vm.fileCheck() === 1
+        ? _c("div", [
+            _c("img", {
+              staticClass: "mx-auto",
+              attrs: {
+                src:
+                  "/images/Pergunta/Multimedia/" +
+                  _vm.pergunta[_vm.index]["link"],
+                alt: "imagem da pergunta",
+                height: "40%",
+                width: "40%"
+              }
+            })
+          ])
+        : _vm.fileCheck() === 2
+        ? _c("div", [
+            _c(
+              "video",
+              { attrs: { width: "320", height: "240", controls: "" } },
+              [
+                _c("source", {
+                  attrs: {
+                    id: "questionMulti",
+                    src:
+                      "/images/Pergunta/Multimedia/" +
+                      _vm.pergunta[this.index]["link"],
+                    type: ""
+                  }
+                })
+              ]
+            )
+          ])
+        : _vm.fileCheck() === 3
+        ? _c("div", [
+            _c("audio", { attrs: { controls: "" } }, [
               _c("source", {
                 attrs: {
-                  id: "questionMulti",
+                  id: "questionMultiAudio",
                   src:
                     "/images/Pergunta/Multimedia/" +
                     _vm.pergunta[this.index]["link"],
                   type: ""
                 }
               })
-            ]
-          )
-        ])
-      : _vm.fileCheck() === 3
-      ? _c("div", [
-          _c("audio", { attrs: { controls: "" } }, [
-            _c("source", {
-              attrs: {
-                id: "questionMultiAudio",
-                src:
-                  "/images/Pergunta/Multimedia/" +
-                  _vm.pergunta[this.index]["link"],
-                type: ""
-              }
-            })
+            ])
           ])
-        ])
-      : _vm.fileCheck() === 0
-      ? _c("div")
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.pergunta[_vm.index]["tipo"] === "multiple"
-      ? _c("div", [
-          _c("button", {
-            attrs: { id: "m1" },
-            on: {
-              click: function($event) {
-                return _vm.response("m1")
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("button", {
-            attrs: { id: "m2" },
-            on: {
-              click: function($event) {
-                return _vm.response("m2")
-              }
-            }
-          }),
-          _c("br"),
-          _vm._v(" "),
-          _c("button", {
-            attrs: { id: "m3" },
-            on: {
-              click: function($event) {
-                return _vm.response("m3")
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("button", {
-            attrs: { id: "m4" },
-            on: {
-              click: function($event) {
-                return _vm.response("m4")
-              }
-            }
-          })
-        ])
-      : _vm.pergunta[_vm.index]["tipo"] === "true/false"
-      ? _c("div", [
-          _c(
-            "button",
-            {
-              attrs: { id: "tf1", value: "true" },
-              on: {
-                click: function($event) {
-                  return _vm.response("tf1")
-                }
-              }
-            },
-            [_vm._v("True")]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              attrs: { id: "tf2", value: "true" },
-              on: {
-                click: function($event) {
-                  return _vm.response("tf2")
-                }
-              }
-            },
-            [_vm._v("False")]
-          )
-        ])
-      : _vm._e()
-  ])
+        : _vm.fileCheck() === 0
+        ? _c("div")
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.pergunta[_vm.index]["tipo"] === "multiple"
+        ? _c("div", { staticClass: "respostas mt-5" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-6" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "respostas-btn respostas-btn-1",
+                    attrs: { id: "m1" },
+                    on: {
+                      click: function($event) {
+                        return _vm.response("m1")
+                      }
+                    }
+                  },
+                  [_vm._v(" ")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "respostas-btn respostas-btn-2",
+                    attrs: { id: "m2" },
+                    on: {
+                      click: function($event) {
+                        return _vm.response("m2")
+                      }
+                    }
+                  },
+                  [_vm._v(" ")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "respostas-btn respostas-btn-3 mt-4",
+                    attrs: { id: "m3" },
+                    on: {
+                      click: function($event) {
+                        return _vm.response("m3")
+                      }
+                    }
+                  },
+                  [_vm._v(" ")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "respostas-btn respostas-btn-4 mt-4",
+                    attrs: { id: "m4" },
+                    on: {
+                      click: function($event) {
+                        return _vm.response("m4")
+                      }
+                    }
+                  },
+                  [_vm._v(" ")]
+                )
+              ])
+            ])
+          ])
+        : _vm.pergunta[_vm.index]["tipo"] === "true/false"
+        ? _c("div", { staticClass: "respostas mt-5" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-6" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "respostas-btn respostas-btn-1",
+                    attrs: { id: "tf1", value: "true" },
+                    on: {
+                      click: function($event) {
+                        return _vm.response("tf1")
+                      }
+                    }
+                  },
+                  [_vm._v("True")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "respostas-btn respostas-btn-2",
+                    attrs: { id: "tf2", value: "true" },
+                    on: {
+                      click: function($event) {
+                        return _vm.response("tf2")
+                      }
+                    }
+                  },
+                  [_vm._v("False")]
+                )
+              ])
+            ])
+          ])
+        : _vm.pergunta[_vm.index]["tipo"] === "multiple-select"
+        ? _c("div", { staticClass: "respostas mt-5" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("p", { staticClass: "text-center" }, [
+                _vm._v("Escolha Múltipla com várias seleções")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "respostas-btn respostas-btn-1",
+                    attrs: { id: "m1" },
+                    on: {
+                      click: function($event) {
+                        return _vm.responseMultiplas("m1")
+                      }
+                    }
+                  },
+                  [_vm._v(" ")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "respostas-btn respostas-btn-2",
+                    attrs: { id: "m2" },
+                    on: {
+                      click: function($event) {
+                        return _vm.responseMultiplas("m2")
+                      }
+                    }
+                  },
+                  [_vm._v(" ")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "respostas-btn respostas-btn-3 mt-4",
+                    attrs: { id: "m3" },
+                    on: {
+                      click: function($event) {
+                        return _vm.responseMultiplas("m3")
+                      }
+                    }
+                  },
+                  [_vm._v(" ")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "respostas-btn respostas-btn-4 mt-4",
+                    attrs: { id: "m4" },
+                    on: {
+                      click: function($event) {
+                        return _vm.responseMultiplas("m4")
+                      }
+                    }
+                  },
+                  [_vm._v(" ")]
+                )
+              ])
+            ])
+          ])
+        : _vm._e()
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

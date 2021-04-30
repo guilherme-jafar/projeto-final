@@ -46,12 +46,13 @@ class Disciplina extends Controller
     {
 
         $disciplina = \App\Models\Disciplina::find($request->token);
-//        $disciplina = DB::select('select * FROM disciplina
+//        $disciplina2 = DB::select('select * FROM disciplina
 //                                    WHERE id = :id', ['id' => $request->token]);
-       //dd($disciplina);
+
         $topico = DB::select('select * FROM topicos
                                     WHERE disciplina_id = :id', ['id' => $request->token]);
         $request->session()->put('disciplina', $disciplina);
+
         if (!empty($topico)) {
             return view('/prof/Disciplina', ['topico' => $topico]);
         } else {
@@ -67,6 +68,7 @@ class Disciplina extends Controller
         $disciplina = \App\Models\Disciplina::find($request->token);
         $quizz = DB::select('select * FROM quizz
                                     WHERE disciplina_id = :id', ['id' => $request->token]);
+
         $request->session()->put('disciplina', $disciplina);
         if (!empty($quizz)) {
             return view('/aluno/AlunoDisciplina', ['quizz' => $quizz]);
@@ -208,17 +210,17 @@ class Disciplina extends Controller
 
     }
 
-    public function sucesso(){
-       // return redirect('/prof/disciplina/sucesso'. session('disciplina')['id'])->with('estado', 'sucesso');
-        dd(session('disciplina')['id']);
-        $disciplina = \App\Models\Disciplina::find(session('disciplina'));
+    public function sucesso(Request $request){
+       // dd(session('disciplina')['id']);
+        $disciplina = \App\Models\Disciplina::find(session('disciplina')['id']);
         $topico = DB::select('select * FROM topicos
                                     WHERE disciplina_id = :id', ['id' => session('disciplina')['id']]);
+
         session()->put('disciplina', $disciplina);
         if (!empty($topico)) {
-            return view('/prof/Disciplina/' + session('disciplina')['id'], ['topico' => $topico])->with('estado', 'sucesso');
+            return redirect('/prof/Disciplina/' . session('disciplina')['id'])->with('estado', 'sucesso');
         } else {
-            return view('/prof/Disciplina/' + session('disciplina')['id'], ['topico' => []])->with('estado', 'sucesso');
+            return redirect('/prof/Disciplina' . session('disciplina')['id'])->with('estado', 'sucesso');
         }
     }
 

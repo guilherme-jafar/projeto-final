@@ -13,10 +13,11 @@ class Quizz extends Controller
     function listQuizz(Request $request)
     {
 
-
         $Quizz = DB::table('quizz')
             ->where('disciplina_id', '=', session('disciplina')['id'])
             ->get();
+
+
 
         if (!empty($Quizz)) {
             return response()->json([
@@ -107,6 +108,7 @@ class Quizz extends Controller
 
                 $check=DB::select('select * from sessao where id = :id',['id' => $session]);
 
+
         if (!empty($quizz)) {
             if (empty($check)) {
                 DB::insert('insert into sessao (id, nomequizz ,tipo,quizz_id,iduser,tipoUser) values (?,?,?,?,?,?)'
@@ -154,6 +156,8 @@ class Quizz extends Controller
 
     function setResposta(Request $request){
 
+
+        var_dump($request->resposta);
 
         DB::insert('insert into respostas_quizz (id, resposta ,resultado,tipo,sessao_id,aluno_utilizador_id,pergunta_id) values (?,?,?,?,?,?,?)'
             , [uniqid(), $request->resposta, $request->resultado, $request->tipo, $request->sessioId, session('utilizador')['id'],$request->id]);

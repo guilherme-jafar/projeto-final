@@ -4,7 +4,7 @@
 @section('content')
 
     <div class="col-md-10 mx-auto">
-
+{{--    {{dd(session('estado'))}}--}}
         @if(session('estado'))
             <div class="alert alert-primary alert-dismissible fade show mb-5" role="alert" id="alert">
                 <strong><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp;Disciplina editada com sucesso</strong>
@@ -25,7 +25,19 @@
                             <div class="card-inside-disciplina">
                                 <div>
                                     <h2>  {{session('disciplina')['nome']}}</h2>
-                                    <i class="bi bi-three-dots-vertical"></i>
+                                    <div class="ms-auto">
+
+                                        <div class="dropdown">
+                                            <button class="" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                <li>
+                                                    <button type="button" class="dropdown-item" id="btn-chg-1" onclick="chg(4)">Editar</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div>
                                     <p>Descricao: {{session('disciplina')['descricao']}}</p>
@@ -38,10 +50,10 @@
                             </div>
 
                             <div id="app2" class="mt-4">
-                                <button type="button" class="btn btn-third ms-5" id="btn-chg-2" onclick="chg(1)">Topicos</button>
-                                <button type="button" class="btn btn-ghost-2 ms-5" id="btn-chg-3" onclick="chg(2)">Alunos</button>
+                                <button type="button" class="btn btn-third" id="btn-chg-2" onclick="chg(1)">Topicos</button>
                                 <button type="button" class="btn btn-ghost-2 ms-5" id="btn-chg-4" onclick="chg(3)">Quizz</button>
-                                <button type="button" class="btn btn-secondary ms-2" id="btn-chg-1" onclick="chg(4)">Editar</button>
+                                <button type="button" class="btn btn-ghost-2 ms-5" id="btn-chg-3" onclick="chg(2)">Alunos</button>
+{{--                                <button type="button" class="btn btn-secondary ms-2" id="btn-chg-1" onclick="chg(4)">Editar</button>--}}
                             </div>
 
                         </div>
@@ -96,10 +108,10 @@
     <script >
         $( document ).ready(function() {
 
-            $('#topics').hide();
+            $('#topics').show();
             $('#alunos').hide();
             $('#quizz').hide();
-            $('#editarDisciplina').show()
+            $('#editarDisciplina').hide()
         });
 
         function chg(index){
@@ -144,8 +156,8 @@
                     $('#btn-chg-2').addClass('btn-ghost-2')
                     $('#newTopic').hide();
                     $('#newQuiz').removeClass('d-none');
-                    $('#btn-chg-4').removeClass('btn-third')
-                    $('#btn-chg-4').addClass('btn-ghost-2')
+                    $('#btn-chg-4').addClass('btn-third')
+                    $('#btn-chg-4').removeClass('btn-ghost-2')
 
 
                     break;

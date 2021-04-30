@@ -1,21 +1,25 @@
 <template>
     <div class="section-add-pergunta">
 
+
+
         <div class="collapse" :id="'collapse'+topicos">
 
             <p>Perguntas: </p>
         <div v-if="perguntas.length === 0" class="mx-auto">
-            <h3>Ainda não tem nenhum Pergunta</h3>
+            <h3>Ainda não tem nenhuma Pergunta</h3>
 
         </div>
 
-        <div v-else class="section-disciplinas-items " >
+        <div v-else class="lista-perguntas" >
 
         <ul >
             <li  v-for="pergunta in perguntas" :key="pergunta['id']">
 
-
-                    <h3>{{pergunta['enunciado']}}</h3  >
+                    <div class="d-flex mb-5 card">
+                        <h3>{{pergunta['enunciado']}}</h3>
+                        <button class="btn btn-primary ms-auto">Ver Detalhes</button>
+                    </div>
 
             </li>
         </ul>
@@ -129,7 +133,8 @@
                                     <label :for="'tipo'+topicos">
                                         Indique o tipo de pergunta<br>
                                         <select name="tipo" class="form-select" :id="'tipo'+topicos" @change="alter()">
-                                            <option value="multiple">Escolha múltipla</option>
+                                            <option value="multiple">Seleção Única</option>
+                                            <option value="multiple-select">Seleção Múltipla</option>
                                             <option value="true/false">Verdadeiro/Falso</option>
 
 
@@ -209,7 +214,6 @@
                                                        class="form-check-input">
                                             </div>
                                         </div>
-                                        <p :id="'RError'+topicos"></p>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -231,6 +235,57 @@
 
                                         <p :id="'TError'+topicos"></p>
                                     </div>
+                                </div>
+
+                                <div class="col-md-12 ">
+                                    <div :id="'multiple-select'+topicos" style="margin-top: 20px">
+
+                                        <div class="input-group mb-3 insertAnsewr">
+
+                                            <input type='text' :id="'rem1'+topicos" class=" form-control" style="border: none;"
+                                                   aria-label="Text input with radio button" placeholder="Opção 1">
+                                            <div class="input-group-text">
+                                                <input type="checkbox" :name="'corret'+topicos+'[]'" :value="'re1'+topicos"
+                                                       class="form-check-input">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="input-group mb-3 insertAnsewr">
+
+                                            <input type='text' :id="'rem2'+topicos" class=" form-control" style="border: none"
+                                                   aria-label="Text input with radio button" placeholder="Opção 2">
+                                            <div class="input-group-text">
+                                                <input type="checkbox" :name="'corret'+topicos+'[]'" :value="'re2'+topicos"
+                                                       class="form-check-input">
+                                            </div>
+                                        </div>
+
+                                        <div class="input-group mb-3 insertAnsewr">
+
+                                            <input type='text' :id="'rem3'+topicos" class=" form-control" style="border: none; "
+                                                   aria-label="Text input with radio button" placeholder="Opção 3">
+                                            <div class="input-group-text">
+                                                <input type="checkbox" :name="'corret'+topicos+'[]'" :value="'re3'+topicos"
+                                                       class="form-check-input">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="input-group mb-3 insertAnsewr">
+
+                                            <input type='text' :id="'rem4'+topicos" class=" form-control" style="border: none; "
+                                                   aria-label="Text input with radio button" placeholder="Opção 4">
+                                            <div class="input-group-text">
+                                                <input type="checkbox" :name="'corret'+topicos+'[]'" :value="'re4'+topicos"
+                                                       class="form-check-input">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <p :id="'RError'+topicos"></p>
                                 </div>
 
                             </div>
@@ -272,7 +327,8 @@ export default {
     data() {
         return {
             topicos: this.topico_id,
-            perguntas:''
+            perguntas:'',
+            toastPergunta: ''
         }
     },
     methods: {
@@ -281,18 +337,9 @@ export default {
             let form =new FormData()
             form.append('id',this.topicos)
             axios.post('/getPerguntas',form).then(function (response){
-
-
                     this.perguntas= response.data.message;
-
-
-
-
                 }.bind(this)
             );
-
-
-
         },
 
         submit(top) {
@@ -315,7 +362,7 @@ export default {
             if (document.getElementById("pergunta" + top).value.length <= 0 ) {
                 $('#PerguntaError' + top).text("indique o enunciado da pergunta").css('color', 'red').css('opacity', '1');
             } else if (document.getElementById("pergunta" + top).value.length >120){
-                $('#PerguntaError' + top).text("O enunciado e demasiado grande").css('color', 'red').css('opacity', '1');
+                $('#PerguntaError' + top).text("O enunciado é demasiado grande").css('color', 'red').css('opacity', '1');
             }
 
             else {
@@ -356,7 +403,7 @@ export default {
                         }
                     }
                      if (flag2) {
-                        $('#RError' + top).text("Uma das respostas e demasiado grande").css('color', 'red').css('opacity', '1');
+                        $('#RError' + top).text("Uma das respostas tem mais de 100 letras").css('color', 'red').css('opacity', '1');
 
                     }
                      else if (index < 2) {
@@ -387,6 +434,58 @@ export default {
                     }
 
 
+                }else if(document.getElementById("tipo" + top).value === "multiple-select"){
+
+                    let opcoes = $('input[name="corret'+top+'[]"]:checked');
+                    let opcoesEscolhidas = [];
+                    let respostas = [];
+                    let guardarOpcoes = true;
+                    if(opcoes.length  <= 1){
+                        $('#RError' + top).text("Escolha duas ou mais opções corretas!!").css('color', 'red').css('opacity', '1');
+
+                    }else {
+                        for (let i = 0; i < opcoes.length; i++){
+                            opcoesEscolhidas[i] = opcoes[i].value;
+                            if (document.getElementById("rem" + (i+1) + top).value.length === 0){
+                                $('#RError' + top).text("Não pode escolher uma opção vazia como certa!!").css('color', 'red').css('opacity', '1');
+                                guardarOpcoes = false;
+                                break;
+                            }else if (document.getElementById("rem" + (i+1) + top).value.length > 100){
+                                $('#RError' + top).text("Uma das respostas tem mais de 100 letras").css('color', 'red').css('opacity', '1');
+                                guardarOpcoes = false;
+                                break;
+                            }
+
+                        }
+
+                        if (guardarOpcoes){
+                            for (let i= 1; i < 5; i++){
+                                if (document.getElementById("rem" + i + top).value.length > 0 && document.getElementById("rem" + i + top).value.length <=100){
+                                    respostas[i - 1] = document.getElementById("rem" + i + top).value;
+
+                                }
+
+                            }
+
+                            if (respostas.length >= 2){
+                                form.append('array', JSON.stringify(respostas));
+                                form.append('respostas', JSON.stringify(opcoesEscolhidas))
+
+                                this.send(form, top)
+                            }else{
+                                $('#RError' + top).text("Só pode introduzir duas ou mais opcões!!").css('color', 'red').css('opacity', '1');
+                            }
+
+
+                        }
+
+
+
+
+
+                    }
+
+
                 }
 
 
@@ -400,11 +499,13 @@ export default {
             ).then(function (response) {
                 if (response.data.message === "erro") {
 
-                    alert("erro a enserir a pergunta");
+                    alert("Erro a inserir a pergunta");
                 }
                 else {
                     $('#submit' + top).prop('disabled', false);
                     this.modal.hide();
+                    this.toastPergunta.show();
+                    $('#toast-pergunta').removeClass('d-none');
                 }
                 document.getElementById("pergunta" + top).value = ""
                 document.getElementById("file" + top).value = ""
@@ -413,7 +514,7 @@ export default {
                 if (document.getElementById("tipo" + top).value === "multiple") {
                     var radios = document.getElementsByName("corret" + top);
                     for (let i = 1; i < 5; i++) {
-                        document.getElementById("re" + i + top).value = " "
+                        document.getElementById("re" + i + top).value = ""
 
                         if (radios[i - 1].checked) {
                             radios[i - 1].checked = false;
@@ -428,12 +529,20 @@ export default {
                         }
                     }
 
+                }else if (document.getElementById("tipo" + top).value === "multiple-select"){
+                    var checkboxRe = document.getElementsByName("corret"+top+"[]");
+                    for (let i= 1; i < 5; i++){
+                       checkboxRe[i -1].checked = false;
+                        document.getElementById("rem" + i + top).value = "";
+
+
+
+                    }
+
                 }
                 this.getPerguntas();
             }.bind(this));
         },
-
-
         InsertFile(topicos){
 
             $('#InsertfileButton'+topicos).prop('disabled', true);
@@ -504,19 +613,24 @@ export default {
 
 
         },
-
-
         alter() {
             let id = "trueFalse" + this.topicos;
             let id2 = "multiple" + this.topicos;
+            let id3 = "multiple-select" + this.topicos;
             if (document.getElementById("tipo" + this.topicos).value === "multiple") {
 
                 $('#' + id).hide();
                 $('#' + id2).show();
+                $('#' + id3).hide();
             } else if (document.getElementById("tipo" + this.topicos).value === "true/false") {
 
                 $('#' + id).show();
                 $('#' + id2).hide();
+                $('#' + id3).hide();
+            } else if(document.getElementById("tipo"+ this.topicos).value === "multiple-select"){
+                $('#' + id).hide();
+                $('#' + id2).hide();
+                $('#' + id3).show();
             }
         }
     },
@@ -526,9 +640,12 @@ export default {
         this.modal2 = new bootstrap.Modal(document.getElementById('cp' + this.topicos), {})
         let id = "trueFalse" + this.topicos;
         let id2 = "multiple" + this.topicos;
+        let id3 = "multiple-select" + this.topicos;
         $('#' + id).hide();
         $('#' + id2).show();
-
+        $('#' + id3).hide();
+        this.toastPergunta = new bootstrap.Toast(document.getElementById('toast-pergunta'), {delay: 10000})
+        this.toastPergunta.hide();
     }
 }
 </script>

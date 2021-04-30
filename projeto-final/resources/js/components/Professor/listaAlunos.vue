@@ -1,11 +1,19 @@
 <template>
 
 <div>
-    <div v-if="alunos.length === 0" class="mx-auto">
+    <div class="card-loading is-loading mt-5" id="card-loading-alunos">
+        <div class="content">
+            <h2></h2>
+            <br><br>
+            <p></p>
+        </div>
+    </div>
+
+    <div v-if="alunos.length === 0" class="mx-auto" id="alunos-adicionar">
         <h1 class="heanding-1 mx-auto mt-5">Ainda não tem nenhum alunos inscrito</h1>
 
     </div>
-    <div v-else class="section-disciplinas-items mt-5 me-md-5 ms-md-5" >
+    <div v-else class="section-disciplinas-items mt-5 me-md-5 ms-md-5" id="lista-alunos">
         <div class="box-search mb-5">
             <input class=" form-control form-control-lg form-search" type="text" v-model="search" placeholder="Pesquisar aluno...">
             <i class="bi bi-search"></i>
@@ -80,9 +88,15 @@ export default {
         ).then(function (response) {
 
             this.alunos=response.data.message;
-
+            $('#card-loading-alunos').hide();
+            $('#lista-alunos').show();
+            $('#alunos-adicionar').show();
 
         }.bind(this));
+
+        $('#card-loading-alunos').show();
+        $('#lista-alunos').hide();
+        $('#alunos-adicionar').hide();
 
     }
 }
