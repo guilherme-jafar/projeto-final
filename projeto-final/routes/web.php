@@ -88,7 +88,7 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (
     Route::post("/getQuizz",[\App\Http\Controllers\Quizz::class,'listQuizz']);
     Route::post("/insertQuizz",[App\Http\Controllers\Quizz::class,'insertQuizz']);
     Route::post("/getPerguntas",[App\Http\Controllers\topicos::class,'getPerguntas']);
-    Route::get("/WaitRoom/{token}/{sessionID}",[App\Http\Controllers\Quizz::class,'EnterWaitRoom']);
+    Route::get("/WaitRoom/{id}",[App\Http\Controllers\Quizz::class,'CreateWaitRoom']);
     Route::post("/multiQuestion",[App\Http\Controllers\topicos::class,"MultiQuestion"]);
     Route::get('/loading', function () {
         return view('/loading');
@@ -111,6 +111,7 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:aluno']], function 
     Route::post('/getRespostas',[App\Http\Controllers\Quizz::class,'getRespostas']);
     Route::post('/setResposta',[App\Http\Controllers\Quizz::class,'setResposta']);
     Route::get('/EndQuizz/{sessionId}',[App\Http\Controllers\Quizz::class,'EndQuizz']);
+    Route::get('/WaitRoomStudent/',[\App\Http\Controllers\Quizz::class,'']);
     Route::delete("/aluno/disciplina/delete/{id}", [App\Http\Controllers\Disciplina::class,'destroy']);
 
 

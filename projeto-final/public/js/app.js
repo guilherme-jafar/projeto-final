@@ -2398,8 +2398,7 @@ __webpack_require__.r(__webpack_exports__);
       if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('#disciplina').val().length === 0) {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()("#editarDisciplinaError").text("Introduza o nome da disciplina").css('color', 'red').css('opacity', '1');
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit span').removeClass('d-none');
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit div').addClass('d-none');
-        enviar = false;
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit div').addClass('d-none'); //enviar = false;
       } else {
         var formData = new FormData();
         formData.append('disciplina', jquery__WEBPACK_IMPORTED_MODULE_0___default()("#disciplina").val());
@@ -2958,10 +2957,12 @@ __webpack_require__.r(__webpack_exports__);
             if (newPerguntas[_i3][newPerguntas[_i3][7] + 1] === null) {
               jquery__WEBPACK_IMPORTED_MODULE_0___default()('#InsertfileError' + topicos).text("Erro no ficheiro").css('color', 'red').css('opacity', '1');
               flag = true;
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('#InsertfileButton' + topicos).prop('disabled', false);
             }
           } else {
             jquery__WEBPACK_IMPORTED_MODULE_0___default()('#InsertfileError' + topicos).text("Erro no ficheiro").css('color', 'red').css('opacity', '1');
             flag = true;
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#InsertfileButton' + topicos).prop('disabled', false);
           }
         }
 
