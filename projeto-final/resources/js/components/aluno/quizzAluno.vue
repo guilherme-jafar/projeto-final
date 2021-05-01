@@ -72,7 +72,7 @@
 
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Entrar</button>
+                                        <button type="button" class="btn btn-primary" @click="JoinQuizz(quizz['id'])">Entrar</button>
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
 
                                     </div>
@@ -149,6 +149,11 @@ name: "quizzAluno",
             let session='_' + Math.random().toString(36).substr(2, 9);
 
             window.location.replace('/quizzTeste/' + quizz+'/'+session)
+        },
+
+        JoinQuizz(id){
+
+            window.location.replace('/WaitRoomStudent/' + id );
         }
     },
     mounted() {

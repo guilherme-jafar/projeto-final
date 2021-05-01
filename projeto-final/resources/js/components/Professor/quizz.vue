@@ -41,6 +41,7 @@
             <ul>
                 <li class="card-box mb-5 mt-5" v-for="quizz in filter" :key="quizz['id']">
 
+                    <div v-if="quizz['tipo']==='true'">
                     <div class="card-box-text">
                         <h2>{{quizz['nome']}}</h2>
                         <button type="button" data-bs-toggle="modal" :data-bs-target="'#t'+quizz['id']"
@@ -74,7 +75,16 @@
                             </div>
                         </div>
                     </div>
+                    </div>
 
+
+                    <div v-else-if="quizz['tipo']==='false'">
+                        <div class="card-box-text">
+                            <h2>{{quizz['nome']}}</h2>
+
+                            <i class="bi bi-three-dots-vertical"></i>
+                        </div>
+                    </div>
                 </li>
             </ul>
 
@@ -199,8 +209,8 @@
         methods: {
 
             EnterQuizz(quizz) {
-                let session = '_' + Math.random().toString(36).substr(2, 9);
-                window.location.replace('/WaitRoom/' + quizz + '/' + session)
+
+                window.location.replace('/WaitRoom/' + quizz );
 
             },
 

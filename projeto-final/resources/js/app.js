@@ -20,7 +20,9 @@ Vue.component('alunodashboard',require('./components/aluno/dashboadAluno.vue').d
 Vue.component('alunosQuizz',require('./components/aluno/quizzAluno').default);
 Vue.component('perguntaQuizz', require('./components/quizz/perguntaQuizz').default)
 
-
+//quizz
+Vue.component('waitRoom',require('./components/quizz/waitRoom').default)
+Vue.component('waitRoomAluno',require('./components/quizz/WaitRoomStudent').default)
 
 const app=new Vue({
     el:'#app',
