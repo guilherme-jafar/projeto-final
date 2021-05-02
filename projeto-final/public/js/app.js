@@ -2259,6 +2259,54 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "disciplinaProf",
@@ -2266,10 +2314,27 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       search: '',
-      topicos: JSON.parse(this.topico_prop)
+      topicos: JSON.parse(this.topico_prop),
+      modalDeleteTopico: '',
+      toastEliminarTopico: ''
     };
   },
   methods: {
+    eliminarTopico: function eliminarTopico(topico) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn span').addClass('d-none');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn div').removeClass('d-none');
+      this.modalDeleteTopico = bootstrap.Modal.getInstance(document.getElementById('eliminarTopico' + topico['id']), {});
+      axios["delete"]('/aluno/topico/delete/' + topico['id']).then(function (response) {
+        if (response.data.message !== "erro") {
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn span').removeClass('d-none');
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn div').addClass('d-none');
+          this.toastEliminarTopico.show();
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#toastEliminarTopico').removeClass('d-none');
+          this.topicos = response.data.message;
+          this.modalDeleteTopico.hide();
+        }
+      }.bind(this));
+    },
     changeButton: function changeButton(id) {
       if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('#img' + id).attr('src') === '/assets/expand_more_black_24dp.svg') {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#img' + id).attr('src', '/assets/expand_less_black_24dp.svg');
@@ -2330,6 +2395,10 @@ __webpack_require__.r(__webpack_exports__);
       delay: 10000
     });
     this.toast.hide();
+    this.toastEliminarTopico = new bootstrap.Toast(document.getElementById('toastEliminarTopico'), {
+      delay: 10000
+    });
+    this.toastEliminarTopico.hide();
   }
 });
 
@@ -3362,6 +3431,8 @@ __webpack_require__.r(__webpack_exports__);
       window.location.replace('/WaitRoom/' + quizz + '/' + session);
     },
     submitNewQuizz: function submitNewQuizz() {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').addClass('d-none');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').removeClass('d-none');
       var l = window.location.href.split('/');
       var flagTime, corretTime, flagVisibel, corretVisibel;
       var array = [];
@@ -3373,7 +3444,9 @@ __webpack_require__.r(__webpack_exports__);
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#NumeroError').text(" ").css('color', 'red').css('opacity', '1');
 
       if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('#titulo').val().length === 0) {
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#TituloError').text("Endique um titulo para o quizz").css('color', 'red').css('opacity', '1');
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#TituloError').text("Indique um titulo para o quizz").css('color', 'red').css('opacity', '1');
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
       } else {
         var radios = document.getElementsByName("realtimeop");
 
@@ -3386,6 +3459,8 @@ __webpack_require__.r(__webpack_exports__);
 
         if (!flagTime) {
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('#TError').text("Indique o tipo de quizz que quer").css('color', 'red').css('opacity', '1');
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
         } else {
           form.append('realtime', corretTime);
           form.append('titulo', jquery__WEBPACK_IMPORTED_MODULE_0___default()('#titulo').val());
@@ -3400,12 +3475,16 @@ __webpack_require__.r(__webpack_exports__);
           }
 
           if (!flagVisibel) {
-            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#ErrorVisivel').text("Indique se quer o teste ja visivel ou não").css('color', 'red').css('opacity', '1');
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#ErrorVisivel').text("Indique se quer o teste já visivel ou não").css('color', 'red').css('opacity', '1');
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
           } else {
             form.append('visible', corretVisibel);
 
             if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('#nPerguntas').val() < 3) {
-              jquery__WEBPACK_IMPORTED_MODULE_0___default()('#NumeroError').text("Um quizz deve ter pelo menos tres perguntas").css('color', 'red').css('opacity', '1');
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('#NumeroError').text("Um quizz deve ter pelo menos três perguntas").css('color', 'red').css('opacity', '1');
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
             } else {
               form.append('nPerguntas', jquery__WEBPACK_IMPORTED_MODULE_0___default()('#nPerguntas').val());
               var check = document.getElementsByName("topico");
@@ -3420,6 +3499,8 @@ __webpack_require__.r(__webpack_exports__);
 
               if (count === 0) {
                 jquery__WEBPACK_IMPORTED_MODULE_0___default()('#TopicoError').text("Tem que indicar pelo menos um topico").css('color', 'red').css('opacity', '1');
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
               } else {
                 form.append('array', JSON.stringify(array));
                 form.append('id', l[l.length - 1]);
@@ -3432,14 +3513,44 @@ __webpack_require__.r(__webpack_exports__);
     },
     sendQuizz: function sendQuizz(form) {
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submitQuizz').prop('disabled', true);
-      var vm = this;
-      console.log(this);
       axios__WEBPACK_IMPORTED_MODULE_1___default().post('/insertQuizz', form).then(function (response) {
         if (response.data.message === "sucesso") {
-          vm.listQuizz();
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
+          var radios = document.getElementsByName("realtimeop");
+
+          for (var i = 0; i < 2; i++) {
+            console.log(radios[i].checked);
+
+            if (radios[i].checked) {
+              radios[i].checked = false;
+            }
+          }
+
+          var radios2 = document.getElementsByName("Visivelop");
+
+          for (var _i3 = 0; _i3 < 2; _i3++) {
+            if (radios2[_i3].checked) {
+              radios2[_i3].checked = false;
+            }
+          }
+
+          var check = document.getElementsByName("topico");
+
+          for (var _i4 = 0; _i4 < check.length; _i4++) {
+            if (check[_i4].checked) {
+              check[_i4].checked = false;
+            }
+          }
+
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#nPerguntas').val('');
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#titulo').val('');
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#quizzdescricao').val('');
+          this.listQuizz();
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submitQuizz').prop('disabled', false);
-          vm.modal.hide();
-          vm.toast.show();
+          this.modal.hide();
+          this.toastQuiz.show();
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#toast-quiz').removeClass('d-none');
         } else if (response.data.message === "numero de perguntas invalido") {
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('#NumeroError').text("numero de perguntas invalido").css('color', 'red').css('opacity', '1');
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submitQuizz').prop('disabled', false);
@@ -3448,9 +3559,16 @@ __webpack_require__.r(__webpack_exports__);
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submitQuizz').prop('disabled', false);
           this.modal.hide();
         }
-      });
+      }.bind(this));
     },
-    listQuizz: function listQuizz() {},
+    listQuizz: function listQuizz() {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/getQuizz').then(function (response) {
+        this.quizz = response.data.message;
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card-loading-quiz').hide();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#lista-quizes').show();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#quiz-adicionar').show();
+      }.bind(this));
+    },
     topicsCheck: function topicsCheck() {
       if (this.topicos.length === 0) {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submitQuizz').prop('disabled', true);
@@ -3468,6 +3586,12 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
+  watch: {
+    modal: function modal() {// this.modal.addEventListener('show.bs.modal',function () {
+      //     console.log('sdfsdf')
+      // })
+    }
+  },
   mounted: function mounted() {
     this.modal = new bootstrap.Modal(document.getElementById('exampleModal2'), {});
     this.toastQuiz = new bootstrap.Toast(document.getElementById('toast-quiz'), {
@@ -3475,12 +3599,7 @@ __webpack_require__.r(__webpack_exports__);
     });
     this.toastQuiz.hide();
     this.topicsCheck();
-    axios__WEBPACK_IMPORTED_MODULE_1___default().post('/getQuizz').then(function (response) {
-      this.quizz = response.data.message;
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card-loading-quiz').hide();
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#lista-quizes').show();
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#quiz-adicionar').show();
-    }.bind(this));
+    this.listQuizz();
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card-loading-quiz').show();
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#lista-quizes').hide();
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#quiz-adicionar').hide();
@@ -3690,7 +3809,7 @@ __webpack_require__.r(__webpack_exports__);
     eliminarDisciplina: function eliminarDisciplina(disciplina) {
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn span').addClass('d-none');
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn div').removeClass('d-none');
-      this.modalDelete = new bootstrap.Modal(document.getElementById('eliminar' + disciplina['id']), {});
+      this.modalDelete = bootstrap.Modal.getInstance(document.getElementById('eliminar' + disciplina['id']), {});
       axios["delete"]('/aluno/disciplina/delete/' + disciplina['id']).then(function (response) {
         if (response.data.message !== "erro") {
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn span').removeClass('d-none');
@@ -3698,9 +3817,7 @@ __webpack_require__.r(__webpack_exports__);
           this.toastEliminar.show();
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('#toastEliminar').removeClass('d-none');
           this.disciplinas = response.data.message;
-          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.modal-backdrop').remove();
           this.modalDelete.hide();
-          jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').removeClass('modal-open').css('padding-right', '0');
         }
       }.bind(this));
     },
@@ -34849,13 +34966,15 @@ var render = function() {
     _vm._v(" "),
     _vm._m(1),
     _vm._v(" "),
+    _vm._m(2),
+    _vm._v(" "),
     _vm.topicos.length === 0
       ? _c("div", { staticClass: "mx-auto" }, [
           _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
             _vm._v("Ainda não tem nenhum Topico")
           ]),
           _vm._v(" "),
-          _vm._m(2)
+          _vm._m(3)
         ])
       : _c("div", { staticClass: "section-disciplinas-items " }, [
           _c("div", { staticClass: "box-search mb-5" }, [
@@ -34895,12 +35014,43 @@ var render = function() {
                 [
                   _c("div", { staticClass: "card-box-text" }, [
                     _c("h2", [_vm._v(_vm._s(topico["nome"]))]),
-                    _c("i", { staticClass: "bi bi-three-dots-vertical" }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "dropdown ms-auto" }, [
+                      _vm._m(4, true),
+                      _vm._v(" "),
+                      _c(
+                        "ul",
+                        {
+                          staticClass: "dropdown-menu",
+                          attrs: { "aria-labelledby": "dropdownMenuButton1" }
+                        },
+                        [
+                          _vm._m(5, true),
+                          _vm._v(" "),
+                          _c("li", [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "dropdown-item",
+                                attrs: {
+                                  type: "button",
+                                  "data-bs-toggle": "modal",
+                                  "data-bs-target":
+                                    "#eliminarTopico" + topico["id"]
+                                }
+                              },
+                              [_vm._v("Eliminar")]
+                            )
+                          ])
+                        ]
+                      )
+                    ]),
                     _vm._v(" "),
                     _c(
                       "span",
                       {
                         staticClass: "material-icons",
+                        staticStyle: { cursor: "pointer" },
                         attrs: {
                           "data-bs-toggle": "collapse",
                           "data-bs-target": "#collapse" + topico["id"],
@@ -34923,6 +35073,97 @@ var render = function() {
                       ]
                     )
                   ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "modal fade",
+                      attrs: {
+                        id: "eliminarTopico" + topico["id"],
+                        tabindex: "-1",
+                        "aria-labelledby": "exampleModalLabel",
+                        "aria-hidden": "true"
+                      }
+                    },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "modal-dialog modal-dialog-centered" },
+                        [
+                          _c("div", { staticClass: "modal-content" }, [
+                            _c("div", { staticClass: "modal-header" }, [
+                              _c(
+                                "h5",
+                                {
+                                  staticClass: "modal-title",
+                                  attrs: { id: "tituloEliminar" + topico["id"] }
+                                },
+                                [_vm._v("Eliminar " + _vm._s(topico["nome"]))]
+                              ),
+                              _vm._v(" "),
+                              _c("button", {
+                                staticClass: "btn-close",
+                                attrs: {
+                                  type: "button",
+                                  "data-bs-dismiss": "modal",
+                                  "aria-label": "Close"
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "modal-body" }, [
+                              _c("h2", [
+                                _vm._v(
+                                  "Tem certeza que deseja eliminar o tópico " +
+                                    _vm._s(topico["nome"]) +
+                                    "?"
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "modal-footer" }, [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-secondary",
+                                  attrs: {
+                                    type: "button",
+                                    "data-bs-dismiss": "modal"
+                                  }
+                                },
+                                [_vm._v("Cancelar")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-primary eliminar-btn",
+                                  attrs: {
+                                    type: "button",
+                                    id: "eliminarUtilizadorBtn" + topico["id"]
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.eliminarTopico(topico)
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("span", {}, [_vm._v("Sim")]),
+                                  _vm._v(" "),
+                                  _c("div", {
+                                    staticClass:
+                                      "spinner-border text-light d-none",
+                                    attrs: { role: "status" }
+                                  })
+                                ]
+                              )
+                            ])
+                          ])
+                        ]
+                      )
+                    ]
+                  ),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -34955,9 +35196,9 @@ var render = function() {
       [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(3),
+            _vm._m(6),
             _vm._v(" "),
-            _vm._m(4),
+            _vm._m(7),
             _vm._v(" "),
             _c("div", { staticClass: "modal-footer" }, [
               _c(
@@ -35042,6 +35283,43 @@ var staticRenderFns = [
       "div",
       {
         staticClass: "toast toast-primary align-items-center mb-5 mtn-5 d-none",
+        attrs: {
+          id: "toastEliminarTopico",
+          role: "alert",
+          "aria-live": "assertive",
+          "aria-atomic": "true"
+        }
+      },
+      [
+        _c("div", { staticClass: "d-flex" }, [
+          _c("div", { staticClass: "toast-body" }, [
+            _c("strong", [
+              _c("i", { staticClass: "bi bi-check-circle-fill" }),
+              _vm._v("    "),
+              _c("span", [_vm._v("Tópico eliminado com sucesso!!")])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("button", {
+            staticClass: "btn-close me-2 m-auto",
+            attrs: {
+              type: "button",
+              "data-bs-dismiss": "toast",
+              "aria-label": "Close"
+            }
+          })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "toast toast-primary align-items-center mb-5 mtn-5 d-none",
         staticStyle: { width: "60%" },
         attrs: {
           id: "toast-pergunta",
@@ -35091,6 +35369,35 @@ var staticRenderFns = [
         _vm._v("    Adicionar Tópico\n        ")
       ]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        attrs: {
+          type: "button",
+          id: "dropdownMenuButton1",
+          "data-bs-toggle": "dropdown",
+          "aria-expanded": "false"
+        }
+      },
+      [_c("i", { staticClass: "bi bi-three-dots-vertical" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [
+      _c(
+        "button",
+        { staticClass: "dropdown-item", attrs: { type: "button" } },
+        [_vm._v("Editar")]
+      )
+    ])
   },
   function() {
     var _vm = this
@@ -36564,7 +36871,7 @@ var render = function() {
                 _c(
                   "button",
                   {
-                    staticClass: "btn btn-secondary btn-submit",
+                    staticClass: "btn btn-secondary btn-submit btn-loading",
                     attrs: { type: "button", id: "submitQuizz" },
                     on: { click: _vm.submitNewQuizz }
                   },
@@ -37019,7 +37326,11 @@ var render = function() {
                                     id: "tituloEliminar" + disciplina["id"]
                                   }
                                 },
-                                [_vm._v(_vm._s(disciplina["nome"]))]
+                                [
+                                  _vm._v(
+                                    "Eliminar " + _vm._s(disciplina["nome"])
+                                  )
+                                ]
                               ),
                               _vm._v(" "),
                               _c("button", {
@@ -37207,7 +37518,7 @@ var staticRenderFns = [
             _c("strong", [
               _c("i", { staticClass: "bi bi-check-circle-fill" }),
               _vm._v("    "),
-              _c("span", [_vm._v("Disciplina eliminada com sucesso")])
+              _c("span", [_vm._v("Disciplina eliminada com sucesso!!")])
             ])
           ]),
           _vm._v(" "),

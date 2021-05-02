@@ -163,7 +163,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" id="submitQuizz" class="btn btn-secondary btn-submit"
+                        <button type="button" id="submitQuizz" class="btn btn-secondary btn-submit btn-loading"
                                 @click="submitNewQuizz"><span class="">Adicionar &nbsp;</span>
                             <div class="spinner-border text-light d-none" role="status">
 
@@ -205,6 +205,8 @@
             },
 
             submitNewQuizz() {
+                $('.btn-loading span').addClass('d-none');
+                $('.btn-loading div').removeClass('d-none');
                 let l = window.location.href.split('/');
                 var flagTime, corretTime, flagVisibel, corretVisibel;
                 var array = [];
@@ -216,7 +218,9 @@
                 $('#NumeroError').text(" ").css('color', 'red').css('opacity', '1');
 
                 if ($('#titulo').val().length === 0) {
-                    $('#TituloError').text("Endique um titulo para o quizz").css('color', 'red').css('opacity', '1');
+                    $('#TituloError').text("Indique um titulo para o quizz").css('color', 'red').css('opacity', '1');
+                    $('.btn-loading span').removeClass('d-none');
+                    $('.btn-loading div').addClass('d-none');
 
                 } else {
 
@@ -229,6 +233,8 @@
                     }
                     if (!flagTime) {
                         $('#TError').text("Indique o tipo de quizz que quer").css('color', 'red').css('opacity', '1');
+                        $('.btn-loading span').removeClass('d-none');
+                        $('.btn-loading div').addClass('d-none');
                     } else {
 
                         form.append('realtime', corretTime);
@@ -242,11 +248,15 @@
                             }
                         }
                         if (!flagVisibel) {
-                            $('#ErrorVisivel').text("Indique se quer o teste ja visivel ou não").css('color', 'red').css('opacity', '1');
+                            $('#ErrorVisivel').text("Indique se quer o teste já visivel ou não").css('color', 'red').css('opacity', '1');
+                            $('.btn-loading span').removeClass('d-none');
+                            $('.btn-loading div').addClass('d-none');
                         } else {
                             form.append('visible', corretVisibel);
                             if ($('#nPerguntas').val() < 3) {
-                                $('#NumeroError').text("Um quizz deve ter pelo menos tres perguntas").css('color', 'red').css('opacity', '1');
+                                $('#NumeroError').text("Um quizz deve ter pelo menos três perguntas").css('color', 'red').css('opacity', '1');
+                                $('.btn-loading span').removeClass('d-none');
+                                $('.btn-loading div').addClass('d-none');
 
                             } else {
                                 form.append('nPerguntas', $('#nPerguntas').val());
@@ -265,6 +275,8 @@
 
                                 if (count === 0) {
                                     $('#TopicoError').text("Tem que indicar pelo menos um topico").css('color', 'red').css('opacity', '1');
+                                    $('.btn-loading span').removeClass('d-none');
+                                    $('.btn-loading div').addClass('d-none');
                                 } else {
                                     form.append('array', JSON.stringify(array));
                                     form.append('id', l[l.length - 1]);
@@ -281,29 +293,70 @@
             },
             sendQuizz(form) {
                 $('#submitQuizz').prop('disabled', true);
-                var vm = this;
-                console.log(this)
+
                 axios.post('/insertQuizz', form
                 ).then(function (response) {
                     if (response.data.message === "sucesso") {
 
-                        vm.listQuizz();
+                        $('.btn-loading span').removeClass('d-none');
+                        $('.btn-loading div').addClass('d-none');
+
+                        var radios = document.getElementsByName("realtimeop");
+                        for (let i = 0; i < 2; i++) {
+                            console.log(radios[i].checked)
+                            if (radios[i].checked) {
+                                radios[i].checked = false;
+                            }
+                        }
+
+                        var radios2 = document.getElementsByName("Visivelop");
+                        for (let i = 0; i < 2; i++) {
+                            if (radios2[i].checked) {
+                                radios2[i].checked = false;
+                            }
+                        }
+
+                        var check = document.getElementsByName("topico");
+                        for (let i = 0; i < check.length; i++) {
+
+                            if (check[i].checked) {
+                               check[i].checked = false;
+
+                            }
+                        }
+                        $('#nPerguntas').val('')
+                        $('#titulo').val('');
+                        $('#quizzdescricao').val('');
+
+
+                        this.listQuizz();
                         $('#submitQuizz').prop('disabled', false);
-                        vm.modal.hide();
-                        vm.toast.show();
+                        this.modal.hide();
+                        this.toastQuiz.show();
+                        $('#toast-quiz').removeClass('d-none');
                     } else if (response.data.message === "numero de perguntas invalido") {
                         $('#NumeroError').text("numero de perguntas invalido").css('color', 'red').css('opacity', '1');
                         $('#submitQuizz').prop('disabled', false);
                     } else {
-                        alert("Erro a tentar inserir o quizz")
+                        alert("Erro a tentar inserir o quizz");
                         $('#submitQuizz').prop('disabled', false);
                         this.modal.hide();
                     }
 
-                });
+                }.bind(this));
             }, listQuizz() {
 
+                axios.post('/getQuizz'
+                ).then(function (response) {
 
+                    this.quizz = response.data.message;
+
+                    $('#card-loading-quiz').hide();
+                    $('#lista-quizes').show();
+                    $('#quiz-adicionar').show();
+
+
+                }.bind(this));
 
 
             },
@@ -324,7 +377,18 @@
                 return this.quizz.filter((quizz) => {
                     return quizz['nome'].match(this.search)
                 })
-            }
+            },
+
+
+
+
+        },
+        watch:{
+           modal: function () {
+               // this.modal.addEventListener('show.bs.modal',function () {
+               //     console.log('sdfsdf')
+               // })
+           }
         },
         mounted() {
 
@@ -332,24 +396,17 @@
             this.toastQuiz = new bootstrap.Toast(document.getElementById('toast-quiz'), {delay: 10000})
             this.toastQuiz.hide();
             this.topicsCheck();
-            axios.post('/getQuizz'
-            ).then(function (response) {
-
-                this.quizz = response.data.message;
-
-                $('#card-loading-quiz').hide();
-                $('#lista-quizes').show();
-                $('#quiz-adicionar').show();
-
-
-            }.bind(this));
+            this.listQuizz();
             $('#card-loading-quiz').show();
             $('#lista-quizes').hide();
             $('#quiz-adicionar').hide();
 
+
         }
 
     }
+
+
 </script>
 
 <style scoped>

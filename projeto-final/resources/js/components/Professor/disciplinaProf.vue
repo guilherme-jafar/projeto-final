@@ -13,6 +13,15 @@
             </div>
         </div>
 
+        <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toastEliminarTopico" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <strong><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp; <span>Tópico eliminado com sucesso!!</span> </strong>
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+
         <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" style="width: 60%" id="toast-pergunta" role="alert"
              aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
@@ -44,11 +53,50 @@
                 <li class="card-box mb-5 mt-4" v-for="topico in filter" :key="topico['id']">
 
                     <div class="card-box-text">
-                        <h2>{{topico['nome']}}</h2><i class="bi bi-three-dots-vertical"></i>
+                        <h2>{{topico['nome']}}</h2>
+                        <div class="dropdown ms-auto">
+                            <button class="" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li>
+                                    <button type="button" class="dropdown-item" >Editar</button>
+
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item" data-bs-toggle="modal" :data-bs-target="'#eliminarTopico' + topico['id']" >Eliminar</button>
+                                </li>
+                            </ul>
+                        </div>
                         <span data-bs-toggle="collapse" :data-bs-target="'#collapse'+topico['id']" aria-expanded="false"
-                        :aria-controls="'collapse'+topico['id']" class="material-icons" @click="changeButton(topico['id'])">
+                        :aria-controls="'collapse'+topico['id']" class="material-icons" @click="changeButton(topico['id'])" style="cursor: pointer">
                             <img :id="'img'+topico['id']" src="/assets/expand_more_black_24dp.svg">
                         </span>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" :id="'eliminarTopico' + topico['id']" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" :id="'tituloEliminar' + topico['id']">Eliminar {{topico['nome']}}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h2>Tem certeza que deseja eliminar o tópico {{topico['nome']}}?</h2>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-primary eliminar-btn" :id="'eliminarUtilizadorBtn' + topico['id']" @click="eliminarTopico(topico)" >
+                                        <span class="">Sim</span>
+                                        <div class="spinner-border text-light d-none" role="status">
+
+                                        </div>
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="mt-2">
@@ -118,9 +166,35 @@
         data() {
             return {
                 search: '',
-                topicos: JSON.parse(this.topico_prop)
+                topicos: JSON.parse(this.topico_prop),
+                modalDeleteTopico: '',
+                toastEliminarTopico: ''
             }
         }, methods: {
+            eliminarTopico(topico){
+
+                $('.eliminar-btn span').addClass('d-none');
+                $('.eliminar-btn div').removeClass('d-none');
+
+                this.modalDeleteTopico = bootstrap.Modal.getInstance(document.getElementById('eliminarTopico' + topico['id']), {});
+
+                axios.delete('/aluno/topico/delete/' + topico['id']).then(
+                    function (response) {
+                  
+                        if (response.data.message !== "erro"){
+                            $('.eliminar-btn span').removeClass('d-none');
+                            $('.eliminar-btn div').addClass('d-none');
+                            this.toastEliminarTopico.show();
+
+                            $('#toastEliminarTopico').removeClass('d-none');
+                            this.topicos = response.data.message;
+
+                            this.modalDeleteTopico.hide();
+
+                        }
+                    }.bind(this));
+
+            },
 
             changeButton(id) {
                 if ($('#img' + id).attr('src') === '/assets/expand_more_black_24dp.svg') {
@@ -186,6 +260,8 @@
             this.myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {})
             this.toast = new bootstrap.Toast(document.getElementById('toast'), {delay: 10000})
             this.toast.hide();
+            this.toastEliminarTopico = new  bootstrap.Toast(document.getElementById('toastEliminarTopico'), {delay: 10000})
+            this.toastEliminarTopico.hide()
 
 
         }

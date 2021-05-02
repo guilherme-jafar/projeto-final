@@ -17,7 +17,7 @@
         <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toastEliminar" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body">
-                    <strong><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp; <span>Disciplina eliminada com sucesso</span> </strong>
+                    <strong><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp; <span>Disciplina eliminada com sucesso!!</span> </strong>
                 </div>
                 <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
@@ -102,7 +102,7 @@
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" :id="'tituloEliminar' + disciplina['id']">{{disciplina['nome']}}</h5>
+                                    <h5 class="modal-title" :id="'tituloEliminar' + disciplina['id']">Eliminar {{disciplina['nome']}}</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
@@ -193,7 +193,7 @@ export default {
             $('.eliminar-btn span').addClass('d-none');
             $('.eliminar-btn div').removeClass('d-none');
 
-            this.modalDelete = new bootstrap.Modal(document.getElementById('eliminar' + disciplina['id']), {});
+            this.modalDelete = bootstrap.Modal.getInstance(document.getElementById('eliminar' + disciplina['id']), {});
 
 
             axios.delete('/aluno/disciplina/delete/' + disciplina['id']).then(
@@ -205,9 +205,7 @@ export default {
                         this.toastEliminar.show();
                         $('#toastEliminar').removeClass('d-none');
                         this.disciplinas = response.data.message
-                        $('.modal-backdrop').remove();
                         this.modalDelete.hide();
-                        $('body').removeClass('modal-open').css('padding-right', '0');
                     }
                 }.bind(this));
 

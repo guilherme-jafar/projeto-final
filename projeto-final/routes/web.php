@@ -94,6 +94,7 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (
         return view('/loading');
     });
     Route::delete("/prof/disciplina/delete/{id}", [App\Http\Controllers\Disciplina::class,'destroy']);
+    Route::delete("/aluno/topico/delete/{id}", [App\Http\Controllers\topicos::class,'destroy']);
     Route::post("/prof/disciplina/{id}/editar", [App\Http\Controllers\Disciplina::class,'editar']);
     Route::get('/prof/disciplina/sucesso', [App\Http\Controllers\Disciplina::class, 'sucesso']);
 });

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PHPExcel_IOFactory;
 use Vtiful\Kernel\Excel;
+use function PHPUnit\Framework\isEmpty;
 
 
 class topicos extends Controller
@@ -95,7 +96,7 @@ class topicos extends Controller
                     , [$idRes, $request->resposta, 1, $id]);
 
 
-            }else if($tipo == "multiple-select"){
+            } else if ($tipo == "multiple-select") {
                 $question = json_decode($request->array);
                 $resposta = json_decode($request->respostas);
 
@@ -106,10 +107,10 @@ class topicos extends Controller
                     $idRes = time() . uniqid();
 
 
-                    var_dump(in_array("re" . ($i+1) . $topico, $resposta));
+                    var_dump(in_array("re" . ($i + 1) . $topico, $resposta));
 
-                    var_dump("re" . ($i+1) . $topico . "/n");
-                    if (in_array("re" . ($i+1) . $topico, $resposta)) {
+                    var_dump("re" . ($i + 1) . $topico . "/n");
+                    if (in_array("re" . ($i + 1) . $topico, $resposta)) {
                         DB::insert('insert into respostas (id,resposta,resultado,perguntas_id) values (?,?,?,?)'
                             , [$idRes, $question[$i], 1, $id]);
 
@@ -204,6 +205,32 @@ AND t.id=:id', ['id' => $request->id]);
 
         return response()->json([
             'message' => 'sucesso',
+        ]);
+
+
+    }
+
+    function destroy(Request $request){
+
+        $id_perguntas = DB::select('select id from perguntas where topicos_id  = :id', ['id' =>  $request->id]);
+
+
+        if (!empty($id_perguntas)){
+
+            for ($i = 0; $i < count($id_perguntas); $i++){
+                DB::delete("delete from respostas where perguntas_id = :perguntas_id", ['perguntas_id' => $id_perguntas[$i]->id]);
+                 DB::delete("delete from multimedia where perguntas_id = :perguntas_id", ['perguntas_id' => $id_perguntas[$i]->id]);
+            }
+            DB::delete("DELETE FROM perguntas WHERE topicos_id = :topicos_id", ['topicos_id' => $request->id]);
+
+        }
+
+        DB::delete("DELETE FROM topicos WHERE id = :id", ['id' => $request->id]);
+        $topicos = DB::select('select * FROM topicos
+                                    WHERE disciplina_id = :id', ['id' => session('disciplina')['id']]);
+
+        return response()->json([
+            'message' => $topicos,
         ]);
 
 
