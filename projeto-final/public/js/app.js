@@ -4518,10 +4518,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "WaitRoomStudent",
-  props: ['sessao_prop', 'id_prop', 'quizz_prop'],
+  props: ['sessao_prop', 'id_prop', 'quizz_prop', 'user_prop'],
   data: function data() {
     return {
-      students: 0,
+      students: JSON.parse(this.user_prop),
       sessao: JSON.parse(this.sessao_prop),
       MasterSessao: JSON.parse(this.id_prop),
       quizz: JSON.parse(this.quizz_prop)
@@ -4533,25 +4533,34 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    sair: function sair() {
+      axios.post('/leaveRoom').then(function (response) {
+        window.location.replace(response.data.message);
+      });
+    },
     connect: function connect() {
-      //     window.Echo.channel('room.'+this.MasterSessao)
-      //         .listen('.NewStudent', e => {
-      //             console.log("dd")
-      //             console.log(e)
-      //             if (e.Mainsession===this.sessao) {
-      //                 this.users.push(e.name)
-      //                 this.students++
-      //             }
-      //
-      //         });
-      window.Echo.join('room.' + this.sessao).here(function (users) {//
-      }).joining(function (user) {}).leaving(function (user) {}).error(function (error) {
-        console.error(error);
+      var _this = this;
+
+      window.Echo.channel('room.' + this.MasterSessao).listen('.NewStudent', function (e) {
+        console.log(e);
+
+        if (e.Mainsession === _this.sessao) {
+          if (_this.usersId.includes(e.userId) && e.aType === 'student') {
+            _this.usersId.push(e.userId);
+
+            _this.users.push(e.name);
+
+            _this.students++;
+          }
+
+          if (e.aType === 'leaveTeacher') {
+            _this.sair();
+          }
+        }
       });
     }
   },
   mounted: function mounted() {
-    console.log(this.MasterSessao);
     this.connect();
   }
 });
@@ -4971,6 +4980,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['sessao_prop', 'quizz_prop'],
   data: function data() {
     return {
+      usersId: [],
       users: [],
       students: 0,
       sessao: JSON.parse(this.sessao_prop),
@@ -4989,19 +4999,20 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     connect: function connect() {
-      // window.Echo.channel('room.'+this.sessao)
-      //     .listen('.NewStudent', e => {
-      //         console.log("dd")
-      //         console.log(e)
-      //         if (e.Mainsession===this.sessao) {
-      //             this.users.push(e.name)
-      //             this.students++
-      //         }
-      //
-      //     });
-      window.Echo.join('room.' + this.sessao).here(function (users) {//
-      }).joining(function (user) {}).leaving(function (user) {}).error(function (error) {
-        console.error(error);
+      var _this = this;
+
+      window.Echo.channel('room.' + this.sessao).listen('.NewStudent', function (e) {
+        console.log(e);
+
+        if (e.Mainsession === _this.sessao) {
+          if (_this.usersId.includes(e.userId)) {
+            _this.usersId.push(e.userId);
+
+            _this.users.push(e.name);
+
+            _this.students++;
+          }
+        }
       });
     }
   },
@@ -5269,8 +5280,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__.default({
   broadcaster: 'pusher',
-  key: "d6cfe66609c4185a1732",
-  cluster: "eu",
+  key: '59621b63a26347ea6194',
+  cluster: 'eu',
   forceTLS: false
 });
 

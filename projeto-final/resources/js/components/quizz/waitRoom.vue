@@ -17,6 +17,7 @@ export default {
     props: ['sessao_prop', 'quizz_prop'],
     data() {
         return {
+            usersId:[],
             users: [],
             students: 0,
             sessao: JSON.parse(this.sessao_prop),
@@ -39,30 +40,22 @@ export default {
             })
         },
         connect() {
-            // window.Echo.channel('room.'+this.sessao)
-            //     .listen('.NewStudent', e => {
-            //         console.log("dd")
-            //         console.log(e)
-            //         if (e.Mainsession===this.sessao) {
-            //             this.users.push(e.name)
-            //             this.students++
-            //         }
-            //
-            //     });
+            window.Echo.channel('room.'+this.sessao)
+                .listen('.NewStudent', e => {
 
-            window.Echo.join('room.'+this.sessao)
-                .here((users) => {
-                    //
-                })
-                .joining((user) => {
+                    console.log(e)
+                    if (e.Mainsession===this.sessao) {
+                        console.log(this.usersId)
+                        if (this.usersId.includes(e.userId)) {
+                            this.usersId.push(e.userId)
+                            this.users.push(e.name)
+                            this.students++
+                        }
+                    }
 
-                })
-                .leaving((user) => {
-
-                })
-                .error((error) => {
-                    console.error(error);
                 });
+
+
 
         }
 

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -125,5 +126,23 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:aluno']], function 
     Route::get('/prof/disciplina/sucesso', [App\Http\Controllers\Disciplina::class, 'sucesso']);
 });
 
+
+
+//quizz
+//Route::post('/broadcasting/auth', function(Request $request){
+//    $pusher = new Pusher\Pusher(
+//        env('PUSHER_APP_KEY'),
+//        env('PUSHER_APP_SECRET'),
+//        env('PUSHER_APP_ID'),
+//        array(
+//            'cluster' => env('PUSHER_APP_CLUSTER'),
+//            'useTLS' => false,
+//            'host' => env('APP_URL'),
+//            'port' => 6001,
+//            'scheme' => 'http',
+//        )
+//    );
+//    return $pusher->socket_auth($request->request->get('channel_name'),$request->request->get('socket_id'));
+//});
 
 

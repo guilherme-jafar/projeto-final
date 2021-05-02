@@ -19,6 +19,7 @@ class WaitRoom implements ShouldBroadcast
     public $name;
     public $Mainsession;
     public $type;
+    public $userId;
 
 
 
@@ -27,12 +28,12 @@ class WaitRoom implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($nName, String $session, String $aType)
+    public function __construct($nName, String $session, String $aType, $aId)
     {
         $this->name=$nName;
         $this->Mainsession=$session;
         $this->type=$aType;
-
+        $this->userId=$aId;
     }
 
     /**
@@ -42,7 +43,7 @@ class WaitRoom implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('room.'.$this->Mainsession);
+        return  ['room.'.$this->Mainsession];
     }
     public function broadcastAs() {
         return 'NewStudent';

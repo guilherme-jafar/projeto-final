@@ -208,22 +208,20 @@ GROUP BY s.nomequizz',['id' => session('utilizador')['id'] ,'sessionId'=> $reque
                             , [$session, $quizz[0]->nome, $quizz[0]->quizzTipo, $id, session('utilizador')['id'], session('utilizador')['tipo'],1]);
 
 
-                        event(new WaitRoom(session('utilizador'), $session,'master'));
+                        event(new WaitRoom(session('utilizador')['nome'],$session,'student',session('utilizador')['id']));
 
                         return view('/quizz/waitRoom', ['quizz' => $quizz[0], 'session' => $session]);
                     }
                     else{
 
-                        event(new WaitRoom(session('utilizador'), session()->get('sessao')['id'],'master'));
+                        event(new WaitRoom(session('utilizador')['nome'],session()->get('sessao')['id'],'student',session('utilizador')['id']));
                         return view('/quizz/waitRoom', ['quizz' => $quizz[0], 'session' => session()->get('sessao')['id']]);
                     }
 
 
-        }else{
-            return view('/');
         }
 
-
+        return ;
 
     }
 
@@ -232,6 +230,8 @@ GROUP BY s.nomequizz',['id' => session('utilizador')['id'] ,'sessionId'=> $reque
         $id = $request->id;
         $quizzId=$request->quizzId;
         $session=uniqid();
+        $quizz=[];
+        $Cheek=[];
 
         $quizz = DB::select('SELECT p.id ,p.enunciado ,p.tempo ,p.valor , p.tipo ,q.numeroperguntas, q.nome ,q.tipo AS "quizzTipo", m.link
                                    FROM quizz q, pergunta_quizz pq, perguntas p,multimedia m
@@ -243,24 +243,72 @@ GROUP BY s.nomequizz',['id' => session('utilizador')['id'] ,'sessionId'=> $reque
 
         Cache::put('quizz',$quizz);
 
-        $Cheek=DB::select('select id from sessao where id=:id',['id'=>$id]);
+        $Cheek=DB::select('select id from sessao where id=:id and masterActive= 1 and quizz_id=:idQuizz',['id'=>$id,'idQuizz'=>$quizzId]);
+       // dd($Cheek);
 
-        if (!empty($quizz) || !empty($Cheek)) {
-            session()->put('sessao',["id"=>$session]);
-//                DB::insert('insert into sessao (id, nomequizz ,tipo,quizz_id,iduser,tipoUser) values (?,?,?,?,?,?)'
-//                    , [$session, $quizz[0]->nome, $quizz[0]->quizzTipo, $id, session('utilizador')['id'], session('utilizador')['tipo']]);
-            event(new WaitRoom(session('utilizador'),$id,'student'));
+              if (!empty($quizz) && !empty($Cheek) && !isset(session('sessao')['check'])  ) {
+                  session()->put('sessao', ["id" => $session ,"check"=>'yes']);
+                  DB::insert('insert into sessao (id, nomequizz ,tipo,quizz_id,iduser,tipoUser,sessaoMaster) values (?,?,?,?,?,?,?)'
+                   , [$session, $quizz[0]->nome, $quizz[0]->quizzTipo, $quizzId, session('utilizador')['id'], session('utilizador')['tipo'], $id]);
+                  event(new WaitRoom(session('utilizador')['nome'], $id, 'student', session('utilizador')['id']));
+                  return view('/quizz/WaitRoomAluno', ['quizz' => $quizz[0], 'session' => $session, 'id' => $id, 'users' => count($Cheek)]);
 
-            return view('/quizz/WaitRoomAluno', ['quizz' => $quizz[0], 'session' => $session ,'id'=>$id]);
+              } else if (!empty($quizz) && !empty($Cheek)) {
+
+                   event(new WaitRoom(session('utilizador')['nome'], $id, 'student', session('utilizador')['id']));
+               return view('/quizz/waitRoomAluno', ['quizz' => $quizz[0], 'session' => session('utilizador')['id'], 'id' => $id, 'users' => count($Cheek)]);
+             } else {
+                    return view('/welcome');
+             }
 
 
-        }else{
-            return view('/');
-        }
+
+
+
+
+//            if (!empty($quizz) && !empty($Cheek) && empty(session()->get('sessao')) && session()->get('sessao')['id'] == $session) {
+//                session()->put('sessao', ["id" => $session]);
+//                DB::insert('insert into sessao (id, nomequizz ,tipo,quizz_id,iduser,tipoUser,sessaoMaster) values (?,?,?,?,?,?,?)'
+//                    , [$session, $quizz[0]->nome, $quizz[0]->quizzTipo, $quizzId, session('utilizador')['id'], session('utilizador')['tipo'], $id]);
+//                event(new WaitRoom(session('utilizador')['nome'], $id, 'student', session('utilizador')['id']));
+//
+//                return view('/quizz/WaitRoomAluno', ['quizz' => $quizz[0], 'session' => $session, 'id' => $id, 'users' => count($Cheek)]);
+//
+//
+//            } else if (!empty($quizz) && !empty($Cheek)) {
+//                event(new WaitRoom(session('utilizador')['nome'], $id, 'student', session('utilizador')['id']));
+//                return view('/quizz/waitRoomAluno', ['quizz' => $quizz[0], 'session' => session()->get('sessao')['id'], 'id' => $id, 'users' => count($Cheek)]);
+//            }
+//
+//        }
+//        else{
+//            session()->put('sessao', ["id" => $session]);
+//            DB::insert('insert into sessao (id, nomequizz ,tipo,quizz_id,iduser,tipoUser,sessaoMaster) values (?,?,?,?,?,?,?)'
+//                , [$session, $quizz[0]->nome, $quizz[0]->quizzTipo, $quizzId, session('utilizador')['id'], session('utilizador')['tipo'], $id]);
+//            event(new WaitRoom(session('utilizador')['nome'], $id, 'student', session('utilizador')['id']));
+//
+//            return view('/quizz/WaitRoomAluno', ['quizz' => $quizz[0], 'session' => $session, 'id' => $id, 'users' => count($Cheek)]);
+//
+//        }
     }
 
     function leave(){
-        session()->forget('sessao');
+       // dd(session('utilizador')['tipo'].' '.session('sessao')['id']);
+        if (isset(session()->get('sessao')['id'])) {
+            event(new WaitRoom(session('utilizador')['nome'],session('sessao')['id'],'leaveTeacher',session('utilizador')['id']));
+
+
+
+                DB::table('sessao')
+                    ->where('id', session('sessao')['id'])
+                    ->where('iduser', session('utilizador')['id'])
+                    ->update(['masterActive' => 0]);
+
+
+
+            session()->forget('sessao');
+
+        }
 
         return response()->json([
             'message' => '/'

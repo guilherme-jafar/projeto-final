@@ -12,11 +12,11 @@ import Echo from "laravel-echo";
 
 export default {
     name: "WaitRoomStudent",
-    props: ['sessao_prop', 'id_prop', 'quizz_prop'],
+    props: ['sessao_prop', 'id_prop', 'quizz_prop','user_prop'],
 
     data() {
         return {
-            students: 0,
+            students: JSON.parse(this.user_prop),
             sessao: JSON.parse(this.sessao_prop),
             MasterSessao: JSON.parse(this.id_prop),
             quizz: JSON.parse(this.quizz_prop)
@@ -30,39 +30,45 @@ export default {
     },
 
     methods: {
+        sair() {
 
+            axios.post('/leaveRoom').then(function (response) {
+                window.location.replace(response.data.message);
+
+
+            })
+        },
         connect() {
-        //     window.Echo.channel('room.'+this.MasterSessao)
-        //         .listen('.NewStudent', e => {
-        //             console.log("dd")
-        //             console.log(e)
-        //             if (e.Mainsession===this.sessao) {
-        //                 this.users.push(e.name)
-        //                 this.students++
-        //             }
-        //
-        //         });
+            window.Echo.channel('room.'+this.MasterSessao)
+                .listen('.NewStudent', e => {
 
-            window.Echo.join('room.'+this.sessao)
-                .here((users) => {
-                    //
-                })
-                .joining((user) => {
+                    console.log(e)
+                    if (e.Mainsession===this.sessao) {
+                        if (this.usersId.includes(e.userId) && e.type==='student' ) {
+                            this.usersId.push(e.userId)
+                            this.users.push(e.name)
+                            this.students++
+                        }
+                        if (e.type==='leaveTeacher') {
+                           this.sair()
 
-                })
-                .leaving((user) => {
+                        }
+                    }
 
-                })
-                .error((error) => {
-                    console.error(error);
+
+
+
+
                 });
+
+
         }
 
 
 
         },
         mounted() {
-            console.log(this.MasterSessao)
+
             this.connect();
 
 
