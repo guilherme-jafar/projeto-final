@@ -10,23 +10,29 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use PhpParser\Node\Scalar\String_;
 
-class WaitRoom
+class WaitRoom implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $room;
+    public $name;
     public $Mainsession;
+    public $type;
+
+
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(int $num, String $session)
+    public function __construct($nName, String $session, String $aType)
     {
-        $this->room=$num;
+        $this->name=$nName;
         $this->Mainsession=$session;
+        $this->type=$aType;
+
     }
 
     /**
@@ -36,9 +42,11 @@ class WaitRoom
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('room'.$this->Mainsession->sessaoMaster);
+        return new PresenceChannel('room.'.$this->Mainsession);
     }
     public function broadcastAs() {
         return 'NewStudent';
     }
+
+
 }

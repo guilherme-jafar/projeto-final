@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,13 +14,22 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
+//Route::post('/broadcasting/auth', function(Illuminate\Http\Request $req) {
+//    if($req->channel_name == 'presence-global'){return 'global';}
+//    return abort(403);
+//});
+
+
+
+
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Broadcast::channel('room.{sessaoId}', function ($sessao,$num) {
-   if (\Illuminate\Support\Facades\Auth::check()){
-       return ['sessao'=>$sessao,'num'=>$num];
-   }
+Broadcast::channel('room.{sessaoId}', function ($sessao,$user,$type) {
+
+    if ($user->canJoinRoom($sessao)) {
+        return ['id'=>$user['id'], 'name' => $user['nome'] ,'sessao' => $sessao, "type" => $type];
+    }
 
 });

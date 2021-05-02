@@ -1,52 +1,73 @@
 <template>
 
-
+<div>
     <p>{{students}}</p>
+    <p>{{ MasterSessao}}</p>
+
+</div>
 </template>
 
 <script>
 import Echo from "laravel-echo";
 
 export default {
-name: "WaitRoomStudent",
+    name: "WaitRoomStudent",
+    props: ['sessao_prop', 'id_prop', 'quizz_prop'],
 
     data() {
         return {
-            students:0
+            students: 0,
+            sessao: JSON.parse(this.sessao_prop),
+            MasterSessao: JSON.parse(this.id_prop),
+            quizz: JSON.parse(this.quizz_prop)
         }
     },
-    watch:{
-        currentRoom(){
+    watch: {
+        currentRoom() {
+
             this.connect();
         }
     },
 
-    methods:{
-        connect()
-        {
-            let l = window.location.href.split('/');
-            window.Echo.private('room'.l[l.length - 1])
-                .listen('.NewStudent', e => {
-                    console.log(e)
-                    this.students=e.num;
+    methods: {
+
+        connect() {
+        //     window.Echo.channel('room.'+this.MasterSessao)
+        //         .listen('.NewStudent', e => {
+        //             console.log("dd")
+        //             console.log(e)
+        //             if (e.Mainsession===this.sessao) {
+        //                 this.users.push(e.name)
+        //                 this.students++
+        //             }
+        //
+        //         });
+
+            window.Echo.join('room.'+this.sessao)
+                .here((users) => {
+                    //
+                })
+                .joining((user) => {
 
                 })
+                .leaving((user) => {
 
+                })
+                .error((error) => {
+                    console.error(error);
+                });
         }
-    },
-    mounted() {
-        // window.Echo = new Echo({
-        //     broadcaster: 'pusher',
-        //     key: 'd6cfe66609c4185a1732',
-        //     cluster:'eu',
-        //     encrypted: true,
-        //     forceTLS:true
-        // });
 
 
 
+        },
+        mounted() {
+            console.log(this.MasterSessao)
+            this.connect();
 
-    },
+
+        },
+
 }
 </script>
 

@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\WaitRoom;
 use App\Models\sessao;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+
 
 class Quizz extends Controller
 {
@@ -197,12 +201,57 @@ GROUP BY s.nomequizz',['id' => session('utilizador')['id'] ,'sessionId'=> $reque
         Cache::put('quizz',$quizz);
 
         if (!empty($quizz)) {
-                    session()->put('sessao',["id"=>$session]);
+
+                    if (empty(session()->get('sessao')) || !session()->get('sessao')['id']==$session ) {
+                        session()->put('sessao',["id"=>$session]);
+                        DB::insert('insert into sessao (id, nomequizz ,tipo,quizz_id,iduser,tipoUser, masterActive) values (?,?,?,?,?,?,?)'
+                            , [$session, $quizz[0]->nome, $quizz[0]->quizzTipo, $id, session('utilizador')['id'], session('utilizador')['tipo'],1]);
+
+
+                        event(new WaitRoom(session('utilizador'), $session,'master'));
+
+                        return view('/quizz/waitRoom', ['quizz' => $quizz[0], 'session' => $session]);
+                    }
+                    else{
+
+                        event(new WaitRoom(session('utilizador'), session()->get('sessao')['id'],'master'));
+                        return view('/quizz/waitRoom', ['quizz' => $quizz[0], 'session' => session()->get('sessao')['id']]);
+                    }
+
+
+        }else{
+            return view('/');
+        }
+
+
+
+    }
+
+    function EnterWaitRoom(Request $request)
+    {
+        $id = $request->id;
+        $quizzId=$request->quizzId;
+        $session=uniqid();
+
+        $quizz = DB::select('SELECT p.id ,p.enunciado ,p.tempo ,p.valor , p.tipo ,q.numeroperguntas, q.nome ,q.tipo AS "quizzTipo", m.link
+                                   FROM quizz q, pergunta_quizz pq, perguntas p,multimedia m
+                                   WHERE q.id = pq.quizz_id
+                                   AND p.id = pq.id_pergunta
+                                   AND m.perguntas_id=p.id
+                                   AND q.id  = :id', ['id' => $quizzId]);
+
+
+        Cache::put('quizz',$quizz);
+
+        $Cheek=DB::select('select id from sessao where id=:id',['id'=>$id]);
+
+        if (!empty($quizz) || !empty($Cheek)) {
+            session()->put('sessao',["id"=>$session]);
 //                DB::insert('insert into sessao (id, nomequizz ,tipo,quizz_id,iduser,tipoUser) values (?,?,?,?,?,?)'
 //                    , [$session, $quizz[0]->nome, $quizz[0]->quizzTipo, $id, session('utilizador')['id'], session('utilizador')['tipo']]);
-                broadcast(new \App\Events\WaitRoom(0,$session))->toOthers();
+            event(new WaitRoom(session('utilizador'),$id,'student'));
 
-                return view('/quizz/waitRoom', ['quizz' => $quizz[0], 'session' => $session]);
+            return view('/quizz/WaitRoomAluno', ['quizz' => $quizz[0], 'session' => $session ,'id'=>$id]);
 
 
         }else{
@@ -210,33 +259,12 @@ GROUP BY s.nomequizz',['id' => session('utilizador')['id'] ,'sessionId'=> $reque
         }
     }
 
-    function EnterWaitRoom(Request $request)
-    {
-        $id = $request->id;
-        $session = uniqid();
+    function leave(){
+        session()->forget('sessao');
 
-        $quizz = DB::select('SELECT p.id ,p.enunciado ,p.tempo ,p.valor , p.tipo ,q.numeroperguntas, q.nome ,q.tipo AS "quizzTipo", m.link
-                                   FROM quizz q, pergunta_quizz pq, perguntas p,multimedia m
-                                   WHERE q.id = pq.quizz_id
-                                   AND p.id = pq.id_pergunta
-                                   AND m.perguntas_id=p.id
-                                   AND q.id  = :id', ['id' => $id]);
-
-        Cache::put('quizz', $quizz);
-
-        if (!empty($quizz)) {
-
-            session()->put('sessao', ["id" => $session]);
-            broadcast(new \App\Events\WaitRoom(0,$session))->toOthers();
-//                DB::insert('insert into sessao (id, nomequizz ,tipo,quizz_id,iduser,tipoUser) values (?,?,?,?,?,?)'
-//                    , [$session, $quizz[0]->nome, $quizz[0]->quizzTipo, $id, session('utilizador')['id'], session('utilizador')['tipo']]);
-            //broadcast(new \App\Events\WaitRoom(0, $session))->toOthers();
-            return view('/quizz/waitRoomAluno', ['quizz' => $quizz[0], 'session' => $session]);
-
-        } else {
-            return view('/');
-        }
-
+        return response()->json([
+            'message' => '/'
+        ]);
     }
 
 }

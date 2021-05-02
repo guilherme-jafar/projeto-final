@@ -3791,6 +3791,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -3914,6 +3916,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "quizzAluno",
   props: ['quizz_prop'],
@@ -3940,10 +3945,18 @@ __webpack_require__.r(__webpack_exports__);
       window.location.replace('/quizzTeste/' + quizz + '/' + session);
     },
     JoinQuizz: function JoinQuizz(id) {
-      window.location.replace('/WaitRoomStudent/' + id);
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#Error' + id).text(" ").css('color', 'red').css('opacity', '1');
+      var sId = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#sessionId' + id).val();
+      console.log(sId);
+
+      if (sId.length > 0) {
+        window.location.replace('/WaitRoomStudent/' + sId + '/' + id);
+      } else {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#Error' + id).text("tem que inserir id ").css('color', 'red').css('opacity', '1');
+      }
+    },
+    mounted: function mounted() {// this.disciplinas = JSON.parse(this.disciplinas)
     }
-  },
-  mounted: function mounted() {// this.disciplinas = JSON.parse(this.disciplinas)
   }
 });
 
@@ -4301,12 +4314,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "WaitRoomStudent",
+  props: ['sessao_prop', 'id_prop', 'quizz_prop'],
   data: function data() {
     return {
-      students: 0
+      students: 0,
+      sessao: JSON.parse(this.sessao_prop),
+      MasterSessao: JSON.parse(this.id_prop),
+      quizz: JSON.parse(this.quizz_prop)
     };
   },
   watch: {
@@ -4316,22 +4336,25 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     connect: function connect() {
-      var _this = this;
-
-      var l = window.location.href.split('/');
-      window.Echo["private"]('room'.l[l.length - 1]).listen('.NewStudent', function (e) {
-        console.log(e);
-        _this.students = e.num;
+      //     window.Echo.channel('room.'+this.MasterSessao)
+      //         .listen('.NewStudent', e => {
+      //             console.log("dd")
+      //             console.log(e)
+      //             if (e.Mainsession===this.sessao) {
+      //                 this.users.push(e.name)
+      //                 this.students++
+      //             }
+      //
+      //         });
+      window.Echo.join('room.' + this.sessao).here(function (users) {//
+      }).joining(function (user) {}).leaving(function (user) {}).error(function (error) {
+        console.error(error);
       });
     }
   },
-  mounted: function mounted() {// window.Echo = new Echo({
-    //     broadcaster: 'pusher',
-    //     key: 'd6cfe66609c4185a1732',
-    //     cluster:'eu',
-    //     encrypted: true,
-    //     forceTLS:true
-    // });
+  mounted: function mounted() {
+    console.log(this.MasterSessao);
+    this.connect();
   }
 });
 
@@ -4742,14 +4765,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "waitRoom",
+  props: ['sessao_prop', 'quizz_prop'],
   data: function data() {
     return {
+      users: [],
       students: 0,
-      sessionId: 'DSDS'
+      sessao: JSON.parse(this.sessao_prop),
+      quizz: JSON.parse(this.quizz_prop)
     };
   },
   watch: {
@@ -4758,26 +4785,33 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    sair: function sair() {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/leaveRoom').then(function (response) {
+        window.location.replace(response.data.message);
+      });
+    },
     connect: function connect() {
-      var _this = this;
-
-      var l = window.location.href.split('/');
-      this.sessionId = l[l.length - 1];
-      window.Echo["private"]('room' + l[l.length - 1]).listen('.NewStudent', function (e) {
-        console.log("dd");
-        _this.students = e.num;
+      // window.Echo.channel('room.'+this.sessao)
+      //     .listen('.NewStudent', e => {
+      //         console.log("dd")
+      //         console.log(e)
+      //         if (e.Mainsession===this.sessao) {
+      //             this.users.push(e.name)
+      //             this.students++
+      //         }
+      //
+      //     });
+      window.Echo.join('room.' + this.sessao).here(function (users) {//
+      }).joining(function (user) {}).leaving(function (user) {}).error(function (error) {
+        console.error(error);
       });
     }
   },
   mounted: function mounted() {
     var l = window.location.href.split('/');
-    this.sessionId = l[l.length - 1]; // window.Echo = new Echo({
-    //     broadcaster: 'pusher',
-    //     key: 'd6cfe66609c4185a1732',
-    //     cluster:'eu',
-    //     encrypted: true,
-    //     forceTLS:true
-    // });
+    this.sessionId = l[l.length - 1];
+    console.log(this.sessao);
+    this.connect();
   }
 });
 
@@ -4981,6 +5015,11 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 Window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+
+Pusher.log = function (message) {
+  window.console.log(message);
+};
+
 Vue.component('registos', __webpack_require__(/*! ./components/registos.vue */ "./resources/js/components/registos.vue").default);
 Vue.component('login', __webpack_require__(/*! ./components/login.vue */ "./resources/js/components/login.vue").default);
 Vue.component('editarPerfil', __webpack_require__(/*! ./components/editarPerfil */ "./resources/js/components/editarPerfil.vue").default); //prof
@@ -5034,7 +5073,7 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__.default({
   broadcaster: 'pusher',
   key: "d6cfe66609c4185a1732",
   cluster: "eu",
-  forceTLS: true
+  forceTLS: false
 });
 
 /***/ }),
@@ -43915,16 +43954,18 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("div", { staticClass: "modal-body" }, [
                                     _c("div", { staticClass: "col-md-12" }, [
-                                      _c("input", {
-                                        staticClass:
-                                          "form-control form-control-pergunta",
-                                        attrs: {
-                                          type: "text",
-                                          placeholder:
-                                            "Escreva o id do quizz aqui",
-                                          id: "sessionId" + quizz["id"]
-                                        }
-                                      }),
+                                      _c("label", [
+                                        _c("input", {
+                                          staticClass:
+                                            "form-control form-control-pergunta",
+                                          attrs: {
+                                            type: "text",
+                                            placeholder:
+                                              "Escreva o id do quizz aqui",
+                                            id: "sessionId" + quizz["id"]
+                                          }
+                                        })
+                                      ]),
                                       _c("br"),
                                       _vm._v(" "),
                                       _c("p", {
@@ -44638,7 +44679,11 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("p", [_vm._v(_vm._s(_vm.students))])
+  return _c("div", [
+    _c("p", [_vm._v(_vm._s(_vm.students))]),
+    _vm._v(" "),
+    _c("p", [_vm._v(_vm._s(_vm.MasterSessao))])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -44935,7 +44980,19 @@ var render = function() {
   return _c("div", [
     _c("p", [_vm._v(_vm._s(_vm.students))]),
     _vm._v(" "),
-    _c("p", [_vm._v(_vm._s(_vm.sessionId))])
+    _c("p", [_vm._v(_vm._s(this.sessao))]),
+    _vm._v(" "),
+    _c(
+      "button",
+      {
+        on: {
+          click: function($event) {
+            return _vm.sair()
+          }
+        }
+      },
+      [_vm._v("cancel")]
+    )
   ])
 }
 var staticRenderFns = []

@@ -1,7 +1,8 @@
 <template>
     <div>
     <p>{{students}}</p>
-        <p>{{sessionId}}</p>
+        <p>{{this.sessao}}</p>
+        <button @click="sair()">cancel</button>
     </div>
 </template>
 
@@ -12,49 +13,71 @@ import axios from "axios";
 import Echo from "laravel-echo"
 
 export default {
-name: "waitRoom",
-
+    name: "waitRoom",
+    props: ['sessao_prop', 'quizz_prop'],
     data() {
         return {
-            students:0,
-            sessionId:'DSDS'
+            users: [],
+            students: 0,
+            sessao: JSON.parse(this.sessao_prop),
+            quizz: JSON.parse(this.quizz_prop)
         }
     },
-    watch:{
-        currentRoom(){
-          this.connect();
+    watch: {
+        currentRoom() {
+            this.connect();
         }
     },
 
-    methods:{
-        connect()
-        {
-            let l = window.location.href.split('/');
-            this.sessionId=l[l.length - 1]
-            window.Echo.private('room'+l[l.length - 1])
-                .listen('.NewStudent', e => {
-                    console.log("dd")
-                    this.students=e.num;
+    methods: {
+        sair() {
+
+            axios.post('/leaveRoom').then(function (response) {
+                window.location.replace(response.data.message);
+
+
+            })
+        },
+        connect() {
+            // window.Echo.channel('room.'+this.sessao)
+            //     .listen('.NewStudent', e => {
+            //         console.log("dd")
+            //         console.log(e)
+            //         if (e.Mainsession===this.sessao) {
+            //             this.users.push(e.name)
+            //             this.students++
+            //         }
+            //
+            //     });
+
+            window.Echo.join('room.'+this.sessao)
+                .here((users) => {
+                    //
+                })
+                .joining((user) => {
 
                 })
+                .leaving((user) => {
+
+                })
+                .error((error) => {
+                    console.error(error);
+                });
 
         }
-    },
-    mounted() {
-        let l = window.location.href.split('/');
-        this.sessionId=l[l.length - 1]
-        // window.Echo = new Echo({
-        //     broadcaster: 'pusher',
-        //     key: 'd6cfe66609c4185a1732',
-        //     cluster:'eu',
-        //     encrypted: true,
-        //     forceTLS:true
-        // });
 
 
+        },
+        mounted() {
+            let l = window.location.href.split('/');
+            this.sessionId = l[l.length - 1]
+            console.log(this.sessao)
+            this.connect()
 
 
-    },
+        },
+
+
 
 
 }

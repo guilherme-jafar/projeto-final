@@ -3,6 +3,8 @@ require('./bootstrap');
 
 Window.Vue=require('vue');
 
+Pusher.log = function (message) { window.console.log(message); }
+
 Vue.component('registos',require('./components/registos.vue').default);
 Vue.component('login',require('./components/login.vue').default);
 Vue.component('editarPerfil',require('./components/editarPerfil').default);

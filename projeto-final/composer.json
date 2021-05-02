@@ -19,7 +19,8 @@
         "maatwebsite/excel": "^3.1",
         "predis/predis": "^1.1",
         "pusher/pusher-php-server": "~4.0",
-        "viest/php-ext-xlswriter-ide-helper": "dev-master"
+        "viest/php-ext-xlswriter-ide-helper": "dev-master",
+      "ext-http": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

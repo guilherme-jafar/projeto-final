@@ -65,8 +65,10 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="col-md-12">
-                                            <input type="text" class="form-control form-control-pergunta"
-                                                   placeholder="Escreva o id do quizz aqui" :id="'sessionId'+quizz['id']"><br>
+                                            <label>
+                                                <input type="text" class="form-control form-control-pergunta"
+                                                       placeholder="Escreva o id do quizz aqui" :id="'sessionId'+quizz['id']">
+                                            </label><br>
                                             <p :id="'Error'+quizz['id']"></p>
                                         </div>
 
@@ -122,6 +124,8 @@
 </template>
 
 <script>
+import $ from "jquery";
+
 export default {
 name: "quizzAluno",
     props: ['quizz_prop'],
@@ -140,29 +144,34 @@ name: "quizzAluno",
             })
         }
     },
-    methods:{
+    methods: {
 
         teste(quizz) {
 
 
+            let session = '_' + Math.random().toString(36).substr(2, 9);
 
-            let session='_' + Math.random().toString(36).substr(2, 9);
-
-            window.location.replace('/quizzTeste/' + quizz+'/'+session)
+            window.location.replace('/quizzTeste/' + quizz + '/' + session)
         },
 
-        JoinQuizz(id){
+        JoinQuizz(id) {
+            $('#Error'+id).text(" ").css('color', 'red').css('opacity', '1');
+            let sId = $('#sessionId' + id).val()
+            console.log(sId)
+            if (sId.length > 0) {
+                window.location.replace('/WaitRoomStudent/' + sId+'/'+id );
+            } else {
+                $('#Error'+id).text("tem que inserir id ").css('color', 'red').css('opacity', '1');
+            }
 
-            window.location.replace('/WaitRoomStudent/' + id );
+        },
+        mounted() {
+
+            // this.disciplinas = JSON.parse(this.disciplinas)
+
+
         }
-    },
-    mounted() {
-
-        // this.disciplinas = JSON.parse(this.disciplinas)
-
-
     }
-
 
 
 
