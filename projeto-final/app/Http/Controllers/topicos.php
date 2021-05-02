@@ -236,5 +236,20 @@ AND t.id=:id', ['id' => $request->id]);
 
     }
 
+    function editar(Request $request){
+
+
+        DB::table('topicos')
+            ->where('id','=',$request->input('id'))
+            ->update(['nome' => $request->input('topico'), 'descricao' => $request->input('descricao')]);
+
+
+        $topicos = DB::select('select * FROM topicos
+                                    WHERE disciplina_id = :id', ['id' => session('disciplina')['id']]);
+        return response()->json([
+            'message' => $topicos,
+        ]);
+    }
+
 
 }

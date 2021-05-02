@@ -67,7 +67,7 @@
                 }else{
                     let formData = new FormData();
                     formData.append( 'disciplina',$( "#disciplina" ).val());
-                    formData.append( 'descricao',$( "#editarUtilizadorBtn" ).val());
+                    formData.append( 'descricao',$( "#editarDescricao" ).val());
                     formData.append( 'id',disciplina['id']);
                     axios.post('/prof/disciplina/'+disciplina['id']+'/editar', formData).then(
                         function (response) {

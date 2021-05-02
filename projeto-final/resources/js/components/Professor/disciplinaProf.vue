@@ -13,6 +13,17 @@
             </div>
         </div>
 
+        <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toastEditarTopico" role="alert"
+             aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <strong><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp;
+                        <span>Tópico editado com sucesso!!</span> </strong>
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+
         <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toastEliminarTopico" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body">
@@ -60,7 +71,7 @@
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                 <li>
-                                    <button type="button" class="dropdown-item" >Editar</button>
+                                    <button type="button" class="dropdown-item" data-bs-toggle="modal" :data-bs-target="'#editarTopico' + topico['id']"  >Editar</button>
 
                                 </li>
                                 <li>
@@ -99,6 +110,46 @@
                         </div>
                     </div>
 
+                    <!-- Modal -->
+                    <div class="modal fade" :id="'editarTopico' + topico['id']" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" >Editar Tópico</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body pt-5 pb-5">
+                                    <form class="row mx-auto" >
+                                        <div class="col-12">
+                                            <label class="label" :for="'editarTopicoNome' + topico['id']">Topico</label>
+                                            <input name="disciplina" class="form-control mt-2 mb-3 " type="text" :id="'editarTopicoNome' + topico['id']" :value="topico['nome']">
+
+                                        </div>
+                                        <div class="col-12 ">
+                                            <p class="error " :id="'disciplinaError' + topico['id']"></p>
+                                        </div>
+                                        <div class="col-12 mt-2">
+                                            <label class="label" :for="'descricao' + topico['id']">Descrição</label>
+                                            <textarea class="form-control" name="descricao" :id="'descricao' + topico['id']" rows="2" :value="topico['descricao']"></textarea>
+
+                                        </div>
+
+
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="button" id="submitEdit" class="btn btn-secondary btn-submit btn-loading" @click="editarTopico(topico)"><span
+                                        class="">Adicionar &nbsp;</span>
+                                        <div class="spinner-border text-light d-none" role="status">
+
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="mt-2">
 
                         <pergunta-topico :topico_id="topico['id']"></pergunta-topico>
@@ -114,7 +165,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Adicionar topico</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Adicionar Tópico</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body pt-5 pb-5">
@@ -138,7 +189,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" id="submit" class="btn btn-secondary btn-submit" @click="submit()"><span
+                        <button type="button" id="submit" class="btn btn-secondary btn-submit btn-loading" @click="submit()"><span
                             class="">Adicionar &nbsp;</span>
                             <div class="spinner-border text-light d-none" role="status">
 
@@ -168,9 +219,45 @@
                 search: '',
                 topicos: JSON.parse(this.topico_prop),
                 modalDeleteTopico: '',
-                toastEliminarTopico: ''
+                toastEliminarTopico: '',
+                toastEditartopico: '',
+                modalEditarTopico: ''
             }
         }, methods: {
+            editarTopico(topico){
+                $('.btn-loading span').addClass('d-none');
+                $('.btn-loading div').removeClass('d-none');
+
+                this.modalEditarTopico = bootstrap.Modal.getInstance(document.getElementById('editarTopico' + topico['id']), {});
+
+                if ($('#editarTopicoNome' + topico['id']).val().length === 0){
+                    $( '#disciplinaError' + topico['id'] ).text("Introduza o nome do Tópico").css('color', 'red').css('opacity', '1');
+                    $('.btn-loading span').removeClass('d-none');
+                    $('.btn-loading div').addClass('d-none');
+                }else{
+                    let formData = new FormData();
+                    formData.append( 'topico',$( '#editarTopicoNome' + topico['id'] ).val());
+                    formData.append( 'descricao',$( "#descricao" + topico['id'] ).val());
+                    formData.append( 'id',topico['id']);
+                    axios.post('/prof/topico/'+ topico['id']+'/editar', formData).then(
+                        function (response) {
+
+
+
+                            $('.btn-loading span').removeClass('d-none');
+                            $('.btn-loading div').addClass('d-none');
+                            this.toastEditartopico.show();
+
+                            $('#toastEditarTopico').removeClass('d-none');
+                            this.topicos = response.data.message;
+
+
+                            this.modalEditarTopico.hide();
+
+                        }.bind(this));
+                }
+
+            },
             eliminarTopico(topico){
 
                 $('.eliminar-btn span').addClass('d-none');
@@ -178,9 +265,9 @@
 
                 this.modalDeleteTopico = bootstrap.Modal.getInstance(document.getElementById('eliminarTopico' + topico['id']), {});
 
-                axios.delete('/aluno/topico/delete/' + topico['id']).then(
+                axios.delete('/prof/topico/delete/' + topico['id']).then(
                     function (response) {
-                  
+
                         if (response.data.message !== "erro"){
                             $('.eliminar-btn span').removeClass('d-none');
                             $('.eliminar-btn div').addClass('d-none');
@@ -262,6 +349,8 @@
             this.toast.hide();
             this.toastEliminarTopico = new  bootstrap.Toast(document.getElementById('toastEliminarTopico'), {delay: 10000})
             this.toastEliminarTopico.hide()
+            this.toastEditartopico = new  bootstrap.Toast(document.getElementById('toastEditarTopico'), {delay: 10000})
+            this.toastEditartopico.hide()
 
 
         }

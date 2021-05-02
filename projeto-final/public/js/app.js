@@ -2307,6 +2307,57 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "disciplinaProf",
@@ -2316,15 +2367,41 @@ __webpack_require__.r(__webpack_exports__);
       search: '',
       topicos: JSON.parse(this.topico_prop),
       modalDeleteTopico: '',
-      toastEliminarTopico: ''
+      toastEliminarTopico: '',
+      toastEditartopico: '',
+      modalEditarTopico: ''
     };
   },
   methods: {
+    editarTopico: function editarTopico(topico) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').addClass('d-none');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').removeClass('d-none');
+      this.modalEditarTopico = bootstrap.Modal.getInstance(document.getElementById('editarTopico' + topico['id']), {});
+
+      if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('#editarTopicoNome' + topico['id']).val().length === 0) {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#disciplinaError' + topico['id']).text("Introduza o nome do Tópico").css('color', 'red').css('opacity', '1');
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
+      } else {
+        var formData = new FormData();
+        formData.append('topico', jquery__WEBPACK_IMPORTED_MODULE_0___default()('#editarTopicoNome' + topico['id']).val());
+        formData.append('descricao', jquery__WEBPACK_IMPORTED_MODULE_0___default()("#descricao" + topico['id']).val());
+        formData.append('id', topico['id']);
+        axios.post('/prof/topico/' + topico['id'] + '/editar', formData).then(function (response) {
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
+          this.toastEditartopico.show();
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#toastEditarTopico').removeClass('d-none');
+          this.topicos = response.data.message;
+          this.modalEditarTopico.hide();
+        }.bind(this));
+      }
+    },
     eliminarTopico: function eliminarTopico(topico) {
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn span').addClass('d-none');
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn div').removeClass('d-none');
       this.modalDeleteTopico = bootstrap.Modal.getInstance(document.getElementById('eliminarTopico' + topico['id']), {});
-      axios["delete"]('/aluno/topico/delete/' + topico['id']).then(function (response) {
+      axios["delete"]('/prof/topico/delete/' + topico['id']).then(function (response) {
         if (response.data.message !== "erro") {
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn span').removeClass('d-none');
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn div').addClass('d-none');
@@ -2399,6 +2476,10 @@ __webpack_require__.r(__webpack_exports__);
       delay: 10000
     });
     this.toastEliminarTopico.hide();
+    this.toastEditartopico = new bootstrap.Toast(document.getElementById('toastEditarTopico'), {
+      delay: 10000
+    });
+    this.toastEditartopico.hide();
   }
 });
 
@@ -2479,7 +2560,7 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         var formData = new FormData();
         formData.append('disciplina', jquery__WEBPACK_IMPORTED_MODULE_0___default()("#disciplina").val());
-        formData.append('descricao', jquery__WEBPACK_IMPORTED_MODULE_0___default()("#editarUtilizadorBtn").val());
+        formData.append('descricao', jquery__WEBPACK_IMPORTED_MODULE_0___default()("#editarDescricao").val());
         formData.append('id', disciplina['id']);
         axios.post('/prof/disciplina/' + disciplina['id'] + '/editar', formData).then(function (response) {
           if (response.data.message === "sucesso") {
@@ -34968,13 +35049,15 @@ var render = function() {
     _vm._v(" "),
     _vm._m(2),
     _vm._v(" "),
+    _vm._m(3),
+    _vm._v(" "),
     _vm.topicos.length === 0
       ? _c("div", { staticClass: "mx-auto" }, [
           _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
             _vm._v("Ainda não tem nenhum Topico")
           ]),
           _vm._v(" "),
-          _vm._m(3)
+          _vm._m(4)
         ])
       : _c("div", { staticClass: "section-disciplinas-items " }, [
           _c("div", { staticClass: "box-search mb-5" }, [
@@ -35016,7 +35099,7 @@ var render = function() {
                     _c("h2", [_vm._v(_vm._s(topico["nome"]))]),
                     _vm._v(" "),
                     _c("div", { staticClass: "dropdown ms-auto" }, [
-                      _vm._m(4, true),
+                      _vm._m(5, true),
                       _vm._v(" "),
                       _c(
                         "ul",
@@ -35025,7 +35108,21 @@ var render = function() {
                           attrs: { "aria-labelledby": "dropdownMenuButton1" }
                         },
                         [
-                          _vm._m(5, true),
+                          _c("li", [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "dropdown-item",
+                                attrs: {
+                                  type: "button",
+                                  "data-bs-toggle": "modal",
+                                  "data-bs-target":
+                                    "#editarTopico" + topico["id"]
+                                }
+                              },
+                              [_vm._v("Editar")]
+                            )
+                          ]),
                           _vm._v(" "),
                           _c("li", [
                             _c(
@@ -35167,6 +35264,120 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "div",
+                    {
+                      staticClass: "modal fade",
+                      attrs: {
+                        id: "editarTopico" + topico["id"],
+                        tabindex: "-1",
+                        "aria-labelledby": "exampleModalLabel",
+                        "aria-hidden": "true"
+                      }
+                    },
+                    [
+                      _c("div", { staticClass: "modal-dialog" }, [
+                        _c("div", { staticClass: "modal-content" }, [
+                          _vm._m(6, true),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "modal-body pt-5 pb-5" }, [
+                            _c("form", { staticClass: "row mx-auto" }, [
+                              _c("div", { staticClass: "col-12" }, [
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass: "label",
+                                    attrs: {
+                                      for: "editarTopicoNome" + topico["id"]
+                                    }
+                                  },
+                                  [_vm._v("Topico")]
+                                ),
+                                _vm._v(" "),
+                                _c("input", {
+                                  staticClass: "form-control mt-2 mb-3 ",
+                                  attrs: {
+                                    name: "disciplina",
+                                    type: "text",
+                                    id: "editarTopicoNome" + topico["id"]
+                                  },
+                                  domProps: { value: topico["nome"] }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-12 " }, [
+                                _c("p", {
+                                  staticClass: "error ",
+                                  attrs: {
+                                    id: "disciplinaError" + topico["id"]
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-12 mt-2" }, [
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass: "label",
+                                    attrs: { for: "descricao" + topico["id"] }
+                                  },
+                                  [_vm._v("Descrição")]
+                                ),
+                                _vm._v(" "),
+                                _c("textarea", {
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    name: "descricao",
+                                    id: "descricao" + topico["id"],
+                                    rows: "2"
+                                  },
+                                  domProps: { value: topico["descricao"] }
+                                })
+                              ])
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "modal-footer" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-primary",
+                                attrs: {
+                                  type: "button",
+                                  "data-bs-dismiss": "modal"
+                                }
+                              },
+                              [_vm._v("Cancelar")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "btn btn-secondary btn-submit btn-loading",
+                                attrs: { type: "button", id: "submitEdit" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.editarTopico(topico)
+                                  }
+                                }
+                              },
+                              [
+                                _c("span", {}, [_vm._v("Adicionar  ")]),
+                                _vm._v(" "),
+                                _c("div", {
+                                  staticClass:
+                                    "spinner-border text-light d-none",
+                                  attrs: { role: "status" }
+                                })
+                              ]
+                            )
+                          ])
+                        ])
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
                     { staticClass: "mt-2" },
                     [
                       _c("pergunta-topico", {
@@ -35196,9 +35407,9 @@ var render = function() {
       [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(6),
-            _vm._v(" "),
             _vm._m(7),
+            _vm._v(" "),
+            _vm._m(8),
             _vm._v(" "),
             _c("div", { staticClass: "modal-footer" }, [
               _c(
@@ -35213,7 +35424,7 @@ var render = function() {
               _c(
                 "button",
                 {
-                  staticClass: "btn btn-secondary btn-submit",
+                  staticClass: "btn btn-secondary btn-submit btn-loading",
                   attrs: { type: "button", id: "submit" },
                   on: {
                     click: function($event) {
@@ -35260,6 +35471,43 @@ var staticRenderFns = [
               _c("i", { staticClass: "bi bi-check-circle-fill" }),
               _vm._v("   \n                    "),
               _c("span", [_vm._v("Tópico adicionado com sucesso!!")])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("button", {
+            staticClass: "btn-close me-2 m-auto",
+            attrs: {
+              type: "button",
+              "data-bs-dismiss": "toast",
+              "aria-label": "Close"
+            }
+          })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "toast toast-primary align-items-center mb-5 mtn-5 d-none",
+        attrs: {
+          id: "toastEditarTopico",
+          role: "alert",
+          "aria-live": "assertive",
+          "aria-atomic": "true"
+        }
+      },
+      [
+        _c("div", { staticClass: "d-flex" }, [
+          _c("div", { staticClass: "toast-body" }, [
+            _c("strong", [
+              _c("i", { staticClass: "bi bi-check-circle-fill" }),
+              _vm._v("   \n                    "),
+              _c("span", [_vm._v("Tópico editado com sucesso!!")])
             ])
           ]),
           _vm._v(" "),
@@ -35391,12 +35639,17 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("li", [
-      _c(
-        "button",
-        { staticClass: "dropdown-item", attrs: { type: "button" } },
-        [_vm._v("Editar")]
-      )
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h5", { staticClass: "modal-title" }, [_vm._v("Editar Tópico")]),
+      _vm._v(" "),
+      _c("button", {
+        staticClass: "btn-close",
+        attrs: {
+          type: "button",
+          "data-bs-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      })
     ])
   },
   function() {
@@ -35407,7 +35660,7 @@ var staticRenderFns = [
       _c(
         "h5",
         { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
-        [_vm._v("Adicionar topico")]
+        [_vm._v("Adicionar Tópico")]
       ),
       _vm._v(" "),
       _c("button", {
