@@ -90,38 +90,40 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (
     Route::post("/getPerguntas",[App\Http\Controllers\topicos::class,'getPerguntas']);
     Route::get("/WaitRoom/{id}",[App\Http\Controllers\Quizz::class,'CreateWaitRoom']);
     Route::post("/multiQuestion",[App\Http\Controllers\topicos::class,"MultiQuestion"]);
+
     Route::post('/leaveRoom',[App\Http\Controllers\Quizz::class,'leave']);
     Route::get('/loading', function () {
         return view('/loading');
     });
-    Route::delete("/prof/disciplina/delete/{id}", [App\Http\Controllers\Disciplina::class,'destroy']);
-    Route::post("/prof/disciplina/{id}/editar", [App\Http\Controllers\Disciplina::class,'editar']);
-    Route::get('/prof/disciplina/sucesso', [App\Http\Controllers\Disciplina::class, 'sucesso']);
+
+    Route::group(['middleware' => ['authenticate', 'roles']], function (){
+        Route::get('/dashboard', [
+            'as' => 'dashboard',
+            'uses' => 'DashboardController@dashboard']);
+    });
 });
+
 
 //conta Aluno
 Route::group(['middleware' =>['check.auth', 'tipo.utilizador:aluno']], function () {
     Route::get('/aluno/dashboard', [App\Http\Controllers\Disciplina::class, 'indexAluno']);
 
     Route::post('/aluno/disciplina/addDisciplina',[App\Http\Controllers\Disciplina::class, 'addDisciplina']);
-    Route::get('/loading', function () {
-        return view('/loading');
-    });
+    Route::get('/loading', function () {return view('/loading');});
     Route::get('/aluno/AlunoDisciplina/{token}', [App\Http\Controllers\Disciplina::class, 'EnterDiscAluno']);
     Route::get('/quizzTeste/{token}/{sessionID}',[App\Http\Controllers\Quizz::class ,'Enterquizz']);
     Route::post('/getRespostas',[App\Http\Controllers\Quizz::class,'getRespostas']);
     Route::post('/setResposta',[App\Http\Controllers\Quizz::class,'setResposta']);
     Route::get('/EndQuizz/{sessionId}',[App\Http\Controllers\Quizz::class,'EndQuizz']);
     Route::get('/WaitRoomStudent/{id}/{quizzId}',[\App\Http\Controllers\Quizz::class,'EnterWaitRoom']);
-
+   // Route::get('/loading', function () {return view('/loading');});
     Route::delete("/aluno/disciplina/delete/{id}", [App\Http\Controllers\Disciplina::class,'destroy']);
-
-
+    Route::delete("/prof/disciplina/delete/{id}", [App\Http\Controllers\Disciplina::class,'destroy']);
+    Route::delete("/prof/topico/delete/{id}", [App\Http\Controllers\topicos::class,'destroy']);
+    Route::post("/prof/topico/{id}/editar", [App\Http\Controllers\topicos::class,'editar']);
+    Route::post("/prof/disciplina/{id}/editar", [App\Http\Controllers\Disciplina::class,'editar']);
+    Route::get('/prof/disciplina/sucesso', [App\Http\Controllers\Disciplina::class, 'sucesso']);
 });
 
 
-//Route::group(['middleware' => ['authenticate', 'roles']], function (){
-//    Route::get('/dashboard', [
-//        'as' => 'dashboard',
-//        'uses' => 'DashboardController@dashboard']);
-//});
+

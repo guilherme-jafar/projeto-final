@@ -3,6 +3,16 @@
 .section-dashboard{
 
     .dropdown{
+
+        ul{
+            box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
+            border-radius: 5px;
+            border: none;
+
+            li:hover{
+                background-color: $backgoundColor;
+            }
+        }
         button{
             background-color: transparent;
             border: none;

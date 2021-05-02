@@ -573,6 +573,14 @@ section {
   padding: 5rem;
 }
 
+.section-dashboard .dropdown ul {
+  box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
+  border-radius: 5px;
+  border: none;
+}
+.section-dashboard .dropdown ul li:hover {
+  background-color: #E0E9EC;
+}
 .section-dashboard .dropdown button {
   background-color: transparent;
   border: none;
