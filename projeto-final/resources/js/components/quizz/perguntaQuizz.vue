@@ -60,11 +60,11 @@
 
             <div class="row">
                 <p class="text-center">Escolha Múltipla com várias seleções</p>
-                <div class="col-md-6"><button class="respostas-btn respostas-btn-1" id="m1" @click="responseMultiplas('m1')">&nbsp;</button></div>
-                <div class="col-md-6"><button  class="respostas-btn respostas-btn-2" id="m2" @click="responseMultiplas('m2')">&nbsp;</button></div>
+                <div class="col-md-6"><button class="respostas-btn respostas-btn-1" id="ms1" @click="responseMultiplas('ms1')">&nbsp;</button></div>
+                <div class="col-md-6"><button  class="respostas-btn respostas-btn-2" id="ms2" @click="responseMultiplas('ms2')">&nbsp;</button></div>
 
-                <div class="col-md-6"><button  class="respostas-btn respostas-btn-3 mt-4" id="m3" @click="responseMultiplas('m3')">&nbsp;</button></div>
-                <div class="col-md-6"> <button  class="respostas-btn respostas-btn-4 mt-4" id="m4" @click="responseMultiplas('m4')">&nbsp;</button></div>
+                <div class="col-md-6"><button  class="respostas-btn respostas-btn-3 mt-4" id="ms3" @click="responseMultiplas('ms3')">&nbsp;</button></div>
+                <div class="col-md-6"> <button  class="respostas-btn respostas-btn-4 mt-4" id="ms4" @click="responseMultiplas('ms4')">&nbsp;</button></div>
             </div>
 
 
@@ -140,7 +140,7 @@ export default {
             }
         },
         responseMultiplas(id){
-            var resposta = $('#' + id).html()
+            let resposta = $('#' + id).html()
             if (id !== 'erro'){
                 for (let i = 0; i < this.respostasMultiplas.length; i++){
                     if (resposta.toLowerCase() === this.respostasMultiplas[i].toLowerCase()){
@@ -151,9 +151,9 @@ export default {
                 this.respostasEscolhidas.push(resposta);
                 if (this.first === this.respostasMultiplas.length){
                     if (this.respostasCertas === this.respostasMultiplas.length){
-                        var tempo = this.countDown;
-                        var tempoTotal = this.pergunta[this.index]['tempo']
-                        var valorTotal = this.pergunta[this.index]['valor']
+                        let tempo = this.countDown;
+                        let tempoTotal = this.pergunta[this.index]['tempo']
+                        let valorTotal = this.pergunta[this.index]['valor']
                         this.res = Math.round((valorTotal * tempo) / tempoTotal);
                     }else {
                         this.res = 0;
@@ -186,10 +186,10 @@ export default {
             }
         },
         response(id) {
-            var tempo = this.countDown;
-            var tempoTotal = this.pergunta[this.index]['tempo']
-            var valorTotal = this.pergunta[this.index]['valor']
-            var resposta = $('#' + id).html()
+            let tempo = this.countDown;
+            let tempoTotal = this.pergunta[this.index]['tempo']
+            let valorTotal = this.pergunta[this.index]['valor']
+            let resposta = $('#' + id).html()
             if (id !== 'erro') {
                 if (resposta.toLowerCase() === this.resposta.toLowerCase())
                     this.res = Math.round((valorTotal * tempo) / tempoTotal);
@@ -256,16 +256,16 @@ export default {
                         for (let i = 0; i < respostas.length; i++) {
                             let k = i + 1
                             if (respostas[i]['resposta'] === " ") {
-                                $('#m' + k).hide()
+                                $('#ms' + k).hide()
                             } else {
                                 if (respostas[i]['resultado'] === 1){
                                     this.respostasMultiplas.push(respostas[i]['resposta'])
                                 }
                             }
                             this.respostasCertas = 0;
-                            $('#m' + k).show()
-                            $('#m' + k).html(respostas[i]['resposta']);
-                            $('#m' + k).val(respostas[i]['resposta']);
+                            $('#ms' + k).show()
+                            $('#ms' + k).html(respostas[i]['resposta']);
+                            $('#ms' + k).val(respostas[i]['resposta']);
                         }
                     }
                 }
