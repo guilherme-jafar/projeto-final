@@ -256,7 +256,7 @@ GROUP BY s.nomequizz',['id' => session('utilizador')['id'] ,'sessionId'=> $reque
               } else if (!empty($quizz) && !empty($Cheek)) {
 
                    event(new WaitRoom(session('utilizador')['nome'], $id, 'student', session('utilizador')['id']));
-               return view('/quizz/waitRoomAluno', ['quizz' => $quizz[0], 'session' => session('utilizador')['id'], 'id' => $id, 'users' => count($Cheek)]);
+               return view('/quizz/waitRoomAluno', ['quizz' => $quizz[0], 'session' => session('sessao')['id'], 'id' => $id, 'users' => count($Cheek)]);
              } else {
                     return view('/welcome');
              }
@@ -266,30 +266,7 @@ GROUP BY s.nomequizz',['id' => session('utilizador')['id'] ,'sessionId'=> $reque
 
 
 
-//            if (!empty($quizz) && !empty($Cheek) && empty(session()->get('sessao')) && session()->get('sessao')['id'] == $session) {
-//                session()->put('sessao', ["id" => $session]);
-//                DB::insert('insert into sessao (id, nomequizz ,tipo,quizz_id,iduser,tipoUser,sessaoMaster) values (?,?,?,?,?,?,?)'
-//                    , [$session, $quizz[0]->nome, $quizz[0]->quizzTipo, $quizzId, session('utilizador')['id'], session('utilizador')['tipo'], $id]);
-//                event(new WaitRoom(session('utilizador')['nome'], $id, 'student', session('utilizador')['id']));
-//
-//                return view('/quizz/WaitRoomAluno', ['quizz' => $quizz[0], 'session' => $session, 'id' => $id, 'users' => count($Cheek)]);
-//
-//
-//            } else if (!empty($quizz) && !empty($Cheek)) {
-//                event(new WaitRoom(session('utilizador')['nome'], $id, 'student', session('utilizador')['id']));
-//                return view('/quizz/waitRoomAluno', ['quizz' => $quizz[0], 'session' => session()->get('sessao')['id'], 'id' => $id, 'users' => count($Cheek)]);
-//            }
-//
-//        }
-//        else{
-//            session()->put('sessao', ["id" => $session]);
-//            DB::insert('insert into sessao (id, nomequizz ,tipo,quizz_id,iduser,tipoUser,sessaoMaster) values (?,?,?,?,?,?,?)'
-//                , [$session, $quizz[0]->nome, $quizz[0]->quizzTipo, $quizzId, session('utilizador')['id'], session('utilizador')['tipo'], $id]);
-//            event(new WaitRoom(session('utilizador')['nome'], $id, 'student', session('utilizador')['id']));
-//
-//            return view('/quizz/WaitRoomAluno', ['quizz' => $quizz[0], 'session' => $session, 'id' => $id, 'users' => count($Cheek)]);
-//
-//        }
+
     }
 
     function leave(){

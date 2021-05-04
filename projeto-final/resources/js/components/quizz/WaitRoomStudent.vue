@@ -39,7 +39,7 @@ export default {
             })
         },
         connect() {
-            window.Echo.channel('room.'+this.MasterSessao)
+            window.Echo.private('room.'+this.MasterSessao)
                 .listen('.NewStudent', e => {
 
                     console.log(e)

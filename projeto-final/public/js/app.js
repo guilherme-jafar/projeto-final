@@ -4541,11 +4541,11 @@ __webpack_require__.r(__webpack_exports__);
     connect: function connect() {
       var _this = this;
 
-      window.Echo.channel('room.' + this.MasterSessao).listen('.NewStudent', function (e) {
+      window.Echo["private"]('room.' + this.MasterSessao).listen('.NewStudent', function (e) {
         console.log(e);
 
         if (e.Mainsession === _this.sessao) {
-          if (_this.usersId.includes(e.userId) && e.aType === 'student') {
+          if (_this.usersId.includes(e.userId) && e.type === 'student') {
             _this.usersId.push(e.userId);
 
             _this.users.push(e.name);
@@ -4553,7 +4553,7 @@ __webpack_require__.r(__webpack_exports__);
             _this.students++;
           }
 
-          if (e.aType === 'leaveTeacher') {
+          if (e.type === 'leaveTeacher') {
             _this.sair();
           }
         }
@@ -4854,7 +4854,7 @@ __webpack_require__.r(__webpack_exports__);
               var _k = _i + 1;
 
               if (respostas[_i]['resposta'] === " ") {
-                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#m' + _k).hide();
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#ms' + _k).hide();
               } else {
                 if (respostas[_i]['resultado'] === 1) {
                   this.respostasMultiplas.push(respostas[_i]['resposta']);
@@ -4862,9 +4862,9 @@ __webpack_require__.r(__webpack_exports__);
               }
 
               this.respostasCertas = 0;
-              jquery__WEBPACK_IMPORTED_MODULE_0___default()('#m' + _k).show();
-              jquery__WEBPACK_IMPORTED_MODULE_0___default()('#m' + _k).html(respostas[_i]['resposta']);
-              jquery__WEBPACK_IMPORTED_MODULE_0___default()('#m' + _k).val(respostas[_i]['resposta']);
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('#ms' + _k).show();
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('#ms' + _k).html(respostas[_i]['resposta']);
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('#ms' + _k).val(respostas[_i]['resposta']);
             }
           }
         }
@@ -5001,10 +5001,12 @@ __webpack_require__.r(__webpack_exports__);
     connect: function connect() {
       var _this = this;
 
-      window.Echo.channel('room.' + this.sessao).listen('.NewStudent', function (e) {
+      window.Echo["private"]('room.' + this.sessao).listen('.NewStudent', function (e) {
         console.log(e);
 
         if (e.Mainsession === _this.sessao) {
+          console.log(_this.usersId);
+
           if (_this.usersId.includes(e.userId)) {
             _this.usersId.push(e.userId);
 
@@ -45465,10 +45467,10 @@ var render = function() {
                   "button",
                   {
                     staticClass: "respostas-btn respostas-btn-1",
-                    attrs: { id: "m1" },
+                    attrs: { id: "ms1" },
                     on: {
                       click: function($event) {
-                        return _vm.responseMultiplas("m1")
+                        return _vm.responseMultiplas("ms1")
                       }
                     }
                   },
@@ -45481,10 +45483,10 @@ var render = function() {
                   "button",
                   {
                     staticClass: "respostas-btn respostas-btn-2",
-                    attrs: { id: "m2" },
+                    attrs: { id: "ms2" },
                     on: {
                       click: function($event) {
-                        return _vm.responseMultiplas("m2")
+                        return _vm.responseMultiplas("ms2")
                       }
                     }
                   },
@@ -45497,10 +45499,10 @@ var render = function() {
                   "button",
                   {
                     staticClass: "respostas-btn respostas-btn-3 mt-4",
-                    attrs: { id: "m3" },
+                    attrs: { id: "ms3" },
                     on: {
                       click: function($event) {
-                        return _vm.responseMultiplas("m3")
+                        return _vm.responseMultiplas("ms3")
                       }
                     }
                   },
@@ -45513,10 +45515,10 @@ var render = function() {
                   "button",
                   {
                     staticClass: "respostas-btn respostas-btn-4 mt-4",
-                    attrs: { id: "m4" },
+                    attrs: { id: "ms4" },
                     on: {
                       click: function($event) {
-                        return _vm.responseMultiplas("m4")
+                        return _vm.responseMultiplas("ms4")
                       }
                     }
                   },

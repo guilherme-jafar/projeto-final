@@ -43,7 +43,7 @@ class WaitRoom implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return  ['room.'.$this->Mainsession];
+        return  new PrivateChannel('room.'.$this->Mainsession);
     }
     public function broadcastAs() {
         return 'NewStudent';

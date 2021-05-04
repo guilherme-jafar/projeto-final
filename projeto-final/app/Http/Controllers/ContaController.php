@@ -198,8 +198,8 @@ class ContaController extends Controller
 
 
                  $request->session()->put('utilizador', $user2);
+                 auth()->guard('web' )->login(new Utilizador($user2));
 
-                 Auth::login(new Utilizador($user2));
 
                  return response()->json([
                      'message' => 'sucess'
