@@ -26,6 +26,9 @@ Vue.component('perguntaQuizz', require('./components/quizz/perguntaQuizz').defau
 Vue.component('waitRoom',require('./components/quizz/waitRoom').default)
 Vue.component('waitRoomAluno',require('./components/quizz/WaitRoomStudent').default)
 
+
+
+
 const app=new Vue({
     el:'#app',
 

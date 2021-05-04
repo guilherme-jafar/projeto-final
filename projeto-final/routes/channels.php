@@ -26,10 +26,10 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Broadcast::channel('room.{sessaoId}', function ($sessao,$user,$type) {
+Broadcast::channel('room.{sessaoId}', function ($sessaoId,$user) {
 
-    if ($user->canJoinRoom($sessao)) {
-        return ['id'=>$user['id'], 'name' => $user['nome'] ,'sessao' => $sessao, "type" => $type];
-    }
+
+        return $user;
+
 
 });

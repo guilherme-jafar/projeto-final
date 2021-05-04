@@ -4616,7 +4616,7 @@ __webpack_require__.r(__webpack_exports__);
     connect: function connect() {
       var _this = this;
 
-      window.Echo.channel('room.' + this.MasterSessao).listen('.NewStudent', function (e) {
+      window.Echo["private"]('room.' + this.MasterSessao).listen('.NewStudent', function (e) {
         console.log(e);
 
         if (e.Mainsession === _this.sessao) {
@@ -5118,7 +5118,7 @@ __webpack_require__.r(__webpack_exports__);
     connect: function connect() {
       var _this = this;
 
-      window.Echo.channel('room.' + this.sessao).listen('.NewStudent', function (e) {
+      window.Echo["private"]('room.' + this.sessao).listen('.NewStudent', function (e) {
         console.log(e);
 
         if (e.Mainsession === _this.sessao) {
