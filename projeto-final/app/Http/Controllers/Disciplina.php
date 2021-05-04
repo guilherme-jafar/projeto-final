@@ -68,8 +68,12 @@ class Disciplina extends Controller
         $disciplina = \App\Models\Disciplina::find($request->token);
         $quizz = DB::select('select * FROM quizz
                                     WHERE disciplina_id = :id', ['id' => $request->token]);
+        $pontos = DB::select('select pontos from disciplina_aluno WHERE disciplina_id = ? and aluno_utilizador_id = ?', [$request->token, session('utilizador')['id']] );
 
+
+        $disciplina->setPontos($pontos[0]->pontos);
         $request->session()->put('disciplina', $disciplina);
+
         if (!empty($quizz)) {
             return view('/aluno/AlunoDisciplina', ['quizz' => $quizz]);
         } else {
@@ -148,7 +152,7 @@ class Disciplina extends Controller
 
         $id = $request->id;
 
-        $alunos = DB::select('SELECT u.id,u.nome,u.email,u.sexo
+        $alunos = DB::select('SELECT dp.pontos, u.foto_perfil, u.id,u.nome,u.email,u.sexo
              FROM disciplina d,utilizador u,aluno a ,disciplina_aluno dp
              WHERE  a.utilizador_id=u.id
             AND  dp.aluno_utilizador_id=u.id

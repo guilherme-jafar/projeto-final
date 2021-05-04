@@ -396,6 +396,16 @@
                     font-size: 2.5rem;
                     font-weight: 700;
                 }
+
+                .modal{
+                    h6{
+                        font-size: 2rem;
+                    }
+
+                    .text-secondary{
+                        font-size: 1.8rem;
+                    }
+                }
             }
 
             .lista-perguntas{
@@ -569,10 +579,19 @@
 
         }
 
+        .selecao-mul{
+            font-size: 2rem;
+            span{
+                font-size: 2rem;
+            }
+        }
+
     }
 
+
+
     .pergunta p{
-        font-size: 4rem;
+        font-size: 3.5rem;
     }
 
     .respostas{
@@ -585,21 +604,36 @@
             border-radius: 5px;
             width: 100%;
             font-size: 3rem;
+            transition: hover 0.2s;
+            color: white;
 
            &-1{
                background-color: $cor-principal-1;
+
+               &:hover{
+                   background-color: $cor-principal-1-dark;
+               }
            }
 
             &-2{
                 background-color: $cor-principal-2;
+                &:hover{
+                    background-color: $cor-principal-2-dark;
+                }
             }
 
             &-3{
                 background-color: $cor-principal-3;
+                &:hover{
+                    background-color: $cor-principal-3-dark;
+                }
             }
 
             &-4{
                 background-color: $cor-principal-4;
+                &:hover{
+                    background-color: $cor-principal-4-dark;
+                }
             }
         }
 
@@ -653,11 +687,53 @@
     }
 }
 
-@keyframes shine {
-    to {
-        background-position-x: -200%;
-    }
-}
 
+.wrapper{
+    height: 115vh;
+    width: 100%;
+    background-color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: white;
+
+    #corretoErrado{
+
+    }
+
+    .bi{
+        font-size: 5rem;
+        font-weight: bold;
+        color: white;
+    }
+
+    .wrapper-in{
+        height: 10rem;
+        width: 10rem;
+        color: white;
+        .wrapper-in-2{
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            color: white;
+            transform: translate(-50%,-50%);
+            span{
+                font-size: 4rem;
+                color: white;
+            }
+
+            i{
+                color: white;
+            }
+        }
+
+
+
+    }
+
+
+}
 
 

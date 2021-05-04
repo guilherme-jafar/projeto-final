@@ -10,18 +10,42 @@
                         :quizz_session="'{{json_encode($session, TRUE)}}'"></pergunta-quizz>
 
     </div>
-    <div class="wrapper">
+    <div class="wrapper " >
 
-        <div>
-            <div>
-                <span id="corretoErrado"></span>
-                <span>+</span><span id="couter">12</span><span> Pontos</span>
+        <div class="wrapper-in wrapper-wright">
+            <div class="wrapper-in-2">
+                <div class="resposta">
+                    <span>Correta</span>
+                </div>
+                <div class="icon">
+                    <i class="bi bi-check2-circle"></i>
+                </div>
+                <span>+ </span><span id="couter-wright"></span><span> Pontos</span>
             </div>
         </div>
 
+        <div class="wrapper-in wrapper-wrong">
+            <div class="wrapper-in-2">
+                <div class="resposta">
+                    <span>Errada</span>
+                </div>
+                <div class="icon">
+                    <i class="bi bi-x-circle"></i>
+                </div>
+                <span>+ </span><span id="couter">0</span><span> Pontos</span>
+            </div>
+        </div>
 
     </div>
 
+    <script >
+        $( document ).ready(function() {
+
+            $('.wrapper').hide();
+            $('.wrapper-wrong').hide();
+            $('.wrapper-wright').hide();
+        });
+    </script>
 
     <style>
 

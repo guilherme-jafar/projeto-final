@@ -34,8 +34,6 @@
             <div class="collapse navbar-collapse" id="basicExampleNav5">
                 <a class="navbar-brand" ><img class="img-fluid" src="{{URL('/assets/logo.png')}}" alt=""></a>
                 <!-- Right -->
-
-
             </div>
 
             <!-- Links -->
@@ -53,7 +51,7 @@
     <section class="">
         <div class="container">
             <div class="row">
-                <div class="col-md-10 mx-auto">
+                <div class="col-md-12 mx-auto">
                     @yield('content2')
                 </div>
 
