@@ -48,9 +48,13 @@ class Disciplina extends Controller
         $disciplina = \App\Models\Disciplina::find($request->token);
 //        $disciplina2 = DB::select('select * FROM disciplina
 //                                    WHERE id = :id', ['id' => $request->token]);
+//
+//        $topico = DB::select('select * FROM topicos
+//                                    WHERE disciplina_id = :id', ['id' => $request->token]);
 
-        $topico = DB::select('select * FROM topicos
-                                    WHERE disciplina_id = :id', ['id' => $request->token]);
+        $topico = DB::table('topicos') ->where('disciplina_id', '=',['id' => $request->token])
+            ->paginate(5);
+
         $request->session()->put('disciplina', $disciplina);
 
         if (!empty($topico)) {

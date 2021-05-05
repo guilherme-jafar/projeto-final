@@ -184,13 +184,14 @@
             </div>
         </div>
 
-
+        <pagination-2 :data="quizz" :align="'center'" @pagination-change-page="getResultsQuizz"></pagination-2>
     </div>
 </template>
 
 <script>
     import $ from "jquery";
     import axios from "axios";
+
 
     export default {
         name: "quizz",
@@ -202,7 +203,8 @@
                 toastQuiz: '',
                 search: '',
                 topicos: JSON.parse(this.topico_prop),
-                quizz: ''
+                quizz:'',
+                page: 1
             }
         },
 
@@ -212,6 +214,13 @@
 
                 window.location.replace('/WaitRoom/' + quizz );
 
+            },
+            getResultsQuizz(page = 1) {
+
+                axios.get('/getQuizz?page=' + page)
+                    .then(response => {
+                        this.quizz = response.data.message;
+                    });
             },
 
             submitNewQuizz() {
@@ -354,13 +363,14 @@
                     }
 
                 }.bind(this));
-            }, listQuizz() {
+            },
+            listQuizz() {
 
-                axios.post('/getQuizz'
+                axios.get('/getQuizz?page=1'
                 ).then(function (response) {
 
                     this.quizz = response.data.message;
-
+                    console.log(this.quizz)
                     $('#card-loading-quiz').hide();
                     $('#lista-quizes').show();
                     $('#quiz-adicionar').show();
@@ -384,14 +394,10 @@
         },
         computed: {
             filter: function () {
-                return this.quizz.filter((quizz) => {
+                return this.quizz.data.filter((quizz) => {
                     return quizz['nome'].match(this.search)
                 })
             },
-
-
-
-
         },
         watch:{
            modal: function () {

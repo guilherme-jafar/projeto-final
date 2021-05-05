@@ -19,7 +19,8 @@ class Quizz extends Controller
 
         $Quizz = DB::table('quizz')
             ->where('disciplina_id', '=', session('disciplina')['id'])
-            ->get();
+            ->paginate(5);
+
 
 
 

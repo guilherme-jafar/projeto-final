@@ -254,6 +254,22 @@ i{
     }
 }
 
+.pagination{
+    .page-item{
+        font-size: 2rem;
+
+        .page-link{
+            color: $cor-principal-1;
+        }
+    }
+
+    .page-item.active .page-link{
+        background-color: $cor-principal-1;
+        color: white;
+        border-color: $cor-principal-1;
+    }
+}
+
 section{
     min-height: 95vh;
     background-image: url('/assets/background.png');

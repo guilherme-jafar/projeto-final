@@ -552,6 +552,18 @@ i {
   font-weight: 500;
 }
 
+.pagination .page-item {
+  font-size: 2rem;
+}
+.pagination .page-item .page-link {
+  color: #FF7829;
+}
+.pagination .page-item.active .page-link {
+  background-color: #FF7829;
+  color: white;
+  border-color: #FF7829;
+}
+
 section {
   min-height: 95vh;
   background-image: url("/assets/background.png");
@@ -983,6 +995,18 @@ i {
   font-size: 1.6rem;
   padding: 1rem 2rem;
   font-weight: 500;
+}
+
+.pagination .page-item {
+  font-size: 2rem;
+}
+.pagination .page-item .page-link {
+  color: #FF7829;
+}
+.pagination .page-item.active .page-link {
+  background-color: #FF7829;
+  color: white;
+  border-color: #FF7829;
 }
 
 section {

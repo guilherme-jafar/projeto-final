@@ -4,6 +4,7 @@ require('./bootstrap');
 Window.Vue=require('vue');
 
 Pusher.log = function (message) { window.console.log(message); }
+Vue.component('pagination-2', require('laravel-vue-pagination'));
 
 Vue.component('registos',require('./components/registos.vue').default);
 Vue.component('login',require('./components/login.vue').default);
@@ -25,6 +26,8 @@ Vue.component('perguntaQuizz', require('./components/quizz/perguntaQuizz').defau
 //quizz
 Vue.component('waitRoom',require('./components/quizz/waitRoom').default)
 Vue.component('waitRoomAluno',require('./components/quizz/WaitRoomStudent').default)
+
+
 
 
 
