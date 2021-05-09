@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Pagination\Paginator;
 
 class Disciplina extends Controller
 {
@@ -14,7 +15,7 @@ class Disciplina extends Controller
 
 
         $disciplina = DB::select('select * FROM disciplina d,  prof__disciplina pd WHERE d.id = pd.disciplina_id AND pd.prof__utilizador_id = :id', ['id' => session('utilizador')['id']]);
-
+//        $page = new Paginator($disciplina, 1);
 
         if (!empty($disciplina)) {
             return view('/prof/dashboard', ['disciplinas' => $disciplina]);
@@ -46,14 +47,10 @@ class Disciplina extends Controller
     {
 
         $disciplina = \App\Models\Disciplina::find($request->token);
-//        $disciplina2 = DB::select('select * FROM disciplina
-//                                    WHERE id = :id', ['id' => $request->token]);
-//
-//        $topico = DB::select('select * FROM topicos
-//                                    WHERE disciplina_id = :id', ['id' => $request->token]);
-
-        $topico = DB::table('topicos') ->where('disciplina_id', '=',['id' => $request->token])
-            ->paginate(5);
+        $topico = DB::table('topicos')->where('disciplina_id', '=', ['id' => $request->token])->get();
+//            ->paginate(5);
+        $disciplina->setTotalTopicos(DB::table('topicos')->where('disciplina_id', '=', ['id' => $request->token])->count());
+        $disciplina->setTotalQuizz(DB::table('quizz')->where('disciplina_id', '=', ['id' => $request->token])->count());
 
         $request->session()->put('disciplina', $disciplina);
 
@@ -72,9 +69,7 @@ class Disciplina extends Controller
         $disciplina = \App\Models\Disciplina::find($request->token);
         $quizz = DB::select('select * FROM quizz
                                     WHERE disciplina_id = :id', ['id' => $request->token]);
-        $pontos = DB::select('select pontos from disciplina_aluno WHERE disciplina_id = ? and aluno_utilizador_id = ?', [$request->token, session('utilizador')['id']] );
-
-
+        $pontos = DB::select('select pontos from disciplina_aluno WHERE disciplina_id = ? and aluno_utilizador_id = ?', [$request->token, session('utilizador')['id']]);
         $disciplina->setPontos($pontos[0]->pontos);
         $request->session()->put('disciplina', $disciplina);
 
@@ -90,31 +85,44 @@ class Disciplina extends Controller
     function addDisciplina(Request $request)
     {
 
-        $id = $request->disciplina;
+        $codigo_disciplina = $request->disciplina;
+
+
         try {
+            $id = DB::table('disciplina')->where('token', '=', ['id' => $codigo_disciplina])->get('id');
 
-            $insert_disciplina = DB::insert('insert into disciplina_aluno (disciplina_id, aluno_utilizador_id) values (?,?)'
-                , [$id, session('utilizador')['id']]);
-
-            DB::select('UPDATE disciplina set inscritos=inscritos+1
-            WHERE id = :id', [$id]);
-
-            $disciplina = DB::select('select * FROM disciplina d, disciplina_aluno pd WHERE d.id = pd.disciplina_id AND pd.aluno_utilizador_id = :id', ['id' => session('utilizador')['id']]);
-
-            if ($insert_disciplina) {
+            if (empty($id)) {
                 return response()->json([
-                    'message' => $disciplina,
+                    'message' => 'erro2',
                 ]);
             } else {
-                return response()->json([
-                    'message' => 'erro',
-                ]);
+                $insert_disciplina = DB::insert('insert into disciplina_aluno (disciplina_id, aluno_utilizador_id) values (?,?)'
+                    , [$id[0]->id, session('utilizador')['id']]);
+
+                DB::select('UPDATE disciplina set inscritos=inscritos+1
+                 WHERE id = :id', [$id[0]->id]);
+
+                $disciplina = DB::select('select * FROM disciplina d, disciplina_aluno pd WHERE d.id = pd.disciplina_id AND pd.aluno_utilizador_id = :id', ['id' => session('utilizador')['id']]);
+
+                if ($insert_disciplina) {
+                    return response()->json([
+                        'message' => $disciplina,
+                    ]);
+                } else {
+                    return response()->json([
+                        'message' => 'erro',
+                    ]);
+                }
             }
 
 
         } catch (\Illuminate\Database\QueryException $ex) {
             return response()->json([
                 'message' => 'erro',
+            ]);
+        } catch (\ErrorException $e) {
+            return response()->json([
+                'message' => 'erro2',
             ]);
         }
 
@@ -128,9 +136,11 @@ class Disciplina extends Controller
         $nome_disciplina = $request->input('disciplina');
         $descricao = $request->input('descricao');
 //        $presenca = $request->input('presenca');
+        $codigo_disciplinas = time() . hash('adler32', $nome_disciplina, false);
 
-        $insert_disciplina = DB::insert('insert into disciplina (id, nome,descricao,inscritos) values (?,?,?,?)'
-            , [$id, $nome_disciplina, $descricao, 0]);
+
+        $insert_disciplina = DB::insert('insert into disciplina (id, nome,descricao,inscritos, token) values (?,?,?,?,?)'
+            , [$id, $nome_disciplina, $descricao, 0, $codigo_disciplinas]);
 
         $insert_prof_disciplina = DB::insert('insert into prof__disciplina (prof__utilizador_id, disciplina_id) values (?,?)'
             , [session('utilizador')['id'], $id]);
@@ -163,9 +173,14 @@ class Disciplina extends Controller
             AND dp.disciplina_id=d.id
             and d.id=:id', ['id' => $id]);
 
+
+
+        $page = new Paginator($alunos, 5);
+
+
         if (!empty($alunos)) {
             return response()->json([
-                'message' => $alunos,
+                'message' => $page,
             ]);
         } else {
             return response()->json([
@@ -176,22 +191,23 @@ class Disciplina extends Controller
 
     }
 
-    function destroy(Request $request){
+    function destroy(Request $request)
+    {
 
-        if (session()->get('utilizador')['tipo'] == 'prof'){
+        if (session()->get('utilizador')['tipo'] == 'prof') {
 
-            DB::statement('call deleteDisciplina(?)',[$request->id]);
+            DB::statement('call deleteDisciplina(?)', [$request->id]);
 
             $disciplina = DB::select('select * FROM disciplina d,  prof__disciplina pd WHERE d.id = pd.disciplina_id AND pd.prof__utilizador_id = :id', ['id' => session('utilizador')['id']]);
             return response()->json([
                 'message' => $disciplina,
             ]);
 
-        }elseif (session()->get('utilizador')['tipo'] == 'aluno'){
+        } elseif (session()->get('utilizador')['tipo'] == 'aluno') {
 
-            DB::statement('delete from disciplina_aluno where disciplina_id = ? and aluno_utilizador_id = ?',[$request->id, session('utilizador')['id']]);
+            DB::statement('delete from disciplina_aluno where disciplina_id = ? and aluno_utilizador_id = ?', [$request->id, session('utilizador')['id']]);
             $disciplina = DB::select('select * FROM disciplina d, disciplina_aluno pd WHERE d.id = pd.disciplina_id AND pd.aluno_utilizador_id = :id', ['id' => session('utilizador')['id']]);
-
+            DB::table('disciplina')->where('id', '=', ['id'=>$request->id])->update(['inscritos' => DB::raw('inscritos - 1')]);
             return response()->json([
                 'message' => $disciplina,
             ]);
@@ -205,11 +221,12 @@ class Disciplina extends Controller
 
     }
 
-    function editar(Request $request){
+    function editar(Request $request)
+    {
 
 
         DB::table('disciplina')
-            ->where('id','=',$request->input('id'))
+            ->where('id', '=', $request->input('id'))
             ->update(['nome' => $request->input('disciplina'), 'descricao' => $request->input('descricao')]);
 
         return response()->json([
@@ -218,8 +235,9 @@ class Disciplina extends Controller
 
     }
 
-    public function sucesso(Request $request){
-       // dd(session('disciplina')['id']);
+    public function sucesso(Request $request)
+    {
+        // dd(session('disciplina')['id']);
         $disciplina = \App\Models\Disciplina::find(session('disciplina')['id']);
         $topico = DB::select('select * FROM topicos
                                     WHERE disciplina_id = :id', ['id' => session('disciplina')['id']]);

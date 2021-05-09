@@ -118,16 +118,24 @@
 
 
                     <!-- Modal -->
-                    <div class="modal fade" :id="'d'+disciplina['id']" tabindex="-1" :aria-labelledby="disciplina['id']" aria-hidden="true">
+                    <div class="modal fade " :id="'d'+disciplina['id']" tabindex="-1" :aria-labelledby="disciplina['id']" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" :id="'dds'+disciplina['id']">Codigo da disciplina</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <div class="modal-body">
-                                    <h2>{{disciplina['id']}}</h2>
+                                <div class="modal-body d-flex p-5">
+                                    <input type="text" class="form-control copy-code" :id="disciplina['token']" :value="disciplina['token']" readonly>
+
                                 </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-primary" @click="copiarClipbord(disciplina['token'])">
+<!--                                        <i class="bi bi-files" data-bs-toggle="tooltip" data-bs-placement="left" title="Copiar" ></i>-->
+                                        Copiar
+                                    </button>
+                                </div>
+
 
                             </div>
                         </div>
@@ -211,6 +219,17 @@
             }
         },
         methods: {
+
+            copiarClipbord(id){
+
+                let copyText = document.getElementById(id);
+
+                copyText.select();
+                copyText.setSelectionRange(0, 99999);
+
+                document.execCommand("copy");
+
+            },
 
             eliminarDisciplina(disciplina){
 

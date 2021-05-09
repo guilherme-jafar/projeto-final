@@ -2042,6 +2042,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "dashboard",
@@ -2057,6 +2065,12 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    copiarClipbord: function copiarClipbord(id) {
+      var copyText = document.getElementById(id);
+      copyText.select();
+      copyText.setSelectionRange(0, 99999);
+      document.execCommand("copy");
+    },
     eliminarDisciplina: function eliminarDisciplina(disciplina) {
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn span').addClass('d-none');
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn div').removeClass('d-none');
@@ -2589,6 +2603,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 //
 //
 //
@@ -2727,21 +2743,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "listaAlunos",
   data: function data() {
     return {
       search: '',
-      alunos: ''
+      alunos: '',
+      page: 1
     };
   },
   computed: {
     filter: function filter() {
       var _this = this;
 
-      return this.alunos.filter(function (aluno) {
+      return this.alunos.data.filter(function (aluno) {
         return aluno['nome'].match(_this.search);
+      });
+    }
+  },
+  methods: {
+    getResultsAlunos: function getResultsAlunos() {
+      var _this2 = this;
+
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get('/prof/getAlunos?page=' + page).then(function (response) {
+        _this2.alunos = response.data.message;
       });
     }
   },
@@ -2749,7 +2778,7 @@ __webpack_require__.r(__webpack_exports__);
     var l = window.location.href.split('/');
     var formData = new FormData();
     formData.append('id', l[l.length - 1]);
-    axios.post('/prof/getAlunos', formData).then(function (response) {
+    axios__WEBPACK_IMPORTED_MODULE_1___default().post('/prof/getAlunos?page=1', formData).then(function (response) {
       this.alunos = response.data.message;
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card-loading-alunos').hide();
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#lista-alunos').show();
@@ -2778,7 +2807,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-//
 //
 //
 //
@@ -3577,6 +3605,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3608,11 +3657,12 @@ __webpack_require__.r(__webpack_exports__);
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').addClass('d-none');
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').removeClass('d-none');
       var l = window.location.href.split('/');
-      var flagTime, corretTime, flagVisibel, corretVisibel;
+      var flagTime, corretTime, flagVisibel, corretVisibel, flagPontos, corretPontos;
       var array = [];
       var form = new FormData();
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#TituloError').text(" ").css('color', 'red').css('opacity', '1');
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#TError').text(" ").css('color', 'red').css('opacity', '1');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#PError').text(" ").css('color', 'red').css('opacity', '1');
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#ErrorVisivel').text(" ").css('color', 'red').css('opacity', '1');
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#TopicoError').text(" ").css('color', 'red').css('opacity', '1');
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#NumeroError').text(" ").css('color', 'red').css('opacity', '1');
@@ -3654,31 +3704,47 @@ __webpack_require__.r(__webpack_exports__);
             jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
           } else {
             form.append('visible', corretVisibel);
+            var radios3 = document.getElementsByName("Valepontos");
 
-            if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('#nPerguntas').val() < 3) {
-              jquery__WEBPACK_IMPORTED_MODULE_0___default()('#NumeroError').text("Um quizz deve ter pelo menos três perguntas").css('color', 'red').css('opacity', '1');
+            for (var _i2 = 0; _i2 < 2; _i2++) {
+              if (radios3[_i2].checked) {
+                flagPontos = true;
+                corretPontos = radios3[_i2].value;
+              }
+            }
+
+            if (!flagPontos) {
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('#ErrorVisivel').text("Indique se o quiz vale pontos ou não").css('color', 'red').css('opacity', '1');
               jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
               jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
             } else {
-              form.append('nPerguntas', jquery__WEBPACK_IMPORTED_MODULE_0___default()('#nPerguntas').val());
-              var check = document.getElementsByName("topico");
-              var count = 0;
+              form.append('pontos', corretPontos);
 
-              for (var _i2 = 0; _i2 < check.length; _i2++) {
-                if (check[_i2].checked) {
-                  array.push(check[_i2].value);
-                  count++;
-                }
-              }
-
-              if (count === 0) {
-                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#TopicoError').text("Tem que indicar pelo menos um topico").css('color', 'red').css('opacity', '1');
+              if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('#nPerguntas').val() < 3) {
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#NumeroError').text("Um quizz deve ter pelo menos três perguntas").css('color', 'red').css('opacity', '1');
                 jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
                 jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
               } else {
-                form.append('array', JSON.stringify(array));
-                form.append('id', l[l.length - 1]);
-                this.sendQuizz(form);
+                form.append('nPerguntas', jquery__WEBPACK_IMPORTED_MODULE_0___default()('#nPerguntas').val());
+                var check = document.getElementsByName("topico");
+                var count = 0;
+
+                for (var _i3 = 0; _i3 < check.length; _i3++) {
+                  if (check[_i3].checked) {
+                    array.push(check[_i3].value);
+                    count++;
+                  }
+                }
+
+                if (count === 0) {
+                  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#TopicoError').text("Tem que indicar pelo menos um topico").css('color', 'red').css('opacity', '1');
+                  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
+                  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
+                } else {
+                  form.append('array', JSON.stringify(array));
+                  form.append('id', l[l.length - 1]);
+                  this.sendQuizz(form);
+                }
               }
             }
           }
@@ -3703,17 +3769,25 @@ __webpack_require__.r(__webpack_exports__);
 
           var radios2 = document.getElementsByName("Visivelop");
 
-          for (var _i3 = 0; _i3 < 2; _i3++) {
-            if (radios2[_i3].checked) {
-              radios2[_i3].checked = false;
+          for (var _i4 = 0; _i4 < 2; _i4++) {
+            if (radios2[_i4].checked) {
+              radios2[_i4].checked = false;
+            }
+          }
+
+          var radios3 = document.getElementsByName("Valepontos");
+
+          for (var _i5 = 0; _i5 < 2; _i5++) {
+            if (radios3[_i5].checked) {
+              radios3[_i5].checked = false;
             }
           }
 
           var check = document.getElementsByName("topico");
 
-          for (var _i4 = 0; _i4 < check.length; _i4++) {
-            if (check[_i4].checked) {
-              check[_i4].checked = false;
+          for (var _i6 = 0; _i6 < check.length; _i6++) {
+            if (check[_i6].checked) {
+              check[_i6].checked = false;
             }
           }
 
@@ -3738,7 +3812,6 @@ __webpack_require__.r(__webpack_exports__);
     listQuizz: function listQuizz() {
       axios__WEBPACK_IMPORTED_MODULE_1___default().get('/getQuizz?page=1').then(function (response) {
         this.quizz = response.data.message;
-        console.log(this.quizz);
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card-loading-quiz').hide();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#lista-quizes').show();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#quiz-adicionar').show();
@@ -4018,7 +4091,15 @@ __webpack_require__.r(__webpack_exports__);
         var formData = new FormData();
         formData.append('disciplina', jquery__WEBPACK_IMPORTED_MODULE_0___default()("#disciplina").val());
         axios.post('/aluno/disciplina/addDisciplina', formData).then(function (response) {
-          if (response.data.message !== "erro") {
+          if (response.data.message === "erro") {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()("#disciplinaError").text("O Código já foi introduzido!!").css('color', 'red').css('opacity', '1');
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit span').removeClass('d-none');
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit div').addClass('d-none');
+          } else if (response.data.message === "erro2") {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()("#disciplinaError").text("O código introduzido não existe!!").css('color', 'red').css('opacity', '1');
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit span').removeClass('d-none');
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit div').addClass('d-none');
+          } else {
             jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit span').removeClass('d-none');
             jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit div').addClass('d-none');
             jquery__WEBPACK_IMPORTED_MODULE_0___default()('#disciplina').val('');
@@ -4026,10 +4107,6 @@ __webpack_require__.r(__webpack_exports__);
             this.disciplinas = response.data.message;
             toast.show();
             jquery__WEBPACK_IMPORTED_MODULE_0___default()('#toast').removeClass('d-none');
-          } else {
-            jquery__WEBPACK_IMPORTED_MODULE_0___default()("#disciplinaError").text("codigo invalido").css('color', 'red').css('opacity', '1');
-            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit span').removeClass('d-none');
-            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit div').addClass('d-none');
           }
         }.bind(this));
       }
@@ -41903,7 +41980,7 @@ var render = function() {
                   _c(
                     "div",
                     {
-                      staticClass: "modal fade",
+                      staticClass: "modal fade ",
                       attrs: {
                         id: "d" + disciplina["id"],
                         tabindex: "-1",
@@ -41937,8 +42014,41 @@ var render = function() {
                               })
                             ]),
                             _vm._v(" "),
-                            _c("div", { staticClass: "modal-body" }, [
-                              _c("h2", [_vm._v(_vm._s(disciplina["id"]))])
+                            _c(
+                              "div",
+                              { staticClass: "modal-body d-flex p-5" },
+                              [
+                                _c("input", {
+                                  staticClass: "form-control copy-code",
+                                  attrs: {
+                                    type: "text",
+                                    id: disciplina["token"],
+                                    readonly: ""
+                                  },
+                                  domProps: { value: disciplina["token"] }
+                                })
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "modal-footer" }, [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-primary",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.copiarClipbord(
+                                        disciplina["token"]
+                                      )
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                        Copiar\n                                    "
+                                  )
+                                ]
+                              )
                             ])
                           ])
                         ]
@@ -42990,172 +43100,316 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _vm._m(0),
-    _vm._v(" "),
-    _vm.alunos.length === 0
-      ? _c(
-          "div",
-          { staticClass: "mx-auto", attrs: { id: "alunos-adicionar" } },
-          [
-            _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
-              _vm._v("Ainda não tem nenhum alunos inscrito")
-            ])
-          ]
-        )
-      : _c(
-          "div",
-          {
-            staticClass: "section-disciplinas-items mt-5 me-md-5 ms-md-5",
-            attrs: { id: "lista-alunos" }
-          },
-          [
-            _c("div", { staticClass: "box-search mb-5" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.search,
-                    expression: "search"
-                  }
-                ],
-                staticClass: " form-control form-control-lg form-search",
-                attrs: { type: "text", placeholder: "Pesquisar aluno..." },
-                domProps: { value: _vm.search },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+  return _c(
+    "div",
+    [
+      _vm._m(0),
+      _vm._v(" "),
+      _vm.alunos.length === 0
+        ? _c(
+            "div",
+            { staticClass: "mx-auto", attrs: { id: "alunos-adicionar" } },
+            [
+              _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
+                _vm._v("Ainda não tem nenhum alunos inscrito")
+              ])
+            ]
+          )
+        : _c(
+            "div",
+            {
+              staticClass: "section-disciplinas-items mt-5 me-md-5 ms-md-5",
+              attrs: { id: "lista-alunos" }
+            },
+            [
+              _c("div", { staticClass: "box-search mb-5" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.search,
+                      expression: "search"
                     }
-                    _vm.search = $event.target.value
+                  ],
+                  staticClass: " form-control form-control-lg form-search",
+                  attrs: { type: "text", placeholder: "Pesquisar aluno..." },
+                  domProps: { value: _vm.search },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.search = $event.target.value
+                    }
                   }
-                }
-              }),
+                }),
+                _vm._v(" "),
+                _c("i", { staticClass: "bi bi-search" })
+              ]),
               _vm._v(" "),
-              _c("i", { staticClass: "bi bi-search" })
-            ]),
-            _vm._v(" "),
-            _c("h1", [_vm._v("Alunos inscritos")]),
-            _vm._v(" "),
-            _c(
-              "ul",
-              _vm._l(_vm.filter, function(aluno) {
-                return _c(
-                  "li",
-                  {
-                    key: aluno["id"],
-                    staticClass: "card-box card-box-alunos mb-5 mt-4"
-                  },
-                  [
-                    _c("h2", [_vm._v(_vm._s(aluno["nome"]))]),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-secondary ms-2 ms-auto",
-                        attrs: {
-                          type: "button",
-                          "data-bs-toggle": "modal",
-                          "data-bs-target": "#a" + aluno["id"]
-                        }
-                      },
-                      [_vm._v("detalhes\n                ")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass: "modal fade",
-                        attrs: {
-                          id: "a" + aluno["id"],
-                          tabindex: "-1",
-                          "aria-labelledby": aluno["id"],
-                          "aria-hidden": "true"
-                        }
-                      },
-                      [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "modal-dialog modal-lg modal-dialog-centered"
-                          },
-                          [
-                            _c("div", { staticClass: "modal-content" }, [
-                              _c("div", { staticClass: "modal-header" }, [
-                                _c(
-                                  "h5",
-                                  {
-                                    staticClass: "modal-title",
-                                    attrs: { id: "al" + aluno["id"] }
-                                  },
-                                  [_vm._v(_vm._s(aluno["nome"]))]
-                                ),
+              _c("h1", [_vm._v("Alunos inscritos")]),
+              _vm._v(" "),
+              _c(
+                "ul",
+                _vm._l(_vm.filter, function(aluno) {
+                  return _c(
+                    "li",
+                    {
+                      key: aluno["id"],
+                      staticClass: "card-box card-box-alunos mb-5 mt-4"
+                    },
+                    [
+                      _c("h2", [_vm._v(_vm._s(aluno["nome"]))]),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-secondary ms-2 ms-auto",
+                          attrs: {
+                            type: "button",
+                            "data-bs-toggle": "modal",
+                            "data-bs-target": "#a" + aluno["id"]
+                          }
+                        },
+                        [_vm._v("detalhes\n                ")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "modal fade",
+                          attrs: {
+                            id: "a" + aluno["id"],
+                            tabindex: "-1",
+                            "aria-labelledby": aluno["id"],
+                            "aria-hidden": "true"
+                          }
+                        },
+                        [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "modal-dialog modal-lg modal-dialog-centered"
+                            },
+                            [
+                              _c("div", { staticClass: "modal-content" }, [
+                                _c("div", { staticClass: "modal-header" }, [
+                                  _c(
+                                    "h5",
+                                    {
+                                      staticClass: "modal-title",
+                                      attrs: { id: "al" + aluno["id"] }
+                                    },
+                                    [_vm._v(_vm._s(aluno["nome"]))]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("button", {
+                                    staticClass: "btn-close",
+                                    attrs: {
+                                      type: "button",
+                                      "data-bs-dismiss": "modal",
+                                      "aria-label": "Close"
+                                    }
+                                  })
+                                ]),
                                 _vm._v(" "),
-                                _c("button", {
-                                  staticClass: "btn-close",
-                                  attrs: {
-                                    type: "button",
-                                    "data-bs-dismiss": "modal",
-                                    "aria-label": "Close"
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "modal-body p-5" }, [
-                                _c("div", { staticClass: "container-fluid" }, [
-                                  _c("div", { staticClass: "row" }, [
-                                    _c(
-                                      "div",
-                                      { staticClass: "col-md-4 mb-3" },
-                                      [
-                                        _c("div", { staticClass: "card" }, [
+                                _c("div", { staticClass: "modal-body p-5" }, [
+                                  _c(
+                                    "div",
+                                    { staticClass: "container-fluid" },
+                                    [
+                                      _c("div", { staticClass: "row" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "col-md-4 mb-3" },
+                                          [
+                                            _c("div", { staticClass: "card" }, [
+                                              _c(
+                                                "div",
+                                                { staticClass: "card-body" },
+                                                [
+                                                  _c(
+                                                    "div",
+                                                    {
+                                                      staticClass:
+                                                        "d-flex flex-column align-items-center text-center"
+                                                    },
+                                                    [
+                                                      aluno["foto_perfil"] ===
+                                                      null
+                                                        ? _c("img", {
+                                                            staticClass:
+                                                              "rounded-circle",
+                                                            attrs: {
+                                                              src:
+                                                                "/images/imgDefault.jpg",
+                                                              alt: "Admin",
+                                                              width: "150"
+                                                            }
+                                                          })
+                                                        : _c("img", {
+                                                            staticClass:
+                                                              "rounded-circle",
+                                                            attrs: {
+                                                              src:
+                                                                "/images/" +
+                                                                aluno[
+                                                                  "foto_perfil"
+                                                                ],
+                                                              alt: "Admin",
+                                                              width: "150"
+                                                            }
+                                                          }),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "div",
+                                                        { staticClass: "mt-3" },
+                                                        [
+                                                          _c("h4", [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                aluno["nome"]
+                                                              )
+                                                            )
+                                                          ])
+                                                        ]
+                                                      )
+                                                    ]
+                                                  )
+                                                ]
+                                              )
+                                            ])
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("div", { staticClass: "col-md-8" }, [
                                           _c(
                                             "div",
-                                            { staticClass: "card-body" },
+                                            { staticClass: "card mb-3" },
                                             [
                                               _c(
                                                 "div",
-                                                {
-                                                  staticClass:
-                                                    "d-flex flex-column align-items-center text-center"
-                                                },
+                                                { staticClass: "card-body" },
                                                 [
-                                                  aluno["foto_perfil"] === null
-                                                    ? _c("img", {
-                                                        staticClass:
-                                                          "rounded-circle",
-                                                        attrs: {
-                                                          src:
-                                                            "/images/imgDefault.jpg",
-                                                          alt: "Admin",
-                                                          width: "150"
-                                                        }
-                                                      })
-                                                    : _c("img", {
-                                                        staticClass:
-                                                          "rounded-circle",
-                                                        attrs: {
-                                                          src:
-                                                            "/images/" +
-                                                            aluno[
-                                                              "foto_perfil"
-                                                            ],
-                                                          alt: "Admin",
-                                                          width: "150"
-                                                        }
-                                                      }),
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "row" },
+                                                    [
+                                                      _vm._m(1, true),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "div",
+                                                        {
+                                                          staticClass:
+                                                            "col-sm-9 text-secondary"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "\n                                                            " +
+                                                              _vm._s(
+                                                                aluno["nome"]
+                                                              ) +
+                                                              "\n                                                        "
+                                                          )
+                                                        ]
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c("hr"),
                                                   _vm._v(" "),
                                                   _c(
                                                     "div",
-                                                    { staticClass: "mt-3" },
+                                                    { staticClass: "row" },
                                                     [
-                                                      _c("h4", [
-                                                        _vm._v(
-                                                          _vm._s(aluno["nome"])
-                                                        )
-                                                      ])
+                                                      _vm._m(2, true),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "div",
+                                                        {
+                                                          staticClass:
+                                                            "col-sm-9 text-secondary"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "\n                                                            " +
+                                                              _vm._s(
+                                                                aluno["email"]
+                                                              ) +
+                                                              "\n                                                        "
+                                                          )
+                                                        ]
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c("hr"),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "row" },
+                                                    [
+                                                      _vm._m(3, true),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "div",
+                                                        {
+                                                          staticClass:
+                                                            "col-sm-9 text-secondary"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "\n                                                            " +
+                                                              _vm._s(
+                                                                aluno["pontos"]
+                                                              ) +
+                                                              "\n                                                        "
+                                                          )
+                                                        ]
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c("hr"),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "div",
+                                                    { staticClass: "row" },
+                                                    [
+                                                      _vm._m(4, true),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "div",
+                                                        {
+                                                          staticClass:
+                                                            "col-sm-9 text-secondary"
+                                                        },
+                                                        [
+                                                          aluno["sexo"] === "m"
+                                                            ? _c("div", [
+                                                                _vm._v(
+                                                                  "\n                                                                Masculino\n                                                            "
+                                                                )
+                                                              ])
+                                                            : aluno["sexo"] ===
+                                                              "f"
+                                                            ? _c("div", [
+                                                                _vm._v(
+                                                                  "\n                                                                Feminino\n                                                            "
+                                                                )
+                                                              ])
+                                                            : aluno["sexo"] ===
+                                                              "o"
+                                                            ? _c("div", [
+                                                                _vm._v(
+                                                                  "\n                                                                Outro\n                                                            "
+                                                                )
+                                                              ])
+                                                            : _vm._e()
+                                                        ]
+                                                      )
                                                     ]
                                                   )
                                                 ]
@@ -43163,130 +43417,30 @@ var render = function() {
                                             ]
                                           )
                                         ])
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "col-md-8" }, [
-                                      _c("div", { staticClass: "card mb-3" }, [
-                                        _c(
-                                          "div",
-                                          { staticClass: "card-body" },
-                                          [
-                                            _c("div", { staticClass: "row" }, [
-                                              _vm._m(1, true),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "col-sm-9 text-secondary"
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    "\n                                                            " +
-                                                      _vm._s(aluno["nome"]) +
-                                                      "\n                                                        "
-                                                  )
-                                                ]
-                                              )
-                                            ]),
-                                            _vm._v(" "),
-                                            _c("hr"),
-                                            _vm._v(" "),
-                                            _c("div", { staticClass: "row" }, [
-                                              _vm._m(2, true),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "col-sm-9 text-secondary"
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    "\n                                                            " +
-                                                      _vm._s(aluno["email"]) +
-                                                      "\n                                                        "
-                                                  )
-                                                ]
-                                              )
-                                            ]),
-                                            _vm._v(" "),
-                                            _c("hr"),
-                                            _vm._v(" "),
-                                            _c("div", { staticClass: "row" }, [
-                                              _vm._m(3, true),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "col-sm-9 text-secondary"
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    "\n                                                            " +
-                                                      _vm._s(aluno["pontos"]) +
-                                                      "\n                                                        "
-                                                  )
-                                                ]
-                                              )
-                                            ]),
-                                            _vm._v(" "),
-                                            _c("hr"),
-                                            _vm._v(" "),
-                                            _c("div", { staticClass: "row" }, [
-                                              _vm._m(4, true),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "col-sm-9 text-secondary"
-                                                },
-                                                [
-                                                  aluno["sexo"] === "m"
-                                                    ? _c("div", [
-                                                        _vm._v(
-                                                          "\n                                                                Masculino\n                                                            "
-                                                        )
-                                                      ])
-                                                    : aluno["sexo"] === "f"
-                                                    ? _c("div", [
-                                                        _vm._v(
-                                                          "\n                                                                Feminino\n                                                            "
-                                                        )
-                                                      ])
-                                                    : aluno["sexo"] === "o"
-                                                    ? _c("div", [
-                                                        _vm._v(
-                                                          "\n                                                                Outro\n                                                            "
-                                                        )
-                                                      ])
-                                                    : _vm._e()
-                                                ]
-                                              )
-                                            ])
-                                          ]
-                                        )
                                       ])
-                                    ])
-                                  ])
+                                    ]
+                                  )
                                 ])
                               ])
-                            ])
-                          ]
-                        )
-                      ]
-                    )
-                  ]
-                )
-              }),
-              0
-            )
-          ]
-        )
-  ])
+                            ]
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                }),
+                0
+              )
+            ]
+          ),
+      _vm._v(" "),
+      _c("pagination-2", {
+        attrs: { data: _vm.alunos, align: "center" },
+        on: { "pagination-change-page": _vm.getResultsAlunos }
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -43377,16 +43531,14 @@ var render = function() {
           ? _c("div", { staticClass: "mx-auto" }, [
               _c("h3", [_vm._v("Ainda não tem nenhuma Pergunta")])
             ])
-          : _c("div", { staticClass: "lista-perguntas" }, [
+          : _c("div", { staticClass: "lista-perguntas mt-4" }, [
               _c(
                 "ul",
                 _vm._l(_vm.perguntas, function(pergunta) {
                   return _c("li", { key: pergunta["id"] }, [
-                    _c("div", { staticClass: "d-flex mb-5 card" }, [
-                      _c("h3", [_vm._v(_vm._s(pergunta["enunciado"]))]),
-                      _vm._v(" "),
-                      _c("button", { staticClass: "btn btn-primary ms-auto" }, [
-                        _vm._v("Ver Detalhes")
+                    _c("div", { staticClass: "d-flex mb-3 card" }, [
+                      _c("a", [
+                        _c("h3", [_vm._v(_vm._s(pergunta["enunciado"]))])
                       ])
                     ])
                   ])
@@ -44445,6 +44597,10 @@ var render = function() {
                       _vm._v(" "),
                       _vm._m(11),
                       _vm._v(" "),
+                      _vm._m(12),
+                      _vm._v(" "),
+                      _vm._m(13),
+                      _vm._v(" "),
                       _c(
                         "div",
                         { staticClass: "col-12" },
@@ -44483,7 +44639,7 @@ var render = function() {
                         0
                       ),
                       _vm._v(" "),
-                      _vm._m(12)
+                      _vm._m(14)
                     ]
                   )
                 ]),
@@ -44690,25 +44846,27 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6 mb-5 mb-xs-0 text-center" }, [
+    return _c("div", { staticClass: "col-md-4 mb-5 mb-xs-0 text-center" }, [
       _c("div", { staticClass: "mb-1 mt-5", attrs: { id: "realTime" } }, [
         _c("h4", [_vm._v("Realtime")]),
         _vm._v(" "),
         _c("div", { staticClass: "mb-1" }, [
-          _c("input", {
-            attrs: { type: "radio", name: "realtimeop", value: "true" }
-          }),
-          _vm._v(" Sim\n                                ")
+          _c("label", [
+            _c("input", {
+              attrs: { type: "radio", name: "realtimeop", value: "true" }
+            }),
+            _vm._v(" Sim")
+          ])
         ]),
         _vm._v(" "),
         _c("div", [
-          _c("input", {
-            attrs: { type: "radio", name: "realtimeop", value: "false" }
-          }),
-          _vm._v(" Não\n                                ")
-        ]),
-        _vm._v(" "),
-        _c("p", { attrs: { id: "TError" } })
+          _c("label", [
+            _c("input", {
+              attrs: { type: "radio", name: "realtimeop", value: "false" }
+            }),
+            _vm._v(" Não")
+          ])
+        ])
       ])
     ])
   },
@@ -44716,7 +44874,35 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6 mb-5 mb-xs-0 text-center" }, [
+    return _c("div", { staticClass: "col-md-4 mb-5 mb-xs-0 text-center" }, [
+      _c("div", { staticClass: "mb-1 mt-5", attrs: { id: "pontos" } }, [
+        _c("h4", [_vm._v("Vale Pontos?")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "mb-1" }, [
+          _c("label", [
+            _c("input", {
+              attrs: { type: "radio", name: "Valepontos", value: "true" }
+            }),
+            _vm._v(" Sim")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c("label", [
+            _c("input", {
+              attrs: { type: "radio", name: "Valepontos", value: "false" }
+            }),
+            _vm._v(" Não")
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4 mb-5 mb-xs-0 text-center" }, [
       _c("div", { staticClass: "mb-1 mt-5", attrs: { id: "Visivel" } }, [
         _c("h4", [_vm._v("Visivel")]),
         _vm._v(" "),
@@ -44736,10 +44922,20 @@ var staticRenderFns = [
             }),
             _vm._v("  Não")
           ])
-        ]),
-        _vm._v(" "),
-        _c("p", { attrs: { id: "ErrorVisivel" } })
+        ])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-12" }, [
+      _c("p", { attrs: { id: "TError" } }),
+      _vm._v(" "),
+      _c("p", { attrs: { id: "PError" } }),
+      _vm._v(" "),
+      _c("p", { attrs: { id: "ErrorVisivel" } })
     ])
   },
   function() {

@@ -698,6 +698,17 @@ section {
 .dashboard .section-disciplinas .card-box-3 div:nth-child(2) {
   margin-top: 4.5rem;
 }
+.dashboard .section-disciplinas .card-box .copy-code {
+  font-size: 2rem;
+}
+.dashboard .section-disciplinas .card-box .copy-code[readonly] {
+  background-color: white;
+}
+.dashboard .section-disciplinas .card-box .btn-copy {
+  background-color: white;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+}
 
 .modal span, .forms span {
   color: white;

@@ -43,9 +43,9 @@
                                     <p>Descricao: {{session('disciplina')['descricao']}}</p>
                                 </div>
                                 <div class="mt-1">
-                                    <p>Tópicos: 0</p>
+                                    <p>Tópicos: {{session('disciplina')->getTotalTopicos()}}</p>
                                     <p>Alunos: {{session('disciplina')['inscritos']}}</p>
-                                    <p>Quizes: 0</p>
+                                    <p>Quizes: {{session('disciplina')->getTotalQuizz()}}</p>
                                 </div>
                             </div>
 

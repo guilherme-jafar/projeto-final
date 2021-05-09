@@ -244,7 +244,19 @@ export default {
 
 
 
-                    if (response.data.message !== "erro"){
+                    if (response.data.message === "erro"){
+
+
+                        $( "#disciplinaError" ).text("O Código já foi introduzido!!").css('color', 'red').css('opacity', '1');
+
+                        $('#submit span').removeClass('d-none');
+                        $('#submit div').addClass('d-none');
+                    }else if (response.data.message === "erro2"){
+                        $( "#disciplinaError" ).text("O código introduzido não existe!!").css('color', 'red').css('opacity', '1');
+
+                        $('#submit span').removeClass('d-none');
+                        $('#submit div').addClass('d-none');
+                    } else{
                         $('#submit span').removeClass('d-none');
                         $('#submit div').addClass('d-none');
                         $('#disciplina').val('')
@@ -252,12 +264,6 @@ export default {
                         this.disciplinas = response.data.message;
                         toast.show();
                         $('#toast').removeClass('d-none');
-                    }
-                    else{
-                        $( "#disciplinaError" ).text("codigo invalido").css('color', 'red').css('opacity', '1');
-
-                        $('#submit span').removeClass('d-none');
-                        $('#submit div').addClass('d-none');
 
                     }
                 }.bind(this));

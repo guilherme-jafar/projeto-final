@@ -11,14 +11,13 @@
 
         </div>
 
-        <div v-else class="lista-perguntas" >
+        <div v-else class="lista-perguntas mt-4" >
 
         <ul >
             <li  v-for="pergunta in perguntas" :key="pergunta['id']">
 
-                    <div class="d-flex mb-5 card">
-                        <h3>{{pergunta['enunciado']}}</h3>
-                        <button class="btn btn-primary ms-auto">Ver Detalhes</button>
+                    <div class="d-flex mb-3 card">
+                       <a><h3>{{pergunta['enunciado']}}</h3></a>
                     </div>
 
             </li>

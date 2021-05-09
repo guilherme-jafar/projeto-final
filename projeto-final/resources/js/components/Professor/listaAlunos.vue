@@ -133,25 +133,37 @@
                 </li>
             </ul>
         </div>
+        <pagination-2 :data="alunos" :align="'center'" @pagination-change-page="getResultsAlunos"></pagination-2>
     </div>
 </template>
 
 <script>
     import $ from "jquery";
+    import axios from "axios";
 
     export default {
         name: "listaAlunos",
         data() {
             return {
                 search: '',
-                alunos: ''
+                alunos: '',
+                page: 1
             }
         }, computed: {
             filter: function () {
-                return this.alunos.filter((aluno) => {
+                return this.alunos.data.filter((aluno) => {
                     return aluno['nome'].match(this.search)
                 })
             }
+        },
+        methods: {
+            getResultsAlunos(page = 1) {
+
+                axios.get('/prof/getAlunos?page=' + page)
+                    .then(response => {
+                        this.alunos = response.data.message;
+                    });
+            },
         },
         mounted: function () {
             let l = window.location.href.split('/');
@@ -159,7 +171,7 @@
 
             let formData = new FormData();
             formData.append('id', l[l.length - 1]);
-            axios.post('/prof/getAlunos', formData
+            axios.post('/prof/getAlunos?page=1', formData
             ).then(function (response) {
 
                 this.alunos = response.data.message;

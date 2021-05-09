@@ -115,20 +115,37 @@
 
                             </div>
 
-                            <div class="col-md-6 mb-5 mb-xs-0 text-center">
+                            <div class="col-md-4 mb-5 mb-xs-0 text-center">
                                 <div id="realTime" class="mb-1 mt-5">
                                     <h4>Realtime</h4>
                                     <div class="mb-1">
-                                        <input type="radio" name="realtimeop" value="true" class=""> Sim
+                                        <label> <input type="radio" name="realtimeop" value="true" class=""> Sim</label>
+
                                     </div>
                                     <div>
-                                        <input type="radio" name="realtimeop" value="false" class=""> Não
+                                        <label> <input type="radio" name="realtimeop" value="false" class=""> Não</label>
+
                                     </div>
-                                    <p id="TError"></p>
+
                                 </div>
                             </div>
 
-                            <div class="col-md-6 mb-5 mb-xs-0 text-center">
+                            <div class="col-md-4 mb-5 mb-xs-0 text-center">
+                                <div id="pontos" class="mb-1 mt-5">
+                                    <h4>Vale Pontos?</h4>
+                                    <div class="mb-1">
+                                        <label>   <input type="radio" name="Valepontos" value="true" class=""> Sim</label>
+
+                                    </div>
+                                    <div>
+                                        <label> <input type="radio" name="Valepontos" value="false" class=""> Não</label>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-5 mb-xs-0 text-center">
                                 <div id="Visivel" class="mb-1 mt-5">
                                     <h4>Visivel</h4>
                                     <div class="mb-1">
@@ -136,10 +153,14 @@
                                     </div>
                                     <div>
                                         <label><input type="radio" name="Visivelop" value="false" class="">&nbsp; Não</label>
-
                                     </div>
-                                    <p id="ErrorVisivel"></p>
+
                                 </div>
+                            </div>
+                            <div class="col-md-12">
+                                <p id="TError"></p>
+                                <p id="PError"></p>
+                                <p id="ErrorVisivel"></p>
                             </div>
 
 
@@ -227,11 +248,12 @@
                 $('.btn-loading span').addClass('d-none');
                 $('.btn-loading div').removeClass('d-none');
                 let l = window.location.href.split('/');
-                var flagTime, corretTime, flagVisibel, corretVisibel;
+                var flagTime, corretTime, flagVisibel, corretVisibel, flagPontos, corretPontos;
                 var array = [];
                 var form = new FormData();
                 $('#TituloError').text(" ").css('color', 'red').css('opacity', '1');
                 $('#TError').text(" ").css('color', 'red').css('opacity', '1');
+                $('#PError').text(" ").css('color', 'red').css('opacity', '1');
                 $('#ErrorVisivel').text(" ").css('color', 'red').css('opacity', '1');
                 $('#TopicoError').text(" ").css('color', 'red').css('opacity', '1');
                 $('#NumeroError').text(" ").css('color', 'red').css('opacity', '1');
@@ -272,38 +294,61 @@
                             $('.btn-loading div').addClass('d-none');
                         } else {
                             form.append('visible', corretVisibel);
-                            if ($('#nPerguntas').val() < 3) {
-                                $('#NumeroError').text("Um quizz deve ter pelo menos três perguntas").css('color', 'red').css('opacity', '1');
+
+
+                            let radios3 = document.getElementsByName("Valepontos");
+                            for (let i = 0; i < 2; i++) {
+
+                                if (radios3[i].checked) {
+                                    flagPontos = true;
+                                    corretPontos = radios3[i].value;
+                                }
+                            }
+
+
+
+                            if (!flagPontos){
+                                $('#ErrorVisivel').text("Indique se o quiz vale pontos ou não").css('color', 'red').css('opacity', '1');
                                 $('.btn-loading span').removeClass('d-none');
                                 $('.btn-loading div').addClass('d-none');
-
-                            } else {
-                                form.append('nPerguntas', $('#nPerguntas').val());
-                                var check = document.getElementsByName("topico");
-                                var count = 0
-
-
-                                for (let i = 0; i < check.length; i++) {
-
-                                    if (check[i].checked) {
-                                        array.push(check[i].value)
-                                        count++
-
-                                    }
-                                }
-
-                                if (count === 0) {
-                                    $('#TopicoError').text("Tem que indicar pelo menos um topico").css('color', 'red').css('opacity', '1');
+                            }else{
+                                form.append('pontos', corretPontos);
+                                if ($('#nPerguntas').val() < 3) {
+                                    $('#NumeroError').text("Um quizz deve ter pelo menos três perguntas").css('color', 'red').css('opacity', '1');
                                     $('.btn-loading span').removeClass('d-none');
                                     $('.btn-loading div').addClass('d-none');
+
                                 } else {
-                                    form.append('array', JSON.stringify(array));
-                                    form.append('id', l[l.length - 1]);
-                                    this.sendQuizz(form);
+                                    form.append('nPerguntas', $('#nPerguntas').val());
+                                    var check = document.getElementsByName("topico");
+                                    var count = 0
+
+
+                                    for (let i = 0; i < check.length; i++) {
+
+                                        if (check[i].checked) {
+                                            array.push(check[i].value)
+                                            count++
+
+                                        }
+                                    }
+
+                                    if (count === 0) {
+                                        $('#TopicoError').text("Tem que indicar pelo menos um topico").css('color', 'red').css('opacity', '1');
+                                        $('.btn-loading span').removeClass('d-none');
+                                        $('.btn-loading div').addClass('d-none');
+                                    } else {
+                                        form.append('array', JSON.stringify(array));
+                                        form.append('id', l[l.length - 1]);
+                                        this.sendQuizz(form);
+                                    }
+
+
                                 }
-
-
                             }
+
+
+
                         }
 
 
@@ -332,6 +377,14 @@
                         for (let i = 0; i < 2; i++) {
                             if (radios2[i].checked) {
                                 radios2[i].checked = false;
+                            }
+                        }
+
+                        let radios3 = document.getElementsByName("Valepontos");
+                        for (let i = 0; i < 2; i++) {
+
+                            if (radios3[i].checked) {
+                                radios3[i].checked = false;
                             }
                         }
 
@@ -370,7 +423,6 @@
                 ).then(function (response) {
 
                     this.quizz = response.data.message;
-                    console.log(this.quizz)
                     $('#card-loading-quiz').hide();
                     $('#lista-quizes').show();
                     $('#quiz-adicionar').show();

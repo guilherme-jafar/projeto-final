@@ -173,6 +173,20 @@
 
 
             }
+
+            .copy-code{
+                font-size: 2rem;
+
+            }
+            .copy-code[readonly]{
+                background-color: white;
+            }
+
+            .btn-copy{
+                background-color: white;
+                border: 1px solid #ced4da;
+                border-radius: .25rem;
+            }
         }
 
     }
