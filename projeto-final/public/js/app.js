@@ -4986,7 +4986,7 @@ __webpack_require__.r(__webpack_exports__);
       var tempo = this.countDown;
       var tempoTotal = this.pergunta[this.index]['tempo'];
       var valorTotal = this.pergunta[this.index]['valor'];
-      var resposta = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).html();
+      var resposta = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).attr('value');
 
       if (id !== 'erro') {
         console.log(resposta.toLowerCase() === this.resposta.toLowerCase());
@@ -5078,7 +5078,15 @@ __webpack_require__.r(__webpack_exports__);
             }
           }
 
-          this.countDown = this.pergunta[this.index]['tempo'];
+          var cookie = $cookies.get('quizz');
+          cookie = cookie.split('@');
+
+          if (cookie[3] !== 0 && this.index === cookie[1]) {
+            this.countDown = cookie[3];
+          } else {
+            this.countDown = this.pergunta[this.index]['tempo'];
+          }
+
           this.enunciado = this.pergunta[this.index]['enunciado'];
           this.valor = this.pergunta[this.index]['valor'];
           this.res = 0;
@@ -5149,8 +5157,9 @@ __webpack_require__.r(__webpack_exports__);
       if (this.session === cookie[0]) {
         this.index = cookie[1];
         this.res = cookie[2];
-        this.countDown = cookie[3];
         this.getRespostas();
+        this.countDown = cookie[3];
+        console.log(this.countDown);
         this.startQuestion();
       } else {
         this.index = 0;
@@ -46578,20 +46587,11 @@ var render = function() {
     { staticClass: "fazerTeste mx-auto", attrs: { id: "container" } },
     [
       _c("div", { staticClass: "counter d-flex" }, [
-        _c("span", [_vm._v(_vm._s(_vm.countDown))]),
-        _vm._v(" "),
-        _c("span", { staticClass: "ms-auto" }, [
-          _vm._v(_vm._s(_vm.index + 1) + " de " + _vm._s(_vm.pergunta.length))
-        ])
+        _c("span", [_vm._v(_vm._s(_vm.countDown))])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "pergunta text-start" }, [
-        _c("p", [_vm._v(_vm._s(_vm.enunciado))]),
-        _vm._v(
-          "\n        " +
-            _vm._s(_vm.pergunta[_vm.index]["tipo"] === "true/false") +
-            "\n    "
-        )
+        _c("p", [_vm._v(_vm._s(_vm.enunciado))])
       ]),
       _vm._v(" "),
       _vm.fileCheck() === 1
@@ -46760,7 +46760,7 @@ var render = function() {
                   "button",
                   {
                     staticClass: "respostas-btn respostas-btn-2",
-                    attrs: { id: "tf2", value: "true" },
+                    attrs: { id: "tf2", value: "false" },
                     on: {
                       click: function($event) {
                         return _vm.response("tf2")

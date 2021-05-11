@@ -63,7 +63,7 @@
                     </button>
                 </div>
                 <div class="col-md-6">
-                    <button class="respostas-btn respostas-btn-2" id="tf2" value="true" @click="response('tf2')">False
+                    <button class="respostas-btn respostas-btn-2" id="tf2" value="false" @click="response('tf2')">False
                     </button>
                 </div>
             </div>
@@ -231,7 +231,8 @@
                 let tempo = this.countDown;
                 let tempoTotal = this.pergunta[this.index]['tempo']
                 let valorTotal = this.pergunta[this.index]['valor']
-                let resposta = $('#' + id).html()
+                let resposta = $('#' + id).attr('value')
+
                 if (id !== 'erro') {
                     console.log(resposta.toLowerCase() === this.resposta.toLowerCase())
                     if (resposta.toLowerCase() === this.resposta.toLowerCase()){
@@ -315,7 +316,15 @@
                                 $('#ms' + k).val(respostas[i]['resposta']);
                             }
                         }
-                        this.countDown = this.pergunta[this.index]['tempo']
+
+                        let cookie = $cookies.get('quizz')
+                        cookie = cookie.split('@')
+                        if (cookie[3]!==0 && this.index === cookie[1]){
+                            this.countDown = cookie[3]
+                        }
+                        else{
+                            this.countDown = this.pergunta[this.index]['tempo']
+                        }
                         this.enunciado = this.pergunta[this.index]['enunciado']
                         this.valor = this.pergunta[this.index]['valor']
                         this.res = 0
@@ -382,8 +391,11 @@
                 if (this.session === cookie[0]) {
                     this.index = cookie[1];
                     this.res = cookie[2];
-                    this.countDown = cookie[3];
+
                     this.getRespostas();
+                    this.countDown = cookie[3];
+                    console.log(this.countDown)
+
                     this.startQuestion();
 
                 } else {
