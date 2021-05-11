@@ -432,6 +432,19 @@
             }
 
             .section-add-pergunta{
+
+                .lista-perguntas{
+                    a{
+                        //background-color: rgba(224, 233, 236, 0.5);
+                        width: 100%;
+                        padding: 0.8rem;
+
+                        h3{
+                            margin:0;
+                        }
+                    }
+                }
+
                 .modal-adicionar-pergunta{
                     .modal-title{
                         font-size: 2rem;

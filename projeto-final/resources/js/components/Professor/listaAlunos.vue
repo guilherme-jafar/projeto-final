@@ -9,8 +9,8 @@
             </div>
         </div>
 
-        <div v-if="!isFetching">
-            <div v-if="alunos.data.length === 0" class="mx-auto" id="alunos-adicionar">
+        <div v-if="!isFetchingA">
+            <div v-if="alunos.length === 0" class="mx-auto" id="alunos-adicionar">
                 <h1 class="heanding-1 mx-auto mt-5">Ainda não tem nenhum alunos inscrito</h1>
 
             </div>
@@ -152,7 +152,7 @@
                 search: '',
                 alunos: '',
                 page: 1,
-                isFetching: true
+                isFetchingA: true
             }
         }, computed: {
             filter: function () {
@@ -180,10 +180,11 @@
             ).then(function (response) {
 
                 this.alunos = response.data.message;
+
                 $('#card-loading-alunos').hide();
                 $('#lista-alunos').show();
                 $('#alunos-adicionar').show();
-                this.isFetching = false;
+                this.isFetchingA = false;
 
             }.bind(this));
 

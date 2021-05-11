@@ -93,9 +93,9 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (
     Route::post("/multiQuestion",[App\Http\Controllers\topicos::class,"MultiQuestion"]);
     Route::delete("/prof/topico/delete/{id}", [App\Http\Controllers\topicos::class,'destroy']);
     Route::post('/leaveRoom',[App\Http\Controllers\Quizz::class,'leave']);
-    Route::get('/loading', function () {
-        return view('/loading');
-    });
+    Route::get('/loading', function () {return view('/loading');});
+    Route::get('/prof/pergunta/{id}',  [App\Http\Controllers\Pergunta::class,'show']);
+
 
     Route::group(['middleware' => ['authenticate', 'roles']], function (){
         Route::get('/dashboard', [

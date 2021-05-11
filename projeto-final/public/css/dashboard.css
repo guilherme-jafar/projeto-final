@@ -879,6 +879,13 @@ section {
   padding: 0.5rem;
   border: none;
 }
+.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .lista-perguntas a {
+  width: 100%;
+  padding: 0.8rem;
+}
+.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .lista-perguntas a h3 {
+  margin: 0;
+}
 .card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .modal-title {
   font-size: 2rem;
   font-weight: 700;

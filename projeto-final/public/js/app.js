@@ -2757,7 +2757,7 @@ __webpack_require__.r(__webpack_exports__);
       search: '',
       alunos: '',
       page: 1,
-      isFetching: true
+      isFetchingA: true
     };
   },
   computed: {
@@ -2788,7 +2788,7 @@ __webpack_require__.r(__webpack_exports__);
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card-loading-alunos').hide();
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#lista-alunos').show();
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#alunos-adicionar').show();
-      this.isFetching = false;
+      this.isFetchingA = false;
     }.bind(this));
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card-loading-alunos').show();
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#lista-alunos').hide();
@@ -2813,6 +2813,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3402,6 +3409,46 @@ __webpack_require__.r(__webpack_exports__);
     });
     this.toastPergunta.hide();
   }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/perguntaEditar.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/perguntaEditar.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "perguntaEditar",
+  props: ['pergunta_prop'],
+  data: function data() {
+    return {
+      pergunta: JSON.parse(this.pergunta_prop)
+    };
+  },
+  methods: {},
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -5468,7 +5515,8 @@ Vue.component('disciplinaProf', __webpack_require__(/*! ./components/Professor/d
 Vue.component('disciplinaAlunos', __webpack_require__(/*! ./components/Professor/listaAlunos */ "./resources/js/components/Professor/listaAlunos.vue").default);
 Vue.component('perguntaTopico', __webpack_require__(/*! ./components/Professor/pergunta */ "./resources/js/components/Professor/pergunta.vue").default);
 Vue.component('quizzProf', __webpack_require__(/*! ./components/Professor/quizz */ "./resources/js/components/Professor/quizz.vue").default);
-Vue.component('editarDisciplina', __webpack_require__(/*! ./components/Professor/editarDisciplina */ "./resources/js/components/Professor/editarDisciplina.vue").default); //aluno
+Vue.component('editarDisciplina', __webpack_require__(/*! ./components/Professor/editarDisciplina */ "./resources/js/components/Professor/editarDisciplina.vue").default);
+Vue.component('perguntaEditar', __webpack_require__(/*! ./components/Professor/perguntaEditar */ "./resources/js/components/Professor/perguntaEditar.vue").default); //aluno
 
 Vue.component('alunodashboard', __webpack_require__(/*! ./components/aluno/dashboadAluno.vue */ "./resources/js/components/aluno/dashboadAluno.vue").default);
 Vue.component('alunosQuizz', __webpack_require__(/*! ./components/aluno/quizzAluno */ "./resources/js/components/aluno/quizzAluno.vue").default);
@@ -40922,6 +40970,45 @@ component.options.__file = "resources/js/components/Professor/pergunta.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/Professor/perguntaEditar.vue":
+/*!**************************************************************!*\
+  !*** ./resources/js/components/Professor/perguntaEditar.vue ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _perguntaEditar_vue_vue_type_template_id_11e5b216_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./perguntaEditar.vue?vue&type=template&id=11e5b216&scoped=true& */ "./resources/js/components/Professor/perguntaEditar.vue?vue&type=template&id=11e5b216&scoped=true&");
+/* harmony import */ var _perguntaEditar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./perguntaEditar.vue?vue&type=script&lang=js& */ "./resources/js/components/Professor/perguntaEditar.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _perguntaEditar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _perguntaEditar_vue_vue_type_template_id_11e5b216_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _perguntaEditar_vue_vue_type_template_id_11e5b216_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "11e5b216",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Professor/perguntaEditar.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/Professor/quizz.vue":
 /*!*****************************************************!*\
   !*** ./resources/js/components/Professor/quizz.vue ***!
@@ -41353,6 +41440,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Professor/perguntaEditar.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/Professor/perguntaEditar.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_perguntaEditar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./perguntaEditar.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/perguntaEditar.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_perguntaEditar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/components/Professor/quizz.vue?vue&type=script&lang=js&":
 /*!******************************************************************************!*\
   !*** ./resources/js/components/Professor/quizz.vue?vue&type=script&lang=js& ***!
@@ -41578,6 +41681,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_pergunta_vue_vue_type_template_id_669a61fb_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_pergunta_vue_vue_type_template_id_669a61fb_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./pergunta.vue?vue&type=template&id=669a61fb&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/pergunta.vue?vue&type=template&id=669a61fb&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Professor/perguntaEditar.vue?vue&type=template&id=11e5b216&scoped=true&":
+/*!*********************************************************************************************************!*\
+  !*** ./resources/js/components/Professor/perguntaEditar.vue?vue&type=template&id=11e5b216&scoped=true& ***!
+  \*********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_perguntaEditar_vue_vue_type_template_id_11e5b216_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_perguntaEditar_vue_vue_type_template_id_11e5b216_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_perguntaEditar_vue_vue_type_template_id_11e5b216_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./perguntaEditar.vue?vue&type=template&id=11e5b216&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/perguntaEditar.vue?vue&type=template&id=11e5b216&scoped=true&");
 
 
 /***/ }),
@@ -43128,9 +43248,9 @@ var render = function() {
     [
       _vm._m(0),
       _vm._v(" "),
-      !_vm.isFetching
+      !_vm.isFetchingA
         ? _c("div", [
-            _vm.alunos.data.length === 0
+            _vm.alunos.length === 0
               ? _c(
                   "div",
                   { staticClass: "mx-auto", attrs: { id: "alunos-adicionar" } },
@@ -43677,10 +43797,12 @@ var render = function() {
                 "ul",
                 _vm._l(_vm.perguntas, function(pergunta) {
                   return _c("li", { key: pergunta["id"] }, [
-                    _c("div", { staticClass: "d-flex mb-3 card" }, [
-                      _c("a", [
-                        _c("h3", [_vm._v(_vm._s(pergunta["enunciado"]))])
-                      ])
+                    _c("div", { staticClass: " card" }, [
+                      _c(
+                        "a",
+                        { attrs: { href: "/prof/pergunta/" + pergunta["id"] } },
+                        [_c("h3", [_vm._v(_vm._s(pergunta["enunciado"]))])]
+                      )
                     ])
                   ])
                 }),
@@ -43699,7 +43821,7 @@ var render = function() {
                 "data-bs-target": "#p" + _vm.topicos
               }
             },
-            [_vm._v("\n            Adicionar pergunta\n        ")]
+            [_vm._v("\n                Adicionar pergunta\n            ")]
           )
         ]),
         _vm._v(" "),
@@ -43736,7 +43858,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                                    Adicionar pergunta\n                                "
+                              "\n                                        Adicionar pergunta\n                                    "
                             )
                           ]
                         )
@@ -43756,7 +43878,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                                    Importar perguntas\n                                "
+                              "\n                                        Importar perguntas\n                                    "
                             )
                           ]
                         )
@@ -43831,7 +43953,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Inserir")]
+                    [_vm._v("Inserir\n                        ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -43911,7 +44033,7 @@ var render = function() {
                             { attrs: { for: "tipo" + _vm.topicos } },
                             [
                               _vm._v(
-                                "\n                                    Indique o tipo de pergunta"
+                                "\n                                        Indique o tipo de pergunta"
                               ),
                               _c("br"),
                               _vm._v(" "),
@@ -43959,7 +44081,7 @@ var render = function() {
                             { attrs: { for: "tempo" + _vm.topicos } },
                             [
                               _vm._v(
-                                "\n                                    Indique o tempo de pergunta"
+                                "\n                                        Indique o tempo de pergunta"
                               ),
                               _c("br"),
                               _vm._v(" "),
@@ -44016,7 +44138,7 @@ var render = function() {
                             { attrs: { for: "pontos" + _vm.topicos } },
                             [
                               _vm._v(
-                                "\n                                    Indique a pontuação"
+                                "\n                                        Indique a pontuação"
                               ),
                               _c("br"),
                               _vm._v(" "),
@@ -44210,7 +44332,7 @@ var render = function() {
                               _c("div", { staticClass: "mb-5 mt-5" }, [
                                 _c("label", { staticClass: "label-tf" }, [
                                   _vm._v(
-                                    "Verdadeira\n                                            "
+                                    "Verdadeira\n                                                "
                                   ),
                                   _c("input", {
                                     attrs: {
@@ -44227,7 +44349,7 @@ var render = function() {
                               _c("div", [
                                 _c("label", { staticClass: "label-tf" }, [
                                   _vm._v(
-                                    "Falsa\n                                            "
+                                    "Falsa\n                                                "
                                   ),
                                   _c("input", {
                                     attrs: {
@@ -44410,7 +44532,7 @@ var render = function() {
                           staticClass: "btn btn-secondary",
                           attrs: { type: "button", "data-bs-dismiss": "modal" }
                         },
-                        [_vm._v("Cancelar")]
+                        [_vm._v("Cancelar\n                            ")]
                       ),
                       _vm._v(" "),
                       _c(
@@ -44424,7 +44546,7 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._v("inserir\n                        ")]
+                        [_vm._v("inserir\n                            ")]
                       )
                     ])
                   ])
@@ -44510,6 +44632,33 @@ var staticRenderFns = [
     ])
   }
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/perguntaEditar.vue?vue&type=template&id=11e5b216&scoped=true&":
+/*!************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/perguntaEditar.vue?vue&type=template&id=11e5b216&scoped=true& ***!
+  \************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "section-editar-pergunta" }, [
+    _vm._v("\n        sdfsdfdsfdsfdsf\n        dsfdsfsd\njbbjbkjkbkbjbj\n    ")
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
