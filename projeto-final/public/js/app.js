@@ -2744,6 +2744,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2752,7 +2756,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       search: '',
       alunos: '',
-      page: 1
+      page: 1,
+      isFetching: true
     };
   },
   computed: {
@@ -2783,6 +2788,7 @@ __webpack_require__.r(__webpack_exports__);
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card-loading-alunos').hide();
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#lista-alunos').show();
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#alunos-adicionar').show();
+      this.isFetching = false;
     }.bind(this));
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card-loading-alunos').show();
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#lista-alunos').hide();
@@ -3626,6 +3632,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3638,7 +3648,8 @@ __webpack_require__.r(__webpack_exports__);
       search: '',
       topicos: JSON.parse(this.topico_prop),
       quizz: '',
-      page: 1
+      page: 1,
+      isFetching: true
     };
   },
   methods: {
@@ -3815,6 +3826,7 @@ __webpack_require__.r(__webpack_exports__);
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card-loading-quiz').hide();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#lista-quizes').show();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#quiz-adicionar').show();
+        this.isFetching = false;
       }.bind(this));
     },
     topicsCheck: function topicsCheck() {
@@ -4744,6 +4756,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_cookies__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-cookies */ "./node_modules/vue-cookies/vue-cookies.js");
 /* harmony import */ var vue_cookies__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_cookies__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
 //
 //
 //
@@ -43105,334 +43119,452 @@ var render = function() {
     [
       _vm._m(0),
       _vm._v(" "),
-      _vm.alunos.length === 0
-        ? _c(
-            "div",
-            { staticClass: "mx-auto", attrs: { id: "alunos-adicionar" } },
-            [
-              _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
-                _vm._v("Ainda não tem nenhum alunos inscrito")
-              ])
-            ]
-          )
-        : _c(
-            "div",
-            {
-              staticClass: "section-disciplinas-items mt-5 me-md-5 ms-md-5",
-              attrs: { id: "lista-alunos" }
-            },
-            [
-              _c("div", { staticClass: "box-search mb-5" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.search,
-                      expression: "search"
-                    }
-                  ],
-                  staticClass: " form-control form-control-lg form-search",
-                  attrs: { type: "text", placeholder: "Pesquisar aluno..." },
-                  domProps: { value: _vm.search },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.search = $event.target.value
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("i", { staticClass: "bi bi-search" })
-              ]),
-              _vm._v(" "),
-              _c("h1", [_vm._v("Alunos inscritos")]),
-              _vm._v(" "),
-              _c(
-                "ul",
-                _vm._l(_vm.filter, function(aluno) {
-                  return _c(
-                    "li",
-                    {
-                      key: aluno["id"],
-                      staticClass: "card-box card-box-alunos mb-5 mt-4"
-                    },
-                    [
-                      _c("h2", [_vm._v(_vm._s(aluno["nome"]))]),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-secondary ms-2 ms-auto",
-                          attrs: {
-                            type: "button",
-                            "data-bs-toggle": "modal",
-                            "data-bs-target": "#a" + aluno["id"]
+      !_vm.isFetching
+        ? _c("div", [
+            _vm.alunos.data.length === 0
+              ? _c(
+                  "div",
+                  { staticClass: "mx-auto", attrs: { id: "alunos-adicionar" } },
+                  [
+                    _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
+                      _vm._v("Ainda não tem nenhum alunos inscrito")
+                    ])
+                  ]
+                )
+              : _c(
+                  "div",
+                  {
+                    staticClass:
+                      "section-disciplinas-items mt-5 me-md-5 ms-md-5",
+                    attrs: { id: "lista-alunos" }
+                  },
+                  [
+                    _c("div", { staticClass: "box-search mb-5" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.search,
+                            expression: "search"
                           }
+                        ],
+                        staticClass:
+                          " form-control form-control-lg form-search",
+                        attrs: {
+                          type: "text",
+                          placeholder: "Pesquisar aluno..."
                         },
-                        [_vm._v("detalhes\n                ")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "modal fade",
-                          attrs: {
-                            id: "a" + aluno["id"],
-                            tabindex: "-1",
-                            "aria-labelledby": aluno["id"],
-                            "aria-hidden": "true"
+                        domProps: { value: _vm.search },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.search = $event.target.value
                           }
-                        },
-                        [
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "modal-dialog modal-lg modal-dialog-centered"
-                            },
-                            [
-                              _c("div", { staticClass: "modal-content" }, [
-                                _c("div", { staticClass: "modal-header" }, [
-                                  _c(
-                                    "h5",
-                                    {
-                                      staticClass: "modal-title",
-                                      attrs: { id: "al" + aluno["id"] }
-                                    },
-                                    [_vm._v(_vm._s(aluno["nome"]))]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("button", {
-                                    staticClass: "btn-close",
-                                    attrs: {
-                                      type: "button",
-                                      "data-bs-dismiss": "modal",
-                                      "aria-label": "Close"
-                                    }
-                                  })
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "modal-body p-5" }, [
-                                  _c(
-                                    "div",
-                                    { staticClass: "container-fluid" },
-                                    [
-                                      _c("div", { staticClass: "row" }, [
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("i", { staticClass: "bi bi-search" })
+                    ]),
+                    _vm._v(" "),
+                    _c("h1", [_vm._v("Alunos inscritos")]),
+                    _vm._v(" "),
+                    _c(
+                      "ul",
+                      _vm._l(_vm.filter, function(aluno) {
+                        return _c(
+                          "li",
+                          {
+                            key: aluno["id"],
+                            staticClass: "card-box card-box-alunos mb-5 mt-4"
+                          },
+                          [
+                            _c("h2", [_vm._v(_vm._s(aluno["nome"]))]),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-secondary ms-2 ms-auto",
+                                attrs: {
+                                  type: "button",
+                                  "data-bs-toggle": "modal",
+                                  "data-bs-target": "#a" + aluno["id"]
+                                }
+                              },
+                              [_vm._v("detalhes\n                    ")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "modal fade",
+                                attrs: {
+                                  id: "a" + aluno["id"],
+                                  tabindex: "-1",
+                                  "aria-labelledby": aluno["id"],
+                                  "aria-hidden": "true"
+                                }
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "modal-dialog modal-lg modal-dialog-centered"
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      { staticClass: "modal-content" },
+                                      [
                                         _c(
                                           "div",
-                                          { staticClass: "col-md-4 mb-3" },
+                                          { staticClass: "modal-header" },
                                           [
-                                            _c("div", { staticClass: "card" }, [
-                                              _c(
-                                                "div",
-                                                { staticClass: "card-body" },
-                                                [
-                                                  _c(
-                                                    "div",
-                                                    {
-                                                      staticClass:
-                                                        "d-flex flex-column align-items-center text-center"
-                                                    },
-                                                    [
-                                                      aluno["foto_perfil"] ===
-                                                      null
-                                                        ? _c("img", {
-                                                            staticClass:
-                                                              "rounded-circle",
-                                                            attrs: {
-                                                              src:
-                                                                "/images/imgDefault.jpg",
-                                                              alt: "Admin",
-                                                              width: "150"
-                                                            }
-                                                          })
-                                                        : _c("img", {
-                                                            staticClass:
-                                                              "rounded-circle",
-                                                            attrs: {
-                                                              src:
-                                                                "/images/" +
-                                                                aluno[
-                                                                  "foto_perfil"
-                                                                ],
-                                                              alt: "Admin",
-                                                              width: "150"
-                                                            }
-                                                          }),
-                                                      _vm._v(" "),
-                                                      _c(
-                                                        "div",
-                                                        { staticClass: "mt-3" },
-                                                        [
-                                                          _c("h4", [
-                                                            _vm._v(
-                                                              _vm._s(
-                                                                aluno["nome"]
-                                                              )
-                                                            )
-                                                          ])
-                                                        ]
-                                                      )
-                                                    ]
-                                                  )
-                                                ]
-                                              )
-                                            ])
+                                            _c(
+                                              "h5",
+                                              {
+                                                staticClass: "modal-title",
+                                                attrs: {
+                                                  id: "al" + aluno["id"]
+                                                }
+                                              },
+                                              [_vm._v(_vm._s(aluno["nome"]))]
+                                            ),
+                                            _vm._v(" "),
+                                            _c("button", {
+                                              staticClass: "btn-close",
+                                              attrs: {
+                                                type: "button",
+                                                "data-bs-dismiss": "modal",
+                                                "aria-label": "Close"
+                                              }
+                                            })
                                           ]
                                         ),
                                         _vm._v(" "),
-                                        _c("div", { staticClass: "col-md-8" }, [
-                                          _c(
-                                            "div",
-                                            { staticClass: "card mb-3" },
-                                            [
-                                              _c(
-                                                "div",
-                                                { staticClass: "card-body" },
-                                                [
-                                                  _c(
-                                                    "div",
-                                                    { staticClass: "row" },
-                                                    [
-                                                      _vm._m(1, true),
-                                                      _vm._v(" "),
-                                                      _c(
-                                                        "div",
-                                                        {
-                                                          staticClass:
-                                                            "col-sm-9 text-secondary"
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "\n                                                            " +
-                                                              _vm._s(
-                                                                aluno["nome"]
-                                                              ) +
-                                                              "\n                                                        "
-                                                          )
-                                                        ]
-                                                      )
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c("hr"),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "div",
-                                                    { staticClass: "row" },
-                                                    [
-                                                      _vm._m(2, true),
-                                                      _vm._v(" "),
-                                                      _c(
-                                                        "div",
-                                                        {
-                                                          staticClass:
-                                                            "col-sm-9 text-secondary"
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "\n                                                            " +
-                                                              _vm._s(
-                                                                aluno["email"]
-                                                              ) +
-                                                              "\n                                                        "
-                                                          )
-                                                        ]
-                                                      )
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c("hr"),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "div",
-                                                    { staticClass: "row" },
-                                                    [
-                                                      _vm._m(3, true),
-                                                      _vm._v(" "),
-                                                      _c(
-                                                        "div",
-                                                        {
-                                                          staticClass:
-                                                            "col-sm-9 text-secondary"
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "\n                                                            " +
-                                                              _vm._s(
-                                                                aluno["pontos"]
-                                                              ) +
-                                                              "\n                                                        "
-                                                          )
-                                                        ]
-                                                      )
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c("hr"),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "div",
-                                                    { staticClass: "row" },
-                                                    [
-                                                      _vm._m(4, true),
-                                                      _vm._v(" "),
-                                                      _c(
-                                                        "div",
-                                                        {
-                                                          staticClass:
-                                                            "col-sm-9 text-secondary"
-                                                        },
-                                                        [
-                                                          aluno["sexo"] === "m"
-                                                            ? _c("div", [
-                                                                _vm._v(
-                                                                  "\n                                                                Masculino\n                                                            "
+                                        _c(
+                                          "div",
+                                          { staticClass: "modal-body p-5" },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass: "container-fluid"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  { staticClass: "row" },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "col-md-4 mb-3"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass: "card"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "card-body"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "div",
+                                                                  {
+                                                                    staticClass:
+                                                                      "d-flex flex-column align-items-center text-center"
+                                                                  },
+                                                                  [
+                                                                    aluno[
+                                                                      "foto_perfil"
+                                                                    ] === null
+                                                                      ? _c(
+                                                                          "img",
+                                                                          {
+                                                                            staticClass:
+                                                                              "rounded-circle",
+                                                                            attrs: {
+                                                                              src:
+                                                                                "/images/imgDefault.jpg",
+                                                                              alt:
+                                                                                "Admin",
+                                                                              width:
+                                                                                "150"
+                                                                            }
+                                                                          }
+                                                                        )
+                                                                      : _c(
+                                                                          "img",
+                                                                          {
+                                                                            staticClass:
+                                                                              "rounded-circle",
+                                                                            attrs: {
+                                                                              src:
+                                                                                "/images/" +
+                                                                                aluno[
+                                                                                  "foto_perfil"
+                                                                                ],
+                                                                              alt:
+                                                                                "Admin",
+                                                                              width:
+                                                                                "150"
+                                                                            }
+                                                                          }
+                                                                        ),
+                                                                    _vm._v(" "),
+                                                                    _c(
+                                                                      "div",
+                                                                      {
+                                                                        staticClass:
+                                                                          "mt-3"
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "h4",
+                                                                          [
+                                                                            _vm._v(
+                                                                              _vm._s(
+                                                                                aluno[
+                                                                                  "nome"
+                                                                                ]
+                                                                              )
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
                                                                 )
-                                                              ])
-                                                            : aluno["sexo"] ===
-                                                              "f"
-                                                            ? _c("div", [
-                                                                _vm._v(
-                                                                  "\n                                                                Feminino\n                                                            "
+                                                              ]
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass: "col-md-8"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "card mb-3"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "card-body"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "div",
+                                                                  {
+                                                                    staticClass:
+                                                                      "row"
+                                                                  },
+                                                                  [
+                                                                    _vm._m(
+                                                                      1,
+                                                                      true
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _c(
+                                                                      "div",
+                                                                      {
+                                                                        staticClass:
+                                                                          "col-sm-9 text-secondary"
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "\n                                                                " +
+                                                                            _vm._s(
+                                                                              aluno[
+                                                                                "nome"
+                                                                              ]
+                                                                            ) +
+                                                                            "\n                                                            "
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c("hr"),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "div",
+                                                                  {
+                                                                    staticClass:
+                                                                      "row"
+                                                                  },
+                                                                  [
+                                                                    _vm._m(
+                                                                      2,
+                                                                      true
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _c(
+                                                                      "div",
+                                                                      {
+                                                                        staticClass:
+                                                                          "col-sm-9 text-secondary"
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "\n                                                                " +
+                                                                            _vm._s(
+                                                                              aluno[
+                                                                                "email"
+                                                                              ]
+                                                                            ) +
+                                                                            "\n                                                            "
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c("hr"),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "div",
+                                                                  {
+                                                                    staticClass:
+                                                                      "row"
+                                                                  },
+                                                                  [
+                                                                    _vm._m(
+                                                                      3,
+                                                                      true
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _c(
+                                                                      "div",
+                                                                      {
+                                                                        staticClass:
+                                                                          "col-sm-9 text-secondary"
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "\n                                                                " +
+                                                                            _vm._s(
+                                                                              aluno[
+                                                                                "pontos"
+                                                                              ]
+                                                                            ) +
+                                                                            "\n                                                            "
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c("hr"),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "div",
+                                                                  {
+                                                                    staticClass:
+                                                                      "row"
+                                                                  },
+                                                                  [
+                                                                    _vm._m(
+                                                                      4,
+                                                                      true
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _c(
+                                                                      "div",
+                                                                      {
+                                                                        staticClass:
+                                                                          "col-sm-9 text-secondary"
+                                                                      },
+                                                                      [
+                                                                        aluno[
+                                                                          "sexo"
+                                                                        ] ===
+                                                                        "m"
+                                                                          ? _c(
+                                                                              "div",
+                                                                              [
+                                                                                _vm._v(
+                                                                                  "\n                                                                    Masculino\n                                                                "
+                                                                                )
+                                                                              ]
+                                                                            )
+                                                                          : aluno[
+                                                                              "sexo"
+                                                                            ] ===
+                                                                            "f"
+                                                                          ? _c(
+                                                                              "div",
+                                                                              [
+                                                                                _vm._v(
+                                                                                  "\n                                                                    Feminino\n                                                                "
+                                                                                )
+                                                                              ]
+                                                                            )
+                                                                          : aluno[
+                                                                              "sexo"
+                                                                            ] ===
+                                                                            "o"
+                                                                          ? _c(
+                                                                              "div",
+                                                                              [
+                                                                                _vm._v(
+                                                                                  "\n                                                                    Outro\n                                                                "
+                                                                                )
+                                                                              ]
+                                                                            )
+                                                                          : _vm._e()
+                                                                      ]
+                                                                    )
+                                                                  ]
                                                                 )
-                                                              ])
-                                                            : aluno["sexo"] ===
-                                                              "o"
-                                                            ? _c("div", [
-                                                                _vm._v(
-                                                                  "\n                                                                Outro\n                                                            "
-                                                                )
-                                                              ])
-                                                            : _vm._e()
-                                                        ]
-                                                      )
-                                                    ]
-                                                  )
-                                                ]
-                                              )
-                                            ]
-                                          )
-                                        ])
-                                      ])
-                                    ]
-                                  )
-                                ])
-                              ])
-                            ]
-                          )
-                        ]
-                      )
-                    ]
-                  )
-                }),
-                0
-              )
-            ]
-          ),
+                                                              ]
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ]
+                        )
+                      }),
+                      0
+                    )
+                  ]
+                )
+          ])
+        : _vm._e(),
       _vm._v(" "),
       _c("pagination-2", {
         attrs: { data: _vm.alunos, align: "center" },
@@ -44399,162 +44531,203 @@ var render = function() {
       _vm._v(" "),
       _vm._m(1),
       _vm._v(" "),
-      _vm.quizz.length === 0
-        ? _c(
-            "div",
-            { staticClass: "mx-auto", attrs: { id: "quiz-adicionar" } },
-            [
-              _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
-                _vm._v("Ainda não tem nenhum Quizz")
-              ]),
-              _vm._v(" "),
-              _vm._m(2)
-            ]
-          )
-        : _c(
-            "div",
-            {
-              staticClass: "section-disciplinas-items",
-              attrs: { id: "lista-quizes" }
-            },
-            [
-              _c("div", { staticClass: "box-search mb-5" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.search,
-                      expression: "search"
-                    }
-                  ],
-                  staticClass: " form-control form-control-lg form-search",
-                  attrs: { type: "text", placeholder: "Pesquisar Quizz..." },
-                  domProps: { value: _vm.search },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.search = $event.target.value
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("i", { staticClass: "bi bi-search" })
-              ]),
-              _vm._v(" "),
-              _c("h1", [_vm._v("Quizz")]),
-              _vm._v(" "),
-              _c(
-                "ul",
-                _vm._l(_vm.filter, function(quizz) {
-                  return _c(
-                    "li",
-                    { key: quizz["id"], staticClass: "card-box mb-5 mt-5" },
-                    [
-                      quizz["tipo"] === "true"
-                        ? _c("div", [
-                            _c("div", { staticClass: "card-box-text" }, [
-                              _c("h2", [_vm._v(_vm._s(quizz["nome"]))]),
-                              _vm._v(" "),
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-secondary ms-auto ",
-                                  attrs: {
-                                    type: "button",
-                                    "data-bs-toggle": "modal",
-                                    "data-bs-target": "#t" + quizz["id"]
-                                  }
-                                },
-                                [_vm._v("quizz\n                    ")]
-                              ),
-                              _vm._v(" "),
-                              _c("i", {
-                                staticClass: "bi bi-three-dots-vertical ms-0"
-                              })
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              {
-                                staticClass: "modal fade",
-                                attrs: {
-                                  id: "t" + quizz["id"],
-                                  tabindex: "-1",
-                                  "aria-labelledby": "exampleModalLabel",
-                                  "aria-hidden": "true"
-                                }
-                              },
-                              [
-                                _c("div", { staticClass: "modal-dialog " }, [
-                                  _c("div", { staticClass: "modal-content" }, [
-                                    _vm._m(3, true),
+      !_vm.isFetching
+        ? _c("div", [
+            _vm.quizz.data.length === 0
+              ? _c(
+                  "div",
+                  { staticClass: "mx-auto", attrs: { id: "quiz-adicionar" } },
+                  [
+                    _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
+                      _vm._v("Ainda não tem nenhum Quizz")
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(2)
+                  ]
+                )
+              : _c(
+                  "div",
+                  {
+                    staticClass: "section-disciplinas-items",
+                    attrs: { id: "lista-quizes" }
+                  },
+                  [
+                    _c("div", { staticClass: "box-search mb-5" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.search,
+                            expression: "search"
+                          }
+                        ],
+                        staticClass:
+                          " form-control form-control-lg form-search",
+                        attrs: {
+                          type: "text",
+                          placeholder: "Pesquisar Quizz..."
+                        },
+                        domProps: { value: _vm.search },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.search = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("i", { staticClass: "bi bi-search" })
+                    ]),
+                    _vm._v(" "),
+                    _c("h1", [_vm._v("Quizz")]),
+                    _vm._v(" "),
+                    _c(
+                      "ul",
+                      _vm._l(_vm.filter, function(quizz) {
+                        return _c(
+                          "li",
+                          {
+                            key: quizz["id"],
+                            staticClass: "card-box mb-5 mt-5"
+                          },
+                          [
+                            quizz["tipo"] === "true"
+                              ? _c("div", [
+                                  _c("div", { staticClass: "card-box-text" }, [
+                                    _c("h2", [_vm._v(_vm._s(quizz["nome"]))]),
                                     _vm._v(" "),
-                                    _c("div", { staticClass: "modal-body" }, [
-                                      _vm._v(
-                                        "\n\n                                Tem a certeza que quer iniciar este teste?\n\n                            "
-                                      )
-                                    ]),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "btn btn-secondary ms-auto ",
+                                        attrs: {
+                                          type: "button",
+                                          "data-bs-toggle": "modal",
+                                          "data-bs-target": "#t" + quizz["id"]
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "quizz\n                            "
+                                        )
+                                      ]
+                                    ),
                                     _vm._v(" "),
-                                    _c("div", { staticClass: "modal-footer" }, [
+                                    _c("i", {
+                                      staticClass:
+                                        "bi bi-three-dots-vertical ms-0"
+                                    })
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass: "modal fade",
+                                      attrs: {
+                                        id: "t" + quizz["id"],
+                                        tabindex: "-1",
+                                        "aria-labelledby": "exampleModalLabel",
+                                        "aria-hidden": "true"
+                                      }
+                                    },
+                                    [
                                       _c(
-                                        "button",
-                                        {
-                                          staticClass: "btn btn-primary",
-                                          attrs: {
-                                            type: "button",
-                                            "data-bs-dismiss": "modal"
-                                          },
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.EnterQuizz(quizz["id"])
-                                            }
-                                          }
-                                        },
+                                        "div",
+                                        { staticClass: "modal-dialog " },
                                         [
-                                          _vm._v(
-                                            "Sim\n                                "
+                                          _c(
+                                            "div",
+                                            { staticClass: "modal-content" },
+                                            [
+                                              _vm._m(3, true),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                { staticClass: "modal-body" },
+                                                [
+                                                  _vm._v(
+                                                    "\n\n                                        Tem a certeza que quer iniciar este teste?\n\n                                    "
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                { staticClass: "modal-footer" },
+                                                [
+                                                  _c(
+                                                    "button",
+                                                    {
+                                                      staticClass:
+                                                        "btn btn-primary",
+                                                      attrs: {
+                                                        type: "button",
+                                                        "data-bs-dismiss":
+                                                          "modal"
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.EnterQuizz(
+                                                            quizz["id"]
+                                                          )
+                                                        }
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "Sim\n                                        "
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "button",
+                                                    {
+                                                      staticClass:
+                                                        "btn btn-secondary",
+                                                      attrs: {
+                                                        type: "button",
+                                                        "data-bs-dismiss":
+                                                          "modal"
+                                                      }
+                                                    },
+                                                    [_vm._v("Não")]
+                                                  )
+                                                ]
+                                              )
+                                            ]
                                           )
                                         ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass: "btn btn-secondary",
-                                          attrs: {
-                                            type: "button",
-                                            "data-bs-dismiss": "modal"
-                                          }
-                                        },
-                                        [_vm._v("Não")]
                                       )
-                                    ])
+                                    ]
+                                  )
+                                ])
+                              : quizz["tipo"] === "false"
+                              ? _c("div", [
+                                  _c("div", { staticClass: "card-box-text" }, [
+                                    _c("h2", [_vm._v(_vm._s(quizz["nome"]))]),
+                                    _vm._v(" "),
+                                    _c("i", {
+                                      staticClass: "bi bi-three-dots-vertical"
+                                    })
                                   ])
                                 ])
-                              ]
-                            )
-                          ])
-                        : quizz["tipo"] === "false"
-                        ? _c("div", [
-                            _c("div", { staticClass: "card-box-text" }, [
-                              _c("h2", [_vm._v(_vm._s(quizz["nome"]))]),
-                              _vm._v(" "),
-                              _c("i", {
-                                staticClass: "bi bi-three-dots-vertical"
-                              })
-                            ])
-                          ])
-                        : _vm._e()
-                    ]
-                  )
-                }),
-                0
-              )
-            ]
-          ),
+                              : _vm._e()
+                          ]
+                        )
+                      }),
+                      0
+                    )
+                  ]
+                )
+          ])
+        : _vm._e(),
       _vm._v(" "),
       _c(
         "div",
@@ -44761,7 +44934,7 @@ var staticRenderFns = [
       },
       [
         _c("i", { staticClass: "bi bi-plus-circle" }),
-        _vm._v("    Adicionar Quizz\n        ")
+        _vm._v("    Adicionar Quizz\n            ")
       ]
     )
   },
@@ -46413,7 +46586,12 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "pergunta text-start" }, [
-        _c("p", [_vm._v(_vm._s(_vm.enunciado))])
+        _c("p", [_vm._v(_vm._s(_vm.enunciado))]),
+        _vm._v(
+          "\n        " +
+            _vm._s(_vm.pergunta[_vm.index]["tipo"] === "true/false") +
+            "\n    "
+        )
       ]),
       _vm._v(" "),
       _vm.fileCheck() === 1

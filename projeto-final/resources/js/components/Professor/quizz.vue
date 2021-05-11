@@ -22,74 +22,78 @@
         </div>
 
 
-        <div v-if="quizz.length === 0" class="mx-auto" id="quiz-adicionar">
-            <h1 class="heanding-1 mx-auto mt-5">Ainda não tem nenhum Quizz</h1>
-            <!-- Button trigger modal -->
-            <button type="button" class=" btn btn-new mt-5 mx-auto" data-bs-toggle="modal"
-                    data-bs-target="#exampleModal2">
-                <i class="bi bi-plus-circle"></i> &nbsp;&nbsp; Adicionar Quizz
-            </button>
-        </div>
-
-        <div v-else class="section-disciplinas-items" id="lista-quizes">
-            <div class="box-search mb-5">
-                <input class=" form-control form-control-lg form-search" type="text" v-model="search"
-                       placeholder="Pesquisar Quizz...">
-                <i class="bi bi-search"></i>
+        <div v-if="!isFetching" >
+            <div v-if="quizz.data.length === 0" class="mx-auto" id="quiz-adicionar">
+                <h1 class="heanding-1 mx-auto mt-5">Ainda não tem nenhum Quizz</h1>
+                <!-- Button trigger modal -->
+                <button type="button" class=" btn btn-new mt-5 mx-auto" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal2">
+                    <i class="bi bi-plus-circle"></i> &nbsp;&nbsp; Adicionar Quizz
+                </button>
             </div>
-            <h1>Quizz</h1>
-            <ul>
-                <li class="card-box mb-5 mt-5" v-for="quizz in filter" :key="quizz['id']">
 
-                    <div v-if="quizz['tipo']==='true'">
-                    <div class="card-box-text">
-                        <h2>{{quizz['nome']}}</h2>
-                        <button type="button" data-bs-toggle="modal" :data-bs-target="'#t'+quizz['id']"
-                                class="btn btn-secondary ms-auto ">quizz
-                        </button>
-                        <i class="bi bi-three-dots-vertical ms-0"></i>
-                    </div>
+            <div v-else class="section-disciplinas-items" id="lista-quizes">
+                <div class="box-search mb-5">
+                    <input class=" form-control form-control-lg form-search" type="text" v-model="search"
+                           placeholder="Pesquisar Quizz...">
+                    <i class="bi bi-search"></i>
+                </div>
+                <h1>Quizz</h1>
+                <ul>
+                    <li class="card-box mb-5 mt-5" v-for="quizz in filter" :key="quizz['id']">
+
+                        <div v-if="quizz['tipo']==='true'">
+                            <div class="card-box-text">
+                                <h2>{{quizz['nome']}}</h2>
+                                <button type="button" data-bs-toggle="modal" :data-bs-target="'#t'+quizz['id']"
+                                        class="btn btn-secondary ms-auto ">quizz
+                                </button>
+                                <i class="bi bi-three-dots-vertical ms-0"></i>
+                            </div>
 
 
-                    <div class="modal fade" :id="'t'+quizz['id']" tabindex="-1" aria-labelledby="exampleModalLabel"
-                         aria-hidden="true">
-                        <div class="modal-dialog ">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Entrar em quizz</h5>
-                                    <button type="button" class="btn-close" data-bs-toogle="modal" aria-label="Close"
-                                            data-bs-dismiss="modal"></button>
-                                </div>
-                                <div class="modal-body">
+                            <div class="modal fade" :id="'t'+quizz['id']" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog ">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Entrar em quizz</h5>
+                                            <button type="button" class="btn-close" data-bs-toogle="modal" aria-label="Close"
+                                                    data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
 
-                                    Tem a certeza que quer iniciar este teste?
+                                            Tem a certeza que quer iniciar este teste?
 
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
-                                            @click="EnterQuizz(quizz['id'])">Sim
-                                    </button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                                                    @click="EnterQuizz(quizz['id'])">Sim
+                                            </button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
 
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    </div>
 
 
-                    <div v-else-if="quizz['tipo']==='false'">
-                        <div class="card-box-text">
-                            <h2>{{quizz['nome']}}</h2>
+                        <div v-else-if="quizz['tipo']==='false'">
+                            <div class="card-box-text">
+                                <h2>{{quizz['nome']}}</h2>
 
-                            <i class="bi bi-three-dots-vertical"></i>
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </div>
                         </div>
-                    </div>
-                </li>
-            </ul>
+                    </li>
+                </ul>
 
 
+            </div>
         </div>
+
+
 
         <div class="modal fade modal-quizz" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel"
              aria-hidden="true">
@@ -225,7 +229,8 @@
                 search: '',
                 topicos: JSON.parse(this.topico_prop),
                 quizz:'',
-                page: 1
+                page: 1,
+                isFetching: true
             }
         },
 
@@ -426,6 +431,7 @@
                     $('#card-loading-quiz').hide();
                     $('#lista-quizes').show();
                     $('#quiz-adicionar').show();
+                    this.isFetching = false;
 
 
                 }.bind(this));

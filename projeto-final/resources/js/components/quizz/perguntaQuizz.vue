@@ -4,12 +4,13 @@
 
         <div class="counter d-flex">
             <span>{{ countDown }}</span>
-            <span class="ms-auto">{{index + 1}} de {{pergunta.length}}</span>
+
         </div>
 
 
         <div class="pergunta text-start">
             <p>{{ enunciado }}</p>
+
         </div>
 
 
@@ -54,6 +55,7 @@
 
 
         </div>
+
         <div class="respostas mt-5" v-else-if="pergunta[index]['tipo']==='true/false'">
             <div class="row">
                 <div class="col-md-6">

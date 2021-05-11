@@ -91,7 +91,7 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (
     Route::post("/getPerguntas",[App\Http\Controllers\topicos::class,'getPerguntas']);
     Route::get("/WaitRoom/{id}",[App\Http\Controllers\Quizz::class,'CreateWaitRoom']);
     Route::post("/multiQuestion",[App\Http\Controllers\topicos::class,"MultiQuestion"]);
-
+    Route::delete("/prof/topico/delete/{id}", [App\Http\Controllers\topicos::class,'destroy']);
     Route::post('/leaveRoom',[App\Http\Controllers\Quizz::class,'leave']);
     Route::get('/loading', function () {
         return view('/loading');
@@ -102,6 +102,11 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (
             'as' => 'dashboard',
             'uses' => 'DashboardController@dashboard']);
     });
+    Route::delete("/prof/disciplina/delete/{id}", [App\Http\Controllers\Disciplina::class,'destroy']);
+
+    Route::post("/prof/topico/{id}/editar", [App\Http\Controllers\topicos::class,'editar']);
+    Route::post("/prof/disciplina/{id}/editar", [App\Http\Controllers\Disciplina::class,'editar']);
+    Route::get('/prof/disciplina/sucesso', [App\Http\Controllers\Disciplina::class, 'sucesso']);
 });
 
 
@@ -119,11 +124,7 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:aluno']], function 
     Route::get('/WaitRoomStudent/{id}/{quizzId}',[\App\Http\Controllers\Quizz::class,'EnterWaitRoom']);
    // Route::get('/loading', function () {return view('/loading');});
     Route::delete("/aluno/disciplina/delete/{id}", [App\Http\Controllers\Disciplina::class,'destroy']);
-    Route::delete("/prof/disciplina/delete/{id}", [App\Http\Controllers\Disciplina::class,'destroy']);
-    Route::delete("/prof/topico/delete/{id}", [App\Http\Controllers\topicos::class,'destroy']);
-    Route::post("/prof/topico/{id}/editar", [App\Http\Controllers\topicos::class,'editar']);
-    Route::post("/prof/disciplina/{id}/editar", [App\Http\Controllers\Disciplina::class,'editar']);
-    Route::get('/prof/disciplina/sucesso', [App\Http\Controllers\Disciplina::class, 'sucesso']);
+
 });
 
 
