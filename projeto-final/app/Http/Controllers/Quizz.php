@@ -248,16 +248,20 @@ GROUP BY s.nomequizz',['id' => session('utilizador')['id'] ,'sessionId'=> $reque
        // dd($Cheek);
 
               if (!empty($quizz) && !empty($Cheek) && !isset(session('sessao')['check'])  ) {
-                  session()->put('sessao', ["id" => $session ,"check"=>'yes']);
+                  session()->put('sessao', ["id" => $session ,"check"=>'yes','users'=>count($Cheek),'master'=>$id,"quizz"=>$quizzId]);
                   DB::insert('insert into sessao (id, nomequizz ,tipo,quizz_id,iduser,tipoUser,sessaoMaster) values (?,?,?,?,?,?,?)'
                    , [$session, $quizz[0]->nome, $quizz[0]->quizzTipo, $quizzId, session('utilizador')['id'], session('utilizador')['tipo'], $id]);
                   event(new WaitRoom(session('utilizador')['nome'], $id, 'student', session('utilizador')['id']));
-                  return view('/quizz/WaitRoomAluno', ['quizz' => $quizz[0], 'session' => $session, 'id' => $id, 'users' => count($Cheek)]);
+
+                  return redirect('WaitRoomStudent/'.$session.'/'.$id);
+                  //return view('/quizz/WaitRoomAluno', ['quizz' => $quizz[0], 'session' => $session, 'id' => $id, 'users' => count($Cheek)]);
 
               } else if (!empty($quizz) && !empty($Cheek)) {
 
+
                    event(new WaitRoom(session('utilizador')['nome'], $id, 'student', session('utilizador')['id']));
-               return view('/quizz/waitRoomAluno', ['quizz' => $quizz[0], 'session' => session('sessao')['id'], 'id' => $id, 'users' => count($Cheek)]);
+                  return redirect('WaitRoomStudent/'.$session.'/'.$id);
+                  //return view('/quizz/waitRoomAluno', ['quizz' => $quizz[0], 'session' => session('sessao')['id'], 'id' => $id, 'users' => count($Cheek)]);
              } else {
                     return view('/welcome');
              }

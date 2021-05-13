@@ -12,14 +12,14 @@ import Echo from "laravel-echo";
 
 export default {
     name: "WaitRoomStudent",
-    props: ['sessao_prop', 'id_prop', 'quizz_prop','user_prop'],
+    props: ['sessao_prop', 'id_prop','user_prop'],
 
     data() {
         return {
             students: JSON.parse(this.user_prop),
             sessao: JSON.parse(this.sessao_prop),
             MasterSessao: JSON.parse(this.id_prop),
-            quizz: JSON.parse(this.quizz_prop)
+
         }
     },
     watch: {

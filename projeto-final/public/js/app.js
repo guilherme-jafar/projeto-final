@@ -4322,7 +4322,7 @@ __webpack_require__.r(__webpack_exports__);
       console.log(sId);
 
       if (sId.length > 0) {
-        window.location.replace('/WaitRoomStudent/' + sId + '/' + id);
+        window.location.replace('/InsideRoomStudent/' + sId + '/' + id);
       } else {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#Error' + id).text("tem que inserir id ").css('color', 'red').css('opacity', '1');
       }
@@ -4692,13 +4692,12 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "WaitRoomStudent",
-  props: ['sessao_prop', 'id_prop', 'quizz_prop', 'user_prop'],
+  props: ['sessao_prop', 'id_prop', 'user_prop'],
   data: function data() {
     return {
       students: JSON.parse(this.user_prop),
       sessao: JSON.parse(this.sessao_prop),
-      MasterSessao: JSON.parse(this.id_prop),
-      quizz: JSON.parse(this.quizz_prop)
+      MasterSessao: JSON.parse(this.id_prop)
     };
   },
   watch: {

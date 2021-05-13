@@ -19,9 +19,13 @@ class CheckAuth
     {
 
 
-        if (!$request->session()->exists('utilizador')) {
+        if (!$request->session()->exists('utilizador') ) {
 
             return redirect('/login');
+        }elseif ($request->session()->exists('sessao')){
+            if (session('utilizador')['tipo']=='aluno'){
+            return redirect('/WaitRoomStudent/'.session('sessao')['master'].'/'.
+                session('sessao')['quizz']);}
         }
 
 

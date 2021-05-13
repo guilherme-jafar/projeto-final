@@ -97,11 +97,7 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (
         return view('/loading');
     });
 
-    Route::group(['middleware' => ['authenticate', 'roles']], function (){
-        Route::get('/dashboard', [
-            'as' => 'dashboard',
-            'uses' => 'DashboardController@dashboard']);
-    });
+
     Route::delete("/prof/disciplina/delete/{id}", [App\Http\Controllers\Disciplina::class,'destroy']);
 
     Route::post("/prof/topico/{id}/editar", [App\Http\Controllers\topicos::class,'editar']);
@@ -121,10 +117,17 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:aluno']], function 
     Route::post('/getRespostas',[App\Http\Controllers\Quizz::class,'getRespostas']);
     Route::post('/setResposta',[App\Http\Controllers\Quizz::class,'setResposta']);
     Route::get('/EndQuizz/{sessionId}',[App\Http\Controllers\Quizz::class,'EndQuizz']);
-    Route::get('/WaitRoomStudent/{id}/{quizzId}',[\App\Http\Controllers\Quizz::class,'EnterWaitRoom']);
-   // Route::get('/loading', function () {return view('/loading');});
+    Route::get('/InsideRoomStudent/{id}/{quizzId}',[\App\Http\Controllers\Quizz::class,'EnterWaitRoom']);
+    // Route::get('/loading', function () {return view('/loading');});
     Route::delete("/aluno/disciplina/delete/{id}", [App\Http\Controllers\Disciplina::class,'destroy']);
 
+});
+
+Route::group(['middleware' =>'quizz.session'], function () {
+    Route::get('/WaitRoomStudent/{id}/{quizzId}', function (Request $request) {
+        return view('/quizz/WaitRoomAluno',
+            ['session' => session('sessao')['id'], 'id' => session('sessao')['master'], 'users' => session('sessao')['users']]);
+    });
 });
 
 

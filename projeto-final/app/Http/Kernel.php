@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\quizzSession;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -67,5 +68,6 @@ class Kernel extends HttpKernel
         'tipo.utilizador' => \App\Http\Middleware\TipoUtilizador::class,
         'check.logout' => \App\Http\Middleware\CheckLogout::class,
         'authenticate-guest' => \App\Http\Middleware\AuthenticateGuest::class,
+        'quizz.session'=>\App\Http\Middleware\quizzSession::class
     ];
 }

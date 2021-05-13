@@ -159,7 +159,7 @@ name: "quizzAluno",
             let sId = $('#sessionId' + id).val()
             console.log(sId)
             if (sId.length > 0) {
-                window.location.replace('/WaitRoomStudent/' + sId+'/'+id );
+                window.location.replace('/InsideRoomStudent/' + sId+'/'+id );
             } else {
                 $('#Error'+id).text("tem que inserir id ").css('color', 'red').css('opacity', '1');
             }
