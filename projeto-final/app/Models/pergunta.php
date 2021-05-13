@@ -9,4 +9,6 @@ class pergunta extends Model
 {
     use HasFactory;
     protected $table = 'perguntas';
+    protected $fillable = [''];
+    protected $casts = ['id' => 'string'];
 }
