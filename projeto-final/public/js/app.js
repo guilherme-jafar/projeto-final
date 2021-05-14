@@ -5250,14 +5250,13 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "waitRoom",
-  props: ['sessao_prop', 'quizz_prop'],
+  props: ['sessao_prop'],
   data: function data() {
     return {
       usersId: [],
       users: [],
       students: 0,
-      sessao: JSON.parse(this.sessao_prop),
-      quizz: JSON.parse(this.quizz_prop)
+      sessao: JSON.parse(this.sessao_prop)
     };
   },
   watch: {
@@ -5267,9 +5266,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     sair: function sair() {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/leaveRoom').then(function (response) {
-        window.location.replace(response.data.message);
-      });
+      window.location.replace('/leaveRoom');
     },
     connect: function connect() {
       var _this = this;
