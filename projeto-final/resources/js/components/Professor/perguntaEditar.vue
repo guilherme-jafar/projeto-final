@@ -1,8 +1,8 @@
 <template>
-    <div class="section-editar-pergunta">
-        sdfsdfdsfdsfdsf
-        dsfdsfsd
-jbbjbkjkbkbjbj
+    <div>
+        <div class="modal-footer">
+           vdfvfbgf
+        </div>
     </div>
 </template>
 
@@ -14,25 +14,18 @@ jbbjbkjkbkbjbj
 
 
     export default {
-        name: "perguntaEditar",
+        name: "editarPergunta",
         props: ['pergunta_prop'],
-
         data() {
             return {
                 pergunta: JSON.parse(this.pergunta_prop),
 
             }
         },
-        methods: {
-
-        },
+        methods: {},
         mounted() {
 
+            console.log('efjsdnvkfd')
         }
     }
 </script>
-
-
-<style scoped>
-
-</style>

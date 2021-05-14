@@ -174,7 +174,6 @@ class Disciplina extends Controller
             and d.id=:id', ['id' => $id]);
 
 
-
         $page = new Paginator($alunos, 5);
 
 
@@ -196,7 +195,67 @@ class Disciplina extends Controller
 
         if (session()->get('utilizador')['tipo'] == 'prof') {
 
-            DB::statement('call deleteDisciplina(?)', [$request->id]);
+            $id_quizz = DB::select('select id from quizz where disciplina_id  = :id', ['id' => $request->id]);
+
+
+
+            if (!empty($id_quizz)){
+                for ($j = 0; $j < count($id_quizz); $j++){
+
+                    $id_perguntas = DB::select('select id from pergunta_quizz where quizz_id  = :id', ['id' =>  $id_quizz[$j]->id]);
+
+
+                    if (!empty($id_perguntas)){
+
+                        for ($i = 0; $i < count($id_perguntas); $i++){
+                            DB::delete("delete from respostas_quizz where pergunta_id = :perguntas_id", ['perguntas_id' => $id_perguntas[$i]->id]);
+                        }
+
+                    }
+
+                    DB::delete("DELETE FROM pergunta_quizz WHERE quizz_id = :quizz_id", ['quizz_id' => $request->id]);
+                    DB::delete("DELETE FROM quizz WHERE id = :id", ['id' => $request->id]);
+
+                }
+
+
+
+            }
+
+
+
+            $id_topicos = DB::select('select id from topicos where disciplina_id  = :id', ['id' => $request->id]);
+
+            if (!empty($id_topicos)) {
+
+                for ($j = 0; $j < count($id_topicos); $j++) {
+
+
+                    $id_perguntas = DB::select('select id from perguntas where topicos_id  = :id', ['id' => $id_topicos[$j]->id]);
+
+
+                    if (!empty($id_perguntas)) {
+
+                        for ($i = 0; $i < count($id_perguntas); $i++) {
+                            DB::delete("delete from respostas_quizz where pergunta_id = :perguntas_id", ['perguntas_id' => $id_perguntas[$i]->id]);
+                            DB::delete("delete from respostas where perguntas_id = :perguntas_id", ['perguntas_id' => $id_perguntas[$i]->id]);
+                            DB::delete("delete from multimedia where perguntas_id = :perguntas_id", ['perguntas_id' => $id_perguntas[$i]->id]);
+                        }
+
+
+                    }
+                    DB::delete("DELETE FROM perguntas WHERE topicos_id = :topicos_id", ['topicos_id' => $request->id]);
+                    DB::delete("DELETE FROM topicos WHERE id = :id", ['id' => $request->id]);
+                }
+
+            }
+
+            DB::delete("DELETE FROM disciplina_aluno WHERE disciplina_id = :id", ['id' => $request->id]);
+            DB::delete("DELETE FROM prof__disciplina WHERE disciplina_id = :id", ['id' => $request->id]);
+            DB::delete("DELETE FROM disciplina WHERE id = :id", ['id' => $request->id]);
+
+
+            //DB::statement('call deleteDisciplina(?)', [$request->id]);
 
             $disciplina = DB::select('select * FROM disciplina d,  prof__disciplina pd WHERE d.id = pd.disciplina_id AND pd.prof__utilizador_id = :id', ['id' => session('utilizador')['id']]);
             return response()->json([
@@ -207,7 +266,7 @@ class Disciplina extends Controller
 
             DB::statement('delete from disciplina_aluno where disciplina_id = ? and aluno_utilizador_id = ?', [$request->id, session('utilizador')['id']]);
             $disciplina = DB::select('select * FROM disciplina d, disciplina_aluno pd WHERE d.id = pd.disciplina_id AND pd.aluno_utilizador_id = :id', ['id' => session('utilizador')['id']]);
-            DB::table('disciplina')->where('id', '=', ['id'=>$request->id])->update(['inscritos' => DB::raw('inscritos - 1')]);
+            DB::table('disciplina')->where('id', '=', ['id' => $request->id])->update(['inscritos' => DB::raw('inscritos - 1')]);
             return response()->json([
                 'message' => $disciplina,
             ]);

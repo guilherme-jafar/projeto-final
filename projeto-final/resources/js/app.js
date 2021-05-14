@@ -2,7 +2,7 @@
 require('./bootstrap');
 
 Window.Vue=require('vue');
-
+Vue.config.devtools = true
 Pusher.log = function (message) { window.console.log(message); }
 Vue.component('pagination-2', require('laravel-vue-pagination'));
 

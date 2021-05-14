@@ -10,6 +10,28 @@
             </div>
         </div>
 
+        <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toastEditarQuizz" role="alert"
+             aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <strong><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp;
+                        <span>Quizz editado com sucesso!!</span> </strong>
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+
+        <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toastEliminarQuizz" role="alert"
+             aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <strong><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp;
+                        <span>Quizz eliminado com sucesso!!</span> </strong>
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+
         <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toast-quiz" role="alert"
              aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
@@ -22,7 +44,7 @@
         </div>
 
 
-        <div v-if="!isFetching" >
+        <div v-if="!isFetching">
             <div v-if="quizz.data.length === 0" class="mx-auto" id="quiz-adicionar">
                 <h1 class="heanding-1 mx-auto mt-5">Ainda não tem nenhum Quizz</h1>
                 <!-- Button trigger modal -->
@@ -42,50 +64,316 @@
                 <ul>
                     <li class="card-box mb-5 mt-5" v-for="quizz in filter" :key="quizz['id']">
 
-                        <div v-if="quizz['tipo']==='true'">
+                        <div>
                             <div class="card-box-text">
                                 <h2>{{quizz['nome']}}</h2>
-                                <button type="button" data-bs-toggle="modal" :data-bs-target="'#t'+quizz['id']"
-                                        class="btn btn-secondary ms-auto ">quizz
-                                </button>
-                                <i class="bi bi-three-dots-vertical ms-0"></i>
+                                <div class="dropdown ms-auto">
+                                    <button class="" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        <li>
+                                            <button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                                    :data-bs-target="'#editarQuizz' + quizz['id']">Editar
+                                            </button>
+
+                                        </li>
+                                        <li>
+                                            <button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                                    :data-bs-target="'#eliminarQuizz' + quizz['id']">Eliminar
+                                            </button>
+                                        </li>
+                                        <li v-if="quizz['tipo']==='false'">
+                                            <button v-if="quizz['visivel'] === 'false'" type="button"
+                                                    class="dropdown-item" @click="tornarVisivel(quizz['id'])">Tornar
+                                                Visivel
+                                            </button>
+                                            <button v-else type="button" class="dropdown-item"
+                                                    @click="ocultarQuizz(quizz['id'])">Ocultar Quizz
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <span data-bs-toggle="collapse" :data-bs-target="'#collapseQuizz'+quizz['id']"
+                                      aria-expanded="false"
+                                      :aria-controls="'collapseQuizz'+quizz['id']" class="material-icons"
+                                      @click="changeButton(quizz['id'])" style="cursor: pointer">
+                                         <img :id="'img'+quizz['id']" src="/assets/expand_more_black_24dp.svg">
+                                 </span>
                             </div>
 
 
-                            <div class="modal fade" :id="'t'+quizz['id']" tabindex="-1" aria-labelledby="exampleModalLabel"
-                                 aria-hidden="true">
-                                <div class="modal-dialog ">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Entrar em quizz</h5>
-                                            <button type="button" class="btn-close" data-bs-toogle="modal" aria-label="Close"
-                                                    data-bs-dismiss="modal"></button>
-                                        </div>
-                                        <div class="modal-body">
+                        </div>
 
-                                            Tem a certeza que quer iniciar este teste?
+                        <div class="mt-2">
+                            <div class="collapse mt-2" :id="'collapseQuizz'+quizz['id']">
 
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
-                                                    @click="EnterQuizz(quizz['id'])">Sim
-                                            </button>
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                                <p>Tipo:
+                                    <span v-if="quizz['tipo'] === 'false'">Teste </span>
+                                    <span v-else>Quizz </span>
+                                </p>
+                                <p>Número de perguntas: {{quizz['numeroperguntas']}}</p>
+                                <p>Visivel:
+                                    <span v-if="quizz['visivel'] === 'false'">Não </span>
+                                    <span v-else>Sim </span>
+                                </p>
+                                <p>Vale Pontos:
+                                    <span v-if="quizz['vale_pontos'] === 'false'">Não </span>
+                                    <span v-else>Sim </span>
+                                </p>
 
+                                <div class="text-end d-flex">
+                                    <button type="button" data-bs-toggle="modal" :data-bs-target="'#t'+quizz['id']"
+                                            class="btn btn-secondary ms-auto ">Histórico
+                                    </button>
+                                    <div v-if="quizz['tipo']==='true'">
+                                        <button type="button" data-bs-toggle="modal" :data-bs-target="'#t'+quizz['id']"
+                                                class="btn btn-secondary ms-3 ">Iniciar Quizz
+                                        </button>
+                                        <div class="modal fade" :id="'t'+quizz['id']" tabindex="-1"
+                                             aria-labelledby="exampleModalLabel"
+                                             aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Iniciar quizz</h5>
+                                                        <button type="button" class="btn-close" data-bs-toogle="modal"
+                                                                aria-label="Close"
+                                                                data-bs-dismiss="modal"></button>
+                                                    </div>
+                                                    <div class="modal-body text-left">
+                                                        <p class="text-start">Tem a certeza que quer iniciar este
+                                                            teste?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn  btn-secondary"
+                                                                data-bs-dismiss="modal"
+                                                                @click="EnterQuizz(quizz['id'])">Sim
+                                                        </button>
+                                                        <button type="button" class="btn btn-primary"
+                                                                data-bs-dismiss="modal">
+                                                            Não
+                                                        </button>
+
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" :id="'eliminarQuizz' + quizz['id']" tabindex="-1"
+                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" :id="'tituloEliminar' + quizz['id']">Eliminar Quizz</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h2>Tem certeza que deseja eliminar o quizz {{quizz['nome']}}?</h2>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                            Cancelar
+                                        </button>
+                                        <button type="button" class="btn btn-primary eliminar-btn"
+                                                :id="'eliminarUtilizadorBtn' + quizz['id']"
+                                                @click="eliminarQuizz(quizz)">
+                                            <span class="">Sim</span>
+                                            <div class="spinner-border text-light d-none" role="status">
+
+                                            </div>
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade modal-quizz" :id="'editarQuizz'+quizz['id']" tabindex="-1"
+                             aria-labelledby="exampleModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" :id="'exampleModalLabeleditarQuizz'+quizz['id']">
+                                            Editar Quizz</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body pt-5 pb-5">
+                                        <form class="row mx-auto" :id="'formEditarQuizz' + quizz['id']">
+                                            <div class="col-12">
+                                                <label class="label" for="titulo">Titulo</label>
+                                                <input name="titulo" class="form-control mt-2 mb-3 " type="text"
+                                                       :id="'titulo'+quizz['id']" :value="quizz['nome']">
+
+                                            </div>
+                                            <div class="col-12">
+                                                <p class="error " :id="'TituloError' + quizz['id']"></p>
+                                            </div>
+                                            <div class="col-12 mt-3">
+                                                <label class="label" for="quizzdescricao">Descrição</label>
+                                                <textarea class="form-control" :value="quizz['descricao']"
+                                                          name="quizzdescricao" :id="'quizzdescricao' + quizz['id']"
+                                                          rows="2"></textarea>
+
+                                            </div>
+
+                                            <div class="col-md-4 mb-5 mb-xs-0 text-center">
+                                                <div :id="'realTime'+ quizz['id']" class="mb-1 mt-5">
+                                                    <h4>Realtime</h4>
+                                                    <div class="mb-1">
+                                                        <label v-if="quizz['tipo'] === 'true'">
+                                                            <input type="radio" :name="'realtimeop' + quizz['id']"
+                                                                   value="true" checked> Sim
+                                                        </label>
+                                                        <label v-else>
+                                                            <input type="radio" :name="'realtimeop' + quizz['id']"
+                                                                   value="true"> Sim
+                                                        </label>
+
+                                                    </div>
+                                                    <div>
+                                                        <label v-if="quizz['tipo'] === 'false'">
+                                                            <input type="radio" :name="'realtimeop' + quizz['id']"
+                                                                   value="false" checked>Não
+                                                        </label>
+                                                        <label v-else>
+                                                            <input type="radio" :name="'realtimeop' + quizz['id']"
+                                                                   value="false">Não
+                                                        </label>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 mb-5 mb-xs-0 text-center">
+                                                <div :id="'pontos' + quizz['id']" class="mb-1 mt-5">
+                                                    <h4>Vale Pontos?</h4>
+                                                    <div class="mb-1">
+                                                        <label v-if="quizz['vale_pontos'] === 'true'">
+                                                            <input type="radio" :name="'Valepontos' +quizz['id']"
+                                                                   value="true" checked> Sim
+                                                        </label>
+                                                        <label v-else>
+                                                            <input type="radio" :name="'Valepontos' +quizz['id']"
+                                                                   value="true"> Sim
+                                                        </label>
+
+                                                    </div>
+                                                    <div>
+                                                        <label v-if="quizz['vale_pontos'] === 'false'">
+                                                            <input type="radio" :name="'Valepontos' +quizz['id']"
+                                                                   value="false" checked>Não
+                                                        </label>
+                                                        <label v-else>
+                                                            <input type="radio" :name="'Valepontos' +quizz['id']"
+                                                                   value="false">Não
+                                                        </label>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-5 mb-xs-0 text-center">
+                                                <div :id="'Visivel'+quizz['id']" class="mb-1 mt-5">
+                                                    <h4>Visivel</h4>
+                                                    <div class="mb-1">
+                                                        <label v-if="quizz['visivel'] === 'true'">
+                                                            <input type="radio" :name="'Visivelop' + quizz['id']"
+                                                                   value="true"
+                                                                   checked>&nbsp;Sim
+                                                        </label>
+                                                        <label v-else>
+                                                            <input type="radio" :name="'Visivelop' + quizz['id']"
+                                                                   value="true"
+                                                            >&nbsp;Sim
+                                                        </label>
+                                                    </div>
+                                                    <div>
+                                                        <label v-if="quizz['visivel'] === 'false'">
+                                                            <input type="radio" :name="'Visivelop' + quizz['id']"
+                                                                   value="false" checked>&nbsp;Não
+                                                        </label>
+                                                        <label v-else>
+                                                            <input type="radio" :name="'Visivelop' + quizz['id']"
+                                                                   value="false">&nbsp;Não
+                                                        </label>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <p :id="'TError' + quizz['id']"></p>
+                                                <p :id="'PError' + quizz['id']"></p>
+                                                <p :id="'ErrorVisivel' + quizz['id']"></p>
+                                            </div>
+
+
+                                            <div class="col-12 mt-1">
+                                                <label class="label" for="nPerguntas">Numero perguntas</label>
+                                                <input class="form-control" :name="'nPerguntas' + quizz['id']" :id="'nPerguntas' + quizz['id']"
+                                                       type="number" :value="quizz['numeroperguntas']">
+
+                                            </div>
+                                            <div class="col-12 mb-5">
+                                                <p class="error " :id="'NumeroError' + quizz['id']"></p>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="card-box  mb-5 mt-4" v-for="topico in topicos"
+                                                     :key="topico['id']">
+
+                                                    <div class="card-box-topicos">
+                                                        <label class="d-flex " :for="'inputTopico' + topico['id']"><h2>
+                                                            {{topico['nome']}}</h2>
+                                                            <input
+                                                            :id="'inputTopico' + topico['id']"
+                                                            class="ms-auto mt-3" type="checkbox"
+                                                            :value="topico['id']" name="topico">
+                                                        </label>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-12 mb-5">
+                                                <p class="error " :id="'TopicoError'+quizz['id']"></p>
+                                            </div>
+
+
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar
+                                        </button>
+                                        <button type="button" :id="'submitQuizz'+quizz['id']"
+                                                class="btn btn-secondary btn-submit btn-loading"
+                                                @click="editarQuizz(quizz)"><span class="">Guardar &nbsp;</span>
+                                            <div class="spinner-border text-light d-none" role="status">
+
+                                            </div>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
 
-                        <div v-else-if="quizz['tipo']==='false'">
-                            <div class="card-box-text">
-                                <h2>{{quizz['nome']}}</h2>
-
-                                <i class="bi bi-three-dots-vertical"></i>
-                            </div>
-                        </div>
                     </li>
                 </ul>
 
@@ -93,8 +381,7 @@
             </div>
         </div>
 
-
-
+        <!-- Modal -->
         <div class="modal fade modal-quizz" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel"
              aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable modal-lg">
@@ -115,7 +402,8 @@
                             </div>
                             <div class="col-12 mt-3">
                                 <label class="label" for="quizzdescricao">Descrição</label>
-                                <textarea class="form-control" name="quizzdescricao" id="quizzdescricao" rows="2"></textarea>
+                                <textarea class="form-control" name="quizzdescricao" id="quizzdescricao"
+                                          rows="2"></textarea>
 
                             </div>
 
@@ -127,7 +415,8 @@
 
                                     </div>
                                     <div>
-                                        <label> <input type="radio" name="realtimeop" value="false" class=""> Não</label>
+                                        <label> <input type="radio" name="realtimeop" value="false" class="">
+                                            Não</label>
 
                                     </div>
 
@@ -138,11 +427,12 @@
                                 <div id="pontos" class="mb-1 mt-5">
                                     <h4>Vale Pontos?</h4>
                                     <div class="mb-1">
-                                        <label>   <input type="radio" name="Valepontos" value="true" class=""> Sim</label>
+                                        <label> <input type="radio" name="Valepontos" value="true" class=""> Sim</label>
 
                                     </div>
                                     <div>
-                                        <label> <input type="radio" name="Valepontos" value="false" class=""> Não</label>
+                                        <label> <input type="radio" name="Valepontos" value="false" class="">
+                                            Não</label>
 
                                     </div>
 
@@ -153,10 +443,12 @@
                                 <div id="Visivel" class="mb-1 mt-5">
                                     <h4>Visivel</h4>
                                     <div class="mb-1">
-                                        <label><input type="radio" name="Visivelop" value="true" class="">&nbsp; Sim</label>
+                                        <label><input type="radio" name="Visivelop" value="true" class="">&nbsp;
+                                            Sim</label>
                                     </div>
                                     <div>
-                                        <label><input type="radio" name="Visivelop" value="false" class="">&nbsp; Não</label>
+                                        <label><input type="radio" name="Visivelop" value="false" class="">&nbsp;
+                                            Não</label>
                                     </div>
 
                                 </div>
@@ -166,7 +458,6 @@
                                 <p id="PError"></p>
                                 <p id="ErrorVisivel"></p>
                             </div>
-
 
 
                             <div class="col-12 mt-1">
@@ -182,7 +473,10 @@
                                 <div class="card-box  mb-5 mt-4" v-for="topico in topicos" :key="topico['id']">
 
                                     <div class="card-box-topicos">
-                                        <label class="d-flex " :for="'inputTopico' + topico['id']"><h2>{{topico['nome']}}</h2><input :id="'inputTopico' + topico['id']" class="ms-auto mt-3" type="checkbox" :value="topico['id']" name="topico"></label>
+                                        <label class="d-flex " :for="'inputTopico' + topico['id']"><h2>
+                                            {{topico['nome']}}</h2><input :id="'inputTopico' + topico['id']"
+                                                                          class="ms-auto mt-3" type="checkbox"
+                                                                          :value="topico['id']" name="topico"></label>
                                     </div>
 
                                 </div>
@@ -228,17 +522,88 @@
                 toastQuiz: '',
                 search: '',
                 topicos: JSON.parse(this.topico_prop),
-                quizz:'',
+                quizz: '',
                 page: 1,
-                isFetching: true
+                isFetching: true,
+                modalDeleteQuizz: '',
+                modalEditarQuizz: '',
+                toastDeleteQuizz: '',
+                toastEliminarQuizz: '',
             }
         },
 
         methods: {
+            editarQuizz(quizz){
 
+            },
+            eliminarQuizz(quizz) {
+                $('.eliminar-btn span').addClass('d-none');
+                $('.eliminar-btn div').removeClass('d-none');
+
+                this.modalDeleteQuizz = bootstrap.Modal.getInstance(document.getElementById('eliminarQuizz' + quizz['id']), {});
+
+                axios.delete('/prof/quizz/delete/' + quizz['id']).then(
+                    function (response) {
+
+                        if (response.data.message !== "erro") {
+                            $('.eliminar-btn span').removeClass('d-none');
+                            $('.eliminar-btn div').addClass('d-none');
+                            this.toastEliminarQuizz.show();
+
+                            $('#toastEliminarQuizz').removeClass('d-none');
+                            this.quizz = response.data.message;
+
+                            this.modalDeleteQuizz.hide();
+
+                        }
+                    }.bind(this));
+            },
+            ocultarQuizz(id) {
+
+                axios.post('/prof/quizz/ocultarquizz/' + id).then(function (response) {
+
+                    if (response.data.message !== 'erro') {
+                        let quizz = response.data.message
+
+
+                        for (let i = 0; i < this.quizz.data.length; i++) {
+                            if (quizz[0]['id'] === this.quizz.data[i]['id']) {
+                                this.quizz.data[i]['visivel'] = quizz[0]['visivel']
+                            }
+                        }
+                    }
+
+                }.bind(this));
+
+            },
+            tornarVisivel(id) {
+                axios.post('/prof/quizz/tornarvisivel/' + id).then(function (response) {
+
+                    if (response.data.message !== 'erro') {
+                        let quizz = response.data.message
+
+
+                        for (let i = 0; i < this.quizz.data.length; i++) {
+                            if (quizz[0]['id'] === this.quizz.data[i]['id']) {
+                                this.quizz.data[i]['visivel'] = quizz[0]['visivel']
+                            }
+                        }
+                    }
+
+                }.bind(this));
+
+
+            },
+            changeButton(id) {
+                if ($('#img' + id).attr('src') === '/assets/expand_more_black_24dp.svg') {
+                    $('#img' + id).attr('src', '/assets/expand_less_black_24dp.svg')
+                } else if ($('#img' + id).attr('src') === '/assets/expand_less_black_24dp.svg') {
+                    $('#img' + id).attr('src', '/assets/expand_more_black_24dp.svg')
+                }
+            },
             EnterQuizz(quizz) {
 
-                window.location.replace('/WaitRoom/' + quizz );
+                window.location.replace('/WaitRoom/' + quizz);
 
             },
             getResultsQuizz(page = 1) {
@@ -248,7 +613,6 @@
                         this.quizz = response.data.message;
                     });
             },
-
             submitNewQuizz() {
                 $('.btn-loading span').addClass('d-none');
                 $('.btn-loading div').removeClass('d-none');
@@ -311,12 +675,11 @@
                             }
 
 
-
-                            if (!flagPontos){
+                            if (!flagPontos) {
                                 $('#ErrorVisivel').text("Indique se o quiz vale pontos ou não").css('color', 'red').css('opacity', '1');
                                 $('.btn-loading span').removeClass('d-none');
                                 $('.btn-loading div').addClass('d-none');
-                            }else{
+                            } else {
                                 form.append('pontos', corretPontos);
                                 if ($('#nPerguntas').val() < 3) {
                                     $('#NumeroError').text("Um quizz deve ter pelo menos três perguntas").css('color', 'red').css('opacity', '1');
@@ -351,7 +714,6 @@
 
                                 }
                             }
-
 
 
                         }
@@ -397,7 +759,7 @@
                         for (let i = 0; i < check.length; i++) {
 
                             if (check[i].checked) {
-                               check[i].checked = false;
+                                check[i].checked = false;
 
                             }
                         }
@@ -457,12 +819,12 @@
                 })
             },
         },
-        watch:{
-           modal: function () {
-               // this.modal.addEventListener('show.bs.modal',function () {
-               //     console.log('sdfsdf')
-               // })
-           }
+        watch: {
+            modal: function () {
+                // this.modal.addEventListener('show.bs.modal',function () {
+                //     console.log('sdfsdf')
+                // })
+            }
         },
         mounted() {
 
@@ -474,7 +836,10 @@
             $('#card-loading-quiz').show();
             $('#lista-quizes').hide();
             $('#quiz-adicionar').hide();
-
+            this.toastEliminarQuizz = new bootstrap.Toast(document.getElementById('toastEliminarQuizz'), {delay: 10000})
+            this.toastEliminarQuizz.hide()
+            this.toastEditarQuizz = new bootstrap.Toast(document.getElementById('toastEditarQuizz'), {delay: 10000})
+            this.toastEditarQuizz.hide()
 
         }
 

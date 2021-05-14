@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use mysql_xdevapi\Exception;
 
 
 class Quizz extends Controller
@@ -295,6 +296,82 @@ GROUP BY s.nomequizz',['id' => session('utilizador')['id'] ,'sessionId'=> $reque
         return response()->json([
             'message' => '/'
         ]);
+    }
+
+    function ocultarQuizz(Request $request){
+        try {
+
+            DB::table('quizz')->where('id', '=', ['id'=>$request->id])->update(['visivel' => 'false']);
+
+            $quizz = DB::select('select visivel, id from quizz where id = ?',[$request->id] );
+
+            return response()->json([
+                'message' => $quizz
+            ]);
+
+        }catch (\Illuminate\Database\QueryException $ex){
+            return response()->json([
+                'message' => 'erro'
+            ]);
+        }
+    }
+
+    function tornarVisivel(Request $request){
+
+
+
+
+
+        try {
+
+              DB::table('quizz')->where('id', '=', ['id'=>$request->id])->update(['visivel' => 'true']);
+
+           $quizz = DB::select('select visivel, id from quizz where id = ?',[$request->id] );
+
+            return response()->json([
+                'message' => $quizz
+            ]);
+
+        }catch (\Illuminate\Database\QueryException $ex){
+            return response()->json([
+                'message' => 'erro'
+            ]);
+        }
+
+
+    }
+
+    function destroy(Request $request){
+        try {
+
+
+            $id_perguntas = DB::select('select id from pergunta_quizz where quizz_id  = :id', ['id' =>  $request->id]);
+
+
+            if (!empty($id_perguntas)){
+
+                for ($i = 0; $i < count($id_perguntas); $i++){
+                    DB::delete("delete from respostas_quizz where pergunta_id = :perguntas_id", ['perguntas_id' => $id_perguntas[$i]->id]);
+                }
+
+            }
+
+            DB::delete("DELETE FROM pergunta_quizz WHERE quizz_id = :quizz_id", ['quizz_id' => $request->id]);
+            DB::delete("DELETE FROM quizz WHERE id = :id", ['id' => $request->id]);
+
+            $quizz = DB::table('quizz')
+                ->where('disciplina_id', '=', session('disciplina')['id'])
+                ->paginate(5);
+
+            return response()->json([
+                'message' => $quizz
+            ]);
+
+        }catch (\Illuminate\Database\QueryException $ex){
+            return response()->json([
+                'message' => 'erro'
+            ]);
+        }
     }
 
 }

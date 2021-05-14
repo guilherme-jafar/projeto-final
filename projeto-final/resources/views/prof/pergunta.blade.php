@@ -11,13 +11,10 @@
 {{--                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>--}}
 {{--                </div>--}}
 {{--            @endif--}}
-
-            <perguntaEditar class="dashboard section-dashboard" :pergunta_prop="'{{json_encode($pergunta, TRUE)}}'"></perguntaEditar>
-            <div>
-
+bjmhjmhj
+            <editarPergunta  ></editarPergunta>
 
 
-            </div>
         </div>
     </div>
 
