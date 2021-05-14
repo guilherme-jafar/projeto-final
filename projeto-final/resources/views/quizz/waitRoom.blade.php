@@ -4,7 +4,7 @@
 
 <p>dsfsd</p>
 <div id="app">
-<wait-room  :sessao_prop="'{{json_encode($session, TRUE)}}'"  :quizz_prop="'{{json_encode($quizz, TRUE)}}'"></wait-room>
+<wait-room  :sessao_prop="'{{json_encode($session, TRUE)}}'"  ></wait-room>
 </div>
 
 @endsection

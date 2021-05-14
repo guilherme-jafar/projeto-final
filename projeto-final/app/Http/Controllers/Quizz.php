@@ -200,30 +200,29 @@ GROUP BY s.nomequizz',['id' => session('utilizador')['id'] ,'sessionId'=> $reque
                                    AND q.id  = :id', ['id' => $id]);
 
 
-        Cache::put('quizz',$quizz);
 
         if (!empty($quizz)) {
 
-                    if (empty(session()->get('sessao')) || !session()->get('sessao')['id']==$session ) {
-                        session()->put('sessao',["id"=>$session]);
+                    if (empty(session()->get('sessao'))  ) {
+                        session()->put('sessao',["id"=>$session,'idQuizz'=>$id]);
                         DB::insert('insert into sessao (id, nomequizz ,tipo,quizz_id,iduser,tipoUser, masterActive) values (?,?,?,?,?,?,?)'
                             , [$session, $quizz[0]->nome, $quizz[0]->quizzTipo, $id, session('utilizador')['id'], session('utilizador')['tipo'],1]);
 
 
                         event(new WaitRoom(session('utilizador')['nome'],$session,'student',session('utilizador')['id']));
 
-                        return view('/quizz/waitRoom', ['quizz' => $quizz[0], 'session' => $session]);
+                        return redirect('/InsideRoomProf');
                     }
                     else{
 
                         event(new WaitRoom(session('utilizador')['nome'],session()->get('sessao')['id'],'student',session('utilizador')['id']));
-                        return view('/quizz/waitRoom', ['quizz' => $quizz[0], 'session' => session()->get('sessao')['id']]);
+                        return  redirect('/InsideRoomProf');
                     }
 
 
         }
 
-        return ;
+        return  view('/welcome');
 
     }
 
@@ -275,7 +274,7 @@ GROUP BY s.nomequizz',['id' => session('utilizador')['id'] ,'sessionId'=> $reque
 
     }
 
-    function leave(){
+    function leave(Request $request){
        // dd(session('utilizador')['tipo'].' '.session('sessao')['id']);
         if (isset(session()->get('sessao')['id'])) {
             event(new WaitRoom(session('utilizador')['nome'],session('sessao')['id'],'leaveTeacher',session('utilizador')['id']));
@@ -289,13 +288,12 @@ GROUP BY s.nomequizz',['id' => session('utilizador')['id'] ,'sessionId'=> $reque
 
 
 
-            session()->forget('sessao');
+
 
         }
+       session()->forget('sessao');
 
-        return response()->json([
-            'message' => '/'
-        ]);
+       return redirect('/login');
     }
 
     function ocultarQuizz(Request $request){

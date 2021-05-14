@@ -14,14 +14,14 @@ import Echo from "laravel-echo"
 
 export default {
     name: "waitRoom",
-    props: ['sessao_prop', 'quizz_prop'],
+    props: ['sessao_prop'],
     data() {
         return {
             usersId:[],
             users: [],
             students: 0,
             sessao: JSON.parse(this.sessao_prop),
-            quizz: JSON.parse(this.quizz_prop)
+
         }
     },
     watch: {
@@ -33,11 +33,7 @@ export default {
     methods: {
         sair() {
 
-            axios.post('/leaveRoom').then(function (response) {
-                window.location.replace(response.data.message);
-
-
-            })
+            window.location.replace('/leaveRoom')
         },
         connect() {
 
