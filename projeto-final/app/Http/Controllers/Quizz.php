@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\QuizzQuestion;
 use App\Events\WaitRoom;
 use App\Models\sessao;
 use App\Models\User;
@@ -234,7 +235,8 @@ GROUP BY s.nomequizz', ['id' => session('utilizador')['id'], 'sessionId' => $req
                                    WHERE q.id = pq.quizz_id
                                    AND p.id = pq.id_pergunta
                                    AND m.perguntas_id=p.id
-                                   AND q.id  = :id', ['id' => $quizzId]);
+                                   AND q.id  = :id
+                                   Order by pq.PergIndex', ['id' => $quizzId]);
 
 
         Cache::put('quizz', $quizz);
@@ -292,7 +294,28 @@ GROUP BY s.nomequizz', ['id' => session('utilizador')['id'], 'sessionId' => $req
         return redirect('/login');
     }
 
+function startQuizz(Request $request){
 
+    DB::table('sessao')
+        ->where('id', session('sessao')['id'])
+        ->where('iduser', session('utilizador')['id'])
+        ->update(['masterActive' => 0]);
+
+    $quizz = DB::select('SELECT p.id ,p.enunciado ,p.tempo ,p.valor , p.tipo ,q.numeroperguntas, q.nome ,q.tipo AS "quizzTipo", m.link
+                                   FROM quizz q, pergunta_quizz pq, perguntas p,multimedia m
+                                   WHERE q.id = pq.quizz_id
+                                   AND p.id = pq.id_pergunta
+                                   AND m.perguntas_id=p.id
+                                   AND q.id  = :id
+                                   Order by pq.PergIndex', ['id' => session('sessao')['idQuizz']]);
+
+    Cache::put('quizz',$quizz);
+
+    event(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'startQuizz', session('utilizador')['id'],$quizz[0]));
+
+return;
+
+}
 
 
 

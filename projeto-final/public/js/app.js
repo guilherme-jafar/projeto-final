@@ -5094,6 +5094,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "WaitRoomStudent",
@@ -5129,6 +5133,8 @@ __webpack_require__.r(__webpack_exports__);
             _this.students++;
             localStorage.setItem('students', _this.students);
           } else if (e.type === 'leaveMaster') {
+            laravel_echo__WEBPACK_IMPORTED_MODULE_0__.default.leaveChannel('room.' + _this.sessao);
+
             _this.sair();
           } else if (e.type === 'leavestudent') {
             _this.students--;
@@ -5611,6 +5617,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5620,6 +5630,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       usersId: [],
       users: [],
+      points: [],
       students: 0,
       sessao: JSON.parse(this.sessao_prop)
     };
@@ -5630,7 +5641,11 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    start: function start() {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/startQuizz');
+    },
     sair: function sair() {
+      laravel_echo__WEBPACK_IMPORTED_MODULE_1__.default.leaveChannel('room.' + this.sessao);
       localStorage.clear();
       window.location.replace('/leaveRoom');
     },
@@ -5646,9 +5661,12 @@ __webpack_require__.r(__webpack_exports__);
 
             _this.users.push(e.name);
 
+            _this.points.push(0);
+
             _this.students++;
             localStorage.setItem('usersId', JSON.stringify(_this.usersId));
             localStorage.setItem('users', JSON.stringify(_this.users));
+            localStorage.setItem('points', JSON.stringify(_this.points));
             localStorage.setItem('students', _this.students);
           } else if (e.type === 'leavestudent') {
             _this.students--;
@@ -5657,9 +5675,12 @@ __webpack_require__.r(__webpack_exports__);
 
             _this.users.splice(_this.users.indexOf(e.name), 1);
 
+            _this.points.splice(_this.users.indexOf(e.name), 1);
+
             localStorage.setItem('students', _this.students);
             localStorage.setItem('usersId', JSON.stringify(_this.usersId));
             localStorage.setItem('users', JSON.stringify(_this.users));
+            localStorage.setItem('points', JSON.stringify(_this.points));
           }
         }
       });
@@ -5672,11 +5693,13 @@ __webpack_require__.r(__webpack_exports__);
     if (localStorage.getItem('sessao') != null) {
       this.students = JSON.parse(localStorage.getItem('students'));
       this.usersId = JSON.parse(localStorage.getItem('usersId'));
+      this.points = JSON.parse(localStorage.getItem('points'));
       this.users = localStorage.getItem('users');
     } else {
       localStorage.setItem('sessao', this.sessao);
       this.usersId = [];
       this.users = [];
+      this.points = [];
     }
 
     console.log(this.sessao);
@@ -48281,21 +48304,21 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("p", [_vm._v(_vm._s(_vm.students))]),
-    _vm._v(" "),
-    _c("p", [_vm._v(_vm._s(_vm.MasterSessao))]),
-    _vm._v(" "),
-    _c(
-      "button",
-      {
-        on: {
-          click: function($event) {
-            return _vm.sair()
+    _c("div", { attrs: { id: "waitRoom" } }, [
+      _c("p", [_vm._v(_vm._s(_vm.students))]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          on: {
+            click: function($event) {
+              return _vm.sair()
+            }
           }
-        }
-      },
-      [_vm._v("cancel")]
-    )
+        },
+        [_vm._v("cancel")]
+      )
+    ])
   ])
 }
 var staticRenderFns = []
@@ -48637,7 +48660,21 @@ var render = function() {
         }
       },
       [_vm._v("cancel")]
-    )
+    ),
+    _vm._v(" "),
+    _c(
+      "button",
+      {
+        on: {
+          click: function($event) {
+            return _vm.start()
+          }
+        }
+      },
+      [_vm._v("Iniciar Quizz")]
+    ),
+    _vm._v(" "),
+    _c("p", [_vm._v(_vm._s(this.users))])
   ])
 }
 var staticRenderFns = []

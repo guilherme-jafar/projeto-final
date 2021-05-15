@@ -1,9 +1,13 @@
 <template>
 
 <div>
+
+    <div id="waitRoom">
     <p>{{students}}</p>
-    <p>{{ MasterSessao}}</p>
+
+
     <button @click="sair()">cancel</button>
+    </div>
 
 </div>
 </template>
@@ -53,6 +57,7 @@ export default {
                             localStorage.setItem('students',this.students);
                         }
                         else if (e.type==='leaveMaster') {
+                            Echo.leaveChannel('room.'+this.sessao);
                            this.sair()
 
                         }

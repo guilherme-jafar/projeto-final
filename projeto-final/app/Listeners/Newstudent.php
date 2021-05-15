@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Events\QuizzQuestion;
 use App\Events\WaitRoom;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -21,10 +22,11 @@ class Newstudent
     /**
      * Handle the event.
      *
-     * @param  WaitRoom  $event
+     * @param WaitRoom $event
+     * @param QuizzQuestion $event2
      * @return void
      */
-    public function handle(WaitRoom $event)
+    public function handle(WaitRoom $event , QuizzQuestion $event2)
     {
         //
     }

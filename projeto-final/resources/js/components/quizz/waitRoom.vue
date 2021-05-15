@@ -3,6 +3,10 @@
     <p>{{students}}</p>
         <p>{{this.sessao}}</p>
         <button @click="sair()">cancel</button>
+        <button @click="start()">Iniciar Quizz</button>
+        <p>{{this.users}}</p>
+
+
     </div>
 </template>
 
@@ -19,6 +23,7 @@ export default {
         return {
             usersId:[],
             users: [],
+            points:[],
             students: 0,
             sessao: JSON.parse(this.sessao_prop),
 
@@ -31,7 +36,12 @@ export default {
     },
 
     methods: {
+        start(){
+
+            axios.post('/startQuizz');
+        },
         sair() {
+            Echo.leaveChannel('room.'+this.sessao);
             localStorage.clear();
             window.location.replace('/leaveRoom')
         },
@@ -46,19 +56,23 @@ export default {
                         if (!this.usersId.includes(e.userId) && e.type==='student') {
                             this.usersId.push(e.userId)
                             this.users.push(e.name)
+                            this.points.push(0)
                             this.students++
 
                             localStorage.setItem('usersId',JSON.stringify(this.usersId));
                             localStorage.setItem('users',JSON.stringify(this.users));
+                            localStorage.setItem('points',JSON.stringify(this.points))
                             localStorage.setItem('students',this.students);
                         }
                         else if (e.type==='leavestudent'){
                             this.students--
                             this.usersId.splice(this.usersId.indexOf(e.userId), 1);
                             this.users.splice(this.users.indexOf(e.name), 1);
+                            this.points.splice(this.users.indexOf(e.name), 1);
                             localStorage.setItem('students',this.students);
                             localStorage.setItem('usersId',JSON.stringify(this.usersId));
                             localStorage.setItem('users',JSON.stringify(this.users));
+                            localStorage.setItem('points',JSON.stringify(this.points))
 
                         }
                     }
@@ -77,12 +91,14 @@ export default {
             if (localStorage.getItem('sessao')!=null){
                 this.students=JSON.parse(localStorage.getItem('students'));
                 this.usersId=JSON.parse(localStorage.getItem('usersId'));
+                this.points=JSON.parse(localStorage.getItem('points'));
                 this.users=localStorage.getItem('users');
             }
             else{
                 localStorage.setItem('sessao',this.sessao);
                 this.usersId=[];
                 this.users=[];
+                this.points=[];
             }
             console.log(this.sessao)
             this.connect()
