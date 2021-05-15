@@ -84,11 +84,12 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (
     Route::post('/prof/disciplina/create',[App\Http\Controllers\Disciplina::class, 'create']);
     Route::post('/prof/Topico/create',[App\Http\Controllers\topicos::class, 'create']);
     Route::get('/prof/Disciplina/{token}', [App\Http\Controllers\Disciplina::class, 'EnterDiscProf']);
+    Route::get('/prof/listTopicos', [App\Http\Controllers\topicos::class, 'listTopicos']);
     Route::post('/prof/getAlunos',[App\Http\Controllers\Disciplina::class,'getAlunos']);
     Route::post("/insertQuestion",[App\Http\Controllers\topicos::class,'insertQuestion']);
     Route::get("/getQuizz",[\App\Http\Controllers\Quizz::class,'listQuizz']);
     Route::post("/insertQuizz",[App\Http\Controllers\Quizz::class,'insertQuizz']);
-    Route::post("/getPerguntas",[App\Http\Controllers\topicos::class,'getPerguntas']);
+    Route::post("/getPerguntas",[App\Http\Controllers\Pergunta::class,'show']);
 
     Route::post("/multiQuestion",[App\Http\Controllers\topicos::class,"MultiQuestion"]);
     Route::delete("/prof/topico/delete/{id}", [App\Http\Controllers\topicos::class,'destroy']);
@@ -96,8 +97,6 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (
     Route::get('/loading', function () {return view('/loading');});
     Route::get('/prof/pergunta/{id}',  [App\Http\Controllers\Pergunta::class,'show']);
     Route::get('/WaitRoom/{id}',[App\Http\Controllers\Quizz::class,'CreateWaitRoom']);
-
-
     Route::delete("/prof/disciplina/delete/{id}", [App\Http\Controllers\Disciplina::class,'destroy']);
 
     Route::post("/prof/topico/{id}/editar", [App\Http\Controllers\topicos::class,'editar']);

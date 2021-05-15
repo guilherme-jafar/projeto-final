@@ -334,7 +334,7 @@
                                             </div>
 
                                             <div class="col-12">
-                                                <div class="card-box  mb-5 mt-4" v-for="topico in topicos"
+                                                <div class="card-box  mb-5 mt-4" v-for="topico in topicos.data"
                                                      :key="topico['id']">
 
                                                     <div class="card-box-topicos">
@@ -470,7 +470,7 @@
                             </div>
 
                             <div class="col-12">
-                                <div class="card-box  mb-5 mt-4" v-for="topico in topicos" :key="topico['id']">
+                                <div class="card-box  mb-5 mt-4" v-for="topico in topicos.data" :key="topico['id']">
 
                                     <div class="card-box-topicos">
                                         <label class="d-flex " :for="'inputTopico' + topico['id']"><h2>

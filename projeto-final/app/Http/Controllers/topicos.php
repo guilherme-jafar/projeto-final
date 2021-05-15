@@ -26,7 +26,9 @@ class topicos extends Controller
             , [$id, $nome_topico, $descricao, $disciplina]);
 
 
-        $topicos = DB::select('select * FROM topicos WHERE  disciplina_id = :id', ['id' => $disciplina]);
+        DB::statement('call deleteTopico(?)', [$request->id]);
+        $topicos = DB::table('topicos')->where('disciplina_id', '=', ['id' => session('disciplina')['id']])
+            ->paginate(4);
 
 
         if ($insert_Topicos) {
@@ -212,9 +214,11 @@ AND t.id=:id', ['id' => $request->id]);
 
     function destroy(Request $request){
 
+
         DB::statement('call deleteTopico(?)', [$request->id]);
-        $topicos = DB::select('select * FROM topicos
-                                    WHERE disciplina_id = :id', ['id' => session('disciplina')['id']]);
+        $topicos = DB::table('topicos')->where('disciplina_id', '=', ['id' => session('disciplina')['id']])
+            ->paginate(4);
+
 
         return response()->json([
             'message' => $topicos,
@@ -236,6 +240,26 @@ AND t.id=:id', ['id' => $request->id]);
         return response()->json([
             'message' => $topicos,
         ]);
+    }
+
+
+    function listTopicos(Request $request)
+    {
+
+
+        $topico = DB::table('topicos')->where('disciplina_id', '=', ['id' => session('disciplina')['id']])
+            ->paginate(4);
+
+        if (!empty($topico)) {
+            return response()->json([
+                'message' => $topico,
+            ]);
+        } else {
+            return response()->json([
+                'message' => [],
+            ]);
+        }
+
     }
 
 

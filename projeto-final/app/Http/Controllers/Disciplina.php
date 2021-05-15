@@ -47,8 +47,8 @@ class Disciplina extends Controller
     {
 
         $disciplina = \App\Models\Disciplina::find($request->token);
-        $topico = DB::table('topicos')->where('disciplina_id', '=', ['id' => $request->token])->get();
-//            ->paginate(5);
+        $topico = DB::table('topicos')->where('disciplina_id', '=', ['id' => $request->token])
+           ->paginate(4);
         $disciplina->setTotalTopicos(DB::table('topicos')->where('disciplina_id', '=', ['id' => $request->token])->count());
         $disciplina->setTotalQuizz(DB::table('quizz')->where('disciplina_id', '=', ['id' => $request->token])->count());
 
@@ -62,6 +62,7 @@ class Disciplina extends Controller
 
 
     }
+
 
     function EnterDiscAluno(Request $request)
     {

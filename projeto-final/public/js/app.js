@@ -2163,6 +2163,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 //
 //
 //
@@ -2372,6 +2374,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "disciplinaProf",
@@ -2401,7 +2404,7 @@ __webpack_require__.r(__webpack_exports__);
         formData.append('topico', jquery__WEBPACK_IMPORTED_MODULE_0___default()('#editarTopicoNome' + topico['id']).val());
         formData.append('descricao', jquery__WEBPACK_IMPORTED_MODULE_0___default()("#descricao" + topico['id']).val());
         formData.append('id', topico['id']);
-        axios.post('/prof/topico/' + topico['id'] + '/editar', formData).then(function (response) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default().post('/prof/topico/' + topico['id'] + '/editar', formData).then(function (response) {
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
           this.toastEditartopico.show();
@@ -2415,7 +2418,7 @@ __webpack_require__.r(__webpack_exports__);
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn span').addClass('d-none');
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn div').removeClass('d-none');
       this.modalDeleteTopico = bootstrap.Modal.getInstance(document.getElementById('eliminarTopico' + topico['id']), {});
-      axios["delete"]('/prof/topico/delete/' + topico['id']).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().delete('/prof/topico/delete/' + topico['id']).then(function (response) {
         if (response.data.message !== "erro") {
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn span').removeClass('d-none');
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn div').addClass('d-none');
@@ -2453,7 +2456,7 @@ __webpack_require__.r(__webpack_exports__);
         formData.append('topico', jquery__WEBPACK_IMPORTED_MODULE_0___default()("#topico").val());
         formData.append('descricao', jquery__WEBPACK_IMPORTED_MODULE_0___default()("#descricao").val());
         formData.append('id', l[l.length - 1]);
-        axios.post('/prof/Topico/create', formData).then(function (response) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default().post('/prof/Topico/create', formData).then(function (response) {
           if (response.data.message !== "erro") {
             jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit span').removeClass('d-none');
             jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit div').addClass('d-none');
@@ -2468,14 +2471,22 @@ __webpack_require__.r(__webpack_exports__);
           }
         }.bind(this));
       }
+    },
+    getResultsTopico: function getResultsTopico() {
+      var _this = this;
+
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get('/prof/listTopicos?page=' + page).then(function (response) {
+        _this.topicos = response.data.message;
+      });
     }
   },
   computed: {
     filter: function filter() {
-      var _this = this;
+      var _this2 = this;
 
-      return this.topicos.filter(function (topico) {
-        return topico['nome'].match(_this.search);
+      return this.topicos.data.filter(function (topico) {
+        return topico['nome'].match(_this2.search);
       });
     }
   },
@@ -42849,179 +42860,301 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "section-topicos mt-5 me-md-5 ms-md-5" }, [
-    _vm._m(0),
-    _vm._v(" "),
-    _vm._m(1),
-    _vm._v(" "),
-    _vm._m(2),
-    _vm._v(" "),
-    _vm._m(3),
-    _vm._v(" "),
-    _vm.topicos.length === 0
-      ? _c("div", { staticClass: "mx-auto" }, [
-          _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
-            _vm._v("Ainda não tem nenhum Topico")
-          ]),
-          _vm._v(" "),
-          _vm._m(4)
-        ])
-      : _c("div", { staticClass: "section-disciplinas-items " }, [
-          _c("div", { staticClass: "box-search mb-5" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.search,
-                  expression: "search"
-                }
-              ],
-              staticClass: " form-control form-control-lg form-search",
-              attrs: { type: "text", placeholder: "Pesquisar topicos..." },
-              domProps: { value: _vm.search },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.search = $event.target.value
-                }
-              }
-            }),
+  return _c(
+    "div",
+    { staticClass: "section-topicos mt-5 me-md-5 ms-md-5" },
+    [
+      _vm._m(0),
+      _vm._v(" "),
+      _vm._m(1),
+      _vm._v(" "),
+      _vm._m(2),
+      _vm._v(" "),
+      _vm._m(3),
+      _vm._v(" "),
+      _vm.topicos.data.length === 0
+        ? _c("div", { staticClass: "mx-auto" }, [
+            _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
+              _vm._v("Ainda não tem nenhum Topico")
+            ]),
             _vm._v(" "),
-            _c("i", { staticClass: "bi bi-search" })
-          ]),
-          _vm._v(" "),
-          _c("h1", [_vm._v("Tópicos")]),
-          _vm._v(" "),
-          _c(
-            "ul",
-            _vm._l(_vm.filter, function(topico) {
-              return _c(
-                "li",
-                { key: topico["id"], staticClass: "card-box mb-5 mt-4" },
-                [
-                  _c("div", { staticClass: "card-box-text" }, [
-                    _c("h2", [_vm._v(_vm._s(topico["nome"]))]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "dropdown ms-auto" }, [
-                      _vm._m(5, true),
+            _vm._m(4)
+          ])
+        : _c("div", { staticClass: "section-disciplinas-items " }, [
+            _c("div", { staticClass: "box-search mb-5" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.search,
+                    expression: "search"
+                  }
+                ],
+                staticClass: " form-control form-control-lg form-search",
+                attrs: { type: "text", placeholder: "Pesquisar topicos..." },
+                domProps: { value: _vm.search },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.search = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("i", { staticClass: "bi bi-search" })
+            ]),
+            _vm._v(" "),
+            _c("h1", [_vm._v("Tópicos")]),
+            _vm._v(" "),
+            _c(
+              "ul",
+              _vm._l(_vm.filter, function(topico) {
+                return _c(
+                  "li",
+                  { key: topico["id"], staticClass: "card-box mb-5 mt-4" },
+                  [
+                    _c("div", { staticClass: "card-box-text" }, [
+                      _c("h2", [_vm._v(_vm._s(topico["nome"]))]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "dropdown ms-auto" }, [
+                        _vm._m(5, true),
+                        _vm._v(" "),
+                        _c(
+                          "ul",
+                          {
+                            staticClass: "dropdown-menu",
+                            attrs: { "aria-labelledby": "dropdownMenuButton1" }
+                          },
+                          [
+                            _c("li", [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "dropdown-item",
+                                  attrs: {
+                                    type: "button",
+                                    "data-bs-toggle": "modal",
+                                    "data-bs-target":
+                                      "#editarTopico" + topico["id"]
+                                  }
+                                },
+                                [_vm._v("Editar")]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("li", [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "dropdown-item",
+                                  attrs: {
+                                    type: "button",
+                                    "data-bs-toggle": "modal",
+                                    "data-bs-target":
+                                      "#eliminarTopico" + topico["id"]
+                                  }
+                                },
+                                [_vm._v("Eliminar")]
+                              )
+                            ])
+                          ]
+                        )
+                      ]),
                       _vm._v(" "),
                       _c(
-                        "ul",
+                        "span",
                         {
-                          staticClass: "dropdown-menu",
-                          attrs: { "aria-labelledby": "dropdownMenuButton1" }
+                          staticClass: "material-icons",
+                          staticStyle: { cursor: "pointer" },
+                          attrs: {
+                            "data-bs-toggle": "collapse",
+                            "data-bs-target": "#collapse" + topico["id"],
+                            "aria-expanded": "false",
+                            "aria-controls": "collapse" + topico["id"]
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.changeButton(topico["id"])
+                            }
+                          }
                         },
                         [
-                          _c("li", [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "dropdown-item",
-                                attrs: {
-                                  type: "button",
-                                  "data-bs-toggle": "modal",
-                                  "data-bs-target":
-                                    "#editarTopico" + topico["id"]
-                                }
-                              },
-                              [_vm._v("Editar")]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("li", [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "dropdown-item",
-                                attrs: {
-                                  type: "button",
-                                  "data-bs-toggle": "modal",
-                                  "data-bs-target":
-                                    "#eliminarTopico" + topico["id"]
-                                }
-                              },
-                              [_vm._v("Eliminar")]
-                            )
-                          ])
+                          _c("img", {
+                            attrs: {
+                              id: "img" + topico["id"],
+                              src: "/assets/expand_more_black_24dp.svg"
+                            }
+                          })
                         ]
                       )
                     ]),
                     _vm._v(" "),
                     _c(
-                      "span",
+                      "div",
                       {
-                        staticClass: "material-icons",
-                        staticStyle: { cursor: "pointer" },
+                        staticClass: "modal fade",
                         attrs: {
-                          "data-bs-toggle": "collapse",
-                          "data-bs-target": "#collapse" + topico["id"],
-                          "aria-expanded": "false",
-                          "aria-controls": "collapse" + topico["id"]
-                        },
-                        on: {
-                          click: function($event) {
-                            return _vm.changeButton(topico["id"])
-                          }
+                          id: "eliminarTopico" + topico["id"],
+                          tabindex: "-1",
+                          "aria-labelledby": "exampleModalLabel",
+                          "aria-hidden": "true"
                         }
                       },
                       [
-                        _c("img", {
-                          attrs: {
-                            id: "img" + topico["id"],
-                            src: "/assets/expand_more_black_24dp.svg"
-                          }
-                        })
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass: "modal fade",
-                      attrs: {
-                        id: "eliminarTopico" + topico["id"],
-                        tabindex: "-1",
-                        "aria-labelledby": "exampleModalLabel",
-                        "aria-hidden": "true"
-                      }
-                    },
-                    [
-                      _c(
-                        "div",
-                        { staticClass: "modal-dialog modal-dialog-centered" },
-                        [
-                          _c("div", { staticClass: "modal-content" }, [
-                            _c("div", { staticClass: "modal-header" }, [
-                              _c(
-                                "h5",
-                                {
-                                  staticClass: "modal-title",
-                                  attrs: { id: "tituloEliminar" + topico["id"] }
-                                },
-                                [_vm._v("Eliminar Tópico")]
-                              ),
+                        _c(
+                          "div",
+                          { staticClass: "modal-dialog modal-dialog-centered" },
+                          [
+                            _c("div", { staticClass: "modal-content" }, [
+                              _c("div", { staticClass: "modal-header" }, [
+                                _c(
+                                  "h5",
+                                  {
+                                    staticClass: "modal-title",
+                                    attrs: {
+                                      id: "tituloEliminar" + topico["id"]
+                                    }
+                                  },
+                                  [_vm._v("Eliminar Tópico")]
+                                ),
+                                _vm._v(" "),
+                                _c("button", {
+                                  staticClass: "btn-close",
+                                  attrs: {
+                                    type: "button",
+                                    "data-bs-dismiss": "modal",
+                                    "aria-label": "Close"
+                                  }
+                                })
+                              ]),
                               _vm._v(" "),
-                              _c("button", {
-                                staticClass: "btn-close",
-                                attrs: {
-                                  type: "button",
-                                  "data-bs-dismiss": "modal",
-                                  "aria-label": "Close"
-                                }
-                              })
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "modal-body" }, [
-                              _c("h2", [
-                                _vm._v(
-                                  "Tem certeza que deseja eliminar o tópico " +
-                                    _vm._s(topico["nome"]) +
-                                    "?"
+                              _c("div", { staticClass: "modal-body" }, [
+                                _c("h2", [
+                                  _vm._v(
+                                    "Tem certeza que deseja eliminar o tópico " +
+                                      _vm._s(topico["nome"]) +
+                                      "?"
+                                  )
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "modal-footer" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-secondary",
+                                    attrs: {
+                                      type: "button",
+                                      "data-bs-dismiss": "modal"
+                                    }
+                                  },
+                                  [_vm._v("Cancelar")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-primary eliminar-btn",
+                                    attrs: {
+                                      type: "button",
+                                      id: "eliminarUtilizadorBtn" + topico["id"]
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.eliminarTopico(topico)
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("span", {}, [_vm._v("Sim")]),
+                                    _vm._v(" "),
+                                    _c("div", {
+                                      staticClass:
+                                        "spinner-border text-light d-none",
+                                      attrs: { role: "status" }
+                                    })
+                                  ]
                                 )
+                              ])
+                            ])
+                          ]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "modal fade",
+                        attrs: {
+                          id: "editarTopico" + topico["id"],
+                          tabindex: "-1",
+                          "aria-labelledby": "exampleModalLabel",
+                          "aria-hidden": "true"
+                        }
+                      },
+                      [
+                        _c("div", { staticClass: "modal-dialog" }, [
+                          _c("div", { staticClass: "modal-content" }, [
+                            _vm._m(6, true),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "modal-body pt-5 pb-5" }, [
+                              _c("form", { staticClass: "row mx-auto" }, [
+                                _c("div", { staticClass: "col-12" }, [
+                                  _c(
+                                    "label",
+                                    {
+                                      staticClass: "label",
+                                      attrs: {
+                                        for: "editarTopicoNome" + topico["id"]
+                                      }
+                                    },
+                                    [_vm._v("Topico")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    staticClass: "form-control mt-2 mb-3 ",
+                                    attrs: {
+                                      name: "disciplina",
+                                      type: "text",
+                                      id: "editarTopicoNome" + topico["id"]
+                                    },
+                                    domProps: { value: topico["nome"] }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-12 " }, [
+                                  _c("p", {
+                                    staticClass: "error ",
+                                    attrs: {
+                                      id: "disciplinaError" + topico["id"]
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-12 mt-2" }, [
+                                  _c(
+                                    "label",
+                                    {
+                                      staticClass: "label",
+                                      attrs: { for: "descricao" + topico["id"] }
+                                    },
+                                    [_vm._v("Descrição")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("textarea", {
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      name: "descricao",
+                                      id: "descricao" + topico["id"],
+                                      rows: "2"
+                                    },
+                                    domProps: { value: topico["descricao"] }
+                                  })
+                                ])
                               ])
                             ]),
                             _vm._v(" "),
@@ -43029,7 +43162,7 @@ var render = function() {
                               _c(
                                 "button",
                                 {
-                                  staticClass: "btn btn-secondary",
+                                  staticClass: "btn btn-primary",
                                   attrs: {
                                     type: "button",
                                     "data-bs-dismiss": "modal"
@@ -43041,19 +43174,17 @@ var render = function() {
                               _c(
                                 "button",
                                 {
-                                  staticClass: "btn btn-primary eliminar-btn",
-                                  attrs: {
-                                    type: "button",
-                                    id: "eliminarUtilizadorBtn" + topico["id"]
-                                  },
+                                  staticClass:
+                                    "btn btn-secondary btn-submit btn-loading",
+                                  attrs: { type: "button", id: "submitEdit" },
                                   on: {
                                     click: function($event) {
-                                      return _vm.eliminarTopico(topico)
+                                      return _vm.editarTopico(topico)
                                     }
                                   }
                                 },
                                 [
-                                  _c("span", {}, [_vm._v("Sim")]),
+                                  _c("span", {}, [_vm._v("Adicionar  ")]),
                                   _vm._v(" "),
                                   _c("div", {
                                     staticClass:
@@ -43064,196 +43195,88 @@ var render = function() {
                               )
                             ])
                           ])
-                        ]
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass: "modal fade",
-                      attrs: {
-                        id: "editarTopico" + topico["id"],
-                        tabindex: "-1",
-                        "aria-labelledby": "exampleModalLabel",
-                        "aria-hidden": "true"
-                      }
-                    },
-                    [
-                      _c("div", { staticClass: "modal-dialog" }, [
-                        _c("div", { staticClass: "modal-content" }, [
-                          _vm._m(6, true),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "modal-body pt-5 pb-5" }, [
-                            _c("form", { staticClass: "row mx-auto" }, [
-                              _c("div", { staticClass: "col-12" }, [
-                                _c(
-                                  "label",
-                                  {
-                                    staticClass: "label",
-                                    attrs: {
-                                      for: "editarTopicoNome" + topico["id"]
-                                    }
-                                  },
-                                  [_vm._v("Topico")]
-                                ),
-                                _vm._v(" "),
-                                _c("input", {
-                                  staticClass: "form-control mt-2 mb-3 ",
-                                  attrs: {
-                                    name: "disciplina",
-                                    type: "text",
-                                    id: "editarTopicoNome" + topico["id"]
-                                  },
-                                  domProps: { value: topico["nome"] }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col-12 " }, [
-                                _c("p", {
-                                  staticClass: "error ",
-                                  attrs: {
-                                    id: "disciplinaError" + topico["id"]
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col-12 mt-2" }, [
-                                _c(
-                                  "label",
-                                  {
-                                    staticClass: "label",
-                                    attrs: { for: "descricao" + topico["id"] }
-                                  },
-                                  [_vm._v("Descrição")]
-                                ),
-                                _vm._v(" "),
-                                _c("textarea", {
-                                  staticClass: "form-control",
-                                  attrs: {
-                                    name: "descricao",
-                                    id: "descricao" + topico["id"],
-                                    rows: "2"
-                                  },
-                                  domProps: { value: topico["descricao"] }
-                                })
-                              ])
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "modal-footer" }, [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-primary",
-                                attrs: {
-                                  type: "button",
-                                  "data-bs-dismiss": "modal"
-                                }
-                              },
-                              [_vm._v("Cancelar")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "button",
-                              {
-                                staticClass:
-                                  "btn btn-secondary btn-submit btn-loading",
-                                attrs: { type: "button", id: "submitEdit" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.editarTopico(topico)
-                                  }
-                                }
-                              },
-                              [
-                                _c("span", {}, [_vm._v("Adicionar  ")]),
-                                _vm._v(" "),
-                                _c("div", {
-                                  staticClass:
-                                    "spinner-border text-light d-none",
-                                  attrs: { role: "status" }
-                                })
-                              ]
-                            )
-                          ])
                         ])
-                      ])
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "mt-2" },
-                    [
-                      _c("pergunta-topico", {
-                        attrs: { topico_id: topico["id"] }
-                      })
-                    ],
-                    1
-                  )
-                ]
-              )
-            }),
-            0
-          )
-        ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "exampleModal",
-          tabindex: "-1",
-          "aria-labelledby": "exampleModalLabel",
-          "aria-hidden": "true"
-        }
-      },
-      [
-        _c("div", { staticClass: "modal-dialog" }, [
-          _c("div", { staticClass: "modal-content" }, [
-            _vm._m(7),
-            _vm._v(" "),
-            _vm._m(8),
-            _vm._v(" "),
-            _c("div", { staticClass: "modal-footer" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary",
-                  attrs: { type: "button", "data-bs-dismiss": "modal" }
-                },
-                [_vm._v("Cancelar")]
-              ),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "mt-2" },
+                      [
+                        _c("pergunta-topico", {
+                          attrs: { topico_id: topico["id"] }
+                        })
+                      ],
+                      1
+                    )
+                  ]
+                )
+              }),
+              0
+            )
+          ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "modal fade",
+          attrs: {
+            id: "exampleModal",
+            tabindex: "-1",
+            "aria-labelledby": "exampleModalLabel",
+            "aria-hidden": "true"
+          }
+        },
+        [
+          _c("div", { staticClass: "modal-dialog" }, [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(7),
               _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-secondary btn-submit btn-loading",
-                  attrs: { type: "button", id: "submit" },
-                  on: {
-                    click: function($event) {
-                      return _vm.submit()
+              _vm._m(8),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button", "data-bs-dismiss": "modal" }
+                  },
+                  [_vm._v("Cancelar")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary btn-submit btn-loading",
+                    attrs: { type: "button", id: "submit" },
+                    on: {
+                      click: function($event) {
+                        return _vm.submit()
+                      }
                     }
-                  }
-                },
-                [
-                  _c("span", {}, [_vm._v("Adicionar  ")]),
-                  _vm._v(" "),
-                  _c("div", {
-                    staticClass: "spinner-border text-light d-none",
-                    attrs: { role: "status" }
-                  })
-                ]
-              )
+                  },
+                  [
+                    _c("span", {}, [_vm._v("Adicionar  ")]),
+                    _vm._v(" "),
+                    _c("div", {
+                      staticClass: "spinner-border text-light d-none",
+                      attrs: { role: "status" }
+                    })
+                  ]
+                )
+              ])
             ])
           ])
-        ])
-      ]
-    )
-  ])
+        ]
+      ),
+      _vm._v(" "),
+      _c("pagination-2", {
+        attrs: { data: _vm.topicos, align: "center" },
+        on: { "pagination-change-page": _vm.getResultsTopico }
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -46196,75 +46219,78 @@ var render = function() {
                                                 _c(
                                                   "div",
                                                   { staticClass: "col-12" },
-                                                  _vm._l(_vm.topicos, function(
-                                                    topico
-                                                  ) {
-                                                    return _c(
-                                                      "div",
-                                                      {
-                                                        key: topico["id"],
-                                                        staticClass:
-                                                          "card-box  mb-5 mt-4"
-                                                      },
-                                                      [
-                                                        _c(
-                                                          "div",
-                                                          {
-                                                            staticClass:
-                                                              "card-box-topicos"
-                                                          },
-                                                          [
-                                                            _c(
-                                                              "label",
-                                                              {
-                                                                staticClass:
-                                                                  "d-flex ",
-                                                                attrs: {
-                                                                  for:
-                                                                    "inputTopico" +
-                                                                    topico["id"]
-                                                                }
-                                                              },
-                                                              [
-                                                                _c("h2", [
-                                                                  _vm._v(
-                                                                    "\n                                                        " +
-                                                                      _vm._s(
-                                                                        topico[
-                                                                          "nome"
-                                                                        ]
-                                                                      )
-                                                                  )
-                                                                ]),
-                                                                _vm._v(" "),
-                                                                _c("input", {
+                                                  _vm._l(
+                                                    _vm.topicos.data,
+                                                    function(topico) {
+                                                      return _c(
+                                                        "div",
+                                                        {
+                                                          key: topico["id"],
+                                                          staticClass:
+                                                            "card-box  mb-5 mt-4"
+                                                        },
+                                                        [
+                                                          _c(
+                                                            "div",
+                                                            {
+                                                              staticClass:
+                                                                "card-box-topicos"
+                                                            },
+                                                            [
+                                                              _c(
+                                                                "label",
+                                                                {
                                                                   staticClass:
-                                                                    "ms-auto mt-3",
+                                                                    "d-flex ",
                                                                   attrs: {
-                                                                    id:
+                                                                    for:
                                                                       "inputTopico" +
-                                                                      topico[
-                                                                        "id"
-                                                                      ],
-                                                                    type:
-                                                                      "checkbox",
-                                                                    name:
-                                                                      "topico"
-                                                                  },
-                                                                  domProps: {
-                                                                    value:
                                                                       topico[
                                                                         "id"
                                                                       ]
                                                                   }
-                                                                })
-                                                              ]
-                                                            )
-                                                          ]
-                                                        )
-                                                      ]
-                                                    )
-                                                  }),
+                                                                },
+                                                                [
+                                                                  _c("h2", [
+                                                                    _vm._v(
+                                                                      "\n                                                        " +
+                                                                        _vm._s(
+                                                                          topico[
+                                                                            "nome"
+                                                                          ]
+                                                                        )
+                                                                    )
+                                                                  ]),
+                                                                  _vm._v(" "),
+                                                                  _c("input", {
+                                                                    staticClass:
+                                                                      "ms-auto mt-3",
+                                                                    attrs: {
+                                                                      id:
+                                                                        "inputTopico" +
+                                                                        topico[
+                                                                          "id"
+                                                                        ],
+                                                                      type:
+                                                                        "checkbox",
+                                                                      name:
+                                                                        "topico"
+                                                                    },
+                                                                    domProps: {
+                                                                      value:
+                                                                        topico[
+                                                                          "id"
+                                                                        ]
+                                                                    }
+                                                                  })
+                                                                ]
+                                                              )
+                                                            ]
+                                                          )
+                                                        ]
+                                                      )
+                                                    }
+                                                  ),
                                                   0
                                                 ),
                                                 _vm._v(" "),
@@ -46405,7 +46431,7 @@ var render = function() {
                       _c(
                         "div",
                         { staticClass: "col-12" },
-                        _vm._l(_vm.topicos, function(topico) {
+                        _vm._l(_vm.topicos.data, function(topico) {
                           return _c(
                             "div",
                             {
