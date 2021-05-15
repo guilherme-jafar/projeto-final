@@ -3,6 +3,7 @@
 <div>
     <p>{{students}}</p>
     <p>{{ MasterSessao}}</p>
+    <button @click="sair()">cancel</button>
 
 </div>
 </template>
@@ -16,7 +17,9 @@ export default {
 
     data() {
         return {
-            students: JSON.parse(this.user_prop),
+            usersId:[],
+            users: [],
+            students: JSON.parse(this.user_prop)+1,
             sessao: JSON.parse(this.sessao_prop),
             MasterSessao: JSON.parse(this.id_prop),
 
@@ -31,33 +34,34 @@ export default {
 
     methods: {
         sair() {
+            localStorage.clear();
 
-            axios.post('/leaveRoom').then(function (response) {
-                window.location.replace(response.data.message);
+                window.location.replace('/leaveRoom');
 
 
-            })
         },
         connect() {
             window.Echo.private('room.'+this.MasterSessao)
                 .listen('.NewStudent', e => {
 
                     console.log(e)
-                    if (e.Mainsession===this.sessao) {
-                        if (this.usersId.includes(e.userId) && e.type==='student' ) {
-                            this.usersId.push(e.userId)
-                            this.users.push(e.name)
+                    if (e.Mainsession===this.MasterSessao) {
+                        //console.log(!this.usersId.includes(e.userId) && e.type==='student')
+                        if ( e.type==='student') {
                             this.students++
+
+                            localStorage.setItem('students',this.students);
                         }
-                        if (e.type==='leaveTeacher') {
+                        else if (e.type==='leaveMaster') {
                            this.sair()
 
                         }
+                        else if (e.type==='leavestudent'){
+                            this.students--
+                            localStorage.setItem('students',this.students);
+
+                        }
                     }
-
-
-
-
 
                 });
 
@@ -69,8 +73,16 @@ export default {
         },
         mounted() {
 
-            this.connect();
+            if (localStorage.getItem('sessao')!=null){
+                this.students=localStorage.getItem('students');
 
+            }
+            else{
+                localStorage.setItem('sessao',this.MasterSessao);
+                localStorage.setItem('students',this.students);
+            }
+
+            this.connect();
 
         },
 

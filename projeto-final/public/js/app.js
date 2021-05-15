@@ -5093,13 +5093,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "WaitRoomStudent",
   props: ['sessao_prop', 'id_prop', 'user_prop'],
   data: function data() {
     return {
-      students: JSON.parse(this.user_prop),
+      usersId: [],
+      users: [],
+      students: JSON.parse(this.user_prop) + 1,
       sessao: JSON.parse(this.sessao_prop),
       MasterSessao: JSON.parse(this.id_prop)
     };
@@ -5111,9 +5114,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     sair: function sair() {
-      axios.post('/leaveRoom').then(function (response) {
-        window.location.replace(response.data.message);
-      });
+      localStorage.clear();
+      window.location.replace('/leaveRoom');
     },
     connect: function connect() {
       var _this = this;
@@ -5121,23 +5123,29 @@ __webpack_require__.r(__webpack_exports__);
       window.Echo["private"]('room.' + this.MasterSessao).listen('.NewStudent', function (e) {
         console.log(e);
 
-        if (e.Mainsession === _this.sessao) {
-          if (_this.usersId.includes(e.userId) && e.type === 'student') {
-            _this.usersId.push(e.userId);
-
-            _this.users.push(e.name);
-
+        if (e.Mainsession === _this.MasterSessao) {
+          //console.log(!this.usersId.includes(e.userId) && e.type==='student')
+          if (e.type === 'student') {
             _this.students++;
-          }
-
-          if (e.type === 'leaveTeacher') {
+            localStorage.setItem('students', _this.students);
+          } else if (e.type === 'leaveMaster') {
             _this.sair();
+          } else if (e.type === 'leavestudent') {
+            _this.students--;
+            localStorage.setItem('students', _this.students);
           }
         }
       });
     }
   },
   mounted: function mounted() {
+    if (localStorage.getItem('sessao') != null) {
+      this.students = localStorage.getItem('students');
+    } else {
+      localStorage.setItem('sessao', this.MasterSessao);
+      localStorage.setItem('students', this.students);
+    }
+
     this.connect();
   }
 });
@@ -5623,23 +5631,35 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     sair: function sair() {
+      localStorage.clear();
       window.location.replace('/leaveRoom');
     },
     connect: function connect() {
       var _this = this;
 
       window.Echo["private"]('room.' + this.sessao).listen('.NewStudent', function (e) {
-        console.log(e);
+        console.log(e.type);
 
         if (e.Mainsession === _this.sessao) {
-          console.log(_this.usersId);
-
-          if (_this.usersId.includes(e.userId)) {
+          if (!_this.usersId.includes(e.userId) && e.type === 'student') {
             _this.usersId.push(e.userId);
 
             _this.users.push(e.name);
 
             _this.students++;
+            localStorage.setItem('usersId', JSON.stringify(_this.usersId));
+            localStorage.setItem('users', JSON.stringify(_this.users));
+            localStorage.setItem('students', _this.students);
+          } else if (e.type === 'leavestudent') {
+            _this.students--;
+
+            _this.usersId.splice(_this.usersId.indexOf(e.userId), 1);
+
+            _this.users.splice(_this.users.indexOf(e.name), 1);
+
+            localStorage.setItem('students', _this.students);
+            localStorage.setItem('usersId', JSON.stringify(_this.usersId));
+            localStorage.setItem('users', JSON.stringify(_this.users));
           }
         }
       });
@@ -5648,6 +5668,17 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var l = window.location.href.split('/');
     this.sessionId = l[l.length - 1];
+
+    if (localStorage.getItem('sessao') != null) {
+      this.students = JSON.parse(localStorage.getItem('students'));
+      this.usersId = JSON.parse(localStorage.getItem('usersId'));
+      this.users = localStorage.getItem('users');
+    } else {
+      localStorage.setItem('sessao', this.sessao);
+      this.usersId = [];
+      this.users = [];
+    }
+
     console.log(this.sessao);
     this.connect();
   }
@@ -48252,7 +48283,19 @@ var render = function() {
   return _c("div", [
     _c("p", [_vm._v(_vm._s(_vm.students))]),
     _vm._v(" "),
-    _c("p", [_vm._v(_vm._s(_vm.MasterSessao))])
+    _c("p", [_vm._v(_vm._s(_vm.MasterSessao))]),
+    _vm._v(" "),
+    _c(
+      "button",
+      {
+        on: {
+          click: function($event) {
+            return _vm.sair()
+          }
+        }
+      },
+      [_vm._v("cancel")]
+    )
   ])
 }
 var staticRenderFns = []
