@@ -23,8 +23,6 @@ class Quizz extends Controller
             ->paginate(5);
 
 
-
-
         if (!empty($Quizz)) {
             return response()->json([
                 'message' => $Quizz
@@ -73,7 +71,7 @@ class Quizz extends Controller
                     array_push($stack, $index);
 
                     DB::insert('insert into pergunta_quizz (id,enuncia,id_pergunta,quizz_id,topico_id, PergIndex) value (?,?,?,?,?,?)',
-                                [uniqid(),$res[$index]->enunciado, $res[$index]->pergunta_id, $id, $res[$index]->topicos_id,$i+1]);
+                        [uniqid(), $res[$index]->enunciado, $res[$index]->pergunta_id, $id, $res[$index]->topicos_id, $i + 1]);
 
 
                 }
@@ -101,8 +99,7 @@ class Quizz extends Controller
     {
 
         $id = $request->token;
-        $session=$request->sessionID;
-
+        $session = $request->sessionID;
 
 
         $quizz = DB::select('SELECT p.id ,p.enunciado ,p.tempo ,p.valor , p.tipo , q.numeroperguntas ,q.nome,q.tipo AS "quizzTipo",m.link
@@ -112,7 +109,7 @@ class Quizz extends Controller
                                    AND m.perguntas_id=p.id
                                    AND q.id  = :id', ['id' => $id]);
 
-                $check=DB::select('select * from sessao where id = :id',['id' => $session]);
+        $check = DB::select('select * from sessao where id = :id', ['id' => $session]);
 
 
         if (!empty($quizz)) {
@@ -122,14 +119,11 @@ class Quizz extends Controller
 
                 return view('/quizz/perguntaQuizz', ['quizz' => $quizz, 'session' => $session]);
 
-            }
-            else {
+            } else {
                 return view('/quizz/perguntaQuizz', ['quizz' => $quizz, 'session' => $session]);
             }
 
-        }
-
-        else{
+        } else {
 
             return view('/welcome');
         }
@@ -138,11 +132,12 @@ class Quizz extends Controller
     }
 
 
-    function getRespostas(Request $request){
+    function getRespostas(Request $request)
+    {
 
         $id = $request->id;
 
-        $res= DB::select('SELECT *
+        $res = DB::select('SELECT *
                                 FROM respostas r
                                 WHERE r.perguntas_id= :id', ['id' => $id]);
 
@@ -152,7 +147,7 @@ class Quizz extends Controller
                 'message' => $res
             ]);
 
-        }else{
+        } else {
             return response()->json([
                 'message' => 'erro'
             ]);
@@ -160,27 +155,29 @@ class Quizz extends Controller
         }
     }
 
-    function setResposta(Request $request){
+    function setResposta(Request $request)
+    {
 
 
         var_dump($request->resposta);
 
         DB::insert('insert into respostas_quizz (id, resposta ,resultado,tipo,sessao_id,aluno_utilizador_id,pergunta_id) values (?,?,?,?,?,?,?)'
-            , [uniqid(), $request->resposta, $request->resultado, $request->tipo, $request->sessioId, session('utilizador')['id'],$request->id]);
+            , [uniqid(), $request->resposta, $request->resultado, $request->tipo, $request->sessioId, session('utilizador')['id'], $request->id]);
 
 
     }
 
-    function EndQuizz(Request $request){
+    function EndQuizz(Request $request)
+    {
 
-      $query=  DB::select('SELECT s.nomequizz AS "nome" , SUM(rq.resultado) AS "res"
+        $query = DB::select('SELECT s.nomequizz AS "nome" , SUM(rq.resultado) AS "res"
 FROM sessao s ,respostas_quizz rq ,utilizador u
 WHERE s.id= :sessionId
 AND s.id=rq.sessao_id
 AND  u.id= :id
-GROUP BY s.nomequizz',['id' => session('utilizador')['id'] ,'sessionId'=> $request->sessionId]);
+GROUP BY s.nomequizz', ['id' => session('utilizador')['id'], 'sessionId' => $request->sessionId]);
 
-        return view('/quizz/EndQuizz', ['res' =>$query[0]->res ,'nome'=>$query[0]->nome]);
+        return view('/quizz/EndQuizz', ['res' => $query[0]->res, 'nome' => $query[0]->nome]);
 
     }
 
@@ -190,7 +187,7 @@ GROUP BY s.nomequizz',['id' => session('utilizador')['id'] ,'sessionId'=> $reque
 
 
         $id = $request->id;
-        $session=uniqid();
+        $session = uniqid();
 
         $quizz = DB::select('SELECT p.id ,p.enunciado ,p.tempo ,p.valor , p.tipo ,q.numeroperguntas, q.nome ,q.tipo AS "quizzTipo", m.link
                                    FROM quizz q, pergunta_quizz pq, perguntas p,multimedia m
@@ -200,39 +197,37 @@ GROUP BY s.nomequizz',['id' => session('utilizador')['id'] ,'sessionId'=> $reque
                                    AND q.id  = :id', ['id' => $id]);
 
 
-
         if (!empty($quizz)) {
 
-                    if (empty(session()->get('sessao'))  ) {
-                        session()->put('sessao',["id"=>$session,'idQuizz'=>$id]);
-                        DB::insert('insert into sessao (id, nomequizz ,tipo,quizz_id,iduser,tipoUser, masterActive) values (?,?,?,?,?,?,?)'
-                            , [$session, $quizz[0]->nome, $quizz[0]->quizzTipo, $id, session('utilizador')['id'], session('utilizador')['tipo'],1]);
+            if (empty(session()->get('sessao'))) {
+                session()->put('sessao', ["id" => $session, 'idQuizz' => $id, 'type' => 'master']);
+                DB::insert('insert into sessao (id, nomequizz ,tipo,quizz_id,iduser,tipoUser, masterActive) values (?,?,?,?,?,?,?)'
+                    , [$session, $quizz[0]->nome, $quizz[0]->quizzTipo, $id, session('utilizador')['id'], session('utilizador')['tipo'], 1]);
 
 
-                        event(new WaitRoom(session('utilizador')['nome'],$session,'student',session('utilizador')['id']));
+               // event(new WaitRoom(session('utilizador')['nome'], $session, 'master', session('utilizador')['id']));
 
-                        return redirect('/InsideRoomProf');
-                    }
-                    else{
+                return redirect('/InsideRoomProf');
+            } else {
 
-                        event(new WaitRoom(session('utilizador')['nome'],session()->get('sessao')['id'],'student',session('utilizador')['id']));
-                        return  redirect('/InsideRoomProf');
-                    }
+                event(new WaitRoom(session('utilizador')['nome'], session('sessao')['id'], 'master', session('utilizador')['id']));
+                return redirect('/InsideRoomProf');
+            }
 
 
         }
 
-        return  view('/welcome');
+        return view('/welcome');
 
     }
 
     function EnterWaitRoom(Request $request)
     {
         $id = $request->id;
-        $quizzId=$request->quizzId;
-        $session=uniqid();
-        $quizz=[];
-        $Cheek=[];
+        $quizzId = $request->quizzId;
+        $session = uniqid();
+        $quizz = [];
+        $Cheek = [];
 
         $quizz = DB::select('SELECT p.id ,p.enunciado ,p.tempo ,p.valor , p.tipo ,q.numeroperguntas, q.nome ,q.tipo AS "quizzTipo", m.link
                                    FROM quizz q, pergunta_quizz pq, perguntas p,multimedia m
@@ -242,60 +237,78 @@ GROUP BY s.nomequizz',['id' => session('utilizador')['id'] ,'sessionId'=> $reque
                                    AND q.id  = :id', ['id' => $quizzId]);
 
 
-        Cache::put('quizz',$quizz);
+        Cache::put('quizz', $quizz);
 
-        $Cheek=DB::select('select id from sessao where id=:id and masterActive= 1 and quizz_id=:idQuizz',['id'=>$id,'idQuizz'=>$quizzId]);
-       // dd($Cheek);
+        $Cheek = DB::select('select id from sessao where id=:id and masterActive= 1 and quizz_id=:idQuizz', ['id' => $id, 'idQuizz' => $quizzId]);
+        // dd($Cheek);
 
-              if (!empty($quizz) && !empty($Cheek) && !isset(session('sessao')['check'])  ) {
-                  session()->put('sessao', ["id" => $session ,"check"=>'yes','users'=>count($Cheek),'master'=>$id,"quizz"=>$quizzId]);
-                  DB::insert('insert into sessao (id, nomequizz ,tipo,quizz_id,iduser,tipoUser,sessaoMaster) values (?,?,?,?,?,?,?)'
-                   , [$session, $quizz[0]->nome, $quizz[0]->quizzTipo, $quizzId, session('utilizador')['id'], session('utilizador')['tipo'], $id]);
-                  event(new WaitRoom(session('utilizador')['nome'], $id, 'student', session('utilizador')['id']));
+        if (!empty($quizz) && !empty($Cheek) && !isset(session('sessao')['check'])) {
 
-                  return redirect('WaitRoomStudent/'.$session.'/'.$id);
-                  //return view('/quizz/WaitRoomAluno', ['quizz' => $quizz[0], 'session' => $session, 'id' => $id, 'users' => count($Cheek)]);
+            $users=DB::select('select id from sessao where sessaoMaster=:id  and quizz_id=:idQuizz', ['id' => $id, 'idQuizz' => $quizzId]);
+            session()->put('sessao', ["id" => $session, "check" => 'yes', 'users' => count($users), 'master' => $id, "quizz" => $quizzId, 'type' => 'student']);
+            DB::insert('insert into sessao (id, nomequizz ,tipo,quizz_id,iduser,tipoUser,sessaoMaster) values (?,?,?,?,?,?,?)'
+                , [$session, $quizz[0]->nome, $quizz[0]->quizzTipo, $quizzId, session('utilizador')['id'], session('utilizador')['tipo'], $id]);
+            event(new WaitRoom(session('utilizador')['nome'], $id, 'student', session('utilizador')['id']));
 
-              } else if (!empty($quizz) && !empty($Cheek)) {
+            return redirect('WaitRoomStudent/' . $session . '/' . $id);
 
-
-                   event(new WaitRoom(session('utilizador')['nome'], $id, 'student', session('utilizador')['id']));
-                  return redirect('WaitRoomStudent/'.$session.'/'.$id);
-                  //return view('/quizz/waitRoomAluno', ['quizz' => $quizz[0], 'session' => session('sessao')['id'], 'id' => $id, 'users' => count($Cheek)]);
-             } else {
-                    return view('/welcome');
-             }
-
-
-
-
-
+        } else if (!empty($quizz) && !empty($Cheek)) {
+            $users=DB::select('select id from sessao where sessaoMaster=:id  and quizz_id=:idQuizz', ['id' => $id, 'idQuizz' => $quizzId]);
+            session('sessao')['users']=count($users);
+            event(new WaitRoom(session('utilizador')['nome'], $id, 'student', session('utilizador')['id']));
+            return redirect('WaitRoomStudent/' . $session . '/' . $id);
+        } else {
+            return view('/welcome');
+        }
 
 
     }
 
-    function leave(Request $request){
-       // dd(session('utilizador')['tipo'].' '.session('sessao')['id']);
+    function leave(Request $request)
+    {
         if (isset(session()->get('sessao')['id'])) {
-            event(new WaitRoom(session('utilizador')['nome'],session('sessao')['id'],'leaveTeacher',session('utilizador')['id']));
 
+            if (session('sessao')['type'] == "master") {
 
-
+                event(new WaitRoom(session('utilizador')['nome'], session('sessao')['id'], 'leaveMaster', session('utilizador')['id']));
                 DB::table('sessao')
                     ->where('id', session('sessao')['id'])
                     ->where('iduser', session('utilizador')['id'])
                     ->update(['masterActive' => 0]);
 
+            }
+            if (session('sessao')['type'] == "student") {
 
 
+                sessao::where('id', session('sessao')['id'])->delete();
+
+                event(new WaitRoom(session('utilizador')['nome'], session('sessao')['master'], 'leavestudent', session('utilizador')['id']));
+            }
 
 
         }
-       session()->forget('sessao');
+        session()->forget('sessao');
 
-       return redirect('/login');
+        return redirect('/login');
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ////////////////////////////////////////////////////////editar//////////////////////////////////////
     function ocultarQuizz(Request $request){
         try {
 
