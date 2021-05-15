@@ -379,19 +379,7 @@ return;
         try {
 
 
-            $id_perguntas = DB::select('select id from pergunta_quizz where quizz_id  = :id', ['id' =>  $request->id]);
-
-
-            if (!empty($id_perguntas)){
-
-                for ($i = 0; $i < count($id_perguntas); $i++){
-                    DB::delete("delete from respostas_quizz where pergunta_id = :perguntas_id", ['perguntas_id' => $id_perguntas[$i]->id]);
-                }
-
-            }
-
-            DB::delete("DELETE FROM pergunta_quizz WHERE quizz_id = :quizz_id", ['quizz_id' => $request->id]);
-            DB::delete("DELETE FROM quizz WHERE id = :id", ['id' => $request->id]);
+            DB::statement('call deleteQuizz(?)', [$request->id]);
 
             $quizz = DB::table('quizz')
                 ->where('disciplina_id', '=', session('disciplina')['id'])

@@ -212,21 +212,7 @@ AND t.id=:id', ['id' => $request->id]);
 
     function destroy(Request $request){
 
-        $id_perguntas = DB::select('select id from perguntas where topicos_id  = :id', ['id' =>  $request->id]);
-
-
-        if (!empty($id_perguntas)){
-
-            for ($i = 0; $i < count($id_perguntas); $i++){
-                DB::delete("delete from respostas_quizz where pergunta_id = :perguntas_id", ['perguntas_id' => $id_perguntas[$i]->id]);
-                DB::delete("delete from respostas where perguntas_id = :perguntas_id", ['perguntas_id' => $id_perguntas[$i]->id]);
-                 DB::delete("delete from multimedia where perguntas_id = :perguntas_id", ['perguntas_id' => $id_perguntas[$i]->id]);
-            }
-
-
-        }
-        DB::delete("DELETE FROM perguntas WHERE topicos_id = :topicos_id", ['topicos_id' => $request->id]);
-        DB::delete("DELETE FROM topicos WHERE id = :id", ['id' => $request->id]);
+        DB::statement('call deleteTopico(?)', [$request->id]);
         $topicos = DB::select('select * FROM topicos
                                     WHERE disciplina_id = :id', ['id' => session('disciplina')['id']]);
 
