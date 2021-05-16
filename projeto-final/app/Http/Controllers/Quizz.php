@@ -294,14 +294,15 @@ GROUP BY s.nomequizz', ['id' => session('utilizador')['id'], 'sessionId' => $req
         return redirect('/login');
     }
 
-function startQuizz(Request $request){
+    function startQuizz(Request $request)
+    {
 
-    DB::table('sessao')
-        ->where('id', session('sessao')['id'])
-        ->where('iduser', session('utilizador')['id'])
-        ->update(['masterActive' => 0]);
+        DB::table('sessao')
+            ->where('id', session('sessao')['id'])
+            ->where('iduser', session('utilizador')['id'])
+            ->update(['masterActive' => 0]);
 
-    $quizz = DB::select('SELECT p.id ,p.enunciado ,p.tempo ,p.valor , p.tipo ,q.numeroperguntas, q.nome ,q.tipo AS "quizzTipo", m.link
+        $quizz = DB::select('SELECT p.id as "pId" ,p.enunciado ,p.tempo ,p.valor , p.tipo ,q.numeroperguntas, q.nome ,q.tipo AS "quizzTipo", m.link
                                    FROM quizz q, pergunta_quizz pq, perguntas p,multimedia m
                                    WHERE q.id = pq.quizz_id
                                    AND p.id = pq.id_pergunta
@@ -309,11 +310,15 @@ function startQuizz(Request $request){
                                    AND q.id  = :id
                                    Order by pq.PergIndex', ['id' => session('sessao')['idQuizz']]);
 
-    Cache::put('quizz',$quizz);
+        $res = DB::select('select *
+                                 from respostas r
+                                 where r.perguntas_id=:id', ['id' => $quizz[0]->pId]);
 
-    event(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'startQuizz', session('utilizador')['id'],$quizz[0]));
+        Cache::put('quizz', $quizz);
 
-return;
+        event(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'startQuizz', session('utilizador')['id'], $quizz[0], $res));
+
+        return;
 
 }
 

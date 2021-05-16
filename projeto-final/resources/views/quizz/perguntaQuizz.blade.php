@@ -10,6 +10,7 @@
                         :quizz_session="'{{json_encode($session, TRUE)}}'"></pergunta-quizz>
 
     </div>
+
     <div class="wrapper " >
 
         <div class="wrapper-in wrapper-wright">
@@ -94,4 +95,6 @@
             }
         }
     </style>
+
+
 @endsection

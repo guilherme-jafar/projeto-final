@@ -19,14 +19,16 @@ class QuizzQuestion implements ShouldBroadcast
     public $type;
     public $userId;
     public $quizzArray;
+    public $Ans;
 
-    public function __construct($nName, String $session, String $aType, $aId, $quizz)
+    public function __construct($nName, String $session, String $aType, $aId, $quizz,$aRes)
     {
         $this->name=$nName;
         $this->Mainsession=$session;
         $this->type=$aType;
         $this->userId=$aId;
         $this->quizzArray=$quizz;
+        $this->Ans=$aRes;
     }
 
     /**

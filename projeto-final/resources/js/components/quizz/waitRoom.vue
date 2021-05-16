@@ -1,10 +1,15 @@
 <template>
     <div>
+        <div id="waitRoom">
     <p>{{students}}</p>
         <p>{{this.sessao}}</p>
         <button @click="sair()">cancel</button>
         <button @click="start()">Iniciar Quizz</button>
         <p>{{this.users}}</p>
+        </div>
+
+
+
 
 
     </div>
@@ -38,10 +43,14 @@ export default {
     methods: {
         start(){
 
-            axios.post('/startQuizz');
+            axios.post('/startQuizz').then(function (response){
+                        console.log("ji")
+                    $('#waitRoom').hide();
+
+            });
         },
         sair() {
-            Echo.leaveChannel('room.'+this.sessao);
+
             localStorage.clear();
             window.location.replace('/leaveRoom')
         },

@@ -5084,6 +5084,119 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5099,16 +5212,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "WaitRoomStudent",
   props: ['sessao_prop', 'id_prop', 'user_prop'],
   data: function data() {
     return {
+      timer: '',
+      questionType: '',
+      enunciado: '',
+      valor: '',
+      resposta: [],
+      resultado: 0,
+      res: 0,
+      index: 0,
+      countDown: 0,
       usersId: [],
       users: [],
+      pergunta: [],
       students: JSON.parse(this.user_prop) + 1,
       sessao: JSON.parse(this.sessao_prop),
-      MasterSessao: JSON.parse(this.id_prop)
+      MasterSessao: JSON.parse(this.id_prop),
+      first: 0,
+      respostasMultiplas: [],
+      respostasCertas: 0,
+      respostasEscolhidas: [],
+      botaoEscolhido: [],
+      multipleQuestion: []
     };
   },
   watch: {
@@ -5121,30 +5251,225 @@ __webpack_require__.r(__webpack_exports__);
       localStorage.clear();
       window.location.replace('/leaveRoom');
     },
+    responseMultiplas: function responseMultiplas(id) {
+      if (!this.botaoEscolhido.includes(id)) {
+        this.botaoEscolhido.push(id);
+        var resposta = jquery__WEBPACK_IMPORTED_MODULE_1___default()('#' + id).html();
+
+        if (id !== 'erro') {
+          for (var i = 0; i < this.respostasMultiplas.length; i++) {
+            if (resposta.toLowerCase() === this.respostasMultiplas[i].toLowerCase()) {
+              this.respostasCertas++;
+            }
+          }
+
+          this.first++;
+          this.respostasEscolhidas.push(resposta);
+
+          if (this.first === this.respostasMultiplas.length) {
+            if (this.respostasCertas === this.respostasMultiplas.length) {
+              var tempo = this.countDown;
+              var tempoTotal = this.pergunta[this.index]['tempo'];
+              var valorTotal = this.pergunta[this.index]['valor'];
+              this.res = Math.round(valorTotal * tempo / tempoTotal);
+            } else {
+              this.res = 0;
+            }
+
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').show();
+
+            if (this.res > 0) {
+              jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#66c036');
+              jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter-wright').text(this.res);
+              jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').show();
+            } else {
+              jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#f9403e');
+              jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter').text(0);
+              jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').show();
+            }
+
+            this.resultado += this.res;
+            clearTimeout(this.timer);
+            this.countDown = 0;
+            var form = new FormData();
+            form.append('id', this.pergunta[this.index]['id']);
+            form.append('pergunta', this.pergunta[this.index]['enunciado']);
+            form.append('resposta', JSON.stringify(this.respostasEscolhidas));
+            form.append('resultado', this.res);
+            form.append('tipo', this.pergunta[this.index]['tipo']);
+            form.append('sessioId', this.session);
+            axios.post('/setResposta', form).then(function (response) {
+              this.change();
+              this.sleep(2500);
+            }.bind(this));
+          }
+        }
+      }
+    },
+    getExtension: function getExtension(filename) {
+      var parts = filename.split('.');
+      return parts[parts.length - 1];
+    },
+    fileCheck: function fileCheck() {
+      if (this.pergunta['link'] === null) {
+        return 0;
+      } else {
+        var ext = this.getExtension(this.pergunta['link']);
+
+        switch (ext.toLowerCase()) {
+          case 'jpeg':
+          case 'gif':
+          case 'bmp':
+          case 'png':
+          case 'jpg':
+            //etc
+            return 1;
+        }
+
+        switch (ext.toLowerCase()) {
+          case 'm4v':
+          case 'avi':
+          case 'mpg':
+          case 'mp4':
+            // etc
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#questionMulti').attr("type", 'video/' + ext);
+            return 2;
+        }
+
+        switch (ext.toLowerCase()) {
+          case 'ogg':
+          case 'mpeg':
+          case 'mp3':
+            // etc
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#questionMultiAudio').attr("src", 'audio/' + ext);
+            return 3;
+        }
+      }
+
+      return 0;
+    },
     connect: function connect() {
       var _this = this;
 
       window.Echo["private"]('room.' + this.MasterSessao).listen('.NewStudent', function (e) {
-        console.log(e);
-
         if (e.Mainsession === _this.MasterSessao) {
           //console.log(!this.usersId.includes(e.userId) && e.type==='student')
           if (e.type === 'student') {
             _this.students++;
             localStorage.setItem('students', _this.students);
           } else if (e.type === 'leaveMaster') {
-            laravel_echo__WEBPACK_IMPORTED_MODULE_0__.default.leaveChannel('room.' + _this.sessao);
-
             _this.sair();
           } else if (e.type === 'leavestudent') {
             _this.students--;
             localStorage.setItem('students', _this.students);
+          } else if (e.type === 'startQuizz') {
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#waitRoom').hide();
+
+            _this.getResposta(e.quizzArray, e.Ans);
           }
         }
       });
+    },
+    response: function response(type, id) {// let tempo = this.countDown;
+      // let tempoTotal = this.pergunta[this.index]['tempo']
+      // let valorTotal = this.pergunta[this.index]['valor']
+      // let resposta = $('#' + id).attr('value')
+      //
+      // if (id !== 'erro') {
+      //     console.log(resposta.toLowerCase() === this.resposta.toLowerCase())
+      //     if (resposta.toLowerCase() === this.resposta.toLowerCase()){
+      //         this.res = Math.round((valorTotal * tempo) / tempoTotal);
+      //     }else{
+      //         this.res = 0;
+      //     }
+      // } else {
+      //     this.res = 0;
+      // }
+      // $('.wrapper').show();
+      //
+      // if (this.res > 0) {
+      //     $('.wrapper').css('background-color', '#66c036')
+      //     $('#couter-wright').text(this.res)
+      //     $('.wrapper-wright').show();
+      //
+      // } else {
+      //     $('.wrapper').css('background-color', '#f9403e')
+      //     $('#couter').text(0)
+      //     $('.wrapper-wrong').show();
+      //
+      // }
+      // this.resultado += this.res;
+      // clearTimeout(this.timer)
+      // this.countDown = 0;
+      // let form = new FormData();
+      // form.append('id', this.pergunta[this.index]['id'])
+      // form.append('pergunta', this.pergunta[this.index]['enunciado'])
+      // form.append('resposta', resposta)
+      // form.append('resultado', this.res)
+      // form.append('tipo', this.pergunta[this.index]['tipo'])
+      // form.append('sessioId', this.session)
+      // axios.post('/setResposta', form).then(function (response) {
+      //     this.change()
+      //     this.sleep(2500)
+      // }.bind(this));
+    },
+    getResposta: function getResposta(array, Ans) {
+      this.pergunta = array;
+      var respostas = Ans;
+      console.log(this.pergunta['tipo']);
+
+      if (this.pergunta['tipo'] === 'true/false') {
+        this.resposta = respostas[0]['resposta'];
+      } else if (this.pergunta['tipo'] === 'multiple') {
+        console.log('pois');
+        var i;
+
+        for (i = 0; i < respostas.length; i++) {
+          if (respostas[i]['resposta'] === " ") {
+            this.multipleQuestion[i] = null;
+          } else {
+            if (respostas[i]['resultado'] === 1) {
+              this.resposta = respostas[i]['resposta'];
+            }
+
+            this.multipleQuestion[i] = respostas[i]['resposta'];
+          }
+        }
+      } else if (this.pergunta['tipo'] === 'multiple-select') {
+        this.first = 0;
+        this.respostasMultiplas = [];
+
+        for (var _i = 0; _i < respostas.length; _i++) {
+          var k = _i + 1;
+
+          if (respostas[_i]['resposta'] === " ") {
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#ms' + k).hide();
+          } else {
+            if (respostas[_i]['resultado'] === 1) {
+              this.respostasMultiplas.push(respostas[_i]['resposta']);
+            }
+          }
+
+          this.respostasCertas = 0;
+          jquery__WEBPACK_IMPORTED_MODULE_1___default()('#ms' + k).show();
+          jquery__WEBPACK_IMPORTED_MODULE_1___default()('#ms' + k).html(respostas[_i]['resposta']);
+          jquery__WEBPACK_IMPORTED_MODULE_1___default()('#ms' + k).val(respostas[_i]['resposta']);
+        }
+      }
+
+      this.startQuestion();
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#quizz').show();
+    },
+    startQuestion: function startQuestion() {
+      this.questionType = this.pergunta['tipo'];
+      this.enunciado = this.pergunta['enunciado'];
+      this.valor = this.pergunta['valor'];
     }
   },
   mounted: function mounted() {
+    jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').hide();
+    jquery__WEBPACK_IMPORTED_MODULE_1___default()('#quizz').hide();
+
     if (localStorage.getItem('sessao') != null) {
       this.students = localStorage.getItem('students');
     } else {
@@ -5621,6 +5946,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5642,10 +5972,12 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     start: function start() {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/startQuizz');
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/startQuizz').then(function (response) {
+        console.log("ji");
+        $('#waitRoom').hide();
+      });
     },
     sair: function sair() {
-      laravel_echo__WEBPACK_IMPORTED_MODULE_1__.default.leaveChannel('room.' + this.sessao);
       localStorage.clear();
       window.location.replace('/leaveRoom');
     },
@@ -48303,23 +48635,342 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { attrs: { id: "waitRoom" } }, [
-      _c("p", [_vm._v(_vm._s(_vm.students))]),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          on: {
-            click: function($event) {
-              return _vm.sair()
+  return _vm.pergunta.length === 0
+    ? _c("div", [
+        _c("p", [_vm._v(_vm._s(_vm.students))]),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            on: {
+              click: function($event) {
+                return _vm.sair()
+              }
             }
-          }
-        },
-        [_vm._v("cancel")]
-      )
-    ])
-  ])
+          },
+          [_vm._v("cancel")]
+        )
+      ])
+    : _vm.pergunta.length !== 0
+    ? _c("div", [
+        _c(
+          "div",
+          { staticClass: "fazerTeste mx-auto", attrs: { id: "container" } },
+          [
+            _c("div", { staticClass: "counter d-flex" }, [
+              _c("span", [_vm._v(_vm._s(_vm.countDown))])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "pergunta text-start" }, [
+              _c("p", [_vm._v(_vm._s(_vm.enunciado))])
+            ]),
+            _vm._v(" "),
+            _vm.fileCheck() === 1
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "text-center",
+                    staticStyle: { "min-height": "30rem" }
+                  },
+                  [
+                    _c("img", {
+                      staticClass: "mx-auto",
+                      attrs: {
+                        src:
+                          "/images/Pergunta/Multimedia/" + _vm.pergunta["link"],
+                        alt: "imagem da pergunta",
+                        height: "40%",
+                        width: "40%"
+                      }
+                    })
+                  ]
+                )
+              : _vm.fileCheck() === 2
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "text-center",
+                    staticStyle: { "min-height": "30rem" }
+                  },
+                  [
+                    _c(
+                      "video",
+                      {
+                        staticClass: "mx-auto",
+                        attrs: { width: "320", height: "240", controls: "" }
+                      },
+                      [
+                        _c("source", {
+                          attrs: {
+                            id: "questionMulti",
+                            src:
+                              "/images/Pergunta/Multimedia/" +
+                              _vm.pergunta["link"],
+                            type: ""
+                          }
+                        })
+                      ]
+                    )
+                  ]
+                )
+              : _vm.fileCheck() === 3
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "text-center",
+                    staticStyle: { "min-height": "30rem" }
+                  },
+                  [
+                    _c("audio", { attrs: { controls: "" } }, [
+                      _c("source", {
+                        attrs: {
+                          id: "questionMultiAudio",
+                          src:
+                            "/images/Pergunta/Multimedia/" +
+                            _vm.pergunta["link"],
+                          type: ""
+                        }
+                      })
+                    ])
+                  ]
+                )
+              : _vm.fileCheck() === 0
+              ? _c("div", { staticStyle: { "min-height": "30rem" } })
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.pergunta["tipo"] === "multiple"
+              ? _c("div", { staticClass: "respostas mt-5" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c(
+                        "button",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.multipleQuestion[0] !== null,
+                              expression: "multipleQuestion[0] !== null"
+                            }
+                          ],
+                          staticClass: "respostas-btn respostas-btn-1",
+                          attrs: { id: "Qm" + _vm.multipleQuestion[0] },
+                          on: {
+                            click: function($event) {
+                              return _vm.response("multiple", "0")
+                            }
+                          }
+                        },
+                        [_vm._v(" " + _vm._s(_vm.multipleQuestion[0]))]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c(
+                        "button",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.multipleQuestion[1] !== null,
+                              expression: "multipleQuestion[1] !== null"
+                            }
+                          ],
+                          staticClass: "respostas-btn respostas-btn-2",
+                          attrs: { id: "Qm" + _vm.multipleQuestion[1] },
+                          on: {
+                            click: function($event) {
+                              return _vm.response("multiple", "1")
+                            }
+                          }
+                        },
+                        [_vm._v(" " + _vm._s(_vm.multipleQuestion[1]))]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c(
+                        "button",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.multipleQuestion[2] !== null,
+                              expression: "multipleQuestion[2] !== null"
+                            }
+                          ],
+                          staticClass: "respostas-btn respostas-btn-3 mt-4",
+                          attrs: { id: "Qm" + _vm.multipleQuestion[2] },
+                          on: {
+                            click: function($event) {
+                              return _vm.response("multiple", "2")
+                            }
+                          }
+                        },
+                        [_vm._v(" " + _vm._s(_vm.multipleQuestion[2]))]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c(
+                        "button",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.multipleQuestion[3] !== null,
+                              expression: "multipleQuestion[3] !== null"
+                            }
+                          ],
+                          staticClass: "respostas-btn respostas-btn-4 mt-4",
+                          attrs: { id: "Qm" + _vm.multipleQuestion[3] },
+                          on: {
+                            click: function($event) {
+                              return _vm.response("multiple", "3")
+                            }
+                          }
+                        },
+                        [_vm._v(" " + _vm._s(_vm.multipleQuestion[3]))]
+                      )
+                    ])
+                  ])
+                ])
+              : _vm.pergunta["tipo"] === "true/false"
+              ? _c("div", { staticClass: "respostas mt-5" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "respostas-btn respostas-btn-1",
+                          attrs: { id: "tf1", value: "true" },
+                          on: {
+                            click: function($event) {
+                              return _vm.response("tf1")
+                            }
+                          }
+                        },
+                        [_vm._v("True\n                    ")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "respostas-btn respostas-btn-2",
+                          attrs: { id: "tf2", value: "false" },
+                          on: {
+                            click: function($event) {
+                              return _vm.response("tf2")
+                            }
+                          }
+                        },
+                        [_vm._v("False\n                    ")]
+                      )
+                    ])
+                  ])
+                ])
+              : _vm.pergunta["tipo"] === "multiple-select"
+              ? _c("div", { staticClass: "respostas mt-5" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("p", { staticClass: "text-center" }, [
+                      _vm.pergunta["tipo"] === "multiple-select"
+                        ? _c("span", { staticClass: "selecao-mul mx-auto" }, [
+                            _vm._v("\n                     Respostas"),
+                            _c("span", [
+                              _vm._v(" " + _vm._s(_vm.botaoEscolhido.length))
+                            ]),
+                            _vm._v(
+                              "  / " +
+                                _vm._s(_vm.respostasMultiplas.length) +
+                                "\n        "
+                            )
+                          ])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "respostas-btn respostas-btn-1",
+                          attrs: { id: "ms1" },
+                          on: {
+                            click: function($event) {
+                              return _vm.responseMultiplas("ms1")
+                            }
+                          }
+                        },
+                        [_vm._v(" \n                    ")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "respostas-btn respostas-btn-2",
+                          attrs: { id: "ms2" },
+                          on: {
+                            click: function($event) {
+                              return _vm.responseMultiplas("ms2")
+                            }
+                          }
+                        },
+                        [_vm._v(" \n                    ")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "respostas-btn respostas-btn-3 mt-4",
+                          attrs: { id: "ms3" },
+                          on: {
+                            click: function($event) {
+                              return _vm.responseMultiplas("ms3")
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                         \n                    "
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "respostas-btn respostas-btn-4 mt-4",
+                          attrs: { id: "ms4" },
+                          on: {
+                            click: function($event) {
+                              return _vm.responseMultiplas("ms4")
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                         \n                    "
+                          )
+                        ]
+                      )
+                    ])
+                  ])
+                ])
+              : _vm._e()
+          ]
+        )
+      ])
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -48646,35 +49297,37 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("p", [_vm._v(_vm._s(_vm.students))]),
-    _vm._v(" "),
-    _c("p", [_vm._v(_vm._s(this.sessao))]),
-    _vm._v(" "),
-    _c(
-      "button",
-      {
-        on: {
-          click: function($event) {
-            return _vm.sair()
+    _c("div", { attrs: { id: "waitRoom" } }, [
+      _c("p", [_vm._v(_vm._s(_vm.students))]),
+      _vm._v(" "),
+      _c("p", [_vm._v(_vm._s(this.sessao))]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          on: {
+            click: function($event) {
+              return _vm.sair()
+            }
           }
-        }
-      },
-      [_vm._v("cancel")]
-    ),
-    _vm._v(" "),
-    _c(
-      "button",
-      {
-        on: {
-          click: function($event) {
-            return _vm.start()
+        },
+        [_vm._v("cancel")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          on: {
+            click: function($event) {
+              return _vm.start()
+            }
           }
-        }
-      },
-      [_vm._v("Iniciar Quizz")]
-    ),
-    _vm._v(" "),
-    _c("p", [_vm._v(_vm._s(this.users))])
+        },
+        [_vm._v("Iniciar Quizz")]
+      ),
+      _vm._v(" "),
+      _c("p", [_vm._v(_vm._s(this.users))])
+    ])
   ])
 }
 var staticRenderFns = []

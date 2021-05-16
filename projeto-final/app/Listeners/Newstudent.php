@@ -26,7 +26,7 @@ class Newstudent
      * @param QuizzQuestion $event2
      * @return void
      */
-    public function handle(WaitRoom $event , QuizzQuestion $event2)
+    public function handle(WaitRoom $event)
     {
         //
     }
