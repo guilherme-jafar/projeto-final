@@ -12,25 +12,33 @@ class Pergunta extends Controller
 
 //        return view('/prof/Disciplina', ['topico' => $topico]);
 
-        //$pergunta =  \App\Models\pergunta::find($request->id);
+        $pergunta =  \App\Models\pergunta::find($request->id);
 
-        $pergunta = DB::select('SELECT * FROM topicos t ,perguntas p WHERE t.id=p.topicos_id AND t.id=:id', ['id' => $request->id]);
-//        $pergunta = DB::table('topicos')
-//            ->join('perguntas', 'perguntas.topicos_id', '=', 'topicos.id')
-//            ->where("topicos.id", "=" ,  $request->id)
-//            ->paginate(5);
-//        dd($pergunta);
+//        //$pergunta = DB::select('SELECT * FROM topicos t ,perguntas p WHERE t.id=p.topicos_id AND t.id=:id', ['id' => $request->id]);
+//        $pergunta->setRespostas(DB::select('SELECT * FROM respostas WHERE perguntas_id =:id', ['id' => $pergunta['id']]));
 
         if (!empty($pergunta)) {
-            return response()->json([
-                'message' => $pergunta,
-            ]);
+            return view('/prof/pergunta', ['pergunta' => $pergunta]);
         } else {
-            return response()->json([
-                'message' => [],
-            ]);
+            return view('/prof/pergunta', ['pergunta' => []]);
         }
 
+
+    }
+
+    function getRespostas(Request $request){
+
+        $respostas = DB::select('SELECT * FROM respostas WHERE perguntas_id =:id', ['id' => $request->id]);
+       // dd($respostas);
+        if (!empty($respostas)){
+            return response()->json([
+                'message' => $respostas,
+            ]);
+        }else{
+            return response()->json([
+                'message' =>[],
+            ]);
+        }
 
     }
 }

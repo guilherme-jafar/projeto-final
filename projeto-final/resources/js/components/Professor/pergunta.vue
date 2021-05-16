@@ -12,7 +12,7 @@
                     <li v-for="pergunta in perguntas" :key="pergunta['id']">
 
                         <div class=" card">
-                            <a :href="'/prof/pergunta/'+ pergunta['id']"><h3>{{pergunta['enunciado']}}</h3></a>
+                            <a :href="'/prof/pergunta/'+ pergunta['id']">{{pergunta['enunciado']}}</a>
                         </div>
 
                     </li>
@@ -20,7 +20,7 @@
             </div>
 
 
-            <div class="text-end">
+            <div class="text-end mt-3">
                 <button type="button" class="btn btn-third" data-bs-toggle="modal" :data-bs-target="'#p'+topicos">
                     Adicionar pergunta
                 </button>
@@ -111,7 +111,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
-                        <div class="modal-body p-md-5">
+                        <div class="modal-body modal-background p-md-5">
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -339,9 +339,11 @@
 
             getPerguntas() {
                 let form = new FormData()
+
                 form.append('id', this.topicos)
                 axios.post('/getPerguntas', form).then(function (response) {
                         this.perguntas = response.data.message;
+
                     }.bind(this)
                 );
             },

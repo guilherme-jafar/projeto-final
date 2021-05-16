@@ -3448,6 +3448,379 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3455,12 +3828,60 @@ __webpack_require__.r(__webpack_exports__);
   props: ['pergunta_prop'],
   data: function data() {
     return {
-      pergunta: JSON.parse(this.pergunta_prop)
+      pergunta: JSON.parse(this.pergunta_prop),
+      respostas: [],
+      isFetching: true
     };
   },
-  methods: {},
+  methods: {
+    getRespostas: function getRespostas(id) {
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get('/prof/getRespostas/' + id).then(function (response) {
+        _this.respostas = response.data.message;
+        _this.isFetching = false;
+      });
+    },
+    alter: function alter() {
+      var id = "trueFalse" + this.pergunta['id'];
+      var id2 = "multiple" + this.pergunta['id'];
+      var id3 = "multiple-select" + this.pergunta['id'];
+
+      if (document.getElementById("tipo" + this.pergunta['id']).value === "multiple") {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).hide();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).show();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).hide();
+      } else if (document.getElementById("tipo" + this.pergunta['id']).value === "true/false") {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).show();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).hide();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).hide();
+      } else if (document.getElementById("tipo" + this.pergunta['id']).value === "multiple-select") {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).hide();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).hide();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).show();
+      }
+    }
+  },
   mounted: function mounted() {
-    console.log('efjsdnvkfd');
+    this.getRespostas(this.pergunta['id']);
+    var pergunta = this.pergunta;
+    var id = "trueFalse" + pergunta['id'];
+    var id2 = "multiple" + pergunta['id'];
+    var id3 = "multiple-select" + pergunta['id'];
+
+    if (pergunta['tipo'] === 'multiple-select') {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).hide();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).hide();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).show();
+    } else if (pergunta['tipo'] === 'multiple') {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).hide();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).show();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).hide();
+    } else if (pergunta['tipo'] === 'true/false') {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).show();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).hide();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).hide();
+    }
   }
 });
 
@@ -44616,7 +45037,7 @@ var render = function() {
                       _c(
                         "a",
                         { attrs: { href: "/prof/pergunta/" + pergunta["id"] } },
-                        [_c("h3", [_vm._v(_vm._s(pergunta["enunciado"]))])]
+                        [_vm._v(_vm._s(pergunta["enunciado"]))]
                       )
                     ])
                   ])
@@ -44625,7 +45046,7 @@ var render = function() {
               )
             ]),
         _vm._v(" "),
-        _c("div", { staticClass: "text-end" }, [
+        _c("div", { staticClass: "text-end mt-3" }, [
           _c(
             "button",
             {
@@ -44809,562 +45230,594 @@ var render = function() {
                 _c("div", { staticClass: "modal-content" }, [
                   _vm._m(3),
                   _vm._v(" "),
-                  _c("div", { staticClass: "modal-body p-md-5" }, [
-                    _c("div", { staticClass: "container-fluid" }, [
-                      _c("div", { staticClass: "row" }, [
-                        _c("div", { staticClass: "col-md-12" }, [
-                          _c("input", {
-                            staticClass: "form-control form-control-pergunta",
-                            attrs: {
-                              type: "text",
-                              placeholder: "Escreva a pergunta aqui",
-                              id: "pergunta" + _vm.topicos
-                            }
-                          }),
-                          _c("br"),
+                  _c(
+                    "div",
+                    { staticClass: "modal-body modal-background p-md-5" },
+                    [
+                      _c("div", { staticClass: "container-fluid" }, [
+                        _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "col-md-12" }, [
+                            _c("input", {
+                              staticClass: "form-control form-control-pergunta",
+                              attrs: {
+                                type: "text",
+                                placeholder: "Escreva a pergunta aqui",
+                                id: "pergunta" + _vm.topicos
+                              }
+                            }),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("p", {
+                              attrs: { id: "PerguntaError" + _vm.topicos }
+                            })
+                          ]),
                           _vm._v(" "),
-                          _c("p", {
-                            attrs: { id: "PerguntaError" + _vm.topicos }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-12 mt-5" }, [
-                          _c("input", {
-                            staticClass: "Pergunta_file mx-auto",
-                            attrs: { type: "file", id: "file" + _vm.topicos }
-                          }),
+                          _c("div", { staticClass: "col-md-12 mt-5" }, [
+                            _c("input", {
+                              staticClass: "Pergunta_file mx-auto",
+                              attrs: { type: "file", id: "file" + _vm.topicos }
+                            }),
+                            _vm._v(" "),
+                            _c("label", {
+                              staticClass: "pergunta_input",
+                              attrs: { file: "file" + _vm.topicos }
+                            }),
+                            _vm._v(" "),
+                            _c("p", {
+                              attrs: { id: "fileError" + _vm.topicos }
+                            })
+                          ]),
                           _vm._v(" "),
-                          _c("label", {
-                            staticClass: "pergunta_input",
-                            attrs: { file: "file" + _vm.topicos }
-                          }),
-                          _vm._v(" "),
-                          _c("p", { attrs: { id: "fileError" + _vm.topicos } })
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-4 text-center" }, [
-                          _c(
-                            "label",
-                            { attrs: { for: "tipo" + _vm.topicos } },
-                            [
-                              _vm._v(
-                                "\n                                        Indique o tipo de pergunta"
-                              ),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c(
-                                "select",
-                                {
-                                  staticClass: "form-select",
-                                  attrs: {
-                                    name: "tipo",
-                                    id: "tipo" + _vm.topicos
+                          _c("div", { staticClass: "col-md-4 text-center" }, [
+                            _c(
+                              "label",
+                              { attrs: { for: "tipo" + _vm.topicos } },
+                              [
+                                _vm._v(
+                                  "\n                                        Indique o tipo de pergunta"
+                                ),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c(
+                                  "select",
+                                  {
+                                    staticClass: "form-select",
+                                    attrs: {
+                                      name: "tipo",
+                                      id: "tipo" + _vm.topicos
+                                    },
+                                    on: {
+                                      change: function($event) {
+                                        return _vm.alter()
+                                      }
+                                    }
                                   },
-                                  on: {
-                                    change: function($event) {
-                                      return _vm.alter()
+                                  [
+                                    _c(
+                                      "option",
+                                      { attrs: { value: "multiple" } },
+                                      [_vm._v("Seleção Única")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "option",
+                                      { attrs: { value: "multiple-select" } },
+                                      [_vm._v("Seleção Múltipla")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "option",
+                                      { attrs: { value: "true/false" } },
+                                      [_vm._v("Verdadeiro/Falso")]
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-4 text-center" }, [
+                            _c(
+                              "label",
+                              { attrs: { for: "tempo" + _vm.topicos } },
+                              [
+                                _vm._v(
+                                  "\n                                        Indique o tempo de pergunta"
+                                ),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c(
+                                  "select",
+                                  {
+                                    staticClass: "form-select",
+                                    attrs: {
+                                      name: "tipo",
+                                      id: "tempo" + _vm.topicos
                                     }
-                                  }
-                                },
-                                [
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "multiple" } },
-                                    [_vm._v("Seleção Única")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "multiple-select" } },
-                                    [_vm._v("Seleção Múltipla")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "true/false" } },
-                                    [_vm._v("Verdadeiro/Falso")]
-                                  )
-                                ]
-                              )
-                            ]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-4 text-center" }, [
-                          _c(
-                            "label",
-                            { attrs: { for: "tempo" + _vm.topicos } },
-                            [
-                              _vm._v(
-                                "\n                                        Indique o tempo de pergunta"
-                              ),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c(
-                                "select",
-                                {
-                                  staticClass: "form-select",
-                                  attrs: {
-                                    name: "tipo",
-                                    id: "tempo" + _vm.topicos
-                                  }
-                                },
-                                [
-                                  _c("option", { attrs: { value: "5" } }, [
-                                    _vm._v("5")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("option", { attrs: { value: "10" } }, [
-                                    _vm._v("10")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("option", { attrs: { value: "20" } }, [
-                                    _vm._v("20")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("option", { attrs: { value: "30" } }, [
-                                    _vm._v("30")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("option", { attrs: { value: "60" } }, [
-                                    _vm._v("1 minuto")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("option", { attrs: { value: "90" } }, [
-                                    _vm._v("1 minuto e 30 segundos")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("option", { attrs: { value: "120" } }, [
-                                    _vm._v("2 minutos")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("option", { attrs: { value: "240" } }, [
-                                    _vm._v("4 minutos")
+                                  },
+                                  [
+                                    _c("option", { attrs: { value: "5" } }, [
+                                      _vm._v("5")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("option", { attrs: { value: "10" } }, [
+                                      _vm._v("10")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("option", { attrs: { value: "20" } }, [
+                                      _vm._v("20")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("option", { attrs: { value: "30" } }, [
+                                      _vm._v("30")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("option", { attrs: { value: "60" } }, [
+                                      _vm._v("1 minuto")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("option", { attrs: { value: "90" } }, [
+                                      _vm._v("1 minuto e 30 segundos")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("option", { attrs: { value: "120" } }, [
+                                      _vm._v("2 minutos")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("option", { attrs: { value: "240" } }, [
+                                      _vm._v("4 minutos")
+                                    ])
+                                  ]
+                                )
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-4 text-center" }, [
+                            _c(
+                              "label",
+                              { attrs: { for: "pontos" + _vm.topicos } },
+                              [
+                                _vm._v(
+                                  "\n                                        Indique a pontuação"
+                                ),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c(
+                                  "select",
+                                  {
+                                    staticClass: "form-select",
+                                    attrs: {
+                                      name: "pontos",
+                                      id: "pontos" + _vm.topicos
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "option",
+                                      { attrs: { value: "Normal" } },
+                                      [_vm._v("Normal")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "option",
+                                      { attrs: { value: "Pontos duplos" } },
+                                      [_vm._v("Pontos duplos")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "option",
+                                      { attrs: { value: "Sem pontos" } },
+                                      [_vm._v("Sem pontos")]
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-12 " }, [
+                            _c(
+                              "div",
+                              {
+                                staticStyle: { "margin-top": "20px" },
+                                attrs: { id: "multiple" + _vm.topicos }
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "input-group mb-3 insertAnsewr"
+                                  },
+                                  [
+                                    _c("input", {
+                                      staticClass: " form-control",
+                                      staticStyle: { border: "none" },
+                                      attrs: {
+                                        type: "text",
+                                        id: "re1" + _vm.topicos,
+                                        "aria-label":
+                                          "Text input with radio button",
+                                        placeholder: "Opção 1"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "input-group-text" },
+                                      [
+                                        _c("input", {
+                                          staticClass: "form-check-input",
+                                          attrs: {
+                                            type: "radio",
+                                            name: "corret" + _vm.topicos
+                                          },
+                                          domProps: {
+                                            value: "re1" + _vm.topicos
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "input-group mb-3 insertAnsewr"
+                                  },
+                                  [
+                                    _c("input", {
+                                      staticClass: " form-control",
+                                      staticStyle: { border: "none" },
+                                      attrs: {
+                                        type: "text",
+                                        id: "re2" + _vm.topicos,
+                                        "aria-label":
+                                          "Text input with radio button",
+                                        placeholder: "Opção 2"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "input-group-text" },
+                                      [
+                                        _c("input", {
+                                          staticClass: "form-check-input",
+                                          attrs: {
+                                            type: "radio",
+                                            name: "corret" + _vm.topicos
+                                          },
+                                          domProps: {
+                                            value: "re2" + _vm.topicos
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "input-group mb-3 insertAnsewr"
+                                  },
+                                  [
+                                    _c("input", {
+                                      staticClass: " form-control",
+                                      staticStyle: { border: "none" },
+                                      attrs: {
+                                        type: "text",
+                                        id: "re3" + _vm.topicos,
+                                        "aria-label":
+                                          "Text input with radio button",
+                                        placeholder: "Opção 3"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "input-group-text" },
+                                      [
+                                        _c("input", {
+                                          staticClass: "form-check-input",
+                                          attrs: {
+                                            type: "radio",
+                                            name: "corret" + _vm.topicos
+                                          },
+                                          domProps: {
+                                            value: "re3" + _vm.topicos
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "input-group mb-3 insertAnsewr"
+                                  },
+                                  [
+                                    _c("input", {
+                                      staticClass: " form-control",
+                                      staticStyle: { border: "none" },
+                                      attrs: {
+                                        type: "text",
+                                        id: "re4" + _vm.topicos,
+                                        "aria-label":
+                                          "Text input with radio button",
+                                        placeholder: "Opção 4"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "input-group-text" },
+                                      [
+                                        _c("input", {
+                                          staticClass: "form-check-input",
+                                          attrs: {
+                                            type: "radio",
+                                            name: "corret" + _vm.topicos
+                                          },
+                                          domProps: {
+                                            value: "re4" + _vm.topicos
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-12" }, [
+                            _c(
+                              "div",
+                              { attrs: { id: "trueFalse" + _vm.topicos } },
+                              [
+                                _c("div", { staticClass: "mb-5 mt-5" }, [
+                                  _c("label", { staticClass: "label-tf" }, [
+                                    _vm._v(
+                                      "Verdadeira\n                                                "
+                                    ),
+                                    _c("input", {
+                                      attrs: {
+                                        type: "radio",
+                                        name: "TF" + _vm.topicos,
+                                        value: "true"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("span")
                                   ])
-                                ]
-                              )
-                            ]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-4 text-center" }, [
-                          _c(
-                            "label",
-                            { attrs: { for: "pontos" + _vm.topicos } },
-                            [
-                              _vm._v(
-                                "\n                                        Indique a pontuação"
-                              ),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c(
-                                "select",
-                                {
-                                  staticClass: "form-select",
-                                  attrs: {
-                                    name: "pontos",
-                                    id: "pontos" + _vm.topicos
-                                  }
-                                },
-                                [
-                                  _c("option", { attrs: { value: "Normal" } }, [
-                                    _vm._v("Normal")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "Pontos duplos" } },
-                                    [_vm._v("Pontos duplos")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "Sem pontos" } },
-                                    [_vm._v("Sem pontos")]
-                                  )
-                                ]
-                              )
-                            ]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-12 " }, [
-                          _c(
-                            "div",
-                            {
-                              staticStyle: { "margin-top": "20px" },
-                              attrs: { id: "multiple" + _vm.topicos }
-                            },
-                            [
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "input-group mb-3 insertAnsewr"
-                                },
-                                [
-                                  _c("input", {
-                                    staticClass: " form-control",
-                                    staticStyle: { border: "none" },
-                                    attrs: {
-                                      type: "text",
-                                      id: "re1" + _vm.topicos,
-                                      "aria-label":
-                                        "Text input with radio button",
-                                      placeholder: "Opção 1"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    { staticClass: "input-group-text" },
-                                    [
-                                      _c("input", {
-                                        staticClass: "form-check-input",
-                                        attrs: {
-                                          type: "radio",
-                                          name: "corret" + _vm.topicos
-                                        },
-                                        domProps: { value: "re1" + _vm.topicos }
-                                      })
-                                    ]
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "input-group mb-3 insertAnsewr"
-                                },
-                                [
-                                  _c("input", {
-                                    staticClass: " form-control",
-                                    staticStyle: { border: "none" },
-                                    attrs: {
-                                      type: "text",
-                                      id: "re2" + _vm.topicos,
-                                      "aria-label":
-                                        "Text input with radio button",
-                                      placeholder: "Opção 2"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    { staticClass: "input-group-text" },
-                                    [
-                                      _c("input", {
-                                        staticClass: "form-check-input",
-                                        attrs: {
-                                          type: "radio",
-                                          name: "corret" + _vm.topicos
-                                        },
-                                        domProps: { value: "re2" + _vm.topicos }
-                                      })
-                                    ]
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "input-group mb-3 insertAnsewr"
-                                },
-                                [
-                                  _c("input", {
-                                    staticClass: " form-control",
-                                    staticStyle: { border: "none" },
-                                    attrs: {
-                                      type: "text",
-                                      id: "re3" + _vm.topicos,
-                                      "aria-label":
-                                        "Text input with radio button",
-                                      placeholder: "Opção 3"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    { staticClass: "input-group-text" },
-                                    [
-                                      _c("input", {
-                                        staticClass: "form-check-input",
-                                        attrs: {
-                                          type: "radio",
-                                          name: "corret" + _vm.topicos
-                                        },
-                                        domProps: { value: "re3" + _vm.topicos }
-                                      })
-                                    ]
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "input-group mb-3 insertAnsewr"
-                                },
-                                [
-                                  _c("input", {
-                                    staticClass: " form-control",
-                                    staticStyle: { border: "none" },
-                                    attrs: {
-                                      type: "text",
-                                      id: "re4" + _vm.topicos,
-                                      "aria-label":
-                                        "Text input with radio button",
-                                      placeholder: "Opção 4"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    { staticClass: "input-group-text" },
-                                    [
-                                      _c("input", {
-                                        staticClass: "form-check-input",
-                                        attrs: {
-                                          type: "radio",
-                                          name: "corret" + _vm.topicos
-                                        },
-                                        domProps: { value: "re4" + _vm.topicos }
-                                      })
-                                    ]
-                                  )
-                                ]
-                              )
-                            ]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-12" }, [
-                          _c(
-                            "div",
-                            { attrs: { id: "trueFalse" + _vm.topicos } },
-                            [
-                              _c("div", { staticClass: "mb-5 mt-5" }, [
-                                _c("label", { staticClass: "label-tf" }, [
-                                  _vm._v(
-                                    "Verdadeira\n                                                "
-                                  ),
-                                  _c("input", {
-                                    attrs: {
-                                      type: "radio",
-                                      name: "TF" + _vm.topicos,
-                                      value: "true"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("span")
-                                ])
-                              ]),
-                              _vm._v(" "),
-                              _c("div", [
-                                _c("label", { staticClass: "label-tf" }, [
-                                  _vm._v(
-                                    "Falsa\n                                                "
-                                  ),
-                                  _c("input", {
-                                    attrs: {
-                                      type: "radio",
-                                      name: "TF" + _vm.topicos,
-                                      value: "false"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("span")
-                                ])
-                              ]),
-                              _vm._v(" "),
-                              _c("p", { attrs: { id: "TError" + _vm.topicos } })
-                            ]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-12 " }, [
-                          _c(
-                            "div",
-                            {
-                              staticStyle: { "margin-top": "20px" },
-                              attrs: { id: "multiple-select" + _vm.topicos }
-                            },
-                            [
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "input-group mb-3 insertAnsewr"
-                                },
-                                [
-                                  _c("input", {
-                                    staticClass: " form-control",
-                                    staticStyle: { border: "none" },
-                                    attrs: {
-                                      type: "text",
-                                      id: "rem1" + _vm.topicos,
-                                      "aria-label":
-                                        "Text input with radio button",
-                                      placeholder: "Opção 1"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    { staticClass: "input-group-text" },
-                                    [
-                                      _c("input", {
-                                        staticClass: "form-check-input",
-                                        attrs: {
-                                          type: "checkbox",
-                                          name: "corret" + _vm.topicos + "[]"
-                                        },
-                                        domProps: { value: "re1" + _vm.topicos }
-                                      })
-                                    ]
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "input-group mb-3 insertAnsewr"
-                                },
-                                [
-                                  _c("input", {
-                                    staticClass: " form-control",
-                                    staticStyle: { border: "none" },
-                                    attrs: {
-                                      type: "text",
-                                      id: "rem2" + _vm.topicos,
-                                      "aria-label":
-                                        "Text input with radio button",
-                                      placeholder: "Opção 2"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    { staticClass: "input-group-text" },
-                                    [
-                                      _c("input", {
-                                        staticClass: "form-check-input",
-                                        attrs: {
-                                          type: "checkbox",
-                                          name: "corret" + _vm.topicos + "[]"
-                                        },
-                                        domProps: { value: "re2" + _vm.topicos }
-                                      })
-                                    ]
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "input-group mb-3 insertAnsewr"
-                                },
-                                [
-                                  _c("input", {
-                                    staticClass: " form-control",
-                                    staticStyle: { border: "none" },
-                                    attrs: {
-                                      type: "text",
-                                      id: "rem3" + _vm.topicos,
-                                      "aria-label":
-                                        "Text input with radio button",
-                                      placeholder: "Opção 3"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    { staticClass: "input-group-text" },
-                                    [
-                                      _c("input", {
-                                        staticClass: "form-check-input",
-                                        attrs: {
-                                          type: "checkbox",
-                                          name: "corret" + _vm.topicos + "[]"
-                                        },
-                                        domProps: { value: "re3" + _vm.topicos }
-                                      })
-                                    ]
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "input-group mb-3 insertAnsewr"
-                                },
-                                [
-                                  _c("input", {
-                                    staticClass: " form-control",
-                                    staticStyle: { border: "none" },
-                                    attrs: {
-                                      type: "text",
-                                      id: "rem4" + _vm.topicos,
-                                      "aria-label":
-                                        "Text input with radio button",
-                                      placeholder: "Opção 4"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    { staticClass: "input-group-text" },
-                                    [
-                                      _c("input", {
-                                        staticClass: "form-check-input",
-                                        attrs: {
-                                          type: "checkbox",
-                                          name: "corret" + _vm.topicos + "[]"
-                                        },
-                                        domProps: { value: "re4" + _vm.topicos }
-                                      })
-                                    ]
-                                  )
-                                ]
-                              )
-                            ]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-12" }, [
-                          _c("p", { attrs: { id: "RError" + _vm.topicos } })
+                                ]),
+                                _vm._v(" "),
+                                _c("div", [
+                                  _c("label", { staticClass: "label-tf" }, [
+                                    _vm._v(
+                                      "Falsa\n                                                "
+                                    ),
+                                    _c("input", {
+                                      attrs: {
+                                        type: "radio",
+                                        name: "TF" + _vm.topicos,
+                                        value: "false"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("span")
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("p", {
+                                  attrs: { id: "TError" + _vm.topicos }
+                                })
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-12 " }, [
+                            _c(
+                              "div",
+                              {
+                                staticStyle: { "margin-top": "20px" },
+                                attrs: { id: "multiple-select" + _vm.topicos }
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "input-group mb-3 insertAnsewr"
+                                  },
+                                  [
+                                    _c("input", {
+                                      staticClass: " form-control",
+                                      staticStyle: { border: "none" },
+                                      attrs: {
+                                        type: "text",
+                                        id: "rem1" + _vm.topicos,
+                                        "aria-label":
+                                          "Text input with radio button",
+                                        placeholder: "Opção 1"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "input-group-text" },
+                                      [
+                                        _c("input", {
+                                          staticClass: "form-check-input",
+                                          attrs: {
+                                            type: "checkbox",
+                                            name: "corret" + _vm.topicos + "[]"
+                                          },
+                                          domProps: {
+                                            value: "re1" + _vm.topicos
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "input-group mb-3 insertAnsewr"
+                                  },
+                                  [
+                                    _c("input", {
+                                      staticClass: " form-control",
+                                      staticStyle: { border: "none" },
+                                      attrs: {
+                                        type: "text",
+                                        id: "rem2" + _vm.topicos,
+                                        "aria-label":
+                                          "Text input with radio button",
+                                        placeholder: "Opção 2"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "input-group-text" },
+                                      [
+                                        _c("input", {
+                                          staticClass: "form-check-input",
+                                          attrs: {
+                                            type: "checkbox",
+                                            name: "corret" + _vm.topicos + "[]"
+                                          },
+                                          domProps: {
+                                            value: "re2" + _vm.topicos
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "input-group mb-3 insertAnsewr"
+                                  },
+                                  [
+                                    _c("input", {
+                                      staticClass: " form-control",
+                                      staticStyle: { border: "none" },
+                                      attrs: {
+                                        type: "text",
+                                        id: "rem3" + _vm.topicos,
+                                        "aria-label":
+                                          "Text input with radio button",
+                                        placeholder: "Opção 3"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "input-group-text" },
+                                      [
+                                        _c("input", {
+                                          staticClass: "form-check-input",
+                                          attrs: {
+                                            type: "checkbox",
+                                            name: "corret" + _vm.topicos + "[]"
+                                          },
+                                          domProps: {
+                                            value: "re3" + _vm.topicos
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "input-group mb-3 insertAnsewr"
+                                  },
+                                  [
+                                    _c("input", {
+                                      staticClass: " form-control",
+                                      staticStyle: { border: "none" },
+                                      attrs: {
+                                        type: "text",
+                                        id: "rem4" + _vm.topicos,
+                                        "aria-label":
+                                          "Text input with radio button",
+                                        placeholder: "Opção 4"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "input-group-text" },
+                                      [
+                                        _c("input", {
+                                          staticClass: "form-check-input",
+                                          attrs: {
+                                            type: "checkbox",
+                                            name: "corret" + _vm.topicos + "[]"
+                                          },
+                                          domProps: {
+                                            value: "re4" + _vm.topicos
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-12" }, [
+                            _c("p", { attrs: { id: "RError" + _vm.topicos } })
+                          ])
                         ])
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "modal-footer" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-secondary",
-                          attrs: { type: "button", "data-bs-dismiss": "modal" }
-                        },
-                        [_vm._v("Cancelar\n                            ")]
-                      ),
+                      ]),
                       _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-primary",
-                          attrs: { type: "button", id: "submit" + _vm.topicos },
-                          on: {
-                            click: function($event) {
-                              return _vm.submit(_vm.topicos)
+                      _c("div", { staticClass: "modal-footer" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-secondary",
+                            attrs: {
+                              type: "button",
+                              "data-bs-dismiss": "modal"
                             }
-                          }
-                        },
-                        [_vm._v("inserir\n                            ")]
-                      )
-                    ])
-                  ])
+                          },
+                          [_vm._v("Cancelar\n                            ")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-primary",
+                            attrs: {
+                              type: "button",
+                              id: "submit" + _vm.topicos
+                            },
+                            on: {
+                              click: function($event) {
+                                return _vm.submit(_vm.topicos)
+                              }
+                            }
+                          },
+                          [_vm._v("inserir\n                            ")]
+                        )
+                      ])
+                    ]
+                  )
                 ])
               ]
             )
@@ -45469,17 +45922,910 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "editar-pergunta" }, [
+    _c("div", { staticClass: "modal-body p-md-5" }, [
+      _c("div", { staticClass: "container-fluid" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("input", {
+              staticClass: "form-control form-control-pergunta",
+              attrs: {
+                type: "text",
+                placeholder: "Escreva a pergunta aqui",
+                id: "pergunta" + _vm.pergunta["id"]
+              },
+              domProps: { value: _vm.pergunta["enunciado"] }
+            }),
+            _c("br"),
+            _vm._v(" "),
+            _c("p", { attrs: { id: "PerguntaError" + _vm.pergunta["id"] } })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-12 mt-5" }, [
+            _c("input", {
+              staticClass: "Pergunta_file mx-auto",
+              attrs: { type: "file", id: "file" + _vm.pergunta["id"] }
+            }),
+            _vm._v(" "),
+            _c("label", {
+              staticClass: "pergunta_input",
+              attrs: { file: "file" + _vm.pergunta["id"] }
+            }),
+            _vm._v(" "),
+            _c("p", { attrs: { id: "fileError" + _vm.pergunta["id"] } })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4 text-center" }, [
+            _c("label", { attrs: { for: "tipo" + _vm.pergunta["id"] } }, [
+              _vm._v("\n                        Indique o tipo de pergunta"),
+              _c("br"),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  staticClass: "form-select",
+                  attrs: { name: "tipo", id: "tipo" + _vm.pergunta["id"] },
+                  on: {
+                    change: function($event) {
+                      return _vm.alter()
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "option",
+                    {
+                      attrs: { value: "multiple" },
+                      domProps: {
+                        selected: _vm.pergunta["tipo"] === "multiple"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "Seleção\n                                Única\n                            "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "option",
+                    {
+                      attrs: { value: "multiple-select" },
+                      domProps: {
+                        selected: _vm.pergunta["tipo"] === "multiple-select"
+                      }
+                    },
+                    [_vm._v("Seleção Múltipla\n                            ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "option",
+                    {
+                      attrs: { value: "true/false" },
+                      domProps: {
+                        selected: _vm.pergunta["tipo"] === "true/false"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                Verdadeiro/Falso\n                            "
+                      )
+                    ]
+                  )
+                ]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4 text-center" }, [
+            _c("label", { attrs: { for: "tempo" + _vm.pergunta["id"] } }, [
+              _vm._v("\n                        Indique o tempo de pergunta"),
+              _c("br"),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  staticClass: "form-select",
+                  attrs: { name: "tipo", id: "tempo" + _vm.pergunta["id"] }
+                },
+                [
+                  _c(
+                    "option",
+                    {
+                      attrs: { value: "5" },
+                      domProps: { selected: _vm.pergunta["tempo"] === 5 }
+                    },
+                    [_vm._v("5")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "option",
+                    {
+                      attrs: { value: "10" },
+                      domProps: { selected: _vm.pergunta["tempo"] === 10 }
+                    },
+                    [_vm._v("10")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "option",
+                    {
+                      attrs: { value: "20" },
+                      domProps: { selected: _vm.pergunta["tempo"] === 20 }
+                    },
+                    [_vm._v("20")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "option",
+                    {
+                      attrs: { value: "30" },
+                      domProps: { selected: _vm.pergunta["tempo"] === 30 }
+                    },
+                    [_vm._v("30")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "option",
+                    {
+                      attrs: { value: "60" },
+                      domProps: { selected: _vm.pergunta["tempo"] === 60 }
+                    },
+                    [_vm._v("1 minuto")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "option",
+                    {
+                      attrs: { value: "90" },
+                      domProps: { selected: _vm.pergunta["tempo"] === 90 }
+                    },
+                    [
+                      _vm._v(
+                        "1 minuto e 30 segundos\n                            "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "option",
+                    {
+                      attrs: { value: "120" },
+                      domProps: { selected: _vm.pergunta["tempo"] === 120 }
+                    },
+                    [_vm._v("2 minutos")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "option",
+                    {
+                      attrs: { value: "240" },
+                      domProps: { selected: _vm.pergunta["tempo"] === 240 }
+                    },
+                    [_vm._v("4 minutos")]
+                  )
+                ]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4 text-center" }, [
+            _c("label", { attrs: { for: "pontos" + _vm.pergunta["id"] } }, [
+              _vm._v("\n                        Indique a pontuação"),
+              _c("br"),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  staticClass: "form-select",
+                  attrs: { name: "pontos", id: "pontos" + _vm.pergunta["id"] }
+                },
+                [
+                  _c(
+                    "option",
+                    {
+                      attrs: { value: "Normal" },
+                      domProps: { selected: _vm.pergunta["valor"] === 1000 }
+                    },
+                    [_vm._v("Normal")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "option",
+                    {
+                      attrs: { value: "Pontos duplos" },
+                      domProps: { selected: _vm.pergunta["valor"] === 2000 }
+                    },
+                    [
+                      _vm._v(
+                        "Pontos\n                                duplos\n                            "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "option",
+                    {
+                      attrs: { value: "Sem pontos" },
+                      domProps: { selected: _vm.pergunta["valor"] === 0 }
+                    },
+                    [_vm._v("Sem pontos\n                            ")]
+                  )
+                ]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _vm.isFetching
+            ? _c("div", [
+                _vm.pergunta["tipo"] !== "true/false"
+                  ? _c("div", [
+                      _vm._m(0),
+                      _vm._v(" "),
+                      _vm._m(1),
+                      _vm._v(" "),
+                      _vm._m(2),
+                      _vm._v(" "),
+                      _vm._m(3)
+                    ])
+                  : _c("div", [_vm._m(4), _vm._v(" "), _vm._m(5)])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-12 " }, [
+            _c(
+              "div",
+              {
+                staticStyle: { "margin-top": "20px" },
+                attrs: { id: "multiple" + _vm.pergunta["id"] }
+              },
+              [
+                !_vm.isFetching
+                  ? _c("div", [
+                      _c(
+                        "div",
+                        { staticClass: "input-group mb-3 insertAnsewr" },
+                        [
+                          _c("input", {
+                            staticClass: " form-control",
+                            staticStyle: { border: "none" },
+                            attrs: {
+                              type: "text",
+                              id: "re1" + _vm.pergunta["id"],
+                              "aria-label": "Text input with radio button",
+                              placeholder: "Opção 1"
+                            },
+                            domProps: {
+                              value:
+                                _vm.pergunta["tipo"] === "multiple"
+                                  ? _vm.respostas[0]["resposta"]
+                                  : ""
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "input-group-text" }, [
+                            _c("input", {
+                              staticClass: "form-check-input",
+                              attrs: {
+                                type: "radio",
+                                name: "corret" + _vm.pergunta["id"]
+                              },
+                              domProps: {
+                                value: "re1",
+                                checked: _vm.respostas[0]["resultado"] === 1
+                              }
+                            })
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _vm.pergunta["tipo"] !== "true/false"
+                        ? _c("div", [
+                            _c(
+                              "div",
+                              { staticClass: "input-group mb-3 insertAnsewr" },
+                              [
+                                _c("input", {
+                                  staticClass: " form-control",
+                                  staticStyle: { border: "none" },
+                                  attrs: {
+                                    type: "text",
+                                    id: "re2" + _vm.pergunta["id"],
+                                    "aria-label":
+                                      "Text input with radio button",
+                                    placeholder: "Opção 2"
+                                  },
+                                  domProps: {
+                                    value:
+                                      _vm.pergunta["tipo"] === "multiple"
+                                        ? _vm.respostas[1]["resposta"]
+                                        : ""
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "input-group-text" }, [
+                                  _c("input", {
+                                    staticClass: "form-check-input",
+                                    attrs: {
+                                      type: "radio",
+                                      name: "corret" + _vm.pergunta["id"]
+                                    },
+                                    domProps: {
+                                      value: "re2" + _vm.pergunta["id"],
+                                      checked:
+                                        _vm.respostas[1]["resultado"] === 1
+                                    }
+                                  })
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "input-group mb-3 insertAnsewr" },
+                              [
+                                _c("input", {
+                                  staticClass: " form-control",
+                                  staticStyle: { border: "none" },
+                                  attrs: {
+                                    type: "text",
+                                    id: "re3" + _vm.pergunta["id"],
+                                    "aria-label":
+                                      "Text input with radio button",
+                                    placeholder: "Opção 3"
+                                  },
+                                  domProps: {
+                                    value:
+                                      _vm.pergunta["tipo"] === "multiple"
+                                        ? _vm.respostas[2]["resposta"]
+                                        : ""
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "input-group-text" }, [
+                                  _c("input", {
+                                    staticClass: "form-check-input",
+                                    attrs: {
+                                      type: "radio",
+                                      name: "corret" + _vm.pergunta["id"]
+                                    },
+                                    domProps: {
+                                      value: "re3" + _vm.pergunta["id"],
+                                      checked:
+                                        _vm.respostas[2]["resultado"] === 1
+                                    }
+                                  })
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "input-group mb-3 insertAnsewr" },
+                              [
+                                _c("input", {
+                                  staticClass: " form-control",
+                                  staticStyle: { border: "none" },
+                                  attrs: {
+                                    type: "text",
+                                    id: "re4" + _vm.pergunta["id"],
+                                    "aria-label":
+                                      "Text input with radio button",
+                                    placeholder: "Opção 4"
+                                  },
+                                  domProps: {
+                                    value:
+                                      _vm.pergunta["tipo"] === "multiple"
+                                        ? _vm.respostas[3]["resposta"]
+                                        : ""
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "input-group-text" }, [
+                                  _c("input", {
+                                    staticClass: "form-check-input",
+                                    attrs: {
+                                      type: "radio",
+                                      name: "corret" + _vm.pergunta["id"]
+                                    },
+                                    domProps: {
+                                      value: "re4" + _vm.pergunta["id"],
+                                      checked:
+                                        _vm.respostas[3]["resultado"] === 1
+                                    }
+                                  })
+                                ])
+                              ]
+                            )
+                          ])
+                        : _c("div", [
+                            _c(
+                              "div",
+                              { staticClass: "input-group mb-3 insertAnsewr" },
+                              [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "input-group mb-3 insertAnsewr"
+                                  },
+                                  [
+                                    _c("input", {
+                                      staticClass: " form-control",
+                                      staticStyle: { border: "none" },
+                                      attrs: {
+                                        type: "text",
+                                        id: "re2" + _vm.pergunta["id"],
+                                        "aria-label":
+                                          "Text input with radio button",
+                                        placeholder: "Opção 2"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "input-group-text" },
+                                      [
+                                        _c("input", {
+                                          staticClass: "form-check-input",
+                                          attrs: {
+                                            type: "radio",
+                                            name: "corret" + _vm.pergunta["id"]
+                                          },
+                                          domProps: {
+                                            value: "re2" + _vm.pergunta["id"]
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c("input", {
+                                  staticClass: " form-control",
+                                  staticStyle: { border: "none" },
+                                  attrs: {
+                                    type: "text",
+                                    id: "re3" + _vm.pergunta["id"],
+                                    "aria-label":
+                                      "Text input with radio button",
+                                    placeholder: "Opção 3"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "input-group-text" }, [
+                                  _c("input", {
+                                    staticClass: "form-check-input",
+                                    attrs: {
+                                      type: "radio",
+                                      name: "corret" + _vm.pergunta["id"]
+                                    },
+                                    domProps: {
+                                      value: "re3" + _vm.pergunta["id"]
+                                    }
+                                  })
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "input-group mb-3 insertAnsewr" },
+                              [
+                                _c("div", { staticClass: "input-group-text" }, [
+                                  _c("input", {
+                                    staticClass: "form-check-input",
+                                    attrs: {
+                                      type: "radio",
+                                      name: "corret" + _vm.pergunta["id"]
+                                    },
+                                    domProps: {
+                                      value: "re4" + _vm.pergunta["id"]
+                                    }
+                                  })
+                                ])
+                              ]
+                            )
+                          ])
+                    ])
+                  : _vm._e()
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("div", { attrs: { id: "trueFalse" + _vm.pergunta["id"] } }, [
+              !_vm.isFetching
+                ? _c("div", [
+                    _c("div", { staticClass: "mb-5 mt-5" }, [
+                      _c("label", { staticClass: "label-tf" }, [
+                        _vm._v(
+                          "Verdadeira\n                                    "
+                        ),
+                        _c("input", {
+                          attrs: {
+                            type: "radio",
+                            name: "TF" + _vm.pergunta["id"],
+                            value: "true"
+                          },
+                          domProps: {
+                            checked: _vm.respostas[0]["resposta"] === "true"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("span")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", [
+                      _c("label", { staticClass: "label-tf" }, [
+                        _vm._v("Falsa\n                                    "),
+                        _c("input", {
+                          attrs: {
+                            type: "radio",
+                            name: "TF" + _vm.pergunta["id"],
+                            value: "false"
+                          },
+                          domProps: {
+                            checked: _vm.respostas[0]["resposta"] === "false"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("span")
+                      ])
+                    ])
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("p", { attrs: { id: "TError" + _vm.pergunta["id"] } })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-12 " }, [
+            _c(
+              "div",
+              {
+                staticStyle: { "margin-top": "20px" },
+                attrs: { id: "multiple-select" + _vm.pergunta["id"] }
+              },
+              [
+                !_vm.isFetching
+                  ? _c("div", [
+                      _c(
+                        "div",
+                        { staticClass: "input-group mb-3 insertAnsewr" },
+                        [
+                          _c("input", {
+                            staticClass: " form-control",
+                            staticStyle: { border: "none" },
+                            attrs: {
+                              type: "text",
+                              id: "rem1" + _vm.pergunta["id"],
+                              "aria-label": "Text input with radio button",
+                              placeholder: "Opção 1"
+                            },
+                            domProps: {
+                              value:
+                                _vm.pergunta["tipo"] === "multiple-select"
+                                  ? _vm.respostas[0]["resposta"]
+                                  : ""
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "input-group-text" }, [
+                            _c("input", {
+                              staticClass: "form-check-input",
+                              attrs: {
+                                type: "checkbox",
+                                name: "corret" + _vm.pergunta["id"] + "[]"
+                              },
+                              domProps: {
+                                checked: _vm.respostas[0]["resultado"] === 1,
+                                value: "re1" + _vm.pergunta["id"]
+                              }
+                            })
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _vm.pergunta["tipo"] !== "true/false"
+                        ? _c("div", [
+                            _c(
+                              "div",
+                              { staticClass: "input-group mb-3 insertAnsewr" },
+                              [
+                                _c("input", {
+                                  staticClass: " form-control",
+                                  staticStyle: { border: "none" },
+                                  attrs: {
+                                    type: "text",
+                                    id: "rem2" + _vm.pergunta["id"],
+                                    "aria-label":
+                                      "Text input with radio button",
+                                    placeholder: "Opção 2"
+                                  },
+                                  domProps: {
+                                    value:
+                                      _vm.pergunta["tipo"] === "multiple-select"
+                                        ? _vm.respostas[1]["resposta"]
+                                        : ""
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "input-group-text" }, [
+                                  _c("input", {
+                                    staticClass: "form-check-input",
+                                    attrs: {
+                                      type: "checkbox",
+                                      name: "corret" + _vm.pergunta["id"] + "[]"
+                                    },
+                                    domProps: {
+                                      checked:
+                                        _vm.respostas[1]["resultado"] === 1,
+                                      value: "re2" + _vm.pergunta["id"]
+                                    }
+                                  })
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "input-group mb-3 insertAnsewr" },
+                              [
+                                _c("input", {
+                                  staticClass: " form-control",
+                                  staticStyle: { border: "none" },
+                                  attrs: {
+                                    type: "text",
+                                    id: "rem3" + _vm.pergunta["id"],
+                                    "aria-label":
+                                      "Text input with radio button",
+                                    placeholder: "Opção 3"
+                                  },
+                                  domProps: {
+                                    value:
+                                      _vm.pergunta["tipo"] === "multiple-select"
+                                        ? _vm.respostas[2]["resposta"]
+                                        : ""
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "input-group-text" }, [
+                                  _c("input", {
+                                    staticClass: "form-check-input",
+                                    attrs: {
+                                      type: "checkbox",
+                                      name: "corret" + _vm.pergunta["id"] + "[]"
+                                    },
+                                    domProps: {
+                                      value: "re3" + _vm.pergunta["id"],
+                                      checked:
+                                        _vm.respostas[1]["resultado"] === 1
+                                    }
+                                  })
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "input-group mb-3 insertAnsewr" },
+                              [
+                                _c("input", {
+                                  staticClass: " form-control",
+                                  staticStyle: { border: "none" },
+                                  attrs: {
+                                    type: "text",
+                                    id: "rem4" + _vm.pergunta["id"],
+                                    "aria-label":
+                                      "Text input with radio button",
+                                    placeholder: "Opção 4"
+                                  },
+                                  domProps: {
+                                    value:
+                                      _vm.pergunta["tipo"] === "multiple-select"
+                                        ? _vm.respostas[3]["resposta"]
+                                        : ""
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "input-group-text" }, [
+                                  _c("input", {
+                                    staticClass: "form-check-input",
+                                    attrs: {
+                                      type: "checkbox",
+                                      name: "corret" + _vm.pergunta["id"] + "[]"
+                                    },
+                                    domProps: {
+                                      value: "re4" + _vm.pergunta["id"],
+                                      checked:
+                                        _vm.respostas[1]["resultado"] === 1
+                                    }
+                                  })
+                                ])
+                              ]
+                            )
+                          ])
+                        : _c("div", [
+                            _c(
+                              "div",
+                              { staticClass: "input-group mb-3 insertAnsewr" },
+                              [
+                                _c("input", {
+                                  staticClass: " form-control",
+                                  staticStyle: { border: "none" },
+                                  attrs: {
+                                    type: "text",
+                                    id: "rem2" + _vm.pergunta["id"],
+                                    "aria-label":
+                                      "Text input with radio button",
+                                    placeholder: "Opção 2"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "input-group-text" }, [
+                                  _c("input", {
+                                    staticClass: "form-check-input",
+                                    attrs: {
+                                      type: "checkbox",
+                                      name: "corret" + _vm.pergunta["id"] + "[]"
+                                    },
+                                    domProps: {
+                                      value: "re2" + _vm.pergunta["id"]
+                                    }
+                                  })
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "input-group mb-3 insertAnsewr" },
+                              [
+                                _c("input", {
+                                  staticClass: " form-control",
+                                  staticStyle: { border: "none" },
+                                  attrs: {
+                                    type: "text",
+                                    id: "rem3" + _vm.pergunta["id"],
+                                    "aria-label":
+                                      "Text input with radio button",
+                                    placeholder: "Opção 3"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "input-group-text" }, [
+                                  _c("input", {
+                                    staticClass: "form-check-input",
+                                    attrs: {
+                                      type: "checkbox",
+                                      name: "corret" + _vm.pergunta["id"] + "[]"
+                                    },
+                                    domProps: {
+                                      value: "re3" + _vm.pergunta["id"]
+                                    }
+                                  })
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "input-group mb-3 insertAnsewr" },
+                              [
+                                _c("input", {
+                                  staticClass: " form-control",
+                                  staticStyle: { border: "none" },
+                                  attrs: {
+                                    type: "text",
+                                    id: "rem4" + _vm.pergunta["id"],
+                                    "aria-label":
+                                      "Text input with radio button",
+                                    placeholder: "Opção 4"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "input-group-text" }, [
+                                  _c("input", {
+                                    staticClass: "form-check-input",
+                                    attrs: {
+                                      type: "checkbox",
+                                      name: "corret" + _vm.pergunta["id"] + "[]"
+                                    },
+                                    domProps: {
+                                      value: "re4" + _vm.pergunta["id"]
+                                    }
+                                  })
+                                ])
+                              ]
+                            )
+                          ])
+                    ])
+                  : _vm._e()
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("p", { attrs: { id: "RError" + _vm.pergunta["id"] } })
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "text-end mt-5" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-secondary",
+            attrs: { type: "button", "data-bs-dismiss": "modal" }
+          },
+          [_vm._v("Cancelar\n            ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary",
+            attrs: { type: "button", id: "submit" + _vm.pergunta["id"] },
+            on: {
+              click: function($event) {
+                return _vm.submit(_vm.pergunta)
+              }
+            }
+          },
+          [_vm._v("inserir\n            ")]
+        )
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { staticClass: "modal-footer" }, [
-        _vm._v("\n       vdfvfbgf\n    ")
-      ])
+    return _c("div", { staticClass: "card-loading is-loading mt-5" }, [
+      _c("div", { staticClass: "content" }, [_c("p")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-loading is-loading mt-5" }, [
+      _c("div", { staticClass: "content" }, [_c("p")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-loading is-loading mt-5" }, [
+      _c("div", { staticClass: "content" }, [_c("p")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-loading is-loading mt-5" }, [
+      _c("div", { staticClass: "content" }, [_c("p")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-loading is-loading mt-5" }, [
+      _c("div", { staticClass: "content" }, [_c("p")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-loading is-loading mt-5" }, [
+      _c("div", { staticClass: "content" }, [_c("p")])
     ])
   }
 ]
@@ -45610,7 +46956,7 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "Editar\n                                        "
+                                              "Editar\n                                            "
                                             )
                                           ]
                                         )
@@ -45630,7 +46976,7 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "Eliminar\n                                        "
+                                              "Eliminar\n                                            "
                                             )
                                           ]
                                         )
@@ -45655,7 +47001,7 @@ var render = function() {
                                                   },
                                                   [
                                                     _vm._v(
-                                                      "Tornar\n                                            Visivel\n                                        "
+                                                      "Tornar\n                                                Visivel\n                                            "
                                                     )
                                                   ]
                                                 )
@@ -45675,7 +47021,7 @@ var render = function() {
                                                   },
                                                   [
                                                     _vm._v(
-                                                      "Ocultar Quizz\n                                        "
+                                                      "Ocultar Quizz\n                                            "
                                                     )
                                                   ]
                                                 )
@@ -45727,7 +47073,7 @@ var render = function() {
                                 [
                                   _c("p", [
                                     _vm._v(
-                                      "Tipo:\n                                "
+                                      "Tipo:\n                                    "
                                     ),
                                     quizz["tipo"] === "false"
                                       ? _c("span", [_vm._v("Teste ")])
@@ -45743,7 +47089,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("p", [
                                     _vm._v(
-                                      "Visivel:\n                                "
+                                      "Visivel:\n                                    "
                                     ),
                                     quizz["visivel"] === "false"
                                       ? _c("span", [_vm._v("Não ")])
@@ -45752,7 +47098,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("p", [
                                     _vm._v(
-                                      "Vale Pontos:\n                                "
+                                      "Vale Pontos:\n                                    "
                                     ),
                                     quizz["vale_pontos"] === "false"
                                       ? _c("span", [_vm._v("Não ")])
@@ -45776,7 +47122,7 @@ var render = function() {
                                         },
                                         [
                                           _vm._v(
-                                            "Histórico\n                                "
+                                            "Histórico\n                                    "
                                           )
                                         ]
                                       ),
@@ -45797,7 +47143,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "Iniciar Quizz\n                                    "
+                                                  "Iniciar Quizz\n                                        "
                                                 )
                                               ]
                                             ),
@@ -45865,7 +47211,7 @@ var render = function() {
                                                               },
                                                               [
                                                                 _vm._v(
-                                                                  "Sim\n                                                    "
+                                                                  "Sim\n                                                        "
                                                                 )
                                                               ]
                                                             ),
@@ -45884,7 +47230,7 @@ var render = function() {
                                                               },
                                                               [
                                                                 _vm._v(
-                                                                  "\n                                                        Não\n                                                    "
+                                                                  "\n                                                            Não\n                                                        "
                                                                 )
                                                               ]
                                                             )
@@ -45985,7 +47331,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                        Cancelar\n                                    "
+                                                  "\n                                            Cancelar\n                                        "
                                                 )
                                               ]
                                             ),
@@ -46067,7 +47413,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                        Editar Quizz"
+                                                  "\n                                            Editar Quizz"
                                                 )
                                               ]
                                             ),
@@ -46227,7 +47573,7 @@ var render = function() {
                                                                     }
                                                                   }),
                                                                   _vm._v(
-                                                                    " Sim\n                                                    "
+                                                                    " Sim\n                                                        "
                                                                   )
                                                                 ])
                                                               : _c("label", [
@@ -46245,7 +47591,7 @@ var render = function() {
                                                                     }
                                                                   }),
                                                                   _vm._v(
-                                                                    " Sim\n                                                    "
+                                                                    " Sim\n                                                        "
                                                                   )
                                                                 ])
                                                           ]
@@ -46270,7 +47616,7 @@ var render = function() {
                                                                   }
                                                                 }),
                                                                 _vm._v(
-                                                                  "Não\n                                                    "
+                                                                  "Não\n                                                        "
                                                                 )
                                                               ])
                                                             : _c("label", [
@@ -46288,7 +47634,7 @@ var render = function() {
                                                                   }
                                                                 }),
                                                                 _vm._v(
-                                                                  "Não\n                                                    "
+                                                                  "Não\n                                                        "
                                                                 )
                                                               ])
                                                         ])
@@ -46346,7 +47692,7 @@ var render = function() {
                                                                     }
                                                                   }),
                                                                   _vm._v(
-                                                                    " Sim\n                                                    "
+                                                                    " Sim\n                                                        "
                                                                   )
                                                                 ])
                                                               : _c("label", [
@@ -46364,7 +47710,7 @@ var render = function() {
                                                                     }
                                                                   }),
                                                                   _vm._v(
-                                                                    " Sim\n                                                    "
+                                                                    " Sim\n                                                        "
                                                                   )
                                                                 ])
                                                           ]
@@ -46390,7 +47736,7 @@ var render = function() {
                                                                   }
                                                                 }),
                                                                 _vm._v(
-                                                                  "Não\n                                                    "
+                                                                  "Não\n                                                        "
                                                                 )
                                                               ])
                                                             : _c("label", [
@@ -46408,7 +47754,7 @@ var render = function() {
                                                                   }
                                                                 }),
                                                                 _vm._v(
-                                                                  "Não\n                                                    "
+                                                                  "Não\n                                                        "
                                                                 )
                                                               ])
                                                         ])
@@ -46465,7 +47811,7 @@ var render = function() {
                                                                     }
                                                                   }),
                                                                   _vm._v(
-                                                                    " Sim\n                                                    "
+                                                                    " Sim\n                                                        "
                                                                   )
                                                                 ])
                                                               : _c("label", [
@@ -46483,7 +47829,7 @@ var render = function() {
                                                                     }
                                                                   }),
                                                                   _vm._v(
-                                                                    " Sim\n                                                    "
+                                                                    " Sim\n                                                        "
                                                                   )
                                                                 ])
                                                           ]
@@ -46508,7 +47854,7 @@ var render = function() {
                                                                   }
                                                                 }),
                                                                 _vm._v(
-                                                                  " Não\n                                                    "
+                                                                  " Não\n                                                        "
                                                                 )
                                                               ])
                                                             : _c("label", [
@@ -46526,7 +47872,7 @@ var render = function() {
                                                                   }
                                                                 }),
                                                                 _vm._v(
-                                                                  " Não\n                                                    "
+                                                                  " Não\n                                                        "
                                                                 )
                                                               ])
                                                         ])
@@ -46623,83 +47969,9 @@ var render = function() {
                                                   ]
                                                 ),
                                                 _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  { staticClass: "col-12" },
-                                                  _vm._l(
-                                                    _vm.topicos.data,
-                                                    function(topico) {
-                                                      return _c(
-                                                        "div",
-                                                        {
-                                                          key: topico["id"],
-                                                          staticClass:
-                                                            "card-box  mb-5 mt-4"
-                                                        },
-                                                        [
-                                                          _c(
-                                                            "div",
-                                                            {
-                                                              staticClass:
-                                                                "card-box-topicos"
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "label",
-                                                                {
-                                                                  staticClass:
-                                                                    "d-flex ",
-                                                                  attrs: {
-                                                                    for:
-                                                                      "inputTopico" +
-                                                                      topico[
-                                                                        "id"
-                                                                      ]
-                                                                  }
-                                                                },
-                                                                [
-                                                                  _c("h2", [
-                                                                    _vm._v(
-                                                                      "\n                                                        " +
-                                                                        _vm._s(
-                                                                          topico[
-                                                                            "nome"
-                                                                          ]
-                                                                        )
-                                                                    )
-                                                                  ]),
-                                                                  _vm._v(" "),
-                                                                  _c("input", {
-                                                                    staticClass:
-                                                                      "ms-auto mt-3",
-                                                                    attrs: {
-                                                                      id:
-                                                                        "inputTopico" +
-                                                                        topico[
-                                                                          "id"
-                                                                        ],
-                                                                      type:
-                                                                        "checkbox",
-                                                                      name:
-                                                                        "topico"
-                                                                    },
-                                                                    domProps: {
-                                                                      value:
-                                                                        topico[
-                                                                          "id"
-                                                                        ]
-                                                                    }
-                                                                  })
-                                                                ]
-                                                              )
-                                                            ]
-                                                          )
-                                                        ]
-                                                      )
-                                                    }
-                                                  ),
-                                                  0
-                                                ),
+                                                _c("div", {
+                                                  staticClass: "col-12"
+                                                }),
                                                 _vm._v(" "),
                                                 _c(
                                                   "div",
@@ -46737,7 +48009,7 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "Cancelar\n                                    "
+                                                  "Cancelar\n                                        "
                                                 )
                                               ]
                                             ),
@@ -46856,7 +48128,7 @@ var render = function() {
                                   [
                                     _c("h2", [
                                       _vm._v(
-                                        "\n                                        " +
+                                        "\n                                            " +
                                           _vm._s(topico["nome"])
                                       )
                                     ]),
@@ -46967,7 +48239,7 @@ var staticRenderFns = [
           _c("div", { staticClass: "toast-body" }, [
             _c("strong", [
               _c("i", { staticClass: "bi bi-check-circle-fill" }),
-              _vm._v("   \n                    "),
+              _vm._v("   \n                        "),
               _c("span", [_vm._v("Quizz editado com sucesso!!")])
             ])
           ]),
@@ -47004,7 +48276,7 @@ var staticRenderFns = [
           _c("div", { staticClass: "toast-body" }, [
             _c("strong", [
               _c("i", { staticClass: "bi bi-check-circle-fill" }),
-              _vm._v("   \n                    "),
+              _vm._v("   \n                        "),
               _c("span", [_vm._v("Quizz eliminado com sucesso!!")])
             ])
           ]),
@@ -47041,7 +48313,7 @@ var staticRenderFns = [
           _c("div", { staticClass: "toast-body" }, [
             _c("strong", [
               _c("i", { staticClass: "bi bi-check-circle-fill" }),
-              _vm._v("   \n                    "),
+              _vm._v("   \n                        "),
               _c("span", [_vm._v("Quizz adicionado com sucesso!!")])
             ])
           ]),
@@ -47074,7 +48346,7 @@ var staticRenderFns = [
       },
       [
         _c("i", { staticClass: "bi bi-plus-circle" }),
-        _vm._v("    Adicionar Quizz\n            ")
+        _vm._v("    Adicionar Quizz\n                ")
       ]
     )
   },
@@ -47120,7 +48392,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "modal-body text-left" }, [
       _c("p", { staticClass: "text-start" }, [
         _vm._v(
-          "Tem a certeza que quer iniciar este\n                                                        teste?"
+          "Tem a certeza que quer iniciar este\n                                                            teste?"
         )
       ])
     ])
@@ -47206,7 +48478,7 @@ var staticRenderFns = [
             _c("input", {
               attrs: { type: "radio", name: "realtimeop", value: "false" }
             }),
-            _vm._v("\n                                        Não")
+            _vm._v("\n                                            Não")
           ])
         ])
       ])
@@ -47234,7 +48506,7 @@ var staticRenderFns = [
             _c("input", {
               attrs: { type: "radio", name: "Valepontos", value: "false" }
             }),
-            _vm._v("\n                                        Não")
+            _vm._v("\n                                            Não")
           ])
         ])
       ])
@@ -47253,7 +48525,7 @@ var staticRenderFns = [
             _c("input", {
               attrs: { type: "radio", name: "Visivelop", value: "true" }
             }),
-            _vm._v(" \n                                        Sim")
+            _vm._v(" \n                                            Sim")
           ])
         ]),
         _vm._v(" "),
@@ -47262,7 +48534,7 @@ var staticRenderFns = [
             _c("input", {
               attrs: { type: "radio", name: "Visivelop", value: "false" }
             }),
-            _vm._v(" \n                                        Não")
+            _vm._v(" \n                                            Não")
           ])
         ])
       ])

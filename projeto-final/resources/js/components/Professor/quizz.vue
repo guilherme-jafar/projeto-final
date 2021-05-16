@@ -334,20 +334,20 @@
                                             </div>
 
                                             <div class="col-12">
-                                                <div class="card-box  mb-5 mt-4" v-for="topico in topicos.data"
-                                                     :key="topico['id']">
+<!--                                                <div class="card-box  mb-5 mt-4" v-for="topico in topicos.data"-->
+<!--                                                     :key="topico['id']">-->
 
-                                                    <div class="card-box-topicos">
-                                                        <label class="d-flex " :for="'inputTopico' + topico['id']"><h2>
-                                                            {{topico['nome']}}</h2>
-                                                            <input
-                                                            :id="'inputTopico' + topico['id']"
-                                                            class="ms-auto mt-3" type="checkbox"
-                                                            :value="topico['id']" name="topico">
-                                                        </label>
-                                                    </div>
+<!--                                                    <div class="card-box-topicos">-->
+<!--                                                        <label class="d-flex " :for="'inputTopico' + topico['id']"><h2>-->
+<!--                                                            {{topico['nome']}}</h2>-->
+<!--                                                            <input-->
+<!--                                                            :id="'inputTopico' + topico['id']"-->
+<!--                                                            class="ms-auto mt-3" type="checkbox"-->
+<!--                                                            :value="topico['id']" name="topico">-->
+<!--                                                        </label>-->
+<!--                                                    </div>-->
 
-                                                </div>
+<!--                                                </div>-->
                                             </div>
 
 

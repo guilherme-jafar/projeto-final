@@ -18,9 +18,9 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-
-Route::get('/utilizador', function (){
-
-//    return view('welcome');
-    return \App\Models\Utilizador::all();
-});
+//
+//Route::get('/utilizador', function (){
+//
+////    return view('welcome');
+//    return \App\Models\Utilizador::all();
+//});
