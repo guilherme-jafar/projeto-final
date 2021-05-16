@@ -45,7 +45,7 @@
         </div>
 
 
-        <div v-if="topicos.length === 0" class="mx-auto">
+        <div v-if="topicos.data.length === 0" class="mx-auto">
             <h1 class="heanding-1 mx-auto mt-5">Ainda não tem nenhum Topico</h1>
             <!-- Button trigger modal -->
             <button type="button" class=" btn btn-new mt-5 mx-auto" data-bs-toggle="modal"
@@ -201,7 +201,7 @@
         </div>
 
 
-
+        <pagination-2 :data="topicos" :align="'center'" @pagination-change-page="getResultsTopico"></pagination-2>
 
     </div>
 
@@ -209,6 +209,7 @@
 
 <script>
     import $ from 'jquery';
+    import axios from "axios";
 
     export default {
         name: "disciplinaProf",
@@ -250,6 +251,7 @@
 
                             $('#toastEditarTopico').removeClass('d-none');
                             this.topicos = response.data.message;
+
 
 
                             this.modalEditarTopico.hide();
@@ -334,10 +336,18 @@
                     }.bind(this));
                 }
             },
+            getResultsTopico(page = 1) {
+
+                axios.get('/prof/listTopicos?page=' + page)
+                    .then(response => {
+                        this.topicos = response.data.message;
+                    });
+            },
         },
+
         computed: {
             filter: function () {
-                return this.topicos.filter((topico) => {
+                return this.topicos.data.filter((topico) => {
                     return topico['nome'].match(this.search)
                 })
             }

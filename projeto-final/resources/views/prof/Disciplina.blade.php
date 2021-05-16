@@ -108,9 +108,9 @@
     <script >
         $( document ).ready(function() {
 
-            $('#topics').hide();
+            $('#topics').show();
             $('#alunos').hide();
-            $('#quizz').show();
+            $('#quizz').hide();
             $('#editarDisciplina').hide()
         });
 
