@@ -710,6 +710,101 @@ section {
   border-radius: 0.25rem;
 }
 
+.modal-adicionar-pergunta .modal-title, .editar-pergunta .modal-title {
+  font-size: 2rem;
+  font-weight: 700;
+}
+.modal-adicionar-pergunta .modal-background, .editar-pergunta .modal-background {
+  background-image: url("/assets/background.png");
+  background-size: cover;
+  background-position: center;
+}
+.modal-adicionar-pergunta .form-control, .editar-pergunta .form-control {
+  font-size: 3rem;
+  background-color: white;
+  color: #747474;
+  border-radius: 1rem;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+  border-color: transparent;
+  padding: 2rem;
+}
+.modal-adicionar-pergunta .form-control-pergunta, .editar-pergunta .form-control-pergunta {
+  border-radius: 1rem;
+}
+.modal-adicionar-pergunta .form-select, .editar-pergunta .form-select {
+  font-size: 1.8rem;
+  border: none;
+  border-radius: 0.3rem;
+}
+.modal-adicionar-pergunta .insertAnsewr, .editar-pergunta .insertAnsewr {
+  padding: 10px;
+}
+.modal-adicionar-pergunta .input-group-text, .editar-pergunta .input-group-text {
+  background-color: white;
+  border: none;
+  padding: 2rem;
+  border-bottom-right-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+.modal-adicionar-pergunta .center, .editar-pergunta .center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.modal-adicionar-pergunta .pergunta_input, .editar-pergunta .pergunta_input {
+  padding-top: 10px;
+}
+.modal-adicionar-pergunta .Pergunta_file, .editar-pergunta .Pergunta_file {
+  display: block;
+  padding: 50px;
+  border-style: dashed;
+}
+.modal-adicionar-pergunta .label-tf, .editar-pergunta .label-tf {
+  width: 100%;
+  font-size: 3rem;
+  background-color: white;
+  color: #747474;
+  border-radius: 1rem;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+  border-color: transparent;
+  padding: 2rem;
+  cursor: pointer;
+}
+.modal-adicionar-pergunta .label-tf input, .editar-pergunta .label-tf input {
+  position: absolute;
+  opacity: 0;
+  right: 6rem;
+  border-radius: 50%;
+  height: 5rem;
+  width: 5rem;
+}
+.modal-adicionar-pergunta .label-tf input:checked ~ span:after, .editar-pergunta .label-tf input:checked ~ span:after {
+  display: block;
+}
+.modal-adicionar-pergunta .label-tf span, .editar-pergunta .label-tf span {
+  position: absolute;
+  right: 6rem;
+  border-radius: 50%;
+  height: 5rem;
+  width: 5rem;
+  border: 2px solid #7FBA27;
+}
+.modal-adicionar-pergunta .label-tf span:after, .editar-pergunta .label-tf span:after {
+  content: "";
+  position: absolute;
+  display: none;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background: #7FBA27;
+  transform: translate(6%, -6%);
+}
 .modal span, .forms span {
   color: white;
 }
@@ -877,7 +972,17 @@ section {
 .card-disciplina .section-disciplinas-items .card-box .lista-perguntas .card {
   flex-direction: inherit;
   padding: 0.5rem;
-  border: none;
+  background-color: #f9f9f9;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+  margin-bottom: 0.5rem;
+}
+.card-disciplina .section-disciplinas-items .card-box .lista-perguntas .card a {
+  font-size: 1.8rem;
+  color: #40C0F0;
+  font-weight: bold;
 }
 .card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .lista-perguntas a {
   width: 100%;
@@ -885,101 +990,6 @@ section {
 }
 .card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .lista-perguntas a h3 {
   margin: 0;
-}
-.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .modal-title {
-  font-size: 2rem;
-  font-weight: 700;
-}
-.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .modal-body {
-  background-image: url("/assets/background.png");
-  background-size: cover;
-  background-position: center;
-}
-.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .form-control {
-  font-size: 3rem;
-  background-color: white;
-  color: #747474;
-  border-radius: 1rem;
-  border-bottom-right-radius: 0;
-  border-top-right-radius: 0;
-  border-color: transparent;
-  padding: 2rem;
-}
-.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .form-control-pergunta {
-  border-radius: 1rem;
-}
-.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .form-select {
-  font-size: 1.8rem;
-  border: none;
-  border-radius: 0.3rem;
-}
-.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .insertAnsewr {
-  padding: 10px;
-}
-.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .input-group-text {
-  background-color: white;
-  border: none;
-  padding: 2rem;
-  border-bottom-right-radius: 1rem;
-  border-top-right-radius: 1rem;
-}
-.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .center {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
-.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .pergunta_input {
-  padding-top: 10px;
-}
-.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .Pergunta_file {
-  display: block;
-  padding: 50px;
-  border-style: dashed;
-}
-.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .label-tf {
-  width: 100%;
-  font-size: 3rem;
-  background-color: white;
-  color: #747474;
-  border-radius: 1rem;
-  border-bottom-right-radius: 0;
-  border-top-right-radius: 0;
-  border-color: transparent;
-  padding: 2rem;
-  cursor: pointer;
-}
-.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .label-tf input {
-  position: absolute;
-  opacity: 0;
-  right: 6rem;
-  border-radius: 50%;
-  height: 5rem;
-  width: 5rem;
-}
-.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .label-tf input:checked ~ span:after {
-  display: block;
-}
-.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .label-tf span {
-  position: absolute;
-  right: 6rem;
-  border-radius: 50%;
-  height: 5rem;
-  width: 5rem;
-  border: 2px solid #7FBA27;
-}
-.card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .modal-adicionar-pergunta .label-tf span:after {
-  content: "";
-  position: absolute;
-  display: none;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  width: 4rem;
-  height: 4rem;
-  border-radius: 50%;
-  background: #7FBA27;
-  transform: translate(6%, -6%);
 }
 .card-disciplina .section-quizz .modal-quizz form {
   padding: 0;

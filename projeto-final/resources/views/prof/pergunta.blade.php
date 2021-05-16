@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="col-md-8 mx-auto">
+    <div class="col-md-12 mx-auto">
         <div id="app" >
 
 {{--            @if(session('estado'))--}}
@@ -11,8 +11,8 @@
 {{--                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>--}}
 {{--                </div>--}}
 {{--            @endif--}}
-bjmhjmhj
-            <editarPergunta  ></editarPergunta>
+
+            <pergunta-editar  class="dashboard section-dashboard" :pergunta_prop="'{{json_encode($pergunta, TRUE)}}'"  ></pergunta-editar>
 
 
         </div>
