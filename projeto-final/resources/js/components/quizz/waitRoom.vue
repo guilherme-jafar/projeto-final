@@ -1,14 +1,19 @@
 <template>
     <div>
         <div id="waitRoom">
-    <p>{{students}}</p>
-        <p>{{this.sessao}}</p>
+        <p>{{students}}</p>
+        <p>{{sessao}}</p>
         <button @click="sair()">cancel</button>
         <button @click="start()">Iniciar Quizz</button>
-        <p>{{this.users}}</p>
+        <p>{{users}}</p>
         </div>
 
+<div id="gameMode">
 
+    <button id="stop" @click="stopQuestion()">Parar Pergunta</button>
+    <button id="next" @click="nextQuestion('next')">Proxima Pergunta</button>
+
+</div>
 
 
 
@@ -49,8 +54,20 @@ export default {
             axios.post('/startQuizz').then(function (response){
 
                     $('#waitRoom').hide();
-
+                $('#gameMode').show();
+                $('#stop').show();
+                $('#next').hide();
             });
+        },
+        stopQuestion() {
+            this.index++;
+            axios.post('/StopQuestionQuizz').then(function (response){
+                $('#waitRoom').hide();
+                $('#gameMode').show();
+                $('#stop').hide();
+                $('#next').show();
+            });
+            this.couter=-1;
         },
         sair() {
 
@@ -63,6 +80,20 @@ export default {
             while (currentDate - date < milliseconds) {
                 currentDate = Date.now();
             }
+        },
+        nextQuestion(tag){
+            let form =new FormData();
+            form.append('index',this.index);
+            form.append('tag',tag)
+            this.sleep(2000);
+            this.couter=0;
+            axios.post('/NextQuestionQuizz',form).then(function (response){
+                $('#waitRoom').hide();
+                $('#gameMode').show();
+                $('#stop').show();
+                $('#next').hide();
+
+            });
         },
         connect() {
 
@@ -101,15 +132,9 @@ export default {
                             this.couter++
                             if (this.students===this.couter){
                                 this.index++;
-                                let form =new FormData();
-                                form.append('index',this.index);
-                                this.sleep(2000);
-                                this.couter=0;
-                                axios.post('/NextQuestionQuizz',form).then(function (response){
+                                $('#stop').hide();
+                                $('#next').show();
 
-                                    $('#waitRoom').hide();
-
-                                });
                             }
 
                         }
@@ -124,6 +149,7 @@ export default {
 
         },
         mounted() {
+            $('#gameMode').hide();
             let l = window.location.href.split('/');
             this.sessionId = l[l.length - 1]
             if (localStorage.getItem('sessao')!=null){

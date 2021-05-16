@@ -364,10 +364,17 @@ function nextQuestionQuizz(Request $request){
 
                 broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'NewQuestion', session('utilizador')['id'], $value, $res))->toOthers();
 
+
             }
         }
 
 }
+    function stopQuestionQuizz(Request $request){
+        broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'stop', session('utilizador')['id'], [],[]))->toOthers();
+
+
+    }
+
 
 
 

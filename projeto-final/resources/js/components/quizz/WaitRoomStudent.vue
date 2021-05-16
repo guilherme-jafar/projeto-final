@@ -153,7 +153,8 @@ export default {
             respostasCertas: 0,
             respostasEscolhidas: [],
             botaoEscolhido: [],
-            multipleQuestion:[]
+            multipleQuestion:[],
+            respondeu:false,
 
         }
     },
@@ -217,8 +218,9 @@ export default {
                         form.append('tipo', this.pergunta[this.index]['tipo'])
                         form.append('sessioId', this.session)
                         axios.post('/setResposta', form).then(function (response) {
+                            this.respondeu=true;
                             this.change()
-                            this.sleep(2500)
+                            this.sleep(2500);
                         }.bind(this));
                     }
                 }
@@ -270,7 +272,7 @@ export default {
                 .listen('.NewStudent', e => {
 
                     if (e.Mainsession===this.MasterSessao) {
-                        //console.log(!this.usersId.includes(e.userId) && e.type==='student')
+
                         if ( e.type==='student') {
                             this.students++
 
@@ -296,6 +298,19 @@ export default {
                             $('.wrapper-wright').hide();
                             this.getResposta(e.quizzArray,e.Ans)
 
+                        }
+                        else if (e.type==='stop'){
+                            if (!this.respondeu) {
+                                if (this.pergunta['tipo'] === 'multiple-select') {
+                                    this.responseMultiplas('error')
+                                } else {
+                                    this.response(this.pergunta['tipo'], 'erro')
+                                }
+                                $('.wrapper').show();
+                                $('.wrapper').css('background-color', '#f9403e')
+                                $('#couter').text(0)
+                                $('.wrapper-wrong').show();
+                            }
                         }
 
 
@@ -359,8 +374,8 @@ export default {
             form.append('tipo', this.pergunta['tipo'])
             form.append('sessioId', this.sessao)
             axios.post('/setRespostaQuizz', form).then(function (response) {
-                // this.change()
-                // this.sleep(2500)
+                this.respondeu=true;
+
             }.bind(this));
         },
         getResposta(array,Ans){
@@ -411,6 +426,7 @@ export default {
             }
             this.startQuestion();
             $('#quizz').show();
+            this.respondeu=false;
         },
         startQuestion() {
             this.questionType = this.pergunta['tipo']

@@ -5670,7 +5670,8 @@ __webpack_require__.r(__webpack_exports__);
       respostasCertas: 0,
       respostasEscolhidas: [],
       botaoEscolhido: [],
-      multipleQuestion: []
+      multipleQuestion: [],
+      respondeu: false
     };
   },
   watch: {
@@ -5731,6 +5732,7 @@ __webpack_require__.r(__webpack_exports__);
             form.append('tipo', this.pergunta[this.index]['tipo']);
             form.append('sessioId', this.session);
             axios.post('/setResposta', form).then(function (response) {
+              this.respondeu = true;
               this.change();
               this.sleep(2500);
             }.bind(this));
@@ -5785,7 +5787,6 @@ __webpack_require__.r(__webpack_exports__);
 
       window.Echo["private"]('room.' + this.MasterSessao).listen('.NewStudent', function (e) {
         if (e.Mainsession === _this.MasterSessao) {
-          //console.log(!this.usersId.includes(e.userId) && e.type==='student')
           if (e.type === 'student') {
             _this.students++;
             localStorage.setItem('students', _this.students);
@@ -5804,6 +5805,19 @@ __webpack_require__.r(__webpack_exports__);
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').hide();
 
             _this.getResposta(e.quizzArray, e.Ans);
+          } else if (e.type === 'stop') {
+            if (!_this.respondeu) {
+              if (_this.pergunta['tipo'] === 'multiple-select') {
+                _this.responseMultiplas('error');
+              } else {
+                _this.response(_this.pergunta['tipo'], 'erro');
+              }
+
+              jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').show();
+              jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#f9403e');
+              jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter').text(0);
+              jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').show();
+            }
           }
         }
       });
@@ -5861,8 +5875,8 @@ __webpack_require__.r(__webpack_exports__);
       form.append('resultado', this.res);
       form.append('tipo', this.pergunta['tipo']);
       form.append('sessioId', this.sessao);
-      axios.post('/setRespostaQuizz', form).then(function (response) {// this.change()
-        // this.sleep(2500)
+      axios.post('/setRespostaQuizz', form).then(function (response) {
+        this.respondeu = true;
       }.bind(this));
     },
     getResposta: function getResposta(array, Ans) {
@@ -5913,6 +5927,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.startQuestion();
       jquery__WEBPACK_IMPORTED_MODULE_1___default()('#quizz').show();
+      this.respondeu = false;
     },
     startQuestion: function startQuestion() {
       this.questionType = this.pergunta['tipo'];
@@ -6406,6 +6421,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -6432,7 +6452,20 @@ __webpack_require__.r(__webpack_exports__);
     start: function start() {
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/startQuizz').then(function (response) {
         $('#waitRoom').hide();
+        $('#gameMode').show();
+        $('#stop').show();
+        $('#next').hide();
       });
+    },
+    stopQuestion: function stopQuestion() {
+      this.index++;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/StopQuestionQuizz').then(function (response) {
+        $('#waitRoom').hide();
+        $('#gameMode').show();
+        $('#stop').hide();
+        $('#next').show();
+      });
+      this.couter = -1;
     },
     sair: function sair() {
       localStorage.clear();
@@ -6445,6 +6478,19 @@ __webpack_require__.r(__webpack_exports__);
       while (currentDate - date < milliseconds) {
         currentDate = Date.now();
       }
+    },
+    nextQuestion: function nextQuestion(tag) {
+      var form = new FormData();
+      form.append('index', this.index);
+      form.append('tag', tag);
+      this.sleep(2000);
+      this.couter = 0;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/NextQuestionQuizz', form).then(function (response) {
+        $('#waitRoom').hide();
+        $('#gameMode').show();
+        $('#stop').show();
+        $('#next').hide();
+      });
     },
     connect: function connect() {
       var _this = this;
@@ -6487,15 +6533,8 @@ __webpack_require__.r(__webpack_exports__);
 
             if (_this.students === _this.couter) {
               _this.index++;
-              var form = new FormData();
-              form.append('index', _this.index);
-
-              _this.sleep(2000);
-
-              _this.couter = 0;
-              axios__WEBPACK_IMPORTED_MODULE_0___default().post('/NextQuestionQuizz', form).then(function (response) {
-                $('#waitRoom').hide();
-              });
+              $('#stop').hide();
+              $('#next').show();
             }
           }
         }
@@ -6503,6 +6542,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
+    $('#gameMode').hide();
     var l = window.location.href.split('/');
     this.sessionId = l[l.length - 1];
 
@@ -50653,7 +50693,7 @@ var render = function() {
     _c("div", { attrs: { id: "waitRoom" } }, [
       _c("p", [_vm._v(_vm._s(_vm.students))]),
       _vm._v(" "),
-      _c("p", [_vm._v(_vm._s(this.sessao))]),
+      _c("p", [_vm._v(_vm._s(_vm.sessao))]),
       _vm._v(" "),
       _c(
         "button",
@@ -50679,7 +50719,35 @@ var render = function() {
         [_vm._v("Iniciar Quizz")]
       ),
       _vm._v(" "),
-      _c("p", [_vm._v(_vm._s(this.users))])
+      _c("p", [_vm._v(_vm._s(_vm.users))])
+    ]),
+    _vm._v(" "),
+    _c("div", { attrs: { id: "gameMode" } }, [
+      _c(
+        "button",
+        {
+          attrs: { id: "stop" },
+          on: {
+            click: function($event) {
+              return _vm.stopQuestion()
+            }
+          }
+        },
+        [_vm._v("Parar Pergunta")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          attrs: { id: "next" },
+          on: {
+            click: function($event) {
+              return _vm.nextQuestion("next")
+            }
+          }
+        },
+        [_vm._v("Proxima Pergunta")]
+      )
     ])
   ])
 }
