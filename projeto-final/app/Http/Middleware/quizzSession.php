@@ -19,7 +19,7 @@ class quizzSession
         if (!$request->session()->exists('sessao')) {
 
 
-            return redirect('/' . $request->session()->get('utilizador')['tipo'] . '/dashboard');
+            return redirect('/');
         }
 
 

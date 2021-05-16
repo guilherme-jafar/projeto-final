@@ -134,7 +134,8 @@ Route::group(['middleware' =>'quizz.session'], function () {
         return view('/quizz/WaitRoom',
             ['session' => session('sessao')['id']]);
     });
-
+    Route::post('/NextQuestionQuizz',[\App\Http\Controllers\Quizz::class,'nextQuestionQuizz']);
+    Route::post('/setRespostaQuizz',[App\Http\Controllers\Quizz::class,'setRespostaQuizz']);
     Route::post('/startQuizz',[\App\Http\Controllers\Quizz::class,'startQuizz']);
     Route::get('/leaveRoom',[App\Http\Controllers\Quizz::class,'leave']);
 

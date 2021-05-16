@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\AnswerQuestionStudent;
 use App\Events\QuizzQuestion;
 use App\Events\WaitRoom;
 use App\Models\sessao;
@@ -168,6 +169,12 @@ class Quizz extends Controller
 
     }
 
+
+
+
+
+
+
     function EndQuizz(Request $request)
     {
 
@@ -206,12 +213,12 @@ GROUP BY s.nomequizz', ['id' => session('utilizador')['id'], 'sessionId' => $req
                     , [$session, $quizz[0]->nome, $quizz[0]->quizzTipo, $id, session('utilizador')['id'], session('utilizador')['tipo'], 1]);
 
 
-               // event(new WaitRoom(session('utilizador')['nome'], $session, 'master', session('utilizador')['id']));
+                broadcast(new WaitRoom(session('utilizador')['nome'], $session, 'master', session('utilizador')['id']))->toOthers();
 
                 return redirect('/InsideRoomProf');
             } else {
 
-                event(new WaitRoom(session('utilizador')['nome'], session('sessao')['id'], 'master', session('utilizador')['id']));
+                broadcast(new WaitRoom(session('utilizador')['nome'], session('sessao')['id'], 'master', session('utilizador')['id']))->toOthers();
                 return redirect('/InsideRoomProf');
             }
 
@@ -272,7 +279,7 @@ GROUP BY s.nomequizz', ['id' => session('utilizador')['id'], 'sessionId' => $req
 
             if (session('sessao')['type'] == "master") {
 
-                event(new WaitRoom(session('utilizador')['nome'], session('sessao')['id'], 'leaveMaster', session('utilizador')['id']));
+                broadcast(new WaitRoom(session('utilizador')['nome'], session('sessao')['id'], 'leaveMaster', session('utilizador')['id']))->toOthers();
                 DB::table('sessao')
                     ->where('id', session('sessao')['id'])
                     ->where('iduser', session('utilizador')['id'])
@@ -284,7 +291,7 @@ GROUP BY s.nomequizz', ['id' => session('utilizador')['id'], 'sessionId' => $req
 
                 sessao::where('id', session('sessao')['id'])->delete();
 
-                event(new WaitRoom(session('utilizador')['nome'], session('sessao')['master'], 'leavestudent', session('utilizador')['id']));
+                broadcast(new WaitRoom(session('utilizador')['nome'], session('sessao')['master'], 'leavestudent', session('utilizador')['id']))->toOthers();
             }
 
 
@@ -302,7 +309,7 @@ GROUP BY s.nomequizz', ['id' => session('utilizador')['id'], 'sessionId' => $req
             ->where('iduser', session('utilizador')['id'])
             ->update(['masterActive' => 0]);
 
-        $quizz = DB::select('SELECT p.id as "pId" ,p.enunciado ,p.tempo ,p.valor , p.tipo ,q.numeroperguntas, q.nome ,q.tipo AS "quizzTipo", m.link
+        $quizz = DB::select('SELECT p.id as "pId" ,p.enunciado ,p.tempo ,p.valor , p.tipo ,q.numeroperguntas, q.nome ,q.tipo AS "quizzTipo", m.link ,pq.PergIndex
                                    FROM quizz q, pergunta_quizz pq, perguntas p,multimedia m
                                    WHERE q.id = pq.quizz_id
                                    AND p.id = pq.id_pergunta
@@ -316,17 +323,51 @@ GROUP BY s.nomequizz', ['id' => session('utilizador')['id'], 'sessionId' => $req
 
         Cache::put('quizz', $quizz);
 
-        event(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'startQuizz', session('utilizador')['id'], $quizz[0], $res));
+        broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'startQuizz', session('utilizador')['id'], $quizz[0], $res))->toOthers();
 
-        return;
-
+        return response()->json([
+            'message' => $quizz[0]
+        ]);
 }
 
 
 
 
+    function setRespostaQuizz(Request $request)
+    {
 
 
+        var_dump($request->resposta);
+
+
+        DB::insert('insert into respostas_quizz (id, resposta ,resultado,tipo,sessao_id,aluno_utilizador_id,pergunta_id) values (?,?,?,?,?,?,?)'
+            , [uniqid(), $request->resposta, $request->resultado, $request->tipo, $request->sessioId, session('utilizador')['id'], $request->id]);
+
+
+        broadcast(new AnswerQuestionStudent(session('utilizador')['nome'], session('sessao')['master'], 'NextQuestion', session('utilizador')['id'],$request->resultado ,$request->resposta))->toOthers();
+
+    }
+
+
+function nextQuestionQuizz(Request $request){
+
+        $index=$request->index;
+
+        $quizz=Cache::get('quizz');
+
+        foreach ( $quizz as $value){
+
+            if ($value->PergIndex==$index){
+                $res = DB::select('select *
+                                 from respostas r
+                                 where r.perguntas_id=:id', ['id' => $value->pId]);
+
+                broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'NewQuestion', session('utilizador')['id'], $value, $res))->toOthers();
+
+            }
+        }
+
+}
 
 
 

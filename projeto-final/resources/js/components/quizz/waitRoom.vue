@@ -29,7 +29,10 @@ export default {
             usersId:[],
             users: [],
             points:[],
+            resposta:[],
             students: 0,
+            couter:0,
+            index:1,
             sessao: JSON.parse(this.sessao_prop),
 
         }
@@ -44,7 +47,7 @@ export default {
         start(){
 
             axios.post('/startQuizz').then(function (response){
-                        console.log("ji")
+
                     $('#waitRoom').hide();
 
             });
@@ -53,6 +56,13 @@ export default {
 
             localStorage.clear();
             window.location.replace('/leaveRoom')
+        },
+        sleep(milliseconds) {
+            const date = Date.now();
+            let currentDate = null;
+            while (currentDate - date < milliseconds) {
+                currentDate = Date.now();
+            }
         },
         connect() {
 
@@ -66,6 +76,7 @@ export default {
                             this.usersId.push(e.userId)
                             this.users.push(e.name)
                             this.points.push(0)
+                            this.resposta.push("")
                             this.students++
 
                             localStorage.setItem('usersId',JSON.stringify(this.usersId));
@@ -82,6 +93,24 @@ export default {
                             localStorage.setItem('usersId',JSON.stringify(this.usersId));
                             localStorage.setItem('users',JSON.stringify(this.users));
                             localStorage.setItem('points',JSON.stringify(this.points))
+
+                        }
+                        else if(e.type==='NextQuestion'){
+                            this.points[this.usersId.indexOf(e.userId)]+=e.points;
+                            this.resposta[this.usersId.indexOf(e.userId)]=e.answer;
+                            this.couter++
+                            if (this.students===this.couter){
+                                this.index++;
+                                let form =new FormData();
+                                form.append('index',this.index);
+                                this.sleep(2000);
+                                this.couter=0;
+                                axios.post('/NextQuestionQuizz',form).then(function (response){
+
+                                    $('#waitRoom').hide();
+
+                                });
+                            }
 
                         }
                     }

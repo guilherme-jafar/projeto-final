@@ -1,5 +1,5 @@
 <template>
-
+<div>
 
 
     <div v-if="pergunta.length===0">
@@ -120,7 +120,7 @@
         </div>
 
 
-
+</div>
 </template>
 
 <script>
@@ -290,6 +290,12 @@ export default {
                            $('#waitRoom').hide()
                            this.getResposta(e.quizzArray,e.Ans)
 
+                        }else if (e.type==='NewQuestion'){
+                            $('.wrapper').hide();
+                            $('.wrapper-wrong').hide();
+                            $('.wrapper-wright').hide();
+                            this.getResposta(e.quizzArray,e.Ans)
+
                         }
 
 
@@ -300,58 +306,74 @@ export default {
 
 
         },
+        sleep(milliseconds) {
+            const date = Date.now();
+            let currentDate = null;
+            while (currentDate - date < milliseconds) {
+                currentDate = Date.now();
+            }
+        },
         response(type,id) {
-            // let tempo = this.countDown;
-            // let tempoTotal = this.pergunta[this.index]['tempo']
-            // let valorTotal = this.pergunta[this.index]['valor']
-            // let resposta = $('#' + id).attr('value')
-            //
-            // if (id !== 'erro') {
-            //     console.log(resposta.toLowerCase() === this.resposta.toLowerCase())
-            //     if (resposta.toLowerCase() === this.resposta.toLowerCase()){
-            //         this.res = Math.round((valorTotal * tempo) / tempoTotal);
-            //     }else{
-            //         this.res = 0;
-            //     }
-            // } else {
-            //     this.res = 0;
-            // }
-            // $('.wrapper').show();
-            //
-            // if (this.res > 0) {
-            //     $('.wrapper').css('background-color', '#66c036')
-            //     $('#couter-wright').text(this.res)
-            //     $('.wrapper-wright').show();
-            //
-            // } else {
-            //     $('.wrapper').css('background-color', '#f9403e')
-            //     $('#couter').text(0)
-            //     $('.wrapper-wrong').show();
-            //
-            // }
-            // this.resultado += this.res;
+            let resposta;
+             let tempo = this.countDown;
+            let tempoTotal = this.pergunta['tempo']
+            let valorTotal = this.pergunta['valor']
+            if (type==='multiple'){
+            resposta = this.multipleQuestion[id];}
+            else{
+            resposta=id;}
+
+
+            if (id !== 'erro') {
+
+                if (resposta.toLowerCase() === this.resposta.toLowerCase()){
+                    this.res = Math.round((valorTotal * tempo) / tempoTotal);
+                }else{
+                    this.res = 0;
+                }
+            } else {
+                this.res = 0;
+            }
+            console.log(resposta+" "+this.res);
+            $('.wrapper').show();
+
+            if (this.res > 0) {
+                $('.wrapper').css('background-color', '#66c036')
+                $('#couter-wright').text(this.res)
+                $('.wrapper-wright').show();
+
+            } else {
+                $('.wrapper').css('background-color', '#f9403e')
+                $('#couter').text(0)
+                $('.wrapper-wrong').show();
+
+            }
+            this.resultado += this.res;
             // clearTimeout(this.timer)
-            // this.countDown = 0;
-            // let form = new FormData();
-            // form.append('id', this.pergunta[this.index]['id'])
-            // form.append('pergunta', this.pergunta[this.index]['enunciado'])
-            // form.append('resposta', resposta)
-            // form.append('resultado', this.res)
-            // form.append('tipo', this.pergunta[this.index]['tipo'])
-            // form.append('sessioId', this.session)
-            // axios.post('/setResposta', form).then(function (response) {
-            //     this.change()
-            //     this.sleep(2500)
-            // }.bind(this));
+            this.countDown = 0;
+            let form = new FormData();
+            form.append('id', this.pergunta['pId'])
+            form.append('pergunta', this.pergunta['enunciado'])
+            form.append('resposta', resposta)
+            form.append('resultado', this.res)
+            form.append('tipo', this.pergunta['tipo'])
+            form.append('sessioId', this.sessao)
+            axios.post('/setRespostaQuizz', form).then(function (response) {
+                // this.change()
+                // this.sleep(2500)
+            }.bind(this));
         },
         getResposta(array,Ans){
+
 
             this.pergunta=array;
             var respostas=Ans;
 
-            console.log(this.pergunta['tipo'])
+            console.log(this.pergunta)
+            console.log(respostas)
             if (this.pergunta['tipo'] === 'true/false') {
                 this.resposta = respostas[0]['resposta']
+                console.log(this.resposta)
             } else if (this.pergunta['tipo'] === 'multiple') {
                 console.log('pois')
                 let i;
@@ -394,6 +416,7 @@ export default {
             this.questionType = this.pergunta['tipo']
             this.enunciado = this.pergunta['enunciado']
             this.valor = this.pergunta['valor']
+            this.countDown=this.pergunta['tempo']
         }
 
 
