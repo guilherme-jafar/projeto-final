@@ -44,6 +44,17 @@
             </div>
         </div>
 
+        <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toastEliminarPergunta" role="alert"
+             aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <strong><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp;
+                        <span>Pergunta eliminada com sucesso!!</span> </strong>
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+
 
         <div v-if="topicos.data.length === 0" class="mx-auto">
             <h1 class="heanding-1 mx-auto mt-5">Ainda não tem nenhum Topico</h1>
@@ -222,7 +233,8 @@
                 modalDeleteTopico: '',
                 toastEliminarTopico: '',
                 toastEditartopico: '',
-                modalEditarTopico: ''
+                modalEditarTopico: '',
+                toastEliminarPergunta: ''
             }
         }, methods: {
             editarTopico(topico){
@@ -343,8 +355,11 @@
                         this.topicos = response.data.message;
                     });
             },
+            showToastPergunta(){
+                this.toastEliminarPergunta.show();
+                $('#toastEliminarPergunta').removeClass('d-none');
+            }
         },
-
         computed: {
             filter: function () {
                 return this.topicos.data.filter((topico) => {
@@ -361,7 +376,10 @@
             this.toastEliminarTopico.hide()
             this.toastEditartopico = new  bootstrap.Toast(document.getElementById('toastEditarTopico'), {delay: 10000})
             this.toastEditartopico.hide()
+            this.toastEliminarPergunta = new bootstrap.Toast(document.getElementById('toastEliminarPergunta'), {delay: 10000})
+            this.toastEliminarPergunta.hide()
 
+            this.$root.$on('ShowToastPergunta', this.showToastPergunta);
 
         }
 

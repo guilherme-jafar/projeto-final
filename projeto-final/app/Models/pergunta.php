@@ -11,16 +11,16 @@ class pergunta extends Model
     protected $table = 'perguntas';
     protected $fillable = [''];
     protected $casts = ['id' => 'string'];
-//    protected $respostas = [];
-//
-//    public function setREspostas($respostas)
-//    {
-//
-//        $this->respostas = $respostas;
-//
-//    }
-//
-//    public function getRespostas(){
-//        return $this->respostas;
-//    }
+    protected $respostas = [];
+
+    public function setRespostas($respostas)
+    {
+
+        $this->respostas = $respostas;
+
+    }
+
+    public function getRespostas(){
+        return $this->respostas;
+    }
 }

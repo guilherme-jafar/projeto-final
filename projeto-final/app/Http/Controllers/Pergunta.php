@@ -14,8 +14,6 @@ class Pergunta extends Controller
 
         $pergunta =  \App\Models\pergunta::find($request->id);
 
-//        //$pergunta = DB::select('SELECT * FROM topicos t ,perguntas p WHERE t.id=p.topicos_id AND t.id=:id', ['id' => $request->id]);
-//        $pergunta->setRespostas(DB::select('SELECT * FROM respostas WHERE perguntas_id =:id', ['id' => $pergunta['id']]));
 
         if (!empty($pergunta)) {
             return view('/prof/pergunta', ['pergunta' => $pergunta]);
@@ -40,5 +38,26 @@ class Pergunta extends Controller
             ]);
         }
 
+    }
+
+    function destroy(Request $request){
+
+
+        DB::statement('call deletePergunta(?)', [$request->id]);
+//        $pergunta =  \App\Models\pergunta::find($request->id_topico);
+        $pergunta = DB::select('SELECT *
+            FROM topicos t ,perguntas p
+            WHERE t.id=p.topicos_id
+            AND t.id=:id', ['id' => $request->id_topico]);
+
+        if (!empty($pergunta)) {
+            return response()->json([
+                'message' => $pergunta,
+            ]);
+        } else {
+            return response()->json([
+                'message' => [],
+            ]);
+        }
     }
 }

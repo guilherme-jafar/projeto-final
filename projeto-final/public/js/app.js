@@ -2374,6 +2374,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2386,7 +2397,8 @@ __webpack_require__.r(__webpack_exports__);
       modalDeleteTopico: '',
       toastEliminarTopico: '',
       toastEditartopico: '',
-      modalEditarTopico: ''
+      modalEditarTopico: '',
+      toastEliminarPergunta: ''
     };
   },
   methods: {
@@ -2479,6 +2491,10 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_1___default().get('/prof/listTopicos?page=' + page).then(function (response) {
         _this.topicos = response.data.message;
       });
+    },
+    showToastPergunta: function showToastPergunta() {
+      this.toastEliminarPergunta.show();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#toastEliminarPergunta').removeClass('d-none');
     }
   },
   computed: {
@@ -2505,6 +2521,11 @@ __webpack_require__.r(__webpack_exports__);
       delay: 10000
     });
     this.toastEditartopico.hide();
+    this.toastEliminarPergunta = new bootstrap.Toast(document.getElementById('toastEliminarPergunta'), {
+      delay: 10000
+    });
+    this.toastEliminarPergunta.hide();
+    this.$root.$on('ShowToastPergunta', this.showToastPergunta);
   }
 });
 
@@ -3144,6 +3165,89 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3153,16 +3257,39 @@ __webpack_require__.r(__webpack_exports__);
     return {
       topicos: this.topico_id,
       perguntas: '',
-      toastPergunta: ''
+      toastPergunta: '',
+      respostas: []
     };
   },
   methods: {
+    eliminarPergunta: function eliminarPergunta(pergunta, topidoId) {
+      console.log(topidoId);
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn span').addClass('d-none');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn div').removeClass('d-none');
+      this.modalDeleteQuizz = bootstrap.Modal.getInstance(document.getElementById('eliminarPergunta' + pergunta['id']), {});
+      axios__WEBPACK_IMPORTED_MODULE_1___default().delete('/prof/pergunta/delete/' + topidoId + '/' + pergunta['id']).then(function (response) {
+        if (response.data.message !== "erro") {
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn span').removeClass('d-none');
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn div').addClass('d-none');
+          this.modalDeleteQuizz.hide();
+          this.$root.$emit('ShowToastPergunta');
+          this.perguntas = response.data.message;
+        }
+      }.bind(this));
+    },
     getPerguntas: function getPerguntas() {
       var form = new FormData();
       form.append('id', this.topicos);
       axios__WEBPACK_IMPORTED_MODULE_1___default().post('/getPerguntas', form).then(function (response) {
         this.perguntas = response.data.message;
-      }.bind(this));
+      }.bind(this)); //this.getRespostas(this.topicos);
+    },
+    getRespostas: function getRespostas(id) {
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get('/prof/getRespostas/' + id).then(function (response) {
+        _this.respostas[id] = response.data.message; //this.isFetching = false;
+      });
     },
     submit: function submit(top) {
       var index = 0;
@@ -3414,11 +3541,8 @@ __webpack_require__.r(__webpack_exports__);
     var id3 = "multiple-select" + this.topicos;
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).hide();
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).show();
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).hide();
-    this.toastPergunta = new bootstrap.Toast(document.getElementById('toast-pergunta'), {
-      delay: 10000
-    });
-    this.toastPergunta.hide();
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).hide(); // this.toastPergunta = new bootstrap.Toast(document.getElementById('toast-pergunta'), {delay: 10000})
+    // this.toastPergunta.hide();
   }
 });
 
@@ -43740,13 +43864,15 @@ var render = function() {
       _vm._v(" "),
       _vm._m(3),
       _vm._v(" "),
+      _vm._m(4),
+      _vm._v(" "),
       _vm.topicos.data.length === 0
         ? _c("div", { staticClass: "mx-auto" }, [
             _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
               _vm._v("Ainda não tem nenhum Topico")
             ]),
             _vm._v(" "),
-            _vm._m(4)
+            _vm._m(5)
           ])
         : _c("div", { staticClass: "section-disciplinas-items " }, [
             _c("div", { staticClass: "box-search mb-5" }, [
@@ -43788,7 +43914,7 @@ var render = function() {
                       _c("h2", [_vm._v(_vm._s(topico["nome"]))]),
                       _vm._v(" "),
                       _c("div", { staticClass: "dropdown ms-auto" }, [
-                        _vm._m(5, true),
+                        _vm._m(6, true),
                         _vm._v(" "),
                         _c(
                           "ul",
@@ -43967,7 +44093,7 @@ var render = function() {
                       [
                         _c("div", { staticClass: "modal-dialog" }, [
                           _c("div", { staticClass: "modal-content" }, [
-                            _vm._m(6, true),
+                            _vm._m(7, true),
                             _vm._v(" "),
                             _c("div", { staticClass: "modal-body pt-5 pb-5" }, [
                               _c("form", { staticClass: "row mx-auto" }, [
@@ -44098,9 +44224,9 @@ var render = function() {
         [
           _c("div", { staticClass: "modal-dialog" }, [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(7),
-              _vm._v(" "),
               _vm._m(8),
+              _vm._v(" "),
+              _vm._m(9),
               _vm._v(" "),
               _c("div", { staticClass: "modal-footer" }, [
                 _c(
@@ -44281,6 +44407,43 @@ var staticRenderFns = [
               _c("i", { staticClass: "bi bi-check-circle-fill" }),
               _vm._v("   \n                    "),
               _c("span", [_vm._v("Pergunta adicionada com sucesso!!")])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("button", {
+            staticClass: "btn-close me-2 m-auto",
+            attrs: {
+              type: "button",
+              "data-bs-dismiss": "toast",
+              "aria-label": "Close"
+            }
+          })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "toast toast-primary align-items-center mb-5 mtn-5 d-none",
+        attrs: {
+          id: "toastEliminarPergunta",
+          role: "alert",
+          "aria-live": "assertive",
+          "aria-atomic": "true"
+        }
+      },
+      [
+        _c("div", { staticClass: "d-flex" }, [
+          _c("div", { staticClass: "toast-body" }, [
+            _c("strong", [
+              _c("i", { staticClass: "bi bi-check-circle-fill" }),
+              _vm._v("   \n                    "),
+              _c("span", [_vm._v("Pergunta eliminada com sucesso!!")])
             ])
           ]),
           _vm._v(" "),
@@ -45073,13 +45236,162 @@ var render = function() {
                 "ul",
                 _vm._l(_vm.perguntas, function(pergunta) {
                   return _c("li", { key: pergunta["id"] }, [
-                    _c("div", { staticClass: " card" }, [
-                      _c(
-                        "a",
-                        { attrs: { href: "/prof/pergunta/" + pergunta["id"] } },
-                        [_vm._v(_vm._s(pergunta["enunciado"]))]
-                      )
-                    ])
+                    _c("div", { staticClass: " card " }, [
+                      _c("div", { staticClass: "d-flex" }, [
+                        _c(
+                          "a",
+                          {
+                            attrs: { href: "/prof/pergunta/" + pergunta["id"] }
+                          },
+                          [_c("h3", [_vm._v(_vm._s(pergunta["enunciado"]))])]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "dropdown ms-auto" }, [
+                          _vm._m(0, true),
+                          _vm._v(" "),
+                          _c(
+                            "ul",
+                            {
+                              staticClass: "dropdown-menu",
+                              attrs: {
+                                "aria-labelledby": "dropdownMenuButton1"
+                              }
+                            },
+                            [
+                              _c("li", [
+                                _c(
+                                  "a",
+                                  {
+                                    staticClass: "dropdown-item",
+                                    attrs: {
+                                      href: "/prof/pergunta/" + pergunta["id"]
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "Editar\n                                            "
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("li", [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "dropdown-item",
+                                    attrs: {
+                                      type: "button",
+                                      "data-bs-toggle": "modal",
+                                      "data-bs-target":
+                                        "#eliminarPergunta" + pergunta["id"]
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "Eliminar\n                                            "
+                                    )
+                                  ]
+                                )
+                              ])
+                            ]
+                          )
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "modal fade",
+                        attrs: {
+                          id: "eliminarPergunta" + pergunta["id"],
+                          tabindex: "-1",
+                          "aria-labelledby": "exampleModalLabel",
+                          "aria-hidden": "true"
+                        }
+                      },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "modal-dialog modal-dialog-centered" },
+                          [
+                            _c("div", { staticClass: "modal-content" }, [
+                              _c("div", { staticClass: "modal-header" }, [
+                                _c(
+                                  "h5",
+                                  {
+                                    staticClass: "modal-title",
+                                    attrs: {
+                                      id: "tituloEliminar" + pergunta["id"]
+                                    }
+                                  },
+                                  [_vm._v("Eliminar Pergunta")]
+                                ),
+                                _vm._v(" "),
+                                _c("button", {
+                                  staticClass: "btn-close",
+                                  attrs: {
+                                    type: "button",
+                                    "data-bs-dismiss": "modal",
+                                    "aria-label": "Close"
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _vm._m(1, true),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "modal-footer" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-secondary",
+                                    attrs: {
+                                      type: "button",
+                                      "data-bs-dismiss": "modal"
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                            Cancelar\n                                        "
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-primary eliminar-btn",
+                                    attrs: {
+                                      type: "button",
+                                      id:
+                                        "eliminarUtilizadorBtn" + pergunta["id"]
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.eliminarPergunta(
+                                          pergunta,
+                                          _vm.topicos
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("span", {}, [_vm._v("Sim")]),
+                                    _vm._v(" "),
+                                    _c("div", {
+                                      staticClass:
+                                        "spinner-border text-light d-none",
+                                      attrs: { role: "status" }
+                                    })
+                                  ]
+                                )
+                              ])
+                            ])
+                          ]
+                        )
+                      ]
+                    )
                   ])
                 }),
                 0
@@ -45097,7 +45409,11 @@ var render = function() {
                 "data-bs-target": "#p" + _vm.topicos
               }
             },
-            [_vm._v("\n                Adicionar pergunta\n            ")]
+            [
+              _vm._v(
+                "\n                    Adicionar pergunta\n                "
+              )
+            ]
           )
         ]),
         _vm._v(" "),
@@ -45115,7 +45431,7 @@ var render = function() {
           [
             _c("div", { staticClass: "modal-dialog modal-dialog-centered " }, [
               _c("div", { staticClass: "modal-content" }, [
-                _vm._m(0),
+                _vm._m(2),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c("div", { staticClass: "pt-4 pb-5" }, [
@@ -45134,7 +45450,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                                        Adicionar pergunta\n                                    "
+                              "\n                                            Adicionar pergunta\n                                        "
                             )
                           ]
                         )
@@ -45154,7 +45470,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                                        Importar perguntas\n                                    "
+                              "\n                                            Importar perguntas\n                                        "
                             )
                           ]
                         )
@@ -45163,7 +45479,7 @@ var render = function() {
                   ])
                 ]),
                 _vm._v(" "),
-                _vm._m(1)
+                _vm._m(3)
               ])
             ])
           ]
@@ -45183,7 +45499,7 @@ var render = function() {
           [
             _c("div", { staticClass: "modal-dialog modal-dialog-centered" }, [
               _c("div", { staticClass: "modal-content" }, [
-                _vm._m(2),
+                _vm._m(4),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _c(
@@ -45229,7 +45545,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Inserir\n                        ")]
+                    [_vm._v("Inserir\n                            ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -45268,7 +45584,7 @@ var render = function() {
               },
               [
                 _c("div", { staticClass: "modal-content" }, [
-                  _vm._m(3),
+                  _vm._m(5),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -45314,7 +45630,7 @@ var render = function() {
                               { attrs: { for: "tipo" + _vm.topicos } },
                               [
                                 _vm._v(
-                                  "\n                                        Indique o tipo de pergunta"
+                                  "\n                                            Indique o tipo de pergunta"
                                 ),
                                 _c("br"),
                                 _vm._v(" "),
@@ -45362,7 +45678,7 @@ var render = function() {
                               { attrs: { for: "tempo" + _vm.topicos } },
                               [
                                 _vm._v(
-                                  "\n                                        Indique o tempo de pergunta"
+                                  "\n                                            Indique o tempo de pergunta"
                                 ),
                                 _c("br"),
                                 _vm._v(" "),
@@ -45419,7 +45735,7 @@ var render = function() {
                               { attrs: { for: "pontos" + _vm.topicos } },
                               [
                                 _vm._v(
-                                  "\n                                        Indique a pontuação"
+                                  "\n                                            Indique a pontuação"
                                 ),
                                 _c("br"),
                                 _vm._v(" "),
@@ -45623,7 +45939,7 @@ var render = function() {
                                 _c("div", { staticClass: "mb-5 mt-5" }, [
                                   _c("label", { staticClass: "label-tf" }, [
                                     _vm._v(
-                                      "Verdadeira\n                                                "
+                                      "Verdadeira\n                                                    "
                                     ),
                                     _c("input", {
                                       attrs: {
@@ -45640,7 +45956,7 @@ var render = function() {
                                 _c("div", [
                                   _c("label", { staticClass: "label-tf" }, [
                                     _vm._v(
-                                      "Falsa\n                                                "
+                                      "Falsa\n                                                    "
                                     ),
                                     _c("input", {
                                       attrs: {
@@ -45836,7 +46152,7 @@ var render = function() {
                               "data-bs-dismiss": "modal"
                             }
                           },
-                          [_vm._v("Cancelar\n                            ")]
+                          [_vm._v("Cancelar\n                                ")]
                         ),
                         _vm._v(" "),
                         _c(
@@ -45853,7 +46169,7 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("inserir\n                            ")]
+                          [_vm._v("inserir\n                                ")]
                         )
                       ])
                     ]
@@ -45868,6 +46184,31 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        attrs: {
+          type: "button",
+          id: "dropdownMenuButton1",
+          "data-bs-toggle": "dropdown",
+          "aria-expanded": "false"
+        }
+      },
+      [_c("i", { staticClass: "bi bi-three-dots-vertical" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-body" }, [
+      _c("h2", [_vm._v("Tem certeza que deseja eliminar a pergunta?")])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -50245,7 +50586,7 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("True\n                        ")]
+                          [_vm._v("True\r\n                        ")]
                         )
                       ]),
                       _vm._v(" "),
@@ -50261,7 +50602,7 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("False\n                        ")]
+                          [_vm._v("False\r\n                        ")]
                         )
                       ])
                     ])
@@ -50272,14 +50613,14 @@ var render = function() {
                       _c("p", { staticClass: "text-center" }, [
                         _vm.pergunta["tipo"] === "multiple-select"
                           ? _c("span", { staticClass: "selecao-mul mx-auto" }, [
-                              _vm._v("\n                         Respostas"),
+                              _vm._v("\r\n                         Respostas"),
                               _c("span", [
                                 _vm._v(" " + _vm._s(_vm.botaoEscolhido.length))
                               ]),
                               _vm._v(
                                 "  / " +
                                   _vm._s(_vm.respostasMultiplas.length) +
-                                  "\n            "
+                                  "\r\n            "
                               )
                             ])
                           : _vm._e()
@@ -50297,7 +50638,7 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v(" \n                        ")]
+                          [_vm._v(" \r\n                        ")]
                         )
                       ]),
                       _vm._v(" "),
@@ -50313,7 +50654,7 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v(" \n                        ")]
+                          [_vm._v(" \r\n                        ")]
                         )
                       ]),
                       _vm._v(" "),
@@ -50331,7 +50672,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                             \n                        "
+                              "\r\n                             \r\n                        "
                             )
                           ]
                         )
@@ -50351,7 +50692,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                             \n                        "
+                              "\r\n                             \r\n                        "
                             )
                           ]
                         )

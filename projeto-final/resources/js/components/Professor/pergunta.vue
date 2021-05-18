@@ -11,8 +11,91 @@
                 <ul>
                     <li v-for="pergunta in perguntas" :key="pergunta['id']">
 
-                        <div class=" card">
-                            <a :href="'/prof/pergunta/'+ pergunta['id']">{{pergunta['enunciado']}}</a>
+                        <div class=" card ">
+                            <div class="d-flex">
+                                <a :href="'/prof/pergunta/'+ pergunta['id']"> <h3>{{pergunta['enunciado']}}</h3></a>
+
+                                <div class="dropdown ms-auto">
+                                    <button class="" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        <li>
+                                            <a :href="'/prof/pergunta/'+ pergunta['id']" class="dropdown-item"
+
+                                              >Editar
+                                            </a>
+
+                                        </li>
+                                        <li>
+                                            <button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                                    :data-bs-target="'#eliminarPergunta' + pergunta['id']">Eliminar
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+<!--                                <span data-bs-toggle="collapse" :data-bs-target="'#collapsePergunta'+pergunta['id']"-->
+<!--                                      aria-expanded="false"-->
+<!--                                      :aria-controls="'collapsePergunta'+pergunta['id']" class="material-icons"-->
+<!--                                      @click="changeButton(pergunta['id'])" style="cursor: pointer">-->
+<!--                                         <img :id="'img'+pergunta['id']" src="/assets/expand_more_black_24dp.svg">-->
+<!--                                 </span>-->
+                            </div>
+
+
+<!--                            <div class="mt-2">-->
+<!--                                <div class="collapse mt-2" :id="'collapsePergunta'+pergunta['id']">-->
+<!--                                    fdgdfgdf-->
+<!--                                    <p>Tipo:-->
+<!--                                        <span v-if="quizz['tipo'] === 'false'">Teste </span>-->
+<!--                                        <span v-else>Quizz </span>-->
+<!--                                    </p>-->
+<!--                                    <p>Número de perguntas: {{quizz['numeroperguntas']}}</p>-->
+<!--                                    <p>Visivel:-->
+<!--                                        <span v-if="quizz['visivel'] === 'false'">Não </span>-->
+<!--                                        <span v-else>Sim </span>-->
+<!--                                    </p>-->
+<!--                                    <p>Vale Pontos:-->
+<!--                                        <span v-if="quizz['vale_pontos'] === 'false'">Não </span>-->
+<!--                                        <span v-else>Sim </span>-->
+<!--                                    </p>-->
+
+
+<!--                                </div>-->
+
+<!--                            </div>-->
+                        </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" :id="'eliminarPergunta' + pergunta['id']" tabindex="-1"
+                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" :id="'tituloEliminar' + pergunta['id']">Eliminar Pergunta</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h2>Tem certeza que deseja eliminar a pergunta?</h2>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                            Cancelar
+                                        </button>
+                                        <button type="button" class="btn btn-primary eliminar-btn"
+                                                :id="'eliminarUtilizadorBtn' + pergunta['id']"
+                                                @click="eliminarPergunta(pergunta, topicos)">
+                                            <span class="">Sim</span>
+                                            <div class="spinner-border text-light d-none" role="status">
+
+                                            </div>
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                     </li>
@@ -332,20 +415,51 @@
             return {
                 topicos: this.topico_id,
                 perguntas: '',
-                toastPergunta: ''
+                toastPergunta: '',
+                respostas: []
             }
         },
         methods: {
+            eliminarPergunta(pergunta, topidoId) {
+                console.log(topidoId)
+                $('.eliminar-btn span').addClass('d-none');
+                $('.eliminar-btn div').removeClass('d-none');
 
+                this.modalDeleteQuizz = bootstrap.Modal.getInstance(document.getElementById('eliminarPergunta' + pergunta['id']), {});
+
+                axios.delete('/prof/pergunta/delete/' + topidoId + '/' + pergunta['id']).then(
+                    function (response) {
+
+
+
+                        if (response.data.message !== "erro") {
+                            $('.eliminar-btn span').removeClass('d-none');
+                            $('.eliminar-btn div').addClass('d-none');
+                            this.modalDeleteQuizz.hide();
+                            this.$root.$emit('ShowToastPergunta');
+                            this.perguntas = response.data.message;
+
+
+                        }
+                    }.bind(this));
+            },
             getPerguntas() {
                 let form = new FormData()
 
                 form.append('id', this.topicos)
                 axios.post('/getPerguntas', form).then(function (response) {
                         this.perguntas = response.data.message;
-
                     }.bind(this)
                 );
+                //this.getRespostas(this.topicos);
+            },
+            getRespostas(id) {
+                axios.get('/prof/getRespostas/' + id)
+                    .then(response => {
+                        this.respostas[id] = response.data.message;
+
+                        //this.isFetching = false;
+                    });
             },
 
             submit(top) {
@@ -633,8 +747,8 @@
             $('#' + id).hide();
             $('#' + id2).show();
             $('#' + id3).hide();
-            this.toastPergunta = new bootstrap.Toast(document.getElementById('toast-pergunta'), {delay: 10000})
-            this.toastPergunta.hide();
+            // this.toastPergunta = new bootstrap.Toast(document.getElementById('toast-pergunta'), {delay: 10000})
+            // this.toastPergunta.hide();
         }
     }
 </script>

@@ -93,7 +93,7 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (
 
     Route::post("/multiQuestion",[App\Http\Controllers\topicos::class,"MultiQuestion"]);
     Route::delete("/prof/topico/delete/{id}", [App\Http\Controllers\topicos::class,'destroy']);
-
+    Route::delete("/prof/pergunta/delete/{id_topico}/{id}", [App\Http\Controllers\Pergunta::class,'destroy']);
     Route::get('/loading', function () {return view('/loading');});
     Route::get('/prof/pergunta/{id}',  [App\Http\Controllers\Pergunta::class,'show']);
     Route::get('/WaitRoom/{id}',[App\Http\Controllers\Quizz::class,'CreateWaitRoom']);

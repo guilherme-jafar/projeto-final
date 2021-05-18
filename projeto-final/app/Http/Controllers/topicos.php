@@ -158,9 +158,11 @@ class topicos extends Controller
     {
 
         $res = DB::select('SELECT *
-FROM topicos t ,perguntas p
-WHERE t.id=p.topicos_id
-AND t.id=:id', ['id' => $request->id]);
+            FROM topicos t ,perguntas p
+            WHERE t.id=p.topicos_id
+            AND t.id=:id', ['id' => $request->id]);
+
+     //  $res = (DB::select('SELECT * FROM respostas WHERE perguntas_id =:id', ['id' => $pergunta['id']]));
 
 
         if (!empty($res)) {

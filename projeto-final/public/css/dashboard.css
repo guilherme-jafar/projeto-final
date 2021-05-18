@@ -467,7 +467,7 @@ li {
 }
 
 .toast {
-  width: 50%;
+  width: 100%;
   margin: auto;
   border-radius: 1rem;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
@@ -970,7 +970,6 @@ section {
   font-size: 1.8rem;
 }
 .card-disciplina .section-disciplinas-items .card-box .lista-perguntas .card {
-  flex-direction: inherit;
   padding: 0.5rem;
   background-color: #f9f9f9;
   border-top: 0;
@@ -979,7 +978,7 @@ section {
   border-bottom: 0;
   margin-bottom: 0.5rem;
 }
-.card-disciplina .section-disciplinas-items .card-box .lista-perguntas .card a {
+.card-disciplina .section-disciplinas-items .card-box .lista-perguntas .card h3 {
   font-size: 1.8rem;
   color: #40C0F0;
   font-weight: bold;

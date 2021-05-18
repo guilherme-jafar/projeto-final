@@ -551,7 +551,6 @@
             .lista-perguntas{
                 .card{
                    // box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
-                    flex-direction: inherit;
                     padding: 0.5rem;
                     background-color:#f9f9f9;
                     border-top: 0;
@@ -561,7 +560,7 @@
                     margin-bottom: 0.5rem;
 
 
-                    a{
+                    h3{
                         font-size: 1.8rem;
                         color: $cor-principal-2;
                         font-weight: bold;
