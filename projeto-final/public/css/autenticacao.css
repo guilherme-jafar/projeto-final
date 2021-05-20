@@ -474,11 +474,17 @@ li {
   padding: 1rem;
   border: 0;
 }
+.toast .done {
+  color: #7FBA27;
+}
 .toast strong {
   color: #7FBA27;
+  font-weight: 400;
+  vertical-align: center;
 }
 .toast strong i {
   font-size: 2.5rem;
+  vertical-align: super;
 }
 .toast strong span {
   vertical-align: text-bottom;
@@ -486,6 +492,9 @@ li {
 }
 .toast-primary {
   background-color: white;
+}
+.toast .toast-error {
+  color: #198754;
 }
 .toast-body {
   padding: 0;

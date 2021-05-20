@@ -55,6 +55,17 @@
             </div>
         </div>
 
+        <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toastEliminarPerguntaErro" role="alert"
+             aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <strong class="toast-error text-danger"><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp;
+                        <span class="text-danger">Não foi possivel eliminar a pergunta porque está inserida em um Quizz!!</span> </strong>
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+
 
         <div v-if="topicos.data.length === 0" class="mx-auto">
             <h1 class="heanding-1 mx-auto mt-5">Ainda não tem nenhum Topico</h1>
@@ -234,7 +245,8 @@
                 toastEliminarTopico: '',
                 toastEditartopico: '',
                 modalEditarTopico: '',
-                toastEliminarPergunta: ''
+                toastEliminarPergunta: '',
+                toastEliminarPerguntaErro: ''
             }
         }, methods: {
             editarTopico(topico){
@@ -355,9 +367,19 @@
                         this.topicos = response.data.message;
                     });
             },
-            showToastPergunta(){
-                this.toastEliminarPergunta.show();
-                $('#toastEliminarPergunta').removeClass('d-none');
+            showToastPergunta(apagou){
+
+                if (apagou === 1){
+                    this.toastEliminarPergunta.show();
+                    $('#toastEliminarPergunta').removeClass('d-none');
+                }else if(apagou === 2) {
+                    this.toastEliminarPerguntaErro.show();
+                    $('#toastEliminarPerguntaErro').removeClass('d-none');
+                }else if(apagou === 3){
+                    this.toastPergunta.show();
+                    $('#toast-pergunta').removeClass('d-none');
+                }
+
             }
         },
         computed: {
@@ -378,7 +400,10 @@
             this.toastEditartopico.hide()
             this.toastEliminarPergunta = new bootstrap.Toast(document.getElementById('toastEliminarPergunta'), {delay: 10000})
             this.toastEliminarPergunta.hide()
-
+            this.toastEliminarPerguntaErro = new bootstrap.Toast(document.getElementById('toastEliminarPerguntaErro'), {delay: 10000})
+            this.toastEliminarPerguntaErro.hide()
+            this.toastPergunta = new bootstrap.Toast(document.getElementById('toast-pergunta'), {delay: 10000})
+            this.toastPergunta.hide()
             this.$root.$on('ShowToastPergunta', this.showToastPergunta);
 
         }

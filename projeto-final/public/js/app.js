@@ -2385,6 +2385,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2398,7 +2409,8 @@ __webpack_require__.r(__webpack_exports__);
       toastEliminarTopico: '',
       toastEditartopico: '',
       modalEditarTopico: '',
-      toastEliminarPergunta: ''
+      toastEliminarPergunta: '',
+      toastEliminarPerguntaErro: ''
     };
   },
   methods: {
@@ -2492,9 +2504,17 @@ __webpack_require__.r(__webpack_exports__);
         _this.topicos = response.data.message;
       });
     },
-    showToastPergunta: function showToastPergunta() {
-      this.toastEliminarPergunta.show();
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#toastEliminarPergunta').removeClass('d-none');
+    showToastPergunta: function showToastPergunta(apagou) {
+      if (apagou === 1) {
+        this.toastEliminarPergunta.show();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#toastEliminarPergunta').removeClass('d-none');
+      } else if (apagou === 2) {
+        this.toastEliminarPerguntaErro.show();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#toastEliminarPerguntaErro').removeClass('d-none');
+      } else if (apagou === 3) {
+        this.toastPergunta.show();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#toast-pergunta').removeClass('d-none');
+      }
     }
   },
   computed: {
@@ -2525,6 +2545,14 @@ __webpack_require__.r(__webpack_exports__);
       delay: 10000
     });
     this.toastEliminarPergunta.hide();
+    this.toastEliminarPerguntaErro = new bootstrap.Toast(document.getElementById('toastEliminarPerguntaErro'), {
+      delay: 10000
+    });
+    this.toastEliminarPerguntaErro.hide();
+    this.toastPergunta = new bootstrap.Toast(document.getElementById('toast-pergunta'), {
+      delay: 10000
+    });
+    this.toastPergunta.hide();
     this.$root.$on('ShowToastPergunta', this.showToastPergunta);
   }
 });
@@ -3268,11 +3296,16 @@ __webpack_require__.r(__webpack_exports__);
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn div').removeClass('d-none');
       this.modalDeleteQuizz = bootstrap.Modal.getInstance(document.getElementById('eliminarPergunta' + pergunta['id']), {});
       axios__WEBPACK_IMPORTED_MODULE_1___default().delete('/prof/pergunta/delete/' + topidoId + '/' + pergunta['id']).then(function (response) {
-        if (response.data.message !== "erro") {
+        if (response.data.message === "erro") {
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn span').removeClass('d-none');
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn div').addClass('d-none');
           this.modalDeleteQuizz.hide();
-          this.$root.$emit('ShowToastPergunta');
+          this.$root.$emit('ShowToastPergunta', 2);
+        } else {
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn span').removeClass('d-none');
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn div').addClass('d-none');
+          this.modalDeleteQuizz.hide();
+          this.$root.$emit('ShowToastPergunta', 1);
           this.perguntas = response.data.message;
         }
       }.bind(this));
@@ -3311,7 +3344,7 @@ __webpack_require__.r(__webpack_exports__);
       if (document.getElementById("pergunta" + top).value.length <= 0) {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#PerguntaError' + top).text("indique o enunciado da pergunta").css('color', 'red').css('opacity', '1');
       } else if (document.getElementById("pergunta" + top).value.length > 120) {
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#PerguntaError' + top).text("O enunciado é demasiado grande").css('color', 'red').css('opacity', '1');
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#PerguntaError' + top).text("O enunciado é demasiado grande. Deve ter 120 caracteres no máximo!!").css('color', 'red').css('opacity', '1');
       } else {
         form.append('topico', top);
         form.append('pergunta', document.getElementById("pergunta" + top).value);
@@ -3427,8 +3460,9 @@ __webpack_require__.r(__webpack_exports__);
           alert("Erro a inserir a pergunta");
         } else {
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit' + top).prop('disabled', false);
-          this.modal.hide();
-          this.toastPergunta.show();
+          this.modal.hide(); // this.toastPergunta.show();
+
+          this.$root.$emit('ShowToastPergunta', 3);
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('#toast-pergunta').removeClass('d-none');
         }
 
@@ -3563,6 +3597,91 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3954,15 +4073,251 @@ __webpack_require__.r(__webpack_exports__);
     return {
       pergunta: JSON.parse(this.pergunta_prop),
       respostas: [],
-      isFetching: true
+      isFetching: true,
+      tipoFicheiro: 0
     };
   },
   methods: {
+    alterarFoto: function alterarFoto(e) {
+      if (this.tipoFicheiro = 1) {
+        var imagem = document.getElementById("imagem");
+        imagem.src = URL.createObjectURL(e.target.files[0]);
+        this.imagem = e.target.files[0];
+      }
+    },
+    fileCheck: function fileCheck() {
+      if (this.respostas['multimedia'][0]['link'] === null) {
+        return 0;
+      } else {
+        var ext = this.getExtension(this.respostas['multimedia'][0]['link']);
+
+        switch (ext.toLowerCase()) {
+          case 'jpeg':
+          case 'gif':
+          case 'bmp':
+          case 'png':
+          case 'jpg':
+            //etc
+            return 1;
+        }
+
+        switch (ext.toLowerCase()) {
+          case 'm4v':
+          case 'avi':
+          case 'mpg':
+          case 'mp4':
+            // etc
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#questionMulti').attr("type", 'video/' + ext);
+            return 2;
+        }
+
+        switch (ext.toLowerCase()) {
+          case 'ogg':
+          case 'mpeg':
+          case 'mp3':
+            // etc
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#questionMultiAudio').attr("src", 'audio/' + ext);
+            return 3;
+        }
+      }
+
+      return 0;
+    },
+    getExtension: function getExtension(filename) {
+      var parts = filename.split('.');
+      return parts[parts.length - 1];
+    },
+    submit: function submit(perguntaId) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + perguntaId).text(" ").css('color', 'red').css('opacity', '1');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#TError' + perguntaId).text(" ").css('color', 'red').css('opacity', '1');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#PerguntaError' + perguntaId).text(" ").css('color', 'red').css('opacity', '1');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#fileError' + perguntaId).text(" ").css('color', 'red').css('opacity', '1');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit span').addClass('d-none');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit div').removeClass('d-none');
+      var validImageTypes = ["image/gif", "image/jpeg", "image/png", "image/PNG", "audio/mpeg", "audio/ogg", "audio/mp3"];
+      var form = new FormData();
+      var file;
+      var type,
+          flag = false,
+          flag2 = false,
+          corret;
+      var array = [];
+      var index = 0;
+
+      if (document.getElementById("pergunta" + perguntaId).value.length <= 0) {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#PerguntaError' + perguntaId).text("indique o enunciado da pergunta").css('color', 'red').css('opacity', '1');
+      } else if (document.getElementById("pergunta" + perguntaId).value.length > 120) {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#PerguntaError' + perguntaId).text("O enunciado é demasiado grande. Deve ter 120 caracteres no máximo!!").css('color', 'red').css('opacity', '1');
+      } else {
+        form.append('pergunta', document.getElementById("pergunta" + perguntaId).value);
+        form.append('tempo', document.getElementById("tempo" + perguntaId).value);
+        form.append('tipo', document.getElementById("tipo" + perguntaId).value);
+        form.append('pontos', document.getElementById("pontos" + perguntaId).value);
+
+        if (this.tipoFicheiro === 1) {
+          file = document.getElementById("file" + top).files[0];
+
+          if (file != null) {
+            type = file['type'];
+
+            if (jquery__WEBPACK_IMPORTED_MODULE_0___default().inArray(type, validImageTypes) < 0) {
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('#fileError' + perguntaId).text("Ficheiro invalido").css('color', 'red').css('opacity', '1');
+            }
+
+            form.append('file', file);
+          } else {
+            form.append('file', this.respostas['multimedia'][0]['link']);
+          }
+        } else if (this.tipoFicheiro === 2) {
+          form.append('file', document.getElementById("inputLink").value);
+        } else {
+          form.append('file', this.respostas['multimedia'][0]['link']);
+        }
+
+        if (document.getElementById("tipo" + perguntaId).value === "multiple") {
+          var radios = document.getElementsByName("corret" + perguntaId);
+
+          for (var i = 1; i < 5; i++) {
+            if (document.getElementById("re" + i + perguntaId).value.length > 0 && document.getElementById("re" + i + perguntaId).value.length <= 100) {
+              array.push(document.getElementById("re" + i + perguntaId).value);
+              index++;
+            }
+
+            if (document.getElementById("re" + i + perguntaId).value.length >= 100) {
+              flag2 = true;
+              break;
+            }
+
+            if (radios[i - 1].checked) {
+              flag = true;
+              corret = radios[i - 1].value;
+            }
+          }
+
+          if (flag2) {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + perguntaId).text("Uma das respostas tem mais de 100 letras").css('color', 'red').css('opacity', '1');
+          } else if (index < 2) {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + perguntaId).text("Uma pergunta tem de ter pelo menos 2 respostas").css('color', 'red').css('opacity', '1');
+          } else if (!flag) {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + perguntaId).text("Indique a resposta certa").css('color', 'red').css('opacity', '1');
+          } else {
+            form.append('array', JSON.stringify(array));
+            form.append('resposta', document.getElementById(corret).value);
+            this.send(form, perguntaId);
+          }
+        } else if (document.getElementById("tipo" + perguntaId).value === "true/false") {
+          var radios = document.getElementsByName("TF" + perguntaId);
+
+          for (var _i = 0; _i < 2; _i++) {
+            if (radios[_i].checked) {
+              flag = true;
+              corret = radios[_i].value;
+            }
+          }
+
+          if (!flag) {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#TError' + perguntaId).text("Indique a resposta certa").css('color', 'red').css('opacity', '1');
+          } else {
+            form.append('resposta', corret);
+            this.send(form, perguntaId);
+          }
+        } else if (document.getElementById("tipo" + top).value === "multiple-select") {
+          var opcoes = jquery__WEBPACK_IMPORTED_MODULE_0___default()('input[name="corret' + top + '[]"]:checked');
+          var opcoesEscolhidas = [];
+          var respostas = [];
+          var guardarOpcoes = true;
+
+          if (opcoes.length <= 1) {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + top).text("Escolha duas ou mais opções corretas!!").css('color', 'red').css('opacity', '1');
+          } else {
+            for (var _i2 = 0; _i2 < opcoes.length; _i2++) {
+              opcoesEscolhidas[_i2] = opcoes[_i2].value;
+
+              if (document.getElementById("rem" + (_i2 + 1) + perguntaId).value.length === 0) {
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + perguntaId).text("Não pode escolher uma opção vazia como certa!!").css('color', 'red').css('opacity', '1');
+                guardarOpcoes = false;
+                break;
+              } else if (document.getElementById("rem" + (_i2 + 1) + perguntaId).value.length > 100) {
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + perguntaId).text("Uma das respostas tem mais de 100 letras").css('color', 'red').css('opacity', '1');
+                guardarOpcoes = false;
+                break;
+              }
+            }
+
+            if (guardarOpcoes) {
+              for (var _i3 = 1; _i3 < 5; _i3++) {
+                if (document.getElementById("rem" + _i3 + perguntaId).value.length > 0 && document.getElementById("rem" + _i3 + perguntaId).value.length <= 100) {
+                  respostas[_i3 - 1] = document.getElementById("rem" + _i3 + perguntaId).value;
+                }
+              }
+
+              if (respostas.length >= 2) {
+                form.append('array', JSON.stringify(respostas));
+                form.append('respostas', JSON.stringify(opcoesEscolhidas));
+                this.send(form, perguntaId);
+              } else {
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + perguntaId).text("Só pode introduzir duas ou mais opcões!!").css('color', 'red').css('opacity', '1');
+              }
+            }
+          }
+        }
+      }
+    },
+    send: function send(form, perguntaID) {
+      console.log(form.values());
+
+      var _iterator = _createForOfIteratorHelper(form.entries()),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var pair = _step.value;
+          console.log(pair[0] + ', ' + pair[1]);
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/prof/pergunta/' + perguntaID + '/editar', form).then(function (response) {
+        if (response.data.message === "erro") {
+          alert("Erro a inserir a pergunta");
+        } else {
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit' + top).prop('disabled', false);
+          this.modal.hide(); // this.toastPergunta.show();
+
+          this.$root.$emit('ShowToastPergunta', 3);
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#toast-pergunta').removeClass('d-none');
+        }
+
+        document.getElementById("pergunta" + top).value = "";
+        document.getElementById("file" + top).value = "";
+      }.bind(this));
+    },
+    fileType: function fileType(tipo) {
+      if (tipo === 2) {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#inputLink').show();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#dropdownFile').addClass('btn-file-hide');
+        this.tipoFicheiro = 2;
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#imagem-div').hide();
+      } else if (tipo === 1) {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#inputLink').hide();
+        this.tipoFicheiro = 1;
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#dropdownFile').addClass('btn-file');
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#imagem-div').show();
+      } else if (tipo === 2) {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#inputLink').hide();
+        this.tipoFicheiro = 1;
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#dropdownFile').addClass('btn-file');
+      }
+    },
     getRespostas: function getRespostas(id) {
       var _this = this;
 
       axios__WEBPACK_IMPORTED_MODULE_1___default().get('/prof/getRespostas/' + id).then(function (response) {
         _this.respostas = response.data.message;
+        console.log(_this.respostas);
         _this.isFetching = false;
       });
     },
@@ -3987,6 +4342,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#inputLink').hide();
     this.getRespostas(this.pergunta['id']);
     var pergunta = this.pergunta;
     var id = "trueFalse" + pergunta['id'];
@@ -5465,8 +5821,6 @@ __webpack_require__.r(__webpack_exports__);
           imagemErro = true;
         }
       }
-
-      console.log(jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val().length);
 
       if (jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val().length === 0) {
         jquery__WEBPACK_IMPORTED_MODULE_1___default()("#emailError").text("O campo encontra-se vazio").css('color', 'red').css('opacity', '1');
@@ -43930,13 +44284,15 @@ var render = function() {
       _vm._v(" "),
       _vm._m(4),
       _vm._v(" "),
+      _vm._m(5),
+      _vm._v(" "),
       _vm.topicos.data.length === 0
         ? _c("div", { staticClass: "mx-auto" }, [
             _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
               _vm._v("Ainda não tem nenhum Topico")
             ]),
             _vm._v(" "),
-            _vm._m(5)
+            _vm._m(6)
           ])
         : _c("div", { staticClass: "section-disciplinas-items " }, [
             _c("div", { staticClass: "box-search mb-5" }, [
@@ -43978,7 +44334,7 @@ var render = function() {
                       _c("h2", [_vm._v(_vm._s(topico["nome"]))]),
                       _vm._v(" "),
                       _c("div", { staticClass: "dropdown ms-auto" }, [
-                        _vm._m(6, true),
+                        _vm._m(7, true),
                         _vm._v(" "),
                         _c(
                           "ul",
@@ -44157,7 +44513,7 @@ var render = function() {
                       [
                         _c("div", { staticClass: "modal-dialog" }, [
                           _c("div", { staticClass: "modal-content" }, [
-                            _vm._m(7, true),
+                            _vm._m(8, true),
                             _vm._v(" "),
                             _c("div", { staticClass: "modal-body pt-5 pb-5" }, [
                               _c("form", { staticClass: "row mx-auto" }, [
@@ -44288,9 +44644,9 @@ var render = function() {
         [
           _c("div", { staticClass: "modal-dialog" }, [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(8),
-              _vm._v(" "),
               _vm._m(9),
+              _vm._v(" "),
+              _vm._m(10),
               _vm._v(" "),
               _c("div", { staticClass: "modal-footer" }, [
                 _c(
@@ -44508,6 +44864,47 @@ var staticRenderFns = [
               _c("i", { staticClass: "bi bi-check-circle-fill" }),
               _vm._v("   \n                    "),
               _c("span", [_vm._v("Pergunta eliminada com sucesso!!")])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("button", {
+            staticClass: "btn-close me-2 m-auto",
+            attrs: {
+              type: "button",
+              "data-bs-dismiss": "toast",
+              "aria-label": "Close"
+            }
+          })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "toast toast-primary align-items-center mb-5 mtn-5 d-none",
+        attrs: {
+          id: "toastEliminarPerguntaErro",
+          role: "alert",
+          "aria-live": "assertive",
+          "aria-atomic": "true"
+        }
+      },
+      [
+        _c("div", { staticClass: "d-flex" }, [
+          _c("div", { staticClass: "toast-body" }, [
+            _c("strong", { staticClass: "toast-error text-danger" }, [
+              _c("i", { staticClass: "bi bi-check-circle-fill" }),
+              _vm._v("   \n                    "),
+              _c("span", { staticClass: "text-danger" }, [
+                _vm._v(
+                  "Não foi possivel eliminar a pergunta porque está inserida em um Quizz!!"
+                )
+              ])
             ])
           ]),
           _vm._v(" "),
@@ -45445,7 +45842,7 @@ var render = function() {
                                     _vm._v(" "),
                                     _c("div", {
                                       staticClass:
-                                        "spinner-border text-light d-none",
+                                        "spinner-border text-light d-none btn-loading",
                                       attrs: { role: "status" }
                                     })
                                   ]
@@ -46368,7 +46765,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "editar-pergunta" }, [
-    _c("div", { staticClass: "modal-body p-md-5" }, [
+    _c("div", { staticClass: "p-md-5" }, [
       _c("div", { staticClass: "container-fluid" }, [
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
@@ -46386,10 +46783,12 @@ var render = function() {
             _c("p", { attrs: { id: "PerguntaError" + _vm.pergunta["id"] } })
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-md-12 mt-5" }, [
+          _c("div", { staticClass: "col-md-12 text-center" }, [
             _c("input", {
-              staticClass: "Pergunta_file mx-auto",
-              attrs: { type: "file", id: "file" + _vm.pergunta["id"] }
+              staticClass: "file-input mx-auto",
+              staticStyle: { visibility: "hidden" },
+              attrs: { type: "file", id: "file" + _vm.pergunta["id"] },
+              on: { change: _vm.alterarFoto }
             }),
             _vm._v(" "),
             _c("label", {
@@ -46397,12 +46796,153 @@ var render = function() {
               attrs: { file: "file" + _vm.pergunta["id"] }
             }),
             _vm._v(" "),
+            !_vm.isFetching
+              ? _c("div", [
+                  _vm.respostas["multimedia"][0]["link"] !== null
+                    ? _c("div", { attrs: { id: "imagem-div" } }, [
+                        _vm.fileCheck() === 1
+                          ? _c("div", { staticClass: "text-center" }, [
+                              _c("img", {
+                                staticClass: "mx-auto mb-4",
+                                attrs: {
+                                  src:
+                                    "/images/Pergunta/Multimedia/" +
+                                    _vm.respostas["multimedia"][0]["link"],
+                                  alt: "imagem da pergunta",
+                                  height: "40%",
+                                  width: "40%",
+                                  id: "imagem"
+                                }
+                              })
+                            ])
+                          : _vm.fileCheck() === 2
+                          ? _c("div", { staticClass: "text-center" })
+                          : _vm.fileCheck() === 3
+                          ? _c("div", { staticClass: "text-center" }, [
+                              _c("audio", { attrs: { controls: "" } }, [
+                                _c("source", {
+                                  attrs: {
+                                    id: "questionMultiAudio",
+                                    src:
+                                      "/images/Pergunta/Multimedia/" +
+                                      _vm.respostas["multimedia"][0]["link"],
+                                    type: ""
+                                  }
+                                })
+                              ])
+                            ])
+                          : _vm.fileCheck() === 0
+                          ? _c("div", {
+                              staticStyle: { "min-height": "30rem" }
+                            })
+                          : _vm._e()
+                      ])
+                    : _vm._e()
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "btn-file mx-auto mb-5 d-flex",
+                attrs: { id: "dropdownFile" }
+              },
+              [
+                _c("input", {
+                  staticClass: "form-control form-control-2",
+                  attrs: {
+                    type: "url",
+                    id: "inputLink",
+                    placeholder: "Introduza o link do vídeo Youtube"
+                  }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "dropdown mx-auto text-center" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary dropdown-toggle",
+                      attrs: {
+                        type: "button",
+                        id: "dropdownMenuButton1",
+                        "data-bs-toggle": "dropdown",
+                        "aria-expanded": "false"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                    Adicionar ficheiro\n                                "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "ul",
+                    {
+                      staticClass: "dropdown-menu",
+                      attrs: { "aria-labelledby": "dropdownMenuButton1" }
+                    },
+                    [
+                      _c("li", [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "dropdown-item",
+                            attrs: { for: "file" + _vm.pergunta["id"] },
+                            on: {
+                              click: function($event) {
+                                return _vm.fileType(1)
+                              }
+                            }
+                          },
+                          [_vm._v("Imagem")]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("li", [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "dropdown-item",
+                            attrs: { for: "file" + _vm.pergunta["id"] },
+                            on: {
+                              click: function($event) {
+                                return _vm.fileType(2)
+                              }
+                            }
+                          },
+                          [_vm._v("Audio")]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("li", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "dropdown-item",
+                            on: {
+                              click: function($event) {
+                                return _vm.fileType(2)
+                              }
+                            }
+                          },
+                          [_vm._v("Youtube Link")]
+                        )
+                      ])
+                    ]
+                  )
+                ])
+              ]
+            ),
+            _vm._v(" "),
             _c("p", { attrs: { id: "fileError" + _vm.pergunta["id"] } })
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 text-center" }, [
             _c("label", { attrs: { for: "tipo" + _vm.pergunta["id"] } }, [
-              _vm._v("\n                        Indique o tipo de pergunta"),
+              _vm._v(
+                "\n                            Indique o tipo de pergunta"
+              ),
               _c("br"),
               _vm._v(" "),
               _c(
@@ -46427,7 +46967,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "Seleção\n                                Única\n                            "
+                        "Seleção\n                                    Única\n                                "
                       )
                     ]
                   ),
@@ -46440,7 +46980,11 @@ var render = function() {
                         selected: _vm.pergunta["tipo"] === "multiple-select"
                       }
                     },
-                    [_vm._v("Seleção Múltipla\n                            ")]
+                    [
+                      _vm._v(
+                        "Seleção Múltipla\n                                "
+                      )
+                    ]
                   ),
                   _vm._v(" "),
                   _c(
@@ -46453,7 +46997,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n                                Verdadeiro/Falso\n                            "
+                        "\n                                    Verdadeiro/Falso\n                                "
                       )
                     ]
                   )
@@ -46464,7 +47008,9 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 text-center" }, [
             _c("label", { attrs: { for: "tempo" + _vm.pergunta["id"] } }, [
-              _vm._v("\n                        Indique o tempo de pergunta"),
+              _vm._v(
+                "\n                            Indique o tempo de pergunta"
+              ),
               _c("br"),
               _vm._v(" "),
               _c(
@@ -46527,7 +47073,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "1 minuto e 30 segundos\n                            "
+                        "1 minuto e 30 segundos\n                                "
                       )
                     ]
                   ),
@@ -46556,7 +47102,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 text-center" }, [
             _c("label", { attrs: { for: "pontos" + _vm.pergunta["id"] } }, [
-              _vm._v("\n                        Indique a pontuação"),
+              _vm._v("\n                            Indique a pontuação"),
               _c("br"),
               _vm._v(" "),
               _c(
@@ -46583,7 +47129,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "Pontos\n                                duplos\n                            "
+                        "Pontos\n                                    duplos\n                                "
                       )
                     ]
                   ),
@@ -46594,7 +47140,7 @@ var render = function() {
                       attrs: { value: "Sem pontos" },
                       domProps: { selected: _vm.pergunta["valor"] === 0 }
                     },
-                    [_vm._v("Sem pontos\n                            ")]
+                    [_vm._v("Sem pontos\n                                ")]
                   )
                 ]
               )
@@ -46884,7 +47430,7 @@ var render = function() {
                     _c("div", { staticClass: "mb-5 mt-5" }, [
                       _c("label", { staticClass: "label-tf" }, [
                         _vm._v(
-                          "Verdadeira\n                                    "
+                          "Verdadeira\n                                        "
                         ),
                         _c("input", {
                           attrs: {
@@ -46903,7 +47449,9 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", [
                       _c("label", { staticClass: "label-tf" }, [
-                        _vm._v("Falsa\n                                    "),
+                        _vm._v(
+                          "Falsa\n                                        "
+                        ),
                         _c("input", {
                           attrs: {
                             type: "radio",
@@ -47204,21 +47752,28 @@ var render = function() {
             staticClass: "btn btn-secondary",
             attrs: { type: "button", "data-bs-dismiss": "modal" }
           },
-          [_vm._v("Cancelar\n            ")]
+          [_vm._v("Sair\n                ")]
         ),
         _vm._v(" "),
         _c(
           "button",
           {
-            staticClass: "btn btn-primary",
-            attrs: { type: "button", id: "submit" + _vm.pergunta["id"] },
+            staticClass: "btn btn-primary ms-3 btn-loading",
+            attrs: { type: "button", id: "submit" },
             on: {
               click: function($event) {
-                return _vm.submit(_vm.pergunta)
+                return _vm.submit(_vm.pergunta["id"])
               }
             }
           },
-          [_vm._v("inserir\n            ")]
+          [
+            _c("span", {}, [_vm._v("Guardar")]),
+            _vm._v(" "),
+            _c("div", {
+              staticClass: "spinner-border text-light d-none",
+              attrs: { role: "status" }
+            })
+          ]
         )
       ])
     ])

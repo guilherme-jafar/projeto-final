@@ -88,7 +88,7 @@
                                                 :id="'eliminarUtilizadorBtn' + pergunta['id']"
                                                 @click="eliminarPergunta(pergunta, topicos)">
                                             <span class="">Sim</span>
-                                            <div class="spinner-border text-light d-none" role="status">
+                                            <div class="spinner-border text-light d-none btn-loading" role="status">
 
                                             </div>
                                         </button>
@@ -432,14 +432,19 @@
 
 
 
-                        if (response.data.message !== "erro") {
+                        if (response.data.message === "erro") {
+
                             $('.eliminar-btn span').removeClass('d-none');
                             $('.eliminar-btn div').addClass('d-none');
                             this.modalDeleteQuizz.hide();
-                            this.$root.$emit('ShowToastPergunta');
+                            this.$root.$emit('ShowToastPergunta', 2);
+
+                        }else {
+                            $('.eliminar-btn span').removeClass('d-none');
+                            $('.eliminar-btn div').addClass('d-none');
+                            this.modalDeleteQuizz.hide();
+                            this.$root.$emit('ShowToastPergunta', 1);
                             this.perguntas = response.data.message;
-
-
                         }
                     }.bind(this));
             },
@@ -482,7 +487,7 @@
                 if (document.getElementById("pergunta" + top).value.length <= 0) {
                     $('#PerguntaError' + top).text("indique o enunciado da pergunta").css('color', 'red').css('opacity', '1');
                 } else if (document.getElementById("pergunta" + top).value.length > 120) {
-                    $('#PerguntaError' + top).text("O enunciado é demasiado grande").css('color', 'red').css('opacity', '1');
+                    $('#PerguntaError' + top).text("O enunciado é demasiado grande. Deve ter 120 caracteres no máximo!!").css('color', 'red').css('opacity', '1');
                 } else {
                     form.append('topico', top);
                     form.append('pergunta', document.getElementById("pergunta" + top).value);
@@ -616,7 +621,8 @@
                     } else {
                         $('#submit' + top).prop('disabled', false);
                         this.modal.hide();
-                        this.toastPergunta.show();
+                        // this.toastPergunta.show();
+                        this.$root.$emit('ShowToastPergunta', 3);
                         $('#toast-pergunta').removeClass('d-none');
                     }
                     document.getElementById("pergunta" + top).value = ""
