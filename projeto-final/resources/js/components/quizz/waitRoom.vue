@@ -5,7 +5,7 @@
         <p>{{sessao}}</p>
         <button @click="sair()">cancel</button>
         <button @click="start()">Iniciar Quizz</button>
-        <p>{{users}}</p>
+        <p>{{student.users}}</p>
         </div>
 
 <div id="gameMode">
@@ -31,9 +31,12 @@ export default {
     props: ['sessao_prop'],
     data() {
         return {
-            usersId:[],
-            users: [],
-            points:[],
+            stutus:'',
+            student: {
+                usersId: [],
+                users: [],
+                points: [],
+            },
             resposta:[],
             students: 0,
             couter:0,
@@ -58,6 +61,8 @@ export default {
 
                this.Questions=response.data.message
 
+               localStorage.setItem('status','game')
+                localStorage.setItem('question',response.data.message);
                 $('#waitRoom').hide();
                 $('#gameMode').show();
                 $('#stop').show();
@@ -99,6 +104,7 @@ export default {
                 $('#stop').show();
                 $('#next').hide();
 
+
             });
         },
         connect() {
@@ -109,36 +115,32 @@ export default {
                     console.log(e.type)
                     if (e.Mainsession===this.sessao) {
 
-                        if (!this.usersId.includes(e.userId) && e.type==='student') {
-                            this.usersId.push(e.userId)
-                            this.users.push(e.name)
-                            this.points.push(0)
+                        if (!this.student.usersId.includes(e.userId) && e.type==='student') {
+                            this.student.usersId.push(e.userId)
+                            this.student.users.push(e.name)
+                            this.student.points.push(0)
                             this.resposta.push("")
                             this.students++
 
-                            localStorage.setItem('usersId',JSON.stringify(this.usersId));
-                            localStorage.setItem('users',JSON.stringify(this.users));
-                            localStorage.setItem('points',JSON.stringify(this.points))
+                            localStorage.setItem('user',JSON.stringify(this.student));
                             localStorage.setItem('students',this.students);
                         }
                         else if (e.type==='leavestudent'){
                             this.students--
-                            this.usersId.splice(this.usersId.indexOf(e.userId), 1);
-                            this.users.splice(this.users.indexOf(e.name), 1);
-                            this.points.splice(this.users.indexOf(e.name), 1);
+                            this.student.usersId.splice(this.usersId.indexOf(e.userId), 1);
+                            this.student.users.splice(this.users.indexOf(e.name), 1);
+                            this.student.points.splice(this.users.indexOf(e.name), 1);
                             localStorage.setItem('students',this.students);
-                            localStorage.setItem('usersId',JSON.stringify(this.usersId));
-                            localStorage.setItem('users',JSON.stringify(this.users));
-                            localStorage.setItem('points',JSON.stringify(this.points))
+                            localStorage.setItem('user',JSON.stringify(this.student));
 
                         }
                         else if(e.type==='NextQuestion'){
-                            this.points[this.usersId.indexOf(e.userId)]+=e.points;
-                            this.resposta[this.usersId.indexOf(e.userId)]=e.answer;
+                            this.student.points[this.student.usersId.indexOf(e.userId)]+=e.points;
+                            this.resposta[this.student.usersId.indexOf(e.userId)]=e.answer;
                             this.couter++
                             if (this.students===this.couter){
                                 this.index++;
-                                console.log(this.Questions+" "+this.index)
+
 
                                 if (this.Questions<this.index){
                                     $('#stop').hide();
@@ -148,7 +150,7 @@ export default {
 
 
                                     }.bind(this));
-
+                                    localStorage.setItem('status','end');
                                 }
                             else
                                 {
@@ -176,19 +178,39 @@ export default {
             this.sessionId = l[l.length - 1]
             this.couter=0;
 
+            if (localStorage.getItem('status')==='game'){
+                this.Questions=localStorage.getItem('question')
+                $('#waitRoom').hide();
+                $('#gameMode').show();
+                $('#stop').hide();
+                $('#next').show();
+            }
+            else if (localStorage.getItem('status')==='end'){
+                this.Questions=localStorage.getItem('question')
+                $('#waitRoom').hide();
+                $('#gameMode').show();
+                $('#stop').hide();
+                $('#next').hide();
+            }
+            else{
+                $('#gameMode').hide();
+                $('#waitRoom').show();
+            }
+
             if (localStorage.getItem('sessao')!=null){
                 this.students=JSON.parse(localStorage.getItem('students'));
-                this.usersId=JSON.parse(localStorage.getItem('usersId'));
-                this.points=JSON.parse(localStorage.getItem('points'));
+                this.student=JSON.parse(localStorage.getItem('user'));
+
                 this.users=localStorage.getItem('users');
             }
             else{
                 localStorage.setItem('sessao',this.sessao);
-                this.usersId=[];
-                this.users=[];
-                this.points=[];
+                this.student.usersId=[];
+                this.student.users=[];
+                this.student.points=[];
             }
             console.log(this.sessao)
+            console.log(this.student)
             this.connect()
 
 

@@ -6132,6 +6132,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['sessao_prop', 'id_prop', 'user_prop'],
   data: function data() {
     return {
+      status: '',
       timer: '',
       questionType: '',
       enunciado: '',
@@ -6153,7 +6154,7 @@ __webpack_require__.r(__webpack_exports__);
       respostasEscolhidas: [],
       botaoEscolhido: [],
       multipleQuestion: [],
-      respondeu: false
+      respondeu: ''
     };
   },
   watch: {
@@ -6168,12 +6169,13 @@ __webpack_require__.r(__webpack_exports__);
       if (this.countDown > 0) {
         this.timer = setTimeout(function () {
           _this.countDown -= 1;
-          $cookies.config('1d');
-          $cookies.set('quizz', _this.session + "@" + _this.index + '@' + _this.resultado + '@' + _this.countDown);
+          localStorage.setItem('timer', _this.countDown);
 
           _this.countDownTimer();
         }, 1000);
       } else if (this.countDown === 0) {
+        localStorage.setItem('questionStatus', 'true');
+
         if (this.pergunta['tipo'] === 'multiple-select') {
           this.responseMultiplas('erro');
         } else {
@@ -6233,7 +6235,10 @@ __webpack_require__.r(__webpack_exports__);
             form.append('tipo', this.pergunta['tipo']);
             form.append('sessioId', this.sessao);
             axios.post('/setRespostaQuizz', form).then(function (response) {
-              this.respondeu = true;
+              this.respondeu = 'false';
+              localStorage.setItem('points', this.res);
+              localStorage.setItem('questionStatus', this.respondeu);
+              localStorage.setItem('resultado', this.resultado);
             }.bind(this));
           }
         }
@@ -6295,13 +6300,21 @@ __webpack_require__.r(__webpack_exports__);
             _this2.students--;
             localStorage.setItem('students', _this2.students);
           } else if (e.type === 'startQuizz') {
-            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#waitRoom').hide();
+            // $('#waitRoom').hide()
+            _this2.status = 'game';
+            localStorage.setItem('status', _this2.status);
+            localStorage.setItem('questions', JSON.stringify(e.quizzArray));
+            localStorage.setItem('ansers', JSON.stringify(e.Ans));
+            localStorage.setItem('resultado', _this2.resultado);
 
             _this2.getResposta(e.quizzArray, e.Ans);
           } else if (e.type === 'NewQuestion') {
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').hide();
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').hide();
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').hide();
+            localStorage.setItem('questions', JSON.stringify(e.quizzArray));
+            localStorage.setItem('ansers', JSON.stringify(e.Ans));
+            localStorage.setItem('resultado', _this2.resultado);
 
             _this2.getResposta(e.quizzArray, e.Ans);
           } else if (e.type === 'stop') {
@@ -6318,6 +6331,7 @@ __webpack_require__.r(__webpack_exports__);
               jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').show();
             }
           } else if (e.type === 'EndQuizz') {
+            localStorage.setItem('status', 'end');
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').hide();
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').hide();
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#resultado').show();
@@ -6378,7 +6392,10 @@ __webpack_require__.r(__webpack_exports__);
       form.append('tipo', this.pergunta['tipo']);
       form.append('sessioId', this.sessao);
       axios.post('/setRespostaQuizz', form).then(function (response) {
-        this.respondeu = true;
+        this.respondeu = 'true';
+        localStorage.setItem('points', this.res);
+        localStorage.setItem('questionStatus', this.respondeu);
+        localStorage.setItem('resultado', this.resultado);
       }.bind(this));
       clearTimeout(this.timer);
     },
@@ -6390,7 +6407,6 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.pergunta['tipo'] === 'true/false') {
         this.resposta = respostas[0]['resposta'];
-        console.log(this.resposta);
       } else if (this.pergunta['tipo'] === 'multiple') {
         var i;
 
@@ -6440,7 +6456,8 @@ __webpack_require__.r(__webpack_exports__);
 
       this.startQuestion();
       jquery__WEBPACK_IMPORTED_MODULE_1___default()('#quizz').show();
-      this.respondeu = false;
+      this.respondeu = 'false';
+      localStorage.setItem('questionStatus', this.respondeu);
       this.countDown = this.pergunta['tempo'];
       this.countDownTimer();
     },
@@ -6459,6 +6476,37 @@ __webpack_require__.r(__webpack_exports__);
 
     if (localStorage.getItem('sessao') != null) {
       this.students = localStorage.getItem('students');
+      this.MasterSessao = localStorage.getItem('sessao');
+
+      if (localStorage.getItem('status') === 'game') {
+        if (localStorage.getItem('questionStatus') === 'true') {
+          this.countDown = 0;
+          this.respondeu = localStorage.getItem('questionStatus');
+          this.res = localStorage.getItem('points');
+          this.resultado = localStorage.getItem('resultado');
+          jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').show();
+
+          if (this.res > 0) {
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#66c036');
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter-wright').text(this.res);
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').show();
+          } else {
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#f9403e');
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter').text(0);
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').show();
+          }
+        } else {
+          this.resultado = localStorage.getItem('resultado');
+          jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').hide();
+          this.getResposta(JSON.parse(localStorage.getItem('questions')), JSON.parse(localStorage.getItem('ansers')));
+          this.countDown = localStorage.getItem('timer');
+        }
+      } else if (localStorage.getItem('status') === 'end') {
+        this.resultado = localStorage.getItem('resultado');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#resultado').show();
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').hide();
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').hide();
+      }
     } else {
       localStorage.setItem('sessao', this.MasterSessao);
       localStorage.setItem('students', this.students);
@@ -6821,13 +6869,15 @@ __webpack_require__.r(__webpack_exports__);
             }
           }
 
-          var cookie = $cookies.get('quizz');
-          cookie = cookie.split('@');
+          if ($cookies.get('quizz') != null) {
+            var cookie = $cookies.get('quizz');
+            cookie = cookie.split('@');
 
-          if (cookie[3] !== 0 && this.index === cookie[1]) {
-            this.countDown = cookie[3];
-          } else {
-            this.countDown = this.pergunta[this.index]['tempo'];
+            if (cookie[3] !== 0 && this.index === cookie[1]) {
+              this.countDown = cookie[3];
+            } else {
+              this.countDown = this.pergunta[this.index]['tempo'];
+            }
           }
 
           this.enunciado = this.pergunta[this.index]['enunciado'];
@@ -6964,9 +7014,12 @@ __webpack_require__.r(__webpack_exports__);
   props: ['sessao_prop'],
   data: function data() {
     return {
-      usersId: [],
-      users: [],
-      points: [],
+      stutus: '',
+      student: {
+        usersId: [],
+        users: [],
+        points: []
+      },
       resposta: [],
       students: 0,
       couter: 0,
@@ -6984,6 +7037,8 @@ __webpack_require__.r(__webpack_exports__);
     start: function start() {
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/startQuizz').then(function (response) {
         this.Questions = response.data.message;
+        localStorage.setItem('status', 'game');
+        localStorage.setItem('question', response.data.message);
         $('#waitRoom').hide();
         $('#gameMode').show();
         $('#stop').show();
@@ -7032,46 +7087,42 @@ __webpack_require__.r(__webpack_exports__);
         console.log(e.type);
 
         if (e.Mainsession === _this.sessao) {
-          if (!_this.usersId.includes(e.userId) && e.type === 'student') {
-            _this.usersId.push(e.userId);
+          if (!_this.student.usersId.includes(e.userId) && e.type === 'student') {
+            _this.student.usersId.push(e.userId);
 
-            _this.users.push(e.name);
+            _this.student.users.push(e.name);
 
-            _this.points.push(0);
+            _this.student.points.push(0);
 
             _this.resposta.push("");
 
             _this.students++;
-            localStorage.setItem('usersId', JSON.stringify(_this.usersId));
-            localStorage.setItem('users', JSON.stringify(_this.users));
-            localStorage.setItem('points', JSON.stringify(_this.points));
+            localStorage.setItem('user', JSON.stringify(_this.student));
             localStorage.setItem('students', _this.students);
           } else if (e.type === 'leavestudent') {
             _this.students--;
 
-            _this.usersId.splice(_this.usersId.indexOf(e.userId), 1);
+            _this.student.usersId.splice(_this.usersId.indexOf(e.userId), 1);
 
-            _this.users.splice(_this.users.indexOf(e.name), 1);
+            _this.student.users.splice(_this.users.indexOf(e.name), 1);
 
-            _this.points.splice(_this.users.indexOf(e.name), 1);
+            _this.student.points.splice(_this.users.indexOf(e.name), 1);
 
             localStorage.setItem('students', _this.students);
-            localStorage.setItem('usersId', JSON.stringify(_this.usersId));
-            localStorage.setItem('users', JSON.stringify(_this.users));
-            localStorage.setItem('points', JSON.stringify(_this.points));
+            localStorage.setItem('user', JSON.stringify(_this.student));
           } else if (e.type === 'NextQuestion') {
-            _this.points[_this.usersId.indexOf(e.userId)] += e.points;
-            _this.resposta[_this.usersId.indexOf(e.userId)] = e.answer;
+            _this.student.points[_this.student.usersId.indexOf(e.userId)] += e.points;
+            _this.resposta[_this.student.usersId.indexOf(e.userId)] = e.answer;
             _this.couter++;
 
             if (_this.students === _this.couter) {
               _this.index++;
-              console.log(_this.Questions + " " + _this.index);
 
               if (_this.Questions < _this.index) {
                 $('#stop').hide();
                 $('#next').hide();
                 axios__WEBPACK_IMPORTED_MODULE_0___default().post('/EndQuizz').then(function (response) {}.bind(_this));
+                localStorage.setItem('status', 'end');
               } else {
                 $('#stop').hide();
                 $('#next').show();
@@ -7088,19 +7139,36 @@ __webpack_require__.r(__webpack_exports__);
     this.sessionId = l[l.length - 1];
     this.couter = 0;
 
+    if (localStorage.getItem('status') === 'game') {
+      this.Questions = localStorage.getItem('question');
+      $('#waitRoom').hide();
+      $('#gameMode').show();
+      $('#stop').hide();
+      $('#next').show();
+    } else if (localStorage.getItem('status') === 'end') {
+      this.Questions = localStorage.getItem('question');
+      $('#waitRoom').hide();
+      $('#gameMode').show();
+      $('#stop').hide();
+      $('#next').hide();
+    } else {
+      $('#gameMode').hide();
+      $('#waitRoom').show();
+    }
+
     if (localStorage.getItem('sessao') != null) {
       this.students = JSON.parse(localStorage.getItem('students'));
-      this.usersId = JSON.parse(localStorage.getItem('usersId'));
-      this.points = JSON.parse(localStorage.getItem('points'));
+      this.student = JSON.parse(localStorage.getItem('user'));
       this.users = localStorage.getItem('users');
     } else {
       localStorage.setItem('sessao', this.sessao);
-      this.usersId = [];
-      this.users = [];
-      this.points = [];
+      this.student.usersId = [];
+      this.student.users = [];
+      this.student.points = [];
     }
 
     console.log(this.sessao);
+    console.log(this.student);
     this.connect();
   }
 });
@@ -51739,7 +51807,7 @@ var render = function() {
         [_vm._v("Iniciar Quizz")]
       ),
       _vm._v(" "),
-      _c("p", [_vm._v(_vm._s(_vm.users))])
+      _c("p", [_vm._v(_vm._s(_vm.student.users))])
     ]),
     _vm._v(" "),
     _c("div", { attrs: { id: "gameMode" } }, [

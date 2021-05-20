@@ -137,6 +137,7 @@ export default {
 
     data() {
         return {
+            status:'',
             timer: '',
             questionType: '',
             enunciado: '',
@@ -158,7 +159,7 @@ export default {
             respostasEscolhidas: [],
             botaoEscolhido: [],
             multipleQuestion:[],
-            respondeu:false,
+            respondeu:'',
 
         }
     },
@@ -174,12 +175,13 @@ export default {
             if(this.countDown > 0) {
                 this.timer = setTimeout(() => {
                     this.countDown -= 1
-                    $cookies.config('1d')
-                    $cookies.set('quizz', this.session+"@"+this.index + '@' + this.resultado+'@'+this.countDown);
+                   localStorage.setItem('timer',this.countDown)
+
                     this.countDownTimer()
                 }, 1000)
             }
             else if(this.countDown ===0){
+                localStorage.setItem('questionStatus','true');
                 if (this.pergunta['tipo']==='multiple-select'){
                     this.responseMultiplas('erro')
                 }else {
@@ -239,8 +241,10 @@ export default {
                         form.append('tipo', this.pergunta['tipo'])
                         form.append('sessioId', this.sessao)
                         axios.post('/setRespostaQuizz', form).then(function (response) {
-                            this.respondeu=true;
-
+                            this.respondeu='false';
+                            localStorage.setItem('points',this.res);
+                            localStorage.setItem('questionStatus',this.respondeu);
+                            localStorage.setItem('resultado',this.resultado)
 
                         }.bind(this));
                     }
@@ -310,13 +314,21 @@ export default {
 
                         }else if (e.type==='startQuizz'){
 
-                           $('#waitRoom').hide()
+                          // $('#waitRoom').hide()
+                            this.status='game'
+                            localStorage.setItem('status',this.status)
+                            localStorage.setItem('questions',JSON.stringify(e.quizzArray));
+                            localStorage.setItem('ansers',JSON.stringify(e.Ans));
+                            localStorage.setItem('resultado',this.resultado)
                            this.getResposta(e.quizzArray,e.Ans)
 
                         }else if (e.type==='NewQuestion'){
                             $('.wrapper').hide();
                             $('.wrapper-wrong').hide();
                             $('.wrapper-wright').hide();
+                            localStorage.setItem('questions',JSON.stringify(e.quizzArray));
+                            localStorage.setItem('ansers',JSON.stringify(e.Ans));
+                            localStorage.setItem('resultado',this.resultado)
                             this.getResposta(e.quizzArray,e.Ans)
 
                         }
@@ -334,6 +346,7 @@ export default {
                             }
                         }
                         else if(e.type==='EndQuizz'){
+                            localStorage.setItem('status','end');
                             $('.wrapper').hide();
                             $('#game').hide();
                             $('#resultado').show();
@@ -400,7 +413,11 @@ export default {
             form.append('tipo', this.pergunta['tipo'])
             form.append('sessioId', this.sessao)
             axios.post('/setRespostaQuizz', form).then(function (response) {
-                this.respondeu=true;
+                this.respondeu='true';
+
+                localStorage.setItem('points',this.res);
+                localStorage.setItem('questionStatus',this.respondeu);
+                localStorage.setItem('resultado',this.resultado)
 
             }.bind(this));
             clearTimeout(this.timer);
@@ -415,7 +432,7 @@ export default {
             console.log(respostas)
             if (this.pergunta['tipo'] === 'true/false') {
                 this.resposta = respostas[0]['resposta']
-                console.log(this.resposta)
+
             } else if (this.pergunta['tipo'] === 'multiple') {
 
                 let i;
@@ -461,7 +478,8 @@ export default {
             }
             this.startQuestion();
             $('#quizz').show();
-            this.respondeu=false;
+            this.respondeu='false';
+            localStorage.setItem('questionStatus',this.respondeu);
             this.countDown=this.pergunta['tempo']
             this.countDownTimer();
         },
@@ -482,6 +500,47 @@ export default {
             $('#resultado').hide();
             if (localStorage.getItem('sessao')!=null){
                 this.students=localStorage.getItem('students');
+                this.MasterSessao=localStorage.getItem('sessao');
+
+                if (localStorage.getItem('status')==='game'){
+
+                    if (localStorage.getItem('questionStatus')==='true'){
+
+                        this.countDown = 0;
+                        this.respondeu=localStorage.getItem('questionStatus');
+                        this.res=localStorage.getItem('points')
+                        this.resultado=localStorage.getItem('resultado')
+
+                        $('.wrapper').show();
+
+                        if (this.res > 0) {
+                            $('.wrapper').css('background-color', '#66c036')
+                            $('#couter-wright').text(this.res)
+                            $('.wrapper-wright').show();
+
+                        } else {
+                            $('.wrapper').css('background-color', '#f9403e')
+                            $('#couter').text(0)
+                            $('.wrapper-wrong').show();
+
+                        }
+
+                    }else{
+                        this.resultado=localStorage.getItem('resultado')
+                     $('.wrapper').hide();
+                        this.getResposta(JSON.parse(localStorage.getItem('questions')),JSON.parse(localStorage.getItem('ansers')))
+                        this.countDown=localStorage.getItem('timer')
+
+                    }
+
+                }else if (localStorage.getItem('status')==='end'){
+
+                    this.resultado=localStorage.getItem('resultado')
+                    $('#resultado').show()
+                    $('#game').hide();
+                  $('.wrapper').hide();
+                }
+
 
             }
             else{

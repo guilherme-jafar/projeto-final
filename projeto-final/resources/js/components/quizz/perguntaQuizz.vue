@@ -325,7 +325,7 @@
                                 $('#m' + k).hide()
                             }
                         }
-
+                        if ($cookies.get('quizz')!=null){
                         let cookie = $cookies.get('quizz')
                         cookie = cookie.split('@')
                         if (cookie[3]!==0 && this.index === cookie[1]){
@@ -333,7 +333,7 @@
                         }
                         else{
                             this.countDown = this.pergunta[this.index]['tempo']
-                        }
+                        }}
                         this.enunciado = this.pergunta[this.index]['enunciado']
                         this.valor = this.pergunta[this.index]['valor']
                         this.res = 0
