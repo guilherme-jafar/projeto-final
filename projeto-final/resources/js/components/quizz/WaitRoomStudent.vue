@@ -219,15 +219,17 @@ export default {
                             this.res = 0;
                         }
                         $('.wrapper').show();
+
                         if (this.res > 0) {
                             $('.wrapper').css('background-color', '#66c036')
                             $('#couter-wright').text(this.res)
                             $('.wrapper-wright').show();
-
+                            $('.wrapper-wrong').hide();
                         } else {
                             $('.wrapper').css('background-color', '#f9403e')
                             $('#couter').text(0)
                             $('.wrapper-wrong').show();
+                            $('.wrapper-wright').hide();
 
                         }
                         this.resultado += this.res;
@@ -241,7 +243,7 @@ export default {
                         form.append('tipo', this.pergunta['tipo'])
                         form.append('sessioId', this.sessao)
                         axios.post('/setRespostaQuizz', form).then(function (response) {
-                            this.respondeu='false';
+                            this.respondeu='true';
                             localStorage.setItem('points',this.res);
                             localStorage.setItem('questionStatus',this.respondeu);
                             localStorage.setItem('resultado',this.resultado)
@@ -323,12 +325,15 @@ export default {
                            this.getResposta(e.quizzArray,e.Ans)
 
                         }else if (e.type==='NewQuestion'){
+                            $('#game').show();
+                            this.respondeu='false'
                             $('.wrapper').hide();
                             $('.wrapper-wrong').hide();
                             $('.wrapper-wright').hide();
                             localStorage.setItem('questions',JSON.stringify(e.quizzArray));
                             localStorage.setItem('ansers',JSON.stringify(e.Ans));
                             localStorage.setItem('resultado',this.resultado)
+                            localStorage.setItem('questionStatus',this.respondeu);
                             this.getResposta(e.quizzArray,e.Ans)
 
                         }
@@ -343,6 +348,7 @@ export default {
                                 $('.wrapper').css('background-color', '#f9403e')
                                 $('#couter').text(0)
                                 $('.wrapper-wrong').show();
+                                $('.wrapper-wright').hide();
                             }
                         }
                         else if(e.type==='EndQuizz'){
@@ -395,11 +401,12 @@ export default {
                 $('.wrapper').css('background-color', '#66c036')
                 $('#couter-wright').text(this.res)
                 $('.wrapper-wright').show();
-
+                $('.wrapper-wrong').hide();
             } else {
                 $('.wrapper').css('background-color', '#f9403e')
                 $('#couter').text(0)
                 $('.wrapper-wrong').show();
+                $('.wrapper-wright').hide();
 
             }
             this.resultado += this.res;
@@ -512,16 +519,17 @@ export default {
                         this.resultado=localStorage.getItem('resultado')
 
                         $('.wrapper').show();
-
+                        $('#game').hide();
                         if (this.res > 0) {
                             $('.wrapper').css('background-color', '#66c036')
                             $('#couter-wright').text(this.res)
                             $('.wrapper-wright').show();
-
+                            $('.wrapper-wrong').hide();
                         } else {
                             $('.wrapper').css('background-color', '#f9403e')
                             $('#couter').text(0)
                             $('.wrapper-wrong').show();
+                            $('.wrapper-wright').hide();
 
                         }
 

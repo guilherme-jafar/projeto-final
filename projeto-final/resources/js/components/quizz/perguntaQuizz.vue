@@ -168,6 +168,7 @@
 
                 } else {
                     clearTimeout(this.timer)
+                    $cookies.remove('quizz')
                     window.location.replace('/EndQuizz/' + this.session);
                 }
             },

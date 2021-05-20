@@ -40,10 +40,10 @@
 
     <script >
         $( document ).ready(function() {
-
-            $('.wrapper').hide();
-            $('.wrapper-wrong').hide();
-            $('.wrapper-wright').hide();
+            //
+            // $('.wrapper').hide();
+            // $('.wrapper-wrong').hide();
+            // $('.wrapper-wright').hide();
         });
     </script>
 

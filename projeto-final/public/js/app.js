@@ -6218,10 +6218,12 @@ __webpack_require__.r(__webpack_exports__);
               jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#66c036');
               jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter-wright').text(this.res);
               jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').show();
+              jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').hide();
             } else {
               jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#f9403e');
               jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter').text(0);
               jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').show();
+              jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').hide();
             }
 
             this.resultado += this.res;
@@ -6235,7 +6237,7 @@ __webpack_require__.r(__webpack_exports__);
             form.append('tipo', this.pergunta['tipo']);
             form.append('sessioId', this.sessao);
             axios.post('/setRespostaQuizz', form).then(function (response) {
-              this.respondeu = 'false';
+              this.respondeu = 'true';
               localStorage.setItem('points', this.res);
               localStorage.setItem('questionStatus', this.respondeu);
               localStorage.setItem('resultado', this.resultado);
@@ -6309,12 +6311,15 @@ __webpack_require__.r(__webpack_exports__);
 
             _this2.getResposta(e.quizzArray, e.Ans);
           } else if (e.type === 'NewQuestion') {
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').show();
+            _this2.respondeu = 'false';
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').hide();
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').hide();
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').hide();
             localStorage.setItem('questions', JSON.stringify(e.quizzArray));
             localStorage.setItem('ansers', JSON.stringify(e.Ans));
             localStorage.setItem('resultado', _this2.resultado);
+            localStorage.setItem('questionStatus', _this2.respondeu);
 
             _this2.getResposta(e.quizzArray, e.Ans);
           } else if (e.type === 'stop') {
@@ -6329,6 +6334,7 @@ __webpack_require__.r(__webpack_exports__);
               jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#f9403e');
               jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter').text(0);
               jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').show();
+              jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').hide();
             }
           } else if (e.type === 'EndQuizz') {
             localStorage.setItem('status', 'end');
@@ -6375,10 +6381,12 @@ __webpack_require__.r(__webpack_exports__);
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#66c036');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter-wright').text(this.res);
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').show();
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').hide();
       } else {
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#f9403e');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter').text(0);
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').show();
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').hide();
       }
 
       this.resultado += this.res; // clearTimeout(this.timer)
@@ -6485,15 +6493,18 @@ __webpack_require__.r(__webpack_exports__);
           this.res = localStorage.getItem('points');
           this.resultado = localStorage.getItem('resultado');
           jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').show();
+          jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').hide();
 
           if (this.res > 0) {
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#66c036');
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter-wright').text(this.res);
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').show();
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').hide();
           } else {
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#f9403e');
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter').text(0);
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').show();
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').hide();
           }
         } else {
           this.resultado = localStorage.getItem('resultado');
@@ -6701,6 +6712,7 @@ __webpack_require__.r(__webpack_exports__);
         this.getRespostas(); //this.sleep(2500)
       } else {
         clearTimeout(this.timer);
+        $cookies.remove('quizz');
         window.location.replace('/EndQuizz/' + this.session);
       }
     },
