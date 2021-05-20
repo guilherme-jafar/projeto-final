@@ -164,7 +164,6 @@
                     }
                 }
 
-                console.log($( "#email" ).val().length)
 
                 if($( "#email" ).val().length === 0 ){
                     $("#emailError" ).text("O campo encontra-se vazio").css('color', 'red').css('opacity', '1');
