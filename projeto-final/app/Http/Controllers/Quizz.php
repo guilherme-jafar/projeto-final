@@ -326,7 +326,8 @@ GROUP BY s.nomequizz', ['id' => session('utilizador')['id'], 'sessionId' => $req
         broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'startQuizz', session('utilizador')['id'], $quizz[0], $res))->toOthers();
 
         return response()->json([
-            'message' => $quizz[0]
+            'message' => count($quizz),
+
         ]);
 }
 
@@ -355,6 +356,7 @@ function nextQuestionQuizz(Request $request){
 
         $quizz=Cache::get('quizz');
 
+
         foreach ( $quizz as $value){
 
             if ($value->PergIndex==$index){
@@ -377,7 +379,10 @@ function nextQuestionQuizz(Request $request){
 
 
 
+function EndQuizzRealTime(){
+    broadcast(new WaitRoom(session('utilizador')['nome'], session('sessao')['id'], 'EndQuizz', session('utilizador')['id']))->toOthers();
 
+}
 
 
 

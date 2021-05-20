@@ -9,7 +9,7 @@
         </div>
 
 <div id="gameMode">
-
+    <p>{{Questions}}</p>
     <button id="stop" @click="stopQuestion()">Parar Pergunta</button>
     <button id="next" @click="nextQuestion('next')">Proxima Pergunta</button>
 
@@ -38,7 +38,9 @@ export default {
             students: 0,
             couter:0,
             index:1,
+            Questions:0,
             sessao: JSON.parse(this.sessao_prop),
+
 
         }
     },
@@ -49,15 +51,19 @@ export default {
     },
 
     methods: {
+
         start(){
 
             axios.post('/startQuizz').then(function (response){
 
-                    $('#waitRoom').hide();
+               this.Questions=response.data.message
+
+                $('#waitRoom').hide();
                 $('#gameMode').show();
                 $('#stop').show();
                 $('#next').hide();
-            });
+            }.bind(this));
+
         },
         stopQuestion() {
             this.index++;
@@ -132,8 +138,24 @@ export default {
                             this.couter++
                             if (this.students===this.couter){
                                 this.index++;
-                                $('#stop').hide();
-                                $('#next').show();
+                                console.log(this.Questions+" "+this.index)
+
+                                if (this.Questions<this.index){
+                                    $('#stop').hide();
+                                    $('#next').hide();
+
+                                    axios.post('/EndQuizz').then(function (response){
+
+
+                                    }.bind(this));
+
+                                }
+                            else
+                                {
+                                    $('#stop').hide();
+                                    $('#next').show();
+                                }
+
 
                             }
 
@@ -152,6 +174,8 @@ export default {
             $('#gameMode').hide();
             let l = window.location.href.split('/');
             this.sessionId = l[l.length - 1]
+            this.couter=0;
+
             if (localStorage.getItem('sessao')!=null){
                 this.students=JSON.parse(localStorage.getItem('students'));
                 this.usersId=JSON.parse(localStorage.getItem('usersId'));

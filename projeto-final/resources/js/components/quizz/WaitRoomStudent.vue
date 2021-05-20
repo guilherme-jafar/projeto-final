@@ -1,7 +1,7 @@
 <template>
 <div>
 
-
+<div id="game">
     <div v-if="pergunta.length===0">
     <p>{{students}}</p>
 
@@ -92,21 +92,21 @@
             </span>
                     </p>
                     <div class="col-md-6">
-                        <button class="respostas-btn respostas-btn-1" id="ms1" @click="responseMultiplas('ms1')">&nbsp;
+                        <button class="respostas-btn respostas-btn-1" :id="'Qm'+multipleQuestion[0]" v-show="multipleQuestion[0] !== null" @click="responseMultiplas('0')">&nbsp;{{multipleQuestion[0]}}
                         </button>
                     </div>
                     <div class="col-md-6">
-                        <button class="respostas-btn respostas-btn-2" id="ms2" @click="responseMultiplas('ms2')">&nbsp;
+                        <button class="respostas-btn respostas-btn-2" :id="'Qm'+multipleQuestion[1]" v-show="multipleQuestion[1] !== null" @click="responseMultiplas('1')">&nbsp;{{multipleQuestion[1]}}
                         </button>
                     </div>
 
                     <div class="col-md-6">
-                        <button class="respostas-btn respostas-btn-3 mt-4" id="ms3" @click="responseMultiplas('ms3')">
+                        <button class="respostas-btn respostas-btn-3 mt-4" :id="'Qm'+multipleQuestion[2]" v-show="multipleQuestion[2] !== null" @click="responseMultiplas('2')">{{multipleQuestion[2]}}
                             &nbsp;
                         </button>
                     </div>
                     <div class="col-md-6">
-                        <button class="respostas-btn respostas-btn-4 mt-4" id="ms4" @click="responseMultiplas('ms4')">
+                        <button class="respostas-btn respostas-btn-4 mt-4" :id="'Qm'+multipleQuestion[3]" v-show="multipleQuestion[3] !== null" @click="responseMultiplas('3')">{{multipleQuestion[3]}}
                             &nbsp;
                         </button>
                     </div>
@@ -118,6 +118,10 @@
 
         </div>
         </div>
+</div>
+    <div id="resultado">
+        {{resultado}}
+    </div>
 
 
 </div>
@@ -166,6 +170,23 @@ export default {
     },
 
     methods: {
+        countDownTimer() {
+            if(this.countDown > 0) {
+                this.timer = setTimeout(() => {
+                    this.countDown -= 1
+                    $cookies.config('1d')
+                    $cookies.set('quizz', this.session+"@"+this.index + '@' + this.resultado+'@'+this.countDown);
+                    this.countDownTimer()
+                }, 1000)
+            }
+            else if(this.countDown ===0){
+                if (this.pergunta['tipo']==='multiple-select'){
+                    this.responseMultiplas('erro')
+                }else {
+                    this.response(this.pergunta['tipo'], 'erro')
+                }
+            }
+        },
         sair() {
             localStorage.clear();
 
@@ -177,7 +198,7 @@ export default {
             if (!this.botaoEscolhido.includes(id)){
                 this.botaoEscolhido.push(id);
 
-                let resposta = $('#' + id).html()
+                let resposta = this.multipleQuestion[id];
                 if (id !== 'erro') {
                     for (let i = 0; i < this.respostasMultiplas.length; i++) {
                         if (resposta.toLowerCase() === this.respostasMultiplas[i].toLowerCase()) {
@@ -189,8 +210,8 @@ export default {
                     if (this.first === this.respostasMultiplas.length) {
                         if (this.respostasCertas === this.respostasMultiplas.length) {
                             let tempo = this.countDown;
-                            let tempoTotal = this.pergunta[this.index]['tempo']
-                            let valorTotal = this.pergunta[this.index]['valor']
+                            let tempoTotal = this.pergunta['tempo']
+                            let valorTotal = this.pergunta['valor']
                             this.res = Math.round((valorTotal * tempo) / tempoTotal);
                         } else {
                             this.res = 0;
@@ -211,16 +232,16 @@ export default {
                         clearTimeout(this.timer)
                         this.countDown = 0;
                         let form = new FormData();
-                        form.append('id', this.pergunta[this.index]['id'])
-                        form.append('pergunta', this.pergunta[this.index]['enunciado'])
+                        form.append('id', this.pergunta['pId'])
+                        form.append('pergunta', this.pergunta['enunciado'])
                         form.append('resposta', JSON.stringify(this.respostasEscolhidas))
                         form.append('resultado', this.res)
-                        form.append('tipo', this.pergunta[this.index]['tipo'])
-                        form.append('sessioId', this.session)
-                        axios.post('/setResposta', form).then(function (response) {
+                        form.append('tipo', this.pergunta['tipo'])
+                        form.append('sessioId', this.sessao)
+                        axios.post('/setRespostaQuizz', form).then(function (response) {
                             this.respondeu=true;
-                            this.change()
-                            this.sleep(2500);
+
+
                         }.bind(this));
                     }
                 }
@@ -302,7 +323,7 @@ export default {
                         else if (e.type==='stop'){
                             if (!this.respondeu) {
                                 if (this.pergunta['tipo'] === 'multiple-select') {
-                                    this.responseMultiplas('error')
+                                    this.responseMultiplas('erro')
                                 } else {
                                     this.response(this.pergunta['tipo'], 'erro')
                                 }
@@ -311,6 +332,11 @@ export default {
                                 $('#couter').text(0)
                                 $('.wrapper-wrong').show();
                             }
+                        }
+                        else if(e.type==='EndQuizz'){
+                            $('.wrapper').hide();
+                            $('#game').hide();
+                            $('#resultado').show();
                         }
 
 
@@ -349,7 +375,7 @@ export default {
             } else {
                 this.res = 0;
             }
-            console.log(resposta+" "+this.res);
+
             $('.wrapper').show();
 
             if (this.res > 0) {
@@ -377,6 +403,7 @@ export default {
                 this.respondeu=true;
 
             }.bind(this));
+            clearTimeout(this.timer);
         },
         getResposta(array,Ans){
 
@@ -390,11 +417,11 @@ export default {
                 this.resposta = respostas[0]['resposta']
                 console.log(this.resposta)
             } else if (this.pergunta['tipo'] === 'multiple') {
-                console.log('pois')
+
                 let i;
                 for (i = 0; i < respostas.length; i++) {
-
-                    if (respostas[i]['resposta'] === " ") {
+                        console.log(respostas[i]['resposta'])
+                    if (respostas[i]['resposta'] === " " ) {
                         this.multipleQuestion[i]=null;
 
                     } else {
@@ -406,27 +433,37 @@ export default {
 
                     }
                 }
+                for (i =respostas.length ; i < 4; i++){
+                    this.multipleQuestion[i]=null;
+                }
+
             } else if (this.pergunta['tipo'] === 'multiple-select') {
+
+                console.log(respostas)
                 this.first = 0;
                 this.respostasMultiplas = [];
-                for (let i = 0; i < respostas.length; i++) {
+                let i;
+                for ( i = 0; i < respostas.length; i++) {
                     let k = i + 1
                     if (respostas[i]['resposta'] === " ") {
-                        $('#ms' + k).hide()
+                        this.respostasMultiplas[i]=null;
                     } else {
                         if (respostas[i]['resultado'] === 1) {
                             this.respostasMultiplas.push(respostas[i]['resposta'])
                         }
                     }
                     this.respostasCertas = 0;
-                    $('#ms' + k).show()
-                    $('#ms' + k).html(respostas[i]['resposta']);
-                    $('#ms' + k).val(respostas[i]['resposta']);
+                    this.multipleQuestion[i]=respostas[i]['resposta'];
+                }
+                for (i =respostas.length ; i < 4; i++){
+                    this.multipleQuestion[i]=null;
                 }
             }
             this.startQuestion();
             $('#quizz').show();
             this.respondeu=false;
+            this.countDown=this.pergunta['tempo']
+            this.countDownTimer();
         },
         startQuestion() {
             this.questionType = this.pergunta['tipo']
@@ -441,7 +478,8 @@ export default {
         mounted() {
             $('.wrapper').hide();
             $('#quizz').hide();
-
+            $('#game').show();
+            $('#resultado').hide();
             if (localStorage.getItem('sessao')!=null){
                 this.students=localStorage.getItem('students');
 

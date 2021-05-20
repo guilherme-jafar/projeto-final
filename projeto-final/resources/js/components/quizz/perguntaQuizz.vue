@@ -298,10 +298,15 @@
                                     $('#m' + k).val(respostas[i]['resposta']);
                                 }
                             }
+                            for (i =respostas.length ; i < 4; i++){
+                                let k = i + 1
+                                $('#m' + k).hide()
+                            }
                         } else if (this.pergunta[this.index]['tipo'] === 'multiple-select') {
                             this.first = 0;
                             this.respostasMultiplas = [];
-                            for (let i = 0; i < respostas.length; i++) {
+                            let i;
+                            for ( i = 0; i < respostas.length; i++) {
                                 let k = i + 1
                                 if (respostas[i]['resposta'] === " ") {
                                     $('#ms' + k).hide()
@@ -314,6 +319,10 @@
                                 $('#ms' + k).show()
                                 $('#ms' + k).html(respostas[i]['resposta']);
                                 $('#ms' + k).val(respostas[i]['resposta']);
+                            }
+                            for (i =respostas.length ; i < 4; i++){
+                                let k = i + 1
+                                $('#m' + k).hide()
                             }
                         }
 
