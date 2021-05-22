@@ -109,9 +109,6 @@ class topicos extends Controller
                     $idRes = time() . uniqid();
 
 
-                    var_dump(in_array("re" . ($i + 1) . $topico, $resposta));
-
-                    var_dump("re" . ($i + 1) . $topico . "/n");
                     if (in_array("re" . ($i + 1) . $topico, $resposta)) {
                         DB::insert('insert into respostas (id,resposta,resultado,perguntas_id) values (?,?,?,?)'
                             , [$idRes, $question[$i], 1, $id]);

@@ -5,50 +5,77 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
+
                         <input type="text" class="form-control form-control-pergunta"
                                placeholder="Escreva a pergunta aqui" :id="'pergunta'+pergunta['id']"
                                :value="pergunta['enunciado']"><br>
                         <p :id="'PerguntaError'+pergunta['id']"></p>
                     </div>
                     <div class="col-md-12 text-center">
-                        <input  style="visibility: hidden" type="file" :id="'file' + pergunta['id']" class="file-input mx-auto" @change="alterarFoto">
+                        <input style="visibility: hidden" type="file" :id="'file' + pergunta['id']"
+                               class="file-input mx-auto" @change="alterarFoto">
                         <label :file="'file' + pergunta['id']" class="pergunta_input"></label>
-<!--                        <iframe width="560" height="315" src="https://youtu.be/I5UoAx1V9HA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ></iframe>-->
-                        <div v-if="!isFetching">
-                            <div v-if="respostas['multimedia'][0]['link'] !== null" id="imagem-div">
+                        <!--                        <iframe width="560" height="315" src="https://youtu.be/I5UoAx1V9HA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ></iframe>-->
+                        <div v-if="!isFetchingM">
+                            <div v-if="multimedia[0]['link'] !== null" id="imagem-div">
                                 <div v-if="fileCheck()===1" class="text-center">
 
-                                    <img :src="'/images/Pergunta/Multimedia/'+ respostas['multimedia'][0]['link']" alt="imagem da pergunta" height="40%"
+                                    <img :src="'/images/Pergunta/Multimedia/'+ multimedia[0]['link']"
+                                         alt="imagem da pergunta" height="40%"
                                          width="40%" class="mx-auto mb-4" id="imagem">
                                 </div>
-                                <div v-else-if="fileCheck()===2"  class="text-center">
-
-<!--                                    <iframe width="560" height="315" src="https://www.youtube.com/watch?v=I5UoAx1V9HA&t=69s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ></iframe>-->
+                                <div v-else-if="fileCheck()===2" class="text-center">
+                                    <div v-if="temImagem">
+                                        <img :src="'/images/Pergunta/Multimedia/'+ multimedia[0]['link']"
+                                             alt="imagem da pergunta" height="40%"
+                                             width="40%" class="mx-auto mb-4" id="imagem">
+                                    </div>
+                                    <!--                                    <iframe width="560" height="315" src="https://www.youtube.com/watch?v=I5UoAx1V9HA&t=69s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ></iframe>-->
                                 </div>
-                                <div v-else-if="fileCheck()===3"  class="text-center">
+                                <div v-else-if="fileCheck()===3" class="text-center">
 
                                     <audio controls>
-                                        <source id="questionMultiAudio" :src="'/images/Pergunta/Multimedia/'+respostas['multimedia'][0]['link']"
+                                        <source id="questionMultiAudio"
+                                                :src="'/images/Pergunta/Multimedia/'+multimedia[0]['link']"
                                                 type="">
                                     </audio>
+                                    <div v-if="temImagem">
+                                        <img :src="'/images/Pergunta/Multimedia/'+ multimedia[0]['link']"
+                                             alt="imagem da pergunta" height="40%"
+                                             width="40%" class="mx-auto mb-4" id="imagem">
+                                    </div>
                                 </div>
-                                <div v-else-if="fileCheck()===0" style="min-height: 30rem">
+                                <div v-else-if="fileCheck()===0" >
 
+                                </div>
+
+                            </div>
+                            <div v-else>
+                                <div v-if="temImagem">
+                                    <img :src="'/images/Pergunta/Multimedia/'+ multimedia[0]['link']"
+                                         alt="imagem da pergunta" height="40%"
+                                         width="40%" class="mx-auto mb-4" id="imagem">
                                 </div>
 
                             </div>
                         </div>
 
                         <div class="btn-file mx-auto mb-5 d-flex" id="dropdownFile">
-                            <input class="form-control form-control-2" type="url" :id="'inputLink'"  placeholder="Introduza o link do vídeo Youtube">
-                            <div class="dropdown mx-auto text-center" >
-                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <input class="form-control form-control-2" type="url" :id="'inputLink'"
+                                   placeholder="Introduza o link do vídeo Youtube">
+                            <div class="dropdown mx-auto text-center">
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
                                     Adicionar ficheiro
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li><label class="dropdown-item" @click="fileType(1)" :for="'file' + pergunta['id']">Imagem</label></li>
-                                    <li><label class="dropdown-item" @click="fileType(2)" :for="'file' + pergunta['id']">Audio</label></li>
-                                    <li><button class="dropdown-item" @click="fileType(2)">Youtube Link</button></li>
+                                    <li><label class="dropdown-item" @click="fileType(1)"
+                                               :for="'file' + pergunta['id']">Imagem</label></li>
+                                    <li><label class="dropdown-item" @click="fileType(2)"
+                                               :for="'file' + pergunta['id']">Audio</label></li>
+                                    <li>
+                                        <button class="dropdown-item" @click="fileType(3)">Youtube Link</button>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -109,25 +136,25 @@
 
                     <div v-if="isFetching">
                         <div v-if="pergunta['tipo'] !== 'true/false'">
-                            <div class="card-loading is-loading mt-5" >
+                            <div class="card-loading is-loading mt-5">
                                 <div class="content">
 
                                     <p></p>
                                 </div>
                             </div>
-                            <div class="card-loading is-loading mt-5" >
+                            <div class="card-loading is-loading mt-5">
                                 <div class="content">
 
                                     <p></p>
                                 </div>
                             </div>
-                            <div class="card-loading is-loading mt-5" >
+                            <div class="card-loading is-loading mt-5">
                                 <div class="content">
 
                                     <p></p>
                                 </div>
                             </div>
-                            <div class="card-loading is-loading mt-5" >
+                            <div class="card-loading is-loading mt-5">
                                 <div class="content">
 
                                     <p></p>
@@ -135,13 +162,13 @@
                             </div>
                         </div>
                         <div v-else>
-                            <div class="card-loading is-loading mt-5" >
+                            <div class="card-loading is-loading mt-5">
                                 <div class="content">
 
                                     <p></p>
                                 </div>
                             </div>
-                            <div class="card-loading is-loading mt-5" >
+                            <div class="card-loading is-loading mt-5">
                                 <div class="content">
 
                                     <p></p>
@@ -154,106 +181,142 @@
                         <div :id="'multiple'+pergunta['id']" style="margin-top: 20px">
 
                             <div v-if="!isFetching">
-                                <div class="input-group mb-3 insertAnsewr">
-
-                                    <input type='text' :id="'re1'+pergunta['id']" class=" form-control"
-                                           style="border: none;"
-                                           aria-label="Text input with radio button" placeholder="Opção 1"
-                                           :value="(pergunta['tipo'] === 'multiple'? respostas[0]['resposta'] : '')">
-                                    <div class="input-group-text">
-                                        <input type="radio" :name="'corret'+pergunta['id']" :value="'re1'"
-                                               v-bind:checked="respostas[0]['resultado']===1"
-                                               class="form-check-input">
-                                    </div>
-                                </div>
-
-
-
-
-                                <div v-if="pergunta['tipo'] !== 'true/false'" >
+                                <div v-for="(resposta, index) in respostas">
                                     <div class="input-group mb-3 insertAnsewr">
 
-                                        <input type='text' :id="'re2'+pergunta['id']" class=" form-control"
-                                               style="border: none"
-                                               aria-label="Text input with radio button" placeholder="Opção 2"
-                                               :value="(pergunta['tipo'] === 'multiple'? respostas[1]['resposta'] : '')">
+                                        <input type='text' :id="'re' +( index +1) +pergunta['id']" class=" form-control"
+                                               style="border: none;"
+                                               aria-label="Text input with radio button"
+                                               :placeholder="'Opção' + ( index +1)"
+                                               :value="(pergunta['tipo'] === 'multiple'? resposta['resposta'] : '')">
                                         <div class="input-group-text">
                                             <input type="radio" :name="'corret'+pergunta['id']"
-                                                   :value="'re2'+pergunta['id']"
-                                                   v-bind:checked="respostas[1]['resultado']===1"
-                                                   class="form-check-input">
-                                        </div>
-                                    </div>
-
-                                    <div class="input-group mb-3 insertAnsewr">
-
-                                        <input type='text' :id="'re3'+pergunta['id']" class=" form-control"
-                                               style="border: none; "
-                                               aria-label="Text input with radio button" placeholder="Opção 3"
-                                               :value="(pergunta['tipo'] === 'multiple'? respostas[2]['resposta'] : '')">
-                                        <div class="input-group-text">
-                                            <input type="radio" :name="'corret'+pergunta['id']"
-                                                   :value="'re3'+pergunta['id']"
-                                                   v-bind:checked="respostas[2]['resultado']===1"
-                                                   class="form-check-input">
-                                        </div>
-                                    </div>
-
-
-                                    <div class="input-group mb-3 insertAnsewr">
-
-                                        <input type='text' :id="'re4'+pergunta['id']" class=" form-control"
-                                               style="border: none; "
-                                               aria-label="Text input with radio button" placeholder="Opção 4"
-                                               :value="(pergunta['tipo'] === 'multiple'? respostas[3]['resposta'] : '')">
-                                        <div class="input-group-text">
-                                            <input type="radio" :name="'corret'+pergunta['id']"
-                                                   :value="'re4'+pergunta['id']"
-                                                   v-bind:checked="respostas[3]['resultado']===1"
+                                                   :value="'re' + ( index +1) +pergunta['id']"
+                                                   v-bind:checked="resposta['resultado']===1"
                                                    class="form-check-input">
                                         </div>
                                     </div>
                                 </div>
-                                <div v-else>
-                                    <div class="input-group mb-3 insertAnsewr">
+                                <div v-if="respostas.length < 4">
+
+                                    <div v-for="(resposta, index) in  4 - respostas.length ">
                                         <div class="input-group mb-3 insertAnsewr">
 
-                                            <input type='text' :id="'re2'+pergunta['id']" class=" form-control"
-                                                   style="border: none"
-                                                   aria-label="Text input with radio button" placeholder="Opção 2">
+                                            <input type='text' :id="'re' +(index + respostas.length +1) +pergunta['id']"
+                                                   class=" form-control"
+                                                   style="border: none;"
+                                                   aria-label="Text input with radio button"
+                                                   :placeholder="'Opção' + ( index + respostas.length +1)"
+                                                   :value="(pergunta['tipo'] === 'multiple'? resposta['resposta'] : '')">
                                             <div class="input-group-text">
                                                 <input type="radio" :name="'corret'+pergunta['id']"
-                                                       :value="'re2'+pergunta['id']"
+                                                       :value="'re' + ( index + respostas.length +1) +pergunta['id']"
+                                                       v-bind:checked="resposta['resultado']===1"
                                                        class="form-check-input">
                                             </div>
                                         </div>
-
-                                        <input type='text' :id="'re3'+pergunta['id']" class=" form-control"
-                                               style="border: none; "
-                                               aria-label="Text input with radio button" placeholder="Opção 3">
-                                        <div class="input-group-text">
-                                            <input type="radio" :name="'corret'+pergunta['id']"
-                                                   :value="'re3'+pergunta['id']"
-
-                                                   class="form-check-input">
-                                        </div>
-                                    </div>
-
-
-                                    <div class="input-group mb-3 insertAnsewr">
-
-                                        <input type='text' :id="'re4'+pergunta['id']" class=" form-control"
-                                               style="border: none; "
-                                               aria-label="Text input with radio button" placeholder="Opção 4"
-                                        <div class="input-group-text">
-                                            <input type="radio" :name="'corret'+pergunta['id']"
-                                                   :value="'re4'+pergunta['id']"
-
-                                                   class="form-check-input">
-                                        </div>
                                     </div>
                                 </div>
 
+                                <!--                                <div class="input-group mb-3 insertAnsewr">-->
+
+                                <!--                                    <input type='text' :id="'re1'+pergunta['id']" class=" form-control"-->
+                                <!--                                           style="border: none;"-->
+                                <!--                                           aria-label="Text input with radio button" placeholder="Opção 1"-->
+                                <!--                                           :value="(pergunta['tipo'] === 'multiple'? respostas[0]['resposta'] : '')">-->
+                                <!--                                    <div class="input-group-text">-->
+                                <!--                                        <input type="radio" :name="'corret'+pergunta['id']" :value="'re1'+pergunta['id']"-->
+                                <!--                                               v-bind:checked="respostas[0]['resultado']===1"-->
+                                <!--                                               class="form-check-input">-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
+
+
+                                <!--                                <div v-if="pergunta['tipo'] !== 'true/false'">-->
+                                <!--                                    <div class="input-group mb-3 insertAnsewr">-->
+
+                                <!--                                        <input type='text' :id="'re2'+pergunta['id']" class=" form-control"-->
+                                <!--                                               style="border: none"-->
+                                <!--                                               aria-label="Text input with radio button" placeholder="Opção 2"-->
+                                <!--                                               :value="(pergunta['tipo'] === 'multiple'? respostas[1]['resposta'] : '')">-->
+                                <!--                                        <div class="input-group-text">-->
+                                <!--                                            <input type="radio" :name="'corret'+pergunta['id']"-->
+                                <!--                                                   :value="'re2'+pergunta['id']"-->
+                                <!--                                                   v-bind:checked="respostas[1]['resultado']===1"-->
+                                <!--                                                   class="form-check-input">-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+
+                                <!--                                    <div class="input-group mb-3 insertAnsewr">-->
+
+                                <!--                                        <input type='text' :id="'re3'+pergunta['id']" class=" form-control"-->
+                                <!--                                               style="border: none; "-->
+                                <!--                                               aria-label="Text input with radio button" placeholder="Opção 3"-->
+                                <!--                                               :value="(pergunta['tipo'] === 'multiple'? respostas[2]['resposta'] : '')">-->
+                                <!--                                        <div class="input-group-text">-->
+                                <!--                                            <input type="radio" :name="'corret'+pergunta['id']"-->
+                                <!--                                                   :value="'re3'+pergunta['id']"-->
+                                <!--                                                   v-bind:checked="respostas[2]['resultado']===1"-->
+                                <!--                                                   class="form-check-input">-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+
+
+                                <!--                                    <div class="input-group mb-3 insertAnsewr">-->
+
+                                <!--                                        <input type='text' :id="'re4'+pergunta['id']" class=" form-control"-->
+                                <!--                                               style="border: none; "-->
+                                <!--                                               aria-label="Text input with radio button" placeholder="Opção 4"-->
+                                <!--                                               :value="(pergunta['tipo'] === 'multiple'? respostas[3]['resposta'] : '')">-->
+                                <!--                                        <div class="input-group-text">-->
+                                <!--                                            <input type="radio" :name="'corret'+pergunta['id']"-->
+                                <!--                                                   :value="'re4'+pergunta['id']"-->
+                                <!--                                                   v-bind:checked="respostas[3]['resultado']===1"-->
+                                <!--                                                   class="form-check-input">-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
+                                <!--                                <div v-else>-->
+                                <!--                                    <div class="input-group mb-3 insertAnsewr">-->
+
+                                <!--                                        <input type='text' :id="'re2'+pergunta['id']" class=" form-control"-->
+                                <!--                                               style="border: none"-->
+                                <!--                                               aria-label="Text input with radio button" placeholder="Opção 2">-->
+                                <!--                                        <div class="input-group-text">-->
+                                <!--                                            <input type="radio" :name="'corret'+pergunta['id']"-->
+                                <!--                                                   :value="'re2'+pergunta['id']"-->
+                                <!--                                                   class="form-check-input">-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+
+                                <!--                                    <div class="input-group mb-3 insertAnsewr">-->
+
+
+                                <!--                                        <input type='text' :id="'re3'+pergunta['id']" class=" form-control"-->
+                                <!--                                               style="border: none; "-->
+                                <!--                                               aria-label="Text input with radio button" placeholder="Opção 3">-->
+                                <!--                                        <div class="input-group-text">-->
+                                <!--                                            <input type="radio" :name="'corret'+pergunta['id']"-->
+                                <!--                                                   :value="'re3'+pergunta['id']"-->
+
+                                <!--                                                   class="form-check-input">-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+
+
+                                <!--                                    <div class="input-group mb-3 insertAnsewr">-->
+
+                                <!--                                        <input type='text' :id="'re4'+pergunta['id']" class=" form-control"-->
+                                <!--                                               style="border: none; "-->
+                                <!--                                               aria-label="Text input with radio button" placeholder="Opção 4">-->
+                                <!--                                        <div class="input-group-text">-->
+                                <!--                                            <input type="radio" :name="'corret'+pergunta['id']"-->
+                                <!--                                                   :value="'re4'+pergunta['id']"-->
+
+                                <!--                                                   class="form-check-input">-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
 
                             </div>
 
@@ -289,172 +352,169 @@
                         <div :id="'multiple-select'+pergunta['id']" style="margin-top: 20px">
                             <div v-if="!isFetching">
 
+                                <div v-for="(resposta, index) in respostas">
+
+                                    <div class="input-group mb-3 insertAnsewr">
+
+                                        <input type='text' :id="'rem'+( index +1) +pergunta['id']" class=" form-control"
+                                               style="border: none;"
+                                               aria-label="Text input with radio button"
+                                               :placeholder="'Opção' + ( index +1)"
+                                               :value="(pergunta['tipo'] === 'multiple-select'? resposta['resposta'] : '')">
+                                        <div class="input-group-text">
+                                            <input type="checkbox" :name="'corret'+pergunta['id']+'[]'"
+                                                   v-bind:checked="resposta['resultado']===1"
+                                                   :value="'rem'+ ( index +1) +pergunta['id']"
+                                                   class="form-check-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-if="respostas.length < 4">
+
+                                    <div v-for="(resposta, index) in  4 - respostas.length ">
+                                        <div class="input-group mb-3 insertAnsewr">
+
+                                            <input type='text' :id="'rem'+(index + respostas.length +1) +pergunta['id']" class=" form-control"
+                                                   style="border: none;"
+                                                   aria-label="Text input with radio button"
+                                                   :placeholder="'Opção' + (index + respostas.length +1)"
+                                                   :value="(pergunta['tipo'] === 'multiple-select'? resposta['resposta'] : '')">
+                                            <div class="input-group-text">
+                                                <input type="checkbox" :name="'corret'+pergunta['id']+'[]'"
+                                                       v-bind:checked="resposta['resultado']===1"
+                                                       :value="'rem'+(index + respostas.length +1) +pergunta['id']"
+                                                       class="form-check-input">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--                                <div class="input-group mb-3 insertAnsewr">-->
+
+                                <!--                                    <input type='text' :id="'rem1'+pergunta['id']" class=" form-control"-->
+                                <!--                                           style="border: none;"-->
+                                <!--                                           aria-label="Text input with radio button" placeholder="Opção 1"-->
+                                <!--                                           :value="(pergunta['tipo'] === 'multiple-select'? respostas[0]['resposta'] : '')">-->
+                                <!--                                    <div class="input-group-text">-->
+                                <!--                                        <input type="checkbox" :name="'corret'+pergunta['id']+'[]'"-->
+                                <!--                                               v-bind:checked="respostas[0]['resultado']===1"-->
+                                <!--                                               :value="'re1'+pergunta['id']"-->
+                                <!--                                               class="form-check-input">-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
+                                <!--                                <div v-if="pergunta['tipo'] !== 'true/false'">-->
+                                <!--                                    <div class="input-group mb-3 insertAnsewr">-->
+
+                                <!--                                        <input type='text' :id="'rem2'+pergunta['id']" class=" form-control"-->
+                                <!--                                               style="border: none"-->
+                                <!--                                               aria-label="Text input with radio button" placeholder="Opção 2"-->
+                                <!--                                               :value="(pergunta['tipo'] === 'multiple-select'? respostas[1]['resposta'] : '')">-->
+                                <!--                                        <div class="input-group-text">-->
+                                <!--                                            <input type="checkbox" :name="'corret'+pergunta['id']+'[]'"-->
+                                <!--                                                   v-bind:checked="respostas[1]['resultado']===1"-->
+                                <!--                                                   :value="'re2'+pergunta['id']"-->
+                                <!--                                                   class="form-check-input">-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+
+                                <!--                                    <div class="input-group mb-3 insertAnsewr">-->
+
+                                <!--                                        <input type='text' :id="'rem3'+pergunta['id']" class=" form-control"-->
+                                <!--                                               style="border: none; "-->
+                                <!--                                               aria-label="Text input with radio button" placeholder="Opção 3"-->
+                                <!--                                               :value="(pergunta['tipo'] === 'multiple-select'? respostas[2]['resposta'] : '')">-->
+                                <!--                                        <div class="input-group-text">-->
+                                <!--                                            <input type="checkbox" :name="'corret'+pergunta['id']+'[]'"-->
+                                <!--                                                   :value="'re3'+pergunta['id']"-->
+                                <!--                                                   v-bind:checked="respostas[2]['resultado']===1"-->
+                                <!--                                                   class="form-check-input">-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+
+
+                                <!--                                    <div class="input-group mb-3 insertAnsewr">-->
+
+                                <!--                                        <input type='text' :id="'rem4'+pergunta['id']" class=" form-control"-->
+                                <!--                                               style="border: none; "-->
+                                <!--                                               aria-label="Text input with radio button" placeholder="Opção 4"-->
+                                <!--                                               :value="(pergunta['tipo'] === 'multiple-select'? respostas[3]['resposta'] : '')">-->
+                                <!--                                        <div class="input-group-text">-->
+                                <!--                                            <input type="checkbox" :name="'corret'+pergunta['id']+'[]'"-->
+                                <!--                                                   :value="'re4'+pergunta['id']"-->
+                                <!--                                                   v-bind:checked="respostas[3]['resultado']===1"-->
+                                <!--                                                   class="form-check-input">-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+                            </div>
+                            <div v-else>
+
                                 <div class="input-group mb-3 insertAnsewr">
 
-                                    <input type='text' :id="'rem1'+pergunta['id']" class=" form-control"
-                                           style="border: none;"
-                                           aria-label="Text input with radio button" placeholder="Opção 1"
-                                           :value="(pergunta['tipo'] === 'multiple-select'? respostas[0]['resposta'] : '')">
+                                    <input type='text' :id="'rem2'+pergunta['id']" class=" form-control"
+                                           style="border: none"
+                                           aria-label="Text input with radio button" placeholder="Opção 2">
                                     <div class="input-group-text">
                                         <input type="checkbox" :name="'corret'+pergunta['id']+'[]'"
-                                               v-bind:checked="respostas[0]['resultado']===1"
-                                               :value="'re1'+pergunta['id']"
+                                               :value="'re2'+pergunta['id']"
+                                               class="form-check-input">
+                                    </div>
+                                </div>
+
+                                <div class="input-group mb-3 insertAnsewr">
+
+                                    <input type='text' :id="'rem3'+pergunta['id']" class=" form-control"
+                                           style="border: none; "
+                                           aria-label="Text input with radio button" placeholder="Opção 3">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" :name="'corret'+pergunta['id']+'[]'"
+                                               :value="'re3'+pergunta['id']"
+
                                                class="form-check-input">
                                     </div>
                                 </div>
 
 
+                                <div class="input-group mb-3 insertAnsewr">
 
-
-
-                                <div v-if="pergunta['tipo'] !== 'true/false'" >
-                                    <div class="input-group mb-3 insertAnsewr">
-
-                                        <input type='text' :id="'rem2'+pergunta['id']" class=" form-control"
-                                               style="border: none"
-                                               aria-label="Text input with radio button" placeholder="Opção 2"
-                                               :value="(pergunta['tipo'] === 'multiple-select'? respostas[1]['resposta'] : '')">
-                                        <div class="input-group-text">
-                                            <input type="checkbox" :name="'corret'+pergunta['id']+'[]'"
-                                                   v-bind:checked="respostas[1]['resultado']===1"
-                                                   :value="'re2'+pergunta['id']"
-                                                   class="form-check-input">
-                                        </div>
-                                    </div>
-
-                                    <div class="input-group mb-3 insertAnsewr">
-
-                                        <input type='text' :id="'rem3'+pergunta['id']" class=" form-control"
-                                               style="border: none; "
-                                               aria-label="Text input with radio button" placeholder="Opção 3"
-                                               :value="(pergunta['tipo'] === 'multiple-select'? respostas[2]['resposta'] : '')">
-                                        <div class="input-group-text">
-                                            <input type="checkbox" :name="'corret'+pergunta['id']+'[]'"
-                                                   :value="'re3'+pergunta['id']"
-                                                   v-bind:checked="respostas[1]['resultado']===1"
-                                                   class="form-check-input">
-                                        </div>
-                                    </div>
-
-
-                                    <div class="input-group mb-3 insertAnsewr">
-
-                                        <input type='text' :id="'rem4'+pergunta['id']" class=" form-control"
-                                               style="border: none; "
-                                               aria-label="Text input with radio button" placeholder="Opção 4"
-                                               :value="(pergunta['tipo'] === 'multiple-select'? respostas[3]['resposta'] : '')">
-                                        <div class="input-group-text">
-                                            <input type="checkbox" :name="'corret'+pergunta['id']+'[]'"
-                                                   :value="'re4'+pergunta['id']"
-                                                   v-bind:checked="respostas[1]['resultado']===1"
-                                                   class="form-check-input">
-                                        </div>
+                                    <input type='text' :id="'rem4'+pergunta['id']" class=" form-control"
+                                           style="border: none; "
+                                           aria-label="Text input with radio button" placeholder="Opção 4">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" :name="'corret'+pergunta['id']+'[]'"
+                                               :value="'re4'+pergunta['id']"
+                                               class="form-check-input">
                                     </div>
                                 </div>
-                                <div v-else>
-
-                                    <div class="input-group mb-3 insertAnsewr">
-
-                                        <input type='text' :id="'rem2'+pergunta['id']" class=" form-control"
-                                               style="border: none"
-                                               aria-label="Text input with radio button" placeholder="Opção 2">
-                                        <div class="input-group-text">
-                                            <input type="checkbox" :name="'corret'+pergunta['id']+'[]'"
-                                                   :value="'re2'+pergunta['id']"
-                                                   class="form-check-input">
-                                        </div>
-                                    </div>
-
-                                    <div class="input-group mb-3 insertAnsewr">
-
-                                        <input type='text' :id="'rem3'+pergunta['id']" class=" form-control"
-                                               style="border: none; "
-                                               aria-label="Text input with radio button" placeholder="Opção 3">
-                                        <div class="input-group-text">
-                                            <input type="checkbox" :name="'corret'+pergunta['id']+'[]'"
-                                                   :value="'re3'+pergunta['id']"
-
-                                                   class="form-check-input">
-                                        </div>
-                                    </div>
-
-
-                                    <div class="input-group mb-3 insertAnsewr">
-
-                                        <input type='text' :id="'rem4'+pergunta['id']" class=" form-control"
-                                               style="border: none; "
-                                               aria-label="Text input with radio button" placeholder="Opção 4">
-                                        <div class="input-group-text">
-                                            <input type="checkbox" :name="'corret'+pergunta['id']+'[]'"
-                                                   :value="'re4'+pergunta['id']"
-                                                   class="form-check-input">
-                                        </div>
-                                    </div>
-                                </div>
-
-
                             </div>
 
 
                         </div>
-                    </div>
 
-                    <div class="col-md-12">
-                        <p :id="'RError'+pergunta['id']"></p>
+
                     </div>
+                </div>
+
+                <div class="col-md-12">
+                    <p :id="'RError'+pergunta['id']"></p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="text-end mt-5">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sair
+            </button>
+            <button type="button" :id="'submit'" class="btn btn-primary ms-3 btn-loading"
+                    @click="submit(pergunta['id'])">
+                <span class="">Guardar</span>
+                <div class="spinner-border text-light d-none" role="status">
 
                 </div>
-            </div>
-
-            <!-- Modal -->
-<!--            <div class="modal fade" :id="'linkYoutube' + pergunta['id']" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
-<!--                <div class="modal-dialog">-->
-<!--                    <div class="modal-content">-->
-<!--                        <div class="modal-header">-->
-<!--                            <h5 class="modal-title" id="exampleModalLabel">Link Youtube</h5>-->
-<!--                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-<!--                        </div>-->
-<!--                        <div class="modal-body pt-5 pb-5">-->
-<!--                            <form class="row mx-auto" id="">-->
-<!--                                <div class="col-11">-->
-<!--                                    <label class="label" for="disciplina" >Url do Vídeo</label>-->
-<!--                                    <input name="disciplina" class="form-control mt-2 mb-2 " type="text" id="linkYoutube">-->
-
-<!--                                </div>-->
-<!--                                <div class="col-12 mb-4">-->
-<!--                                    <p class="error " id="disciplinaError"></p>-->
-<!--                                </div>-->
-
-
-<!--                            </form>-->
-<!--                        </div>-->
-<!--                        <div class="modal-footer">-->
-<!--                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>-->
-<!--                            <button type="button" id="submit" class="btn btn-secondary btn-submit" @click="submit()">  <span class="">Adicionar &nbsp;</span>-->
-<!--                                <div class="spinner-border text-light d-none" role="status">-->
-
-<!--                                </div>-->
-<!--                            </button>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-
-            <div class="text-end mt-5">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sair
-                </button>
-                <button type="button" :id="'submit'" class="btn btn-primary ms-3 btn-loading"
-                        @click="submit(pergunta['id'])">
-                    <span class="">Guardar</span>
-                    <div class="spinner-border text-light d-none" role="status">
-
-                    </div>
-                </button>
-            </div>
-
-
-
+            </button>
         </div>
+
+
+    </div>
     </div>
 </template>
 
@@ -473,25 +533,34 @@
                 pergunta: JSON.parse(this.pergunta_prop),
                 respostas: [],
                 isFetching: true,
-                tipoFicheiro: 0
+                tipoFicheiro: 0,
+                multimedia: [],
+                isFetchingM: true,
+                i: 0,
+                temImagem: false
+
             }
         },
         methods: {
-            alterarFoto(e){
+            alterarFoto(e) {
 
-                if (this.tipoFicheiro = 1){
+
+
+                if (this.tipoFicheiro === 1) {
+
                     let imagem = document.getElementById("imagem");
                     imagem.src = URL.createObjectURL(e.target.files[0]);
                     this.imagem = e.target.files[0];
+
                 }
 
 
             },
             fileCheck() {
-                if (this.respostas['multimedia'][0]['link'] === null) {
+                if (this.multimedia[0]['link'] === null) {
                     return 0;
                 } else {
-                    let ext = this.getExtension(this.respostas['multimedia'][0]['link'])
+                    let ext = this.getExtension(this.multimedia[0]['link'])
 
                     switch (ext.toLowerCase()) {
                         case 'jpeg':
@@ -499,17 +568,13 @@
                         case 'bmp':
                         case 'png':
                         case 'jpg':
-                            //etc
                             return 1;
                     }
-                    switch (ext.toLowerCase()) {
-                        case 'm4v':
-                        case 'avi':
-                        case 'mpg':
-                        case 'mp4':
-                            // etc
-                            $('#questionMulti').attr("type", 'video/' + ext);
-                            return 2;
+                    if (this.multimedia[0]['link'].includes("youtube")){
+                        $('#inputLink').show();
+                        $('#dropdownFile').addClass('btn-file-hide')
+                        document.getElementById('inputLink').value = this.multimedia[0]['link'];
+                        return 2
                     }
                     switch (ext.toLowerCase()) {
                         case 'ogg':
@@ -526,7 +591,7 @@
                 var parts = filename.split('.');
                 return parts[parts.length - 1];
             },
-            submit(perguntaId){
+            submit(perguntaId) {
                 $('#RError' + perguntaId).text(" ").css('color', 'red').css('opacity', '1');
                 $('#TError' + perguntaId).text(" ").css('color', 'red').css('opacity', '1');
                 $('#PerguntaError' + perguntaId).text(" ").css('color', 'red').css('opacity', '1');
@@ -537,22 +602,28 @@
                 var validImageTypes = ["image/gif", "image/jpeg", "image/png", "image/PNG", "audio/mpeg", "audio/ogg", "audio/mp3"];
                 let form = new FormData();
                 let file;
-                let type, flag = false, flag2 = false, corret;
+                let type, flag = false, flag2 = false, corret, flag3 = false;
                 let array = [];
                 let index = 0;
 
-                if (document.getElementById("pergunta" + perguntaId).value.length <= 0){
+
+
+                if (document.getElementById("pergunta" + perguntaId).value.length <= 0) {
                     $('#PerguntaError' + perguntaId).text("indique o enunciado da pergunta").css('color', 'red').css('opacity', '1');
-                }else if(document.getElementById("pergunta" + perguntaId).value.length > 120){
+                } else if (document.getElementById("pergunta" + perguntaId).value.length > 120) {
                     $('#PerguntaError' + perguntaId).text("O enunciado é demasiado grande. Deve ter 120 caracteres no máximo!!").css('color', 'red').css('opacity', '1');
-                }else {
+                } else {
                     form.append('pergunta', document.getElementById("pergunta" + perguntaId).value);
                     form.append('tempo', document.getElementById("tempo" + perguntaId).value);
                     form.append('tipo', document.getElementById("tipo" + perguntaId).value);
                     form.append('pontos', document.getElementById("pontos" + perguntaId).value);
+                    form.append('tipoInicial', this.pergunta['tipo'])
+                    form.append('respostasId', JSON.stringify(this.respostas));
+                    form.append('topicoId', this.pergunta['topicos_id']);
+                    form.append('multimedia', JSON.stringify(this.multimedia))
 
-                    if (this.tipoFicheiro === 1){
-                        file = document.getElementById("file" + top).files[0]
+                    if (this.tipoFicheiro === 1) {
+                        file = document.getElementById("file" + perguntaId).files[0]
                         if (file != null) {
                             type = file['type'];
                             if ($.inArray(type, validImageTypes) < 0) {
@@ -561,12 +632,12 @@
                             }
                             form.append('file', file);
                         } else {
-                            form.append('file', this.respostas['multimedia'][0]['link']);
+                            form.append('file', this.multimedia[0]['link']);
                         }
-                    }else if (this.tipoFicheiro ===2){
-                        form.append('file', document.getElementById("inputLink" ).value)
-                    }else {
-                        form.append('file', this.respostas['multimedia'][0]['link'])
+                    } else if (this.tipoFicheiro === 3) {
+                        form.append('fileLink', document.getElementById("inputLink").value)
+                    } else {
+                        form.append('file', this.multimedia[0]['link'])
                     }
 
                     if (document.getElementById("tipo" + perguntaId).value === "multiple") {
@@ -587,8 +658,13 @@
                             if (radios[i - 1].checked) {
                                 flag = true;
                                 corret = radios[i - 1].value;
+
                             }
+
+
                         }
+
+
                         if (flag2) {
                             $('#RError' + perguntaId).text("Uma das respostas tem mais de 100 letras").css('color', 'red').css('opacity', '1');
 
@@ -596,6 +672,8 @@
                             $('#RError' + perguntaId).text("Uma pergunta tem de ter pelo menos 2 respostas").css('color', 'red').css('opacity', '1');
                         } else if (!flag) {
                             $('#RError' + perguntaId).text("Indique a resposta certa").css('color', 'red').css('opacity', '1');
+                        } else if (document.getElementById(corret).value.trim().length === 0) {
+                            $('#RError' + perguntaId).text("Não pode escolher uma resposta vazia como correta!!").css('color', 'red').css('opacity', '1');
                         } else {
                             form.append('array', JSON.stringify(array));
                             form.append('resposta', document.getElementById(corret).value)
@@ -616,19 +694,26 @@
 
                             form.append('resposta', corret)
                             this.send(form, perguntaId)
-                        }                    } else if (document.getElementById("tipo" + top).value === "multiple-select") {
+                        }
+                    } else if (document.getElementById("tipo" + perguntaId).value === "multiple-select") {
 
-                        let opcoes = $('input[name="corret' + top + '[]"]:checked');
+                        let opcoes = $('input[name="corret' + perguntaId + '[]"]:checked');
+
                         let opcoesEscolhidas = [];
                         let respostas = [];
                         let guardarOpcoes = true;
                         if (opcoes.length <= 1) {
-                            $('#RError' + top).text("Escolha duas ou mais opções corretas!!").css('color', 'red').css('opacity', '1');
+                            $('#RError' + perguntaId).text("Escolha duas ou mais opções corretas!!").css('color', 'red').css('opacity', '1');
 
                         } else {
                             for (let i = 0; i < opcoes.length; i++) {
                                 opcoesEscolhidas[i] = opcoes[i].value;
-                                if (document.getElementById("rem" + (i + 1) + perguntaId).value.length === 0) {
+
+                                if (document.getElementById( opcoes[i].value).value.length === 0){
+                                    $('#RError' + perguntaId).text("Não pode escolher uma opção vazia como certa!!").css('color', 'red').css('opacity', '1');
+                                    guardarOpcoes = false;
+                                    break;
+                                }else if (document.getElementById("rem" + (i + 1) + perguntaId).value.length === 0) {
                                     $('#RError' + perguntaId).text("Não pode escolher uma opção vazia como certa!!").css('color', 'red').css('opacity', '1');
                                     guardarOpcoes = false;
                                     break;
@@ -639,6 +724,7 @@
                                 }
 
                             }
+
 
                             if (guardarOpcoes) {
                                 for (let i = 1; i < 5; i++) {
@@ -668,16 +754,14 @@
                     }
 
 
-
                 }
 
 
-
             },
-            send(form, perguntaID){
-              console.log(form.values())
-                for(var pair of form.entries()) {
-                    console.log(pair[0]+ ', '+ pair[1]);
+            send(form, perguntaID) {
+
+                for (var pair of form.entries()) {
+                    console.log(pair[0] + ', ' + pair[1]);
                 }
                 axios.post('/prof/pergunta/' + perguntaID + '/editar', form
                 ).then(function (response) {
@@ -685,34 +769,36 @@
 
                         alert("Erro a inserir a pergunta");
                     } else {
-                        $('#submit' + top).prop('disabled', false);
-                        this.modal.hide();
+                      //  $('#submit' + top).prop('disabled', false);
+
                         // this.toastPergunta.show();
-                        this.$root.$emit('ShowToastPergunta', 3);
-                        $('#toast-pergunta').removeClass('d-none');
+                        //this.$root.$emit('ShowToastPergunta', 3);
+                       // $('#toast-pergunta').removeClass('d-none');
                     }
-                    document.getElementById("pergunta" + top).value = ""
-                    document.getElementById("file" + top).value = ""
+                    // document.getElementById("pergunta" + top).value = ""
+                    // document.getElementById("file" + top).value = ""
 
                 }.bind(this));
 
             },
-            fileType(tipo){
+            fileType(tipo) {
 
-                if (tipo===2){
+                if (tipo === 3) {
                     $('#inputLink').show();
                     $('#dropdownFile').addClass('btn-file-hide')
-                    this.tipoFicheiro = 2;
+                    this.tipoFicheiro = 3;
                     $('#imagem-div').hide();
-                }else if (tipo===1){
+                } else if (tipo === 1) {
                     $('#inputLink').hide();
                     this.tipoFicheiro = 1;
                     $('#dropdownFile').addClass('btn-file')
                     $('#imagem-div').show();
-                }else if(tipo===2){
+                    this.temImagem = true;
+                } else if (tipo === 2) {
                     $('#inputLink').hide();
-                    this.tipoFicheiro = 1;
+                    this.tipoFicheiro = 2;
                     $('#dropdownFile').addClass('btn-file')
+
                 }
 
             },
@@ -722,6 +808,14 @@
                         this.respostas = response.data.message;
                         console.log(this.respostas)
                         this.isFetching = false;
+                    });
+            },
+            getMultimedia(id) {
+                axios.get('/prof/getMultimedia/' + id)
+                    .then(response => {
+                        this.multimedia = response.data.message;
+                        console.log(this.multimedia[0])
+                        this.isFetchingM = false;
                     });
             },
             alter() {
@@ -748,6 +842,7 @@
         mounted() {
             $('#inputLink').hide();
             this.getRespostas(this.pergunta['id']);
+            this.getMultimedia(this.pergunta['id'])
             let pergunta = this.pergunta
             let id = "trueFalse" + pergunta['id'];
             let id2 = "multiple" + pergunta['id'];

@@ -3291,7 +3291,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     eliminarPergunta: function eliminarPergunta(pergunta, topidoId) {
-      console.log(topidoId);
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn span').addClass('d-none');
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn div').removeClass('d-none');
       this.modalDeleteQuizz = bootstrap.Modal.getInstance(document.getElementById('eliminarPergunta' + pergunta['id']), {});
@@ -3484,7 +3483,7 @@ __webpack_require__.r(__webpack_exports__);
 
           for (var _i4 = 0; _i4 < 2; _i4++) {
             if (radios2[_i4].checked) {
-              radios2[_i4 - 1].checked = false;
+              radios2[_i4].checked = false;
             }
           }
         } else if (document.getElementById("tipo" + top).value === "multiple-select") {
@@ -4064,6 +4063,66 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -4074,22 +4133,26 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       pergunta: JSON.parse(this.pergunta_prop),
       respostas: [],
       isFetching: true,
-      tipoFicheiro: 0
+      tipoFicheiro: 0,
+      multimedia: [],
+      isFetchingM: true,
+      i: 0,
+      temImagem: false
     };
   },
   methods: {
     alterarFoto: function alterarFoto(e) {
-      if (this.tipoFicheiro = 1) {
+      if (this.tipoFicheiro === 1) {
         var imagem = document.getElementById("imagem");
         imagem.src = URL.createObjectURL(e.target.files[0]);
         this.imagem = e.target.files[0];
       }
     },
     fileCheck: function fileCheck() {
-      if (this.respostas['multimedia'][0]['link'] === null) {
+      if (this.multimedia[0]['link'] === null) {
         return 0;
       } else {
-        var ext = this.getExtension(this.respostas['multimedia'][0]['link']);
+        var ext = this.getExtension(this.multimedia[0]['link']);
 
         switch (ext.toLowerCase()) {
           case 'jpeg':
@@ -4097,18 +4160,14 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           case 'bmp':
           case 'png':
           case 'jpg':
-            //etc
             return 1;
         }
 
-        switch (ext.toLowerCase()) {
-          case 'm4v':
-          case 'avi':
-          case 'mpg':
-          case 'mp4':
-            // etc
-            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#questionMulti').attr("type", 'video/' + ext);
-            return 2;
+        if (this.multimedia[0]['link'].includes("youtube")) {
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#inputLink').show();
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#dropdownFile').addClass('btn-file-hide');
+          document.getElementById('inputLink').value = this.multimedia[0]['link'];
+          return 2;
         }
 
         switch (ext.toLowerCase()) {
@@ -4140,7 +4199,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var type,
           flag = false,
           flag2 = false,
-          corret;
+          corret,
+          flag3 = false;
       var array = [];
       var index = 0;
 
@@ -4153,9 +4213,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         form.append('tempo', document.getElementById("tempo" + perguntaId).value);
         form.append('tipo', document.getElementById("tipo" + perguntaId).value);
         form.append('pontos', document.getElementById("pontos" + perguntaId).value);
+        form.append('tipoInicial', this.pergunta['tipo']);
+        form.append('respostasId', JSON.stringify(this.respostas));
+        form.append('topicoId', this.pergunta['topicos_id']);
+        form.append('multimedia', JSON.stringify(this.multimedia));
 
         if (this.tipoFicheiro === 1) {
-          file = document.getElementById("file" + top).files[0];
+          file = document.getElementById("file" + perguntaId).files[0];
 
           if (file != null) {
             type = file['type'];
@@ -4166,12 +4230,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
             form.append('file', file);
           } else {
-            form.append('file', this.respostas['multimedia'][0]['link']);
+            form.append('file', this.multimedia[0]['link']);
           }
-        } else if (this.tipoFicheiro === 2) {
-          form.append('file', document.getElementById("inputLink").value);
+        } else if (this.tipoFicheiro === 3) {
+          form.append('fileLink', document.getElementById("inputLink").value);
         } else {
-          form.append('file', this.respostas['multimedia'][0]['link']);
+          form.append('file', this.multimedia[0]['link']);
         }
 
         if (document.getElementById("tipo" + perguntaId).value === "multiple") {
@@ -4200,6 +4264,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + perguntaId).text("Uma pergunta tem de ter pelo menos 2 respostas").css('color', 'red').css('opacity', '1');
           } else if (!flag) {
             jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + perguntaId).text("Indique a resposta certa").css('color', 'red').css('opacity', '1');
+          } else if (document.getElementById(corret).value.trim().length === 0) {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + perguntaId).text("Não pode escolher uma resposta vazia como correta!!").css('color', 'red').css('opacity', '1');
           } else {
             form.append('array', JSON.stringify(array));
             form.append('resposta', document.getElementById(corret).value);
@@ -4221,19 +4287,23 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             form.append('resposta', corret);
             this.send(form, perguntaId);
           }
-        } else if (document.getElementById("tipo" + top).value === "multiple-select") {
-          var opcoes = jquery__WEBPACK_IMPORTED_MODULE_0___default()('input[name="corret' + top + '[]"]:checked');
+        } else if (document.getElementById("tipo" + perguntaId).value === "multiple-select") {
+          var opcoes = jquery__WEBPACK_IMPORTED_MODULE_0___default()('input[name="corret' + perguntaId + '[]"]:checked');
           var opcoesEscolhidas = [];
           var respostas = [];
           var guardarOpcoes = true;
 
           if (opcoes.length <= 1) {
-            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + top).text("Escolha duas ou mais opções corretas!!").css('color', 'red').css('opacity', '1');
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + perguntaId).text("Escolha duas ou mais opções corretas!!").css('color', 'red').css('opacity', '1');
           } else {
             for (var _i2 = 0; _i2 < opcoes.length; _i2++) {
               opcoesEscolhidas[_i2] = opcoes[_i2].value;
 
-              if (document.getElementById("rem" + (_i2 + 1) + perguntaId).value.length === 0) {
+              if (document.getElementById(opcoes[_i2].value).value.length === 0) {
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + perguntaId).text("Não pode escolher uma opção vazia como certa!!").css('color', 'red').css('opacity', '1');
+                guardarOpcoes = false;
+                break;
+              } else if (document.getElementById("rem" + (_i2 + 1) + perguntaId).value.length === 0) {
                 jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + perguntaId).text("Não pode escolher uma opção vazia como certa!!").css('color', 'red').css('opacity', '1');
                 guardarOpcoes = false;
                 break;
@@ -4264,8 +4334,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }
     },
     send: function send(form, perguntaID) {
-      console.log(form.values());
-
       var _iterator = _createForOfIteratorHelper(form.entries()),
           _step;
 
@@ -4283,32 +4351,30 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       axios__WEBPACK_IMPORTED_MODULE_1___default().post('/prof/pergunta/' + perguntaID + '/editar', form).then(function (response) {
         if (response.data.message === "erro") {
           alert("Erro a inserir a pergunta");
-        } else {
-          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit' + top).prop('disabled', false);
-          this.modal.hide(); // this.toastPergunta.show();
+        } else {//  $('#submit' + top).prop('disabled', false);
+          // this.toastPergunta.show();
+          //this.$root.$emit('ShowToastPergunta', 3);
+          // $('#toast-pergunta').removeClass('d-none');
+        } // document.getElementById("pergunta" + top).value = ""
+        // document.getElementById("file" + top).value = ""
 
-          this.$root.$emit('ShowToastPergunta', 3);
-          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#toast-pergunta').removeClass('d-none');
-        }
-
-        document.getElementById("pergunta" + top).value = "";
-        document.getElementById("file" + top).value = "";
       }.bind(this));
     },
     fileType: function fileType(tipo) {
-      if (tipo === 2) {
+      if (tipo === 3) {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#inputLink').show();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#dropdownFile').addClass('btn-file-hide');
-        this.tipoFicheiro = 2;
+        this.tipoFicheiro = 3;
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#imagem-div').hide();
       } else if (tipo === 1) {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#inputLink').hide();
         this.tipoFicheiro = 1;
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#dropdownFile').addClass('btn-file');
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#imagem-div').show();
+        this.temImagem = true;
       } else if (tipo === 2) {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#inputLink').hide();
-        this.tipoFicheiro = 1;
+        this.tipoFicheiro = 2;
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#dropdownFile').addClass('btn-file');
       }
     },
@@ -4319,6 +4385,15 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         _this.respostas = response.data.message;
         console.log(_this.respostas);
         _this.isFetching = false;
+      });
+    },
+    getMultimedia: function getMultimedia(id) {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get('/prof/getMultimedia/' + id).then(function (response) {
+        _this2.multimedia = response.data.message;
+        console.log(_this2.multimedia[0]);
+        _this2.isFetchingM = false;
       });
     },
     alter: function alter() {
@@ -4344,6 +4419,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   mounted: function mounted() {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#inputLink').hide();
     this.getRespostas(this.pergunta['id']);
+    this.getMultimedia(this.pergunta['id']);
     var pergunta = this.pergunta;
     var id = "trueFalse" + pergunta['id'];
     var id2 = "multiple" + pergunta['id'];
@@ -45886,7 +45962,7 @@ var render = function() {
                                 _c(
                                   "button",
                                   {
-                                    staticClass: "btn btn-secondary",
+                                    staticClass: "btn btn-secondary ",
                                     attrs: {
                                       type: "button",
                                       "data-bs-dismiss": "modal"
@@ -45902,7 +45978,8 @@ var render = function() {
                                 _c(
                                   "button",
                                   {
-                                    staticClass: "btn btn-primary eliminar-btn",
+                                    staticClass:
+                                      "btn btn-primary eliminar-btn btn-loading",
                                     attrs: {
                                       type: "button",
                                       id:
@@ -45922,7 +45999,7 @@ var render = function() {
                                     _vm._v(" "),
                                     _c("div", {
                                       staticClass:
-                                        "spinner-border text-light d-none btn-loading",
+                                        "spinner-border text-light d-none ",
                                       attrs: { role: "status" }
                                     })
                                   ]
@@ -46876,9 +46953,9 @@ var render = function() {
               attrs: { file: "file" + _vm.pergunta["id"] }
             }),
             _vm._v(" "),
-            !_vm.isFetching
+            !_vm.isFetchingM
               ? _c("div", [
-                  _vm.respostas["multimedia"][0]["link"] !== null
+                  _vm.multimedia[0]["link"] !== null
                     ? _c("div", { attrs: { id: "imagem-div" } }, [
                         _vm.fileCheck() === 1
                           ? _c("div", { staticClass: "text-center" }, [
@@ -46887,7 +46964,7 @@ var render = function() {
                                 attrs: {
                                   src:
                                     "/images/Pergunta/Multimedia/" +
-                                    _vm.respostas["multimedia"][0]["link"],
+                                    _vm.multimedia[0]["link"],
                                   alt: "imagem da pergunta",
                                   height: "40%",
                                   width: "40%",
@@ -46896,7 +46973,24 @@ var render = function() {
                               })
                             ])
                           : _vm.fileCheck() === 2
-                          ? _c("div", { staticClass: "text-center" })
+                          ? _c("div", { staticClass: "text-center" }, [
+                              _vm.temImagem
+                                ? _c("div", [
+                                    _c("img", {
+                                      staticClass: "mx-auto mb-4",
+                                      attrs: {
+                                        src:
+                                          "/images/Pergunta/Multimedia/" +
+                                          _vm.multimedia[0]["link"],
+                                        alt: "imagem da pergunta",
+                                        height: "40%",
+                                        width: "40%",
+                                        id: "imagem"
+                                      }
+                                    })
+                                  ])
+                                : _vm._e()
+                            ])
                           : _vm.fileCheck() === 3
                           ? _c("div", { staticClass: "text-center" }, [
                               _c("audio", { attrs: { controls: "" } }, [
@@ -46905,19 +46999,51 @@ var render = function() {
                                     id: "questionMultiAudio",
                                     src:
                                       "/images/Pergunta/Multimedia/" +
-                                      _vm.respostas["multimedia"][0]["link"],
+                                      _vm.multimedia[0]["link"],
                                     type: ""
                                   }
                                 })
-                              ])
+                              ]),
+                              _vm._v(" "),
+                              _vm.temImagem
+                                ? _c("div", [
+                                    _c("img", {
+                                      staticClass: "mx-auto mb-4",
+                                      attrs: {
+                                        src:
+                                          "/images/Pergunta/Multimedia/" +
+                                          _vm.multimedia[0]["link"],
+                                        alt: "imagem da pergunta",
+                                        height: "40%",
+                                        width: "40%",
+                                        id: "imagem"
+                                      }
+                                    })
+                                  ])
+                                : _vm._e()
                             ])
                           : _vm.fileCheck() === 0
-                          ? _c("div", {
-                              staticStyle: { "min-height": "30rem" }
-                            })
+                          ? _c("div")
                           : _vm._e()
                       ])
-                    : _vm._e()
+                    : _c("div", [
+                        _vm.temImagem
+                          ? _c("div", [
+                              _c("img", {
+                                staticClass: "mx-auto mb-4",
+                                attrs: {
+                                  src:
+                                    "/images/Pergunta/Multimedia/" +
+                                    _vm.multimedia[0]["link"],
+                                  alt: "imagem da pergunta",
+                                  height: "40%",
+                                  width: "40%",
+                                  id: "imagem"
+                                }
+                              })
+                            ])
+                          : _vm._e()
+                      ])
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -46951,7 +47077,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n                                    Adicionar ficheiro\n                                "
+                        "\n                                Adicionar ficheiro\n                            "
                       )
                     ]
                   ),
@@ -47002,7 +47128,7 @@ var render = function() {
                             staticClass: "dropdown-item",
                             on: {
                               click: function($event) {
-                                return _vm.fileType(2)
+                                return _vm.fileType(3)
                               }
                             }
                           },
@@ -47020,9 +47146,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 text-center" }, [
             _c("label", { attrs: { for: "tipo" + _vm.pergunta["id"] } }, [
-              _vm._v(
-                "\n                            Indique o tipo de pergunta"
-              ),
+              _vm._v("\n                        Indique o tipo de pergunta"),
               _c("br"),
               _vm._v(" "),
               _c(
@@ -47047,7 +47171,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "Seleção\n                                    Única\n                                "
+                        "Seleção\n                                Única\n                            "
                       )
                     ]
                   ),
@@ -47060,11 +47184,7 @@ var render = function() {
                         selected: _vm.pergunta["tipo"] === "multiple-select"
                       }
                     },
-                    [
-                      _vm._v(
-                        "Seleção Múltipla\n                                "
-                      )
-                    ]
+                    [_vm._v("Seleção Múltipla\n                            ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -47077,7 +47197,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n                                    Verdadeiro/Falso\n                                "
+                        "\n                                Verdadeiro/Falso\n                            "
                       )
                     ]
                   )
@@ -47088,9 +47208,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 text-center" }, [
             _c("label", { attrs: { for: "tempo" + _vm.pergunta["id"] } }, [
-              _vm._v(
-                "\n                            Indique o tempo de pergunta"
-              ),
+              _vm._v("\n                        Indique o tempo de pergunta"),
               _c("br"),
               _vm._v(" "),
               _c(
@@ -47153,7 +47271,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "1 minuto e 30 segundos\n                                "
+                        "1 minuto e 30 segundos\n                            "
                       )
                     ]
                   ),
@@ -47182,7 +47300,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 text-center" }, [
             _c("label", { attrs: { for: "pontos" + _vm.pergunta["id"] } }, [
-              _vm._v("\n                            Indique a pontuação"),
+              _vm._v("\n                        Indique a pontuação"),
               _c("br"),
               _vm._v(" "),
               _c(
@@ -47209,7 +47327,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "Pontos\n                                    duplos\n                                "
+                        "Pontos\n                                duplos\n                            "
                       )
                     ]
                   ),
@@ -47220,7 +47338,7 @@ var render = function() {
                       attrs: { value: "Sem pontos" },
                       domProps: { selected: _vm.pergunta["valor"] === 0 }
                     },
-                    [_vm._v("Sem pontos\n                                ")]
+                    [_vm._v("Sem pontos\n                            ")]
                   )
                 ]
               )
@@ -47252,46 +47370,11 @@ var render = function() {
               },
               [
                 !_vm.isFetching
-                  ? _c("div", [
-                      _c(
-                        "div",
-                        { staticClass: "input-group mb-3 insertAnsewr" },
-                        [
-                          _c("input", {
-                            staticClass: " form-control",
-                            staticStyle: { border: "none" },
-                            attrs: {
-                              type: "text",
-                              id: "re1" + _vm.pergunta["id"],
-                              "aria-label": "Text input with radio button",
-                              placeholder: "Opção 1"
-                            },
-                            domProps: {
-                              value:
-                                _vm.pergunta["tipo"] === "multiple"
-                                  ? _vm.respostas[0]["resposta"]
-                                  : ""
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "input-group-text" }, [
-                            _c("input", {
-                              staticClass: "form-check-input",
-                              attrs: {
-                                type: "radio",
-                                name: "corret" + _vm.pergunta["id"]
-                              },
-                              domProps: {
-                                value: "re1",
-                                checked: _vm.respostas[0]["resultado"] === 1
-                              }
-                            })
-                          ])
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _vm.pergunta["tipo"] !== "true/false"
-                        ? _c("div", [
+                  ? _c(
+                      "div",
+                      [
+                        _vm._l(_vm.respostas, function(resposta, index) {
+                          return _c("div", [
                             _c(
                               "div",
                               { staticClass: "input-group mb-3 insertAnsewr" },
@@ -47301,15 +47384,15 @@ var render = function() {
                                   staticStyle: { border: "none" },
                                   attrs: {
                                     type: "text",
-                                    id: "re2" + _vm.pergunta["id"],
+                                    id: "re" + (index + 1) + _vm.pergunta["id"],
                                     "aria-label":
                                       "Text input with radio button",
-                                    placeholder: "Opção 2"
+                                    placeholder: "Opção" + (index + 1)
                                   },
                                   domProps: {
                                     value:
                                       _vm.pergunta["tipo"] === "multiple"
-                                        ? _vm.respostas[1]["resposta"]
+                                        ? resposta["resposta"]
                                         : ""
                                   }
                                 }),
@@ -47322,182 +47405,89 @@ var render = function() {
                                       name: "corret" + _vm.pergunta["id"]
                                     },
                                     domProps: {
-                                      value: "re2" + _vm.pergunta["id"],
-                                      checked:
-                                        _vm.respostas[1]["resultado"] === 1
-                                    }
-                                  })
-                                ])
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "input-group mb-3 insertAnsewr" },
-                              [
-                                _c("input", {
-                                  staticClass: " form-control",
-                                  staticStyle: { border: "none" },
-                                  attrs: {
-                                    type: "text",
-                                    id: "re3" + _vm.pergunta["id"],
-                                    "aria-label":
-                                      "Text input with radio button",
-                                    placeholder: "Opção 3"
-                                  },
-                                  domProps: {
-                                    value:
-                                      _vm.pergunta["tipo"] === "multiple"
-                                        ? _vm.respostas[2]["resposta"]
-                                        : ""
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "input-group-text" }, [
-                                  _c("input", {
-                                    staticClass: "form-check-input",
-                                    attrs: {
-                                      type: "radio",
-                                      name: "corret" + _vm.pergunta["id"]
-                                    },
-                                    domProps: {
-                                      value: "re3" + _vm.pergunta["id"],
-                                      checked:
-                                        _vm.respostas[2]["resultado"] === 1
-                                    }
-                                  })
-                                ])
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "input-group mb-3 insertAnsewr" },
-                              [
-                                _c("input", {
-                                  staticClass: " form-control",
-                                  staticStyle: { border: "none" },
-                                  attrs: {
-                                    type: "text",
-                                    id: "re4" + _vm.pergunta["id"],
-                                    "aria-label":
-                                      "Text input with radio button",
-                                    placeholder: "Opção 4"
-                                  },
-                                  domProps: {
-                                    value:
-                                      _vm.pergunta["tipo"] === "multiple"
-                                        ? _vm.respostas[3]["resposta"]
-                                        : ""
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "input-group-text" }, [
-                                  _c("input", {
-                                    staticClass: "form-check-input",
-                                    attrs: {
-                                      type: "radio",
-                                      name: "corret" + _vm.pergunta["id"]
-                                    },
-                                    domProps: {
-                                      value: "re4" + _vm.pergunta["id"],
-                                      checked:
-                                        _vm.respostas[3]["resultado"] === 1
+                                      value:
+                                        "re" + (index + 1) + _vm.pergunta["id"],
+                                      checked: resposta["resultado"] === 1
                                     }
                                   })
                                 ])
                               ]
                             )
                           ])
-                        : _c("div", [
-                            _c(
+                        }),
+                        _vm._v(" "),
+                        _vm.respostas.length < 4
+                          ? _c(
                               "div",
-                              { staticClass: "input-group mb-3 insertAnsewr" },
-                              [
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass: "input-group mb-3 insertAnsewr"
-                                  },
-                                  [
-                                    _c("input", {
-                                      staticClass: " form-control",
-                                      staticStyle: { border: "none" },
-                                      attrs: {
-                                        type: "text",
-                                        id: "re2" + _vm.pergunta["id"],
-                                        "aria-label":
-                                          "Text input with radio button",
-                                        placeholder: "Opção 2"
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "div",
-                                      { staticClass: "input-group-text" },
-                                      [
-                                        _c("input", {
-                                          staticClass: "form-check-input",
-                                          attrs: {
-                                            type: "radio",
-                                            name: "corret" + _vm.pergunta["id"]
-                                          },
-                                          domProps: {
-                                            value: "re2" + _vm.pergunta["id"]
-                                          }
-                                        })
-                                      ]
-                                    )
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c("input", {
-                                  staticClass: " form-control",
-                                  staticStyle: { border: "none" },
-                                  attrs: {
-                                    type: "text",
-                                    id: "re3" + _vm.pergunta["id"],
-                                    "aria-label":
-                                      "Text input with radio button",
-                                    placeholder: "Opção 3"
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "input-group-text" }, [
-                                  _c("input", {
-                                    staticClass: "form-check-input",
-                                    attrs: {
-                                      type: "radio",
-                                      name: "corret" + _vm.pergunta["id"]
+                              _vm._l(4 - _vm.respostas.length, function(
+                                resposta,
+                                index
+                              ) {
+                                return _c("div", [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "input-group mb-3 insertAnsewr"
                                     },
-                                    domProps: {
-                                      value: "re3" + _vm.pergunta["id"]
-                                    }
-                                  })
+                                    [
+                                      _c("input", {
+                                        staticClass: " form-control",
+                                        staticStyle: { border: "none" },
+                                        attrs: {
+                                          type: "text",
+                                          id:
+                                            "re" +
+                                            (index + _vm.respostas.length + 1) +
+                                            _vm.pergunta["id"],
+                                          "aria-label":
+                                            "Text input with radio button",
+                                          placeholder:
+                                            "Opção" +
+                                            (index + _vm.respostas.length + 1)
+                                        },
+                                        domProps: {
+                                          value:
+                                            _vm.pergunta["tipo"] === "multiple"
+                                              ? resposta["resposta"]
+                                              : ""
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        { staticClass: "input-group-text" },
+                                        [
+                                          _c("input", {
+                                            staticClass: "form-check-input",
+                                            attrs: {
+                                              type: "radio",
+                                              name:
+                                                "corret" + _vm.pergunta["id"]
+                                            },
+                                            domProps: {
+                                              value:
+                                                "re" +
+                                                (index +
+                                                  _vm.respostas.length +
+                                                  1) +
+                                                _vm.pergunta["id"],
+                                              checked:
+                                                resposta["resultado"] === 1
+                                            }
+                                          })
+                                        ]
+                                      )
+                                    ]
+                                  )
                                 ])
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "input-group mb-3 insertAnsewr" },
-                              [
-                                _c("div", { staticClass: "input-group-text" }, [
-                                  _c("input", {
-                                    staticClass: "form-check-input",
-                                    attrs: {
-                                      type: "radio",
-                                      name: "corret" + _vm.pergunta["id"]
-                                    },
-                                    domProps: {
-                                      value: "re4" + _vm.pergunta["id"]
-                                    }
-                                  })
-                                ])
-                              ]
+                              }),
+                              0
                             )
-                          ])
-                    ])
+                          : _vm._e()
+                      ],
+                      2
+                    )
                   : _vm._e()
               ]
             )
@@ -47510,7 +47500,7 @@ var render = function() {
                     _c("div", { staticClass: "mb-5 mt-5" }, [
                       _c("label", { staticClass: "label-tf" }, [
                         _vm._v(
-                          "Verdadeira\n                                        "
+                          "Verdadeira\n                                    "
                         ),
                         _c("input", {
                           attrs: {
@@ -47529,9 +47519,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", [
                       _c("label", { staticClass: "label-tf" }, [
-                        _vm._v(
-                          "Falsa\n                                        "
-                        ),
+                        _vm._v("Falsa\n                                    "),
                         _c("input", {
                           attrs: {
                             type: "radio",
@@ -47562,7 +47550,129 @@ var render = function() {
               },
               [
                 !_vm.isFetching
-                  ? _c("div", [
+                  ? _c(
+                      "div",
+                      [
+                        _vm._l(_vm.respostas, function(resposta, index) {
+                          return _c("div", [
+                            _c(
+                              "div",
+                              { staticClass: "input-group mb-3 insertAnsewr" },
+                              [
+                                _c("input", {
+                                  staticClass: " form-control",
+                                  staticStyle: { border: "none" },
+                                  attrs: {
+                                    type: "text",
+                                    id:
+                                      "rem" + (index + 1) + _vm.pergunta["id"],
+                                    "aria-label":
+                                      "Text input with radio button",
+                                    placeholder: "Opção" + (index + 1)
+                                  },
+                                  domProps: {
+                                    value:
+                                      _vm.pergunta["tipo"] === "multiple-select"
+                                        ? resposta["resposta"]
+                                        : ""
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "input-group-text" }, [
+                                  _c("input", {
+                                    staticClass: "form-check-input",
+                                    attrs: {
+                                      type: "checkbox",
+                                      name: "corret" + _vm.pergunta["id"] + "[]"
+                                    },
+                                    domProps: {
+                                      checked: resposta["resultado"] === 1,
+                                      value:
+                                        "rem" + (index + 1) + _vm.pergunta["id"]
+                                    }
+                                  })
+                                ])
+                              ]
+                            )
+                          ])
+                        }),
+                        _vm._v(" "),
+                        _vm.respostas.length < 4
+                          ? _c(
+                              "div",
+                              _vm._l(4 - _vm.respostas.length, function(
+                                resposta,
+                                index
+                              ) {
+                                return _c("div", [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "input-group mb-3 insertAnsewr"
+                                    },
+                                    [
+                                      _c("input", {
+                                        staticClass: " form-control",
+                                        staticStyle: { border: "none" },
+                                        attrs: {
+                                          type: "text",
+                                          id:
+                                            "rem" +
+                                            (index + _vm.respostas.length + 1) +
+                                            _vm.pergunta["id"],
+                                          "aria-label":
+                                            "Text input with radio button",
+                                          placeholder:
+                                            "Opção" +
+                                            (index + _vm.respostas.length + 1)
+                                        },
+                                        domProps: {
+                                          value:
+                                            _vm.pergunta["tipo"] ===
+                                            "multiple-select"
+                                              ? resposta["resposta"]
+                                              : ""
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        { staticClass: "input-group-text" },
+                                        [
+                                          _c("input", {
+                                            staticClass: "form-check-input",
+                                            attrs: {
+                                              type: "checkbox",
+                                              name:
+                                                "corret" +
+                                                _vm.pergunta["id"] +
+                                                "[]"
+                                            },
+                                            domProps: {
+                                              checked:
+                                                resposta["resultado"] === 1,
+                                              value:
+                                                "rem" +
+                                                (index +
+                                                  _vm.respostas.length +
+                                                  1) +
+                                                _vm.pergunta["id"]
+                                            }
+                                          })
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ])
+                              }),
+                              0
+                            )
+                          : _vm._e()
+                      ],
+                      2
+                    )
+                  : _c("div", [
                       _c(
                         "div",
                         { staticClass: "input-group mb-3 insertAnsewr" },
@@ -47572,15 +47682,9 @@ var render = function() {
                             staticStyle: { border: "none" },
                             attrs: {
                               type: "text",
-                              id: "rem1" + _vm.pergunta["id"],
+                              id: "rem2" + _vm.pergunta["id"],
                               "aria-label": "Text input with radio button",
-                              placeholder: "Opção 1"
-                            },
-                            domProps: {
-                              value:
-                                _vm.pergunta["tipo"] === "multiple-select"
-                                  ? _vm.respostas[0]["resposta"]
-                                  : ""
+                              placeholder: "Opção 2"
                             }
                           }),
                           _vm._v(" "),
@@ -47591,271 +47695,109 @@ var render = function() {
                                 type: "checkbox",
                                 name: "corret" + _vm.pergunta["id"] + "[]"
                               },
-                              domProps: {
-                                checked: _vm.respostas[0]["resultado"] === 1,
-                                value: "re1" + _vm.pergunta["id"]
-                              }
+                              domProps: { value: "re2" + _vm.pergunta["id"] }
                             })
                           ])
                         ]
                       ),
                       _vm._v(" "),
-                      _vm.pergunta["tipo"] !== "true/false"
-                        ? _c("div", [
-                            _c(
-                              "div",
-                              { staticClass: "input-group mb-3 insertAnsewr" },
-                              [
-                                _c("input", {
-                                  staticClass: " form-control",
-                                  staticStyle: { border: "none" },
-                                  attrs: {
-                                    type: "text",
-                                    id: "rem2" + _vm.pergunta["id"],
-                                    "aria-label":
-                                      "Text input with radio button",
-                                    placeholder: "Opção 2"
-                                  },
-                                  domProps: {
-                                    value:
-                                      _vm.pergunta["tipo"] === "multiple-select"
-                                        ? _vm.respostas[1]["resposta"]
-                                        : ""
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "input-group-text" }, [
-                                  _c("input", {
-                                    staticClass: "form-check-input",
-                                    attrs: {
-                                      type: "checkbox",
-                                      name: "corret" + _vm.pergunta["id"] + "[]"
-                                    },
-                                    domProps: {
-                                      checked:
-                                        _vm.respostas[1]["resultado"] === 1,
-                                      value: "re2" + _vm.pergunta["id"]
-                                    }
-                                  })
-                                ])
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "input-group mb-3 insertAnsewr" },
-                              [
-                                _c("input", {
-                                  staticClass: " form-control",
-                                  staticStyle: { border: "none" },
-                                  attrs: {
-                                    type: "text",
-                                    id: "rem3" + _vm.pergunta["id"],
-                                    "aria-label":
-                                      "Text input with radio button",
-                                    placeholder: "Opção 3"
-                                  },
-                                  domProps: {
-                                    value:
-                                      _vm.pergunta["tipo"] === "multiple-select"
-                                        ? _vm.respostas[2]["resposta"]
-                                        : ""
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "input-group-text" }, [
-                                  _c("input", {
-                                    staticClass: "form-check-input",
-                                    attrs: {
-                                      type: "checkbox",
-                                      name: "corret" + _vm.pergunta["id"] + "[]"
-                                    },
-                                    domProps: {
-                                      value: "re3" + _vm.pergunta["id"],
-                                      checked:
-                                        _vm.respostas[1]["resultado"] === 1
-                                    }
-                                  })
-                                ])
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "input-group mb-3 insertAnsewr" },
-                              [
-                                _c("input", {
-                                  staticClass: " form-control",
-                                  staticStyle: { border: "none" },
-                                  attrs: {
-                                    type: "text",
-                                    id: "rem4" + _vm.pergunta["id"],
-                                    "aria-label":
-                                      "Text input with radio button",
-                                    placeholder: "Opção 4"
-                                  },
-                                  domProps: {
-                                    value:
-                                      _vm.pergunta["tipo"] === "multiple-select"
-                                        ? _vm.respostas[3]["resposta"]
-                                        : ""
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "input-group-text" }, [
-                                  _c("input", {
-                                    staticClass: "form-check-input",
-                                    attrs: {
-                                      type: "checkbox",
-                                      name: "corret" + _vm.pergunta["id"] + "[]"
-                                    },
-                                    domProps: {
-                                      value: "re4" + _vm.pergunta["id"],
-                                      checked:
-                                        _vm.respostas[1]["resultado"] === 1
-                                    }
-                                  })
-                                ])
-                              ]
-                            )
+                      _c(
+                        "div",
+                        { staticClass: "input-group mb-3 insertAnsewr" },
+                        [
+                          _c("input", {
+                            staticClass: " form-control",
+                            staticStyle: { border: "none" },
+                            attrs: {
+                              type: "text",
+                              id: "rem3" + _vm.pergunta["id"],
+                              "aria-label": "Text input with radio button",
+                              placeholder: "Opção 3"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "input-group-text" }, [
+                            _c("input", {
+                              staticClass: "form-check-input",
+                              attrs: {
+                                type: "checkbox",
+                                name: "corret" + _vm.pergunta["id"] + "[]"
+                              },
+                              domProps: { value: "re3" + _vm.pergunta["id"] }
+                            })
                           ])
-                        : _c("div", [
-                            _c(
-                              "div",
-                              { staticClass: "input-group mb-3 insertAnsewr" },
-                              [
-                                _c("input", {
-                                  staticClass: " form-control",
-                                  staticStyle: { border: "none" },
-                                  attrs: {
-                                    type: "text",
-                                    id: "rem2" + _vm.pergunta["id"],
-                                    "aria-label":
-                                      "Text input with radio button",
-                                    placeholder: "Opção 2"
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "input-group-text" }, [
-                                  _c("input", {
-                                    staticClass: "form-check-input",
-                                    attrs: {
-                                      type: "checkbox",
-                                      name: "corret" + _vm.pergunta["id"] + "[]"
-                                    },
-                                    domProps: {
-                                      value: "re2" + _vm.pergunta["id"]
-                                    }
-                                  })
-                                ])
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "input-group mb-3 insertAnsewr" },
-                              [
-                                _c("input", {
-                                  staticClass: " form-control",
-                                  staticStyle: { border: "none" },
-                                  attrs: {
-                                    type: "text",
-                                    id: "rem3" + _vm.pergunta["id"],
-                                    "aria-label":
-                                      "Text input with radio button",
-                                    placeholder: "Opção 3"
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "input-group-text" }, [
-                                  _c("input", {
-                                    staticClass: "form-check-input",
-                                    attrs: {
-                                      type: "checkbox",
-                                      name: "corret" + _vm.pergunta["id"] + "[]"
-                                    },
-                                    domProps: {
-                                      value: "re3" + _vm.pergunta["id"]
-                                    }
-                                  })
-                                ])
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "input-group mb-3 insertAnsewr" },
-                              [
-                                _c("input", {
-                                  staticClass: " form-control",
-                                  staticStyle: { border: "none" },
-                                  attrs: {
-                                    type: "text",
-                                    id: "rem4" + _vm.pergunta["id"],
-                                    "aria-label":
-                                      "Text input with radio button",
-                                    placeholder: "Opção 4"
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "input-group-text" }, [
-                                  _c("input", {
-                                    staticClass: "form-check-input",
-                                    attrs: {
-                                      type: "checkbox",
-                                      name: "corret" + _vm.pergunta["id"] + "[]"
-                                    },
-                                    domProps: {
-                                      value: "re4" + _vm.pergunta["id"]
-                                    }
-                                  })
-                                ])
-                              ]
-                            )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "input-group mb-3 insertAnsewr" },
+                        [
+                          _c("input", {
+                            staticClass: " form-control",
+                            staticStyle: { border: "none" },
+                            attrs: {
+                              type: "text",
+                              id: "rem4" + _vm.pergunta["id"],
+                              "aria-label": "Text input with radio button",
+                              placeholder: "Opção 4"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "input-group-text" }, [
+                            _c("input", {
+                              staticClass: "form-check-input",
+                              attrs: {
+                                type: "checkbox",
+                                name: "corret" + _vm.pergunta["id"] + "[]"
+                              },
+                              domProps: { value: "re4" + _vm.pergunta["id"] }
+                            })
                           ])
+                        ]
+                      )
                     ])
-                  : _vm._e()
               ]
             )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("p", { attrs: { id: "RError" + _vm.pergunta["id"] } })
           ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "text-end mt-5" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-secondary",
-            attrs: { type: "button", "data-bs-dismiss": "modal" }
-          },
-          [_vm._v("Sair\n                ")]
-        ),
+        ]),
         _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-primary ms-3 btn-loading",
-            attrs: { type: "button", id: "submit" },
-            on: {
-              click: function($event) {
-                return _vm.submit(_vm.pergunta["id"])
-              }
-            }
-          },
-          [
-            _c("span", {}, [_vm._v("Guardar")]),
-            _vm._v(" "),
-            _c("div", {
-              staticClass: "spinner-border text-light d-none",
-              attrs: { role: "status" }
-            })
-          ]
-        )
+        _c("div", { staticClass: "col-md-12" }, [
+          _c("p", { attrs: { id: "RError" + _vm.pergunta["id"] } })
+        ])
       ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "text-end mt-5" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          attrs: { type: "button", "data-bs-dismiss": "modal" }
+        },
+        [_vm._v("Sair\n        ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary ms-3 btn-loading",
+          attrs: { type: "button", id: "submit" },
+          on: {
+            click: function($event) {
+              return _vm.submit(_vm.pergunta["id"])
+            }
+          }
+        },
+        [
+          _c("span", {}, [_vm._v("Guardar")]),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "spinner-border text-light d-none",
+            attrs: { role: "status" }
+          })
+        ]
+      )
     ])
   ])
 }
@@ -51286,7 +51228,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("True\n                        ")]
+                            [_vm._v("True\r\n                        ")]
                           )
                         ]),
                         _vm._v(" "),
@@ -51302,7 +51244,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("False\n                        ")]
+                            [_vm._v("False\r\n                        ")]
                           )
                         ])
                       ])
@@ -51317,7 +51259,7 @@ var render = function() {
                                 { staticClass: "selecao-mul mx-auto" },
                                 [
                                   _vm._v(
-                                    "\n                         Respostas"
+                                    "\r\n                         Respostas"
                                   ),
                                   _c("span", [
                                     _vm._v(
@@ -51327,7 +51269,7 @@ var render = function() {
                                   _vm._v(
                                     "  / " +
                                       _vm._s(_vm.respostasMultiplas.length) +
-                                      "\n            "
+                                      "\r\n            "
                                   )
                                 ]
                               )
@@ -51358,7 +51300,7 @@ var render = function() {
                               _vm._v(
                                 " " +
                                   _vm._s(_vm.multipleQuestion[0]) +
-                                  "\n                        "
+                                  "\r\n                        "
                               )
                             ]
                           )
@@ -51388,7 +51330,7 @@ var render = function() {
                               _vm._v(
                                 " " +
                                   _vm._s(_vm.multipleQuestion[1]) +
-                                  "\n                        "
+                                  "\r\n                        "
                               )
                             ]
                           )
@@ -51417,7 +51359,7 @@ var render = function() {
                             [
                               _vm._v(
                                 _vm._s(_vm.multipleQuestion[2]) +
-                                  "\n                             \n                        "
+                                  "\r\n                             \r\n                        "
                               )
                             ]
                           )
@@ -51446,7 +51388,7 @@ var render = function() {
                             [
                               _vm._v(
                                 _vm._s(_vm.multipleQuestion[3]) +
-                                  "\n                             \n                        "
+                                  "\r\n                             \r\n                        "
                               )
                             ]
                           )
@@ -51461,7 +51403,7 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { attrs: { id: "resultado" } }, [
-      _vm._v("\n        " + _vm._s(_vm.resultado) + "\n    ")
+      _vm._v("\r\n        " + _vm._s(_vm.resultado) + "\r\n    ")
     ])
   ])
 }
