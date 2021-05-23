@@ -7019,6 +7019,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -7030,9 +7033,9 @@ __webpack_require__.r(__webpack_exports__);
       student: {
         usersId: [],
         users: [],
-        points: []
+        points: [],
+        resposta: []
       },
-      resposta: [],
       students: 0,
       couter: 0,
       index: 1,
@@ -7090,6 +7093,7 @@ __webpack_require__.r(__webpack_exports__);
         $('#gameMode').show();
         $('#stop').show();
         $('#next').hide();
+        this.student.resposta = [];
       });
     },
     connect: function connect() {
@@ -7106,7 +7110,7 @@ __webpack_require__.r(__webpack_exports__);
 
             _this.student.points.push(0);
 
-            _this.resposta.push("");
+            _this.student.resposta.push("");
 
             _this.students++;
             localStorage.setItem('user', JSON.stringify(_this.student));
@@ -7124,7 +7128,7 @@ __webpack_require__.r(__webpack_exports__);
             localStorage.setItem('user', JSON.stringify(_this.student));
           } else if (e.type === 'NextQuestion') {
             _this.student.points[_this.student.usersId.indexOf(e.userId)] += e.points;
-            _this.resposta[_this.student.usersId.indexOf(e.userId)] = e.answer;
+            _this.student.resposta[_this.student.usersId.indexOf(e.userId)] = e.answer;
             _this.couter++;
 
             if (_this.students === _this.couter) {
@@ -51822,35 +51826,61 @@ var render = function() {
       _c("p", [_vm._v(_vm._s(_vm.student.users))])
     ]),
     _vm._v(" "),
-    _c("div", { attrs: { id: "gameMode" } }, [
-      _c("p", [_vm._v(_vm._s(_vm.Questions))]),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          attrs: { id: "stop" },
-          on: {
-            click: function($event) {
-              return _vm.stopQuestion()
+    _c(
+      "div",
+      { attrs: { id: "gameMode" } },
+      [
+        _c("p", [
+          _vm._v(
+            "Numero de perguntas " +
+              _vm._s(_vm.index) +
+              "/" +
+              _vm._s(_vm.Questions)
+          )
+        ]),
+        _vm._v(" "),
+        _vm._l(_vm.student, function(item) {
+          return _c("div", { key: item }, [
+            _c("p", [
+              _vm._v(
+                _vm._s(item.users) +
+                  " " +
+                  _vm._s(item.points) +
+                  " " +
+                  _vm._s(item.resposta)
+              )
+            ])
+          ])
+        }),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            attrs: { id: "stop" },
+            on: {
+              click: function($event) {
+                return _vm.stopQuestion()
+              }
             }
-          }
-        },
-        [_vm._v("Parar Pergunta")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          attrs: { id: "next" },
-          on: {
-            click: function($event) {
-              return _vm.nextQuestion("next")
+          },
+          [_vm._v("Parar Pergunta")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            attrs: { id: "next" },
+            on: {
+              click: function($event) {
+                return _vm.nextQuestion("next")
+              }
             }
-          }
-        },
-        [_vm._v("Proxima Pergunta")]
-      )
-    ])
+          },
+          [_vm._v("Proxima Pergunta")]
+        )
+      ],
+      2
+    )
   ])
 }
 var staticRenderFns = []

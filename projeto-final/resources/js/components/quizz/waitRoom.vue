@@ -9,7 +9,10 @@
         </div>
 
 <div id="gameMode">
-    <p>{{Questions}}</p>
+    <p>Numero de perguntas {{index}}/{{Questions}}</p>
+    <div v-for="item in student" :key="item">
+            <p>{{item.users}} {{item.points}} {{item.resposta}}</p>
+    </div>
     <button id="stop" @click="stopQuestion()">Parar Pergunta</button>
     <button id="next" @click="nextQuestion('next')">Proxima Pergunta</button>
 
@@ -36,8 +39,9 @@ export default {
                 usersId: [],
                 users: [],
                 points: [],
+                resposta:[],
             },
-            resposta:[],
+
             students: 0,
             couter:0,
             index:1,
@@ -103,7 +107,7 @@ export default {
                 $('#gameMode').show();
                 $('#stop').show();
                 $('#next').hide();
-
+                this.student.resposta=[];
 
             });
         },
@@ -119,7 +123,7 @@ export default {
                             this.student.usersId.push(e.userId)
                             this.student.users.push(e.name)
                             this.student.points.push(0)
-                            this.resposta.push("")
+                            this.student.resposta.push("")
                             this.students++
 
                             localStorage.setItem('user',JSON.stringify(this.student));
@@ -136,7 +140,7 @@ export default {
                         }
                         else if(e.type==='NextQuestion'){
                             this.student.points[this.student.usersId.indexOf(e.userId)]+=e.points;
-                            this.resposta[this.student.usersId.indexOf(e.userId)]=e.answer;
+                            this.student.resposta[this.student.usersId.indexOf(e.userId)]=e.answer;
                             this.couter++
                             if (this.students===this.couter){
                                 this.index++;
