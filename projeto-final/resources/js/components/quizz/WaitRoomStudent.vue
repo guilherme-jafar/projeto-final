@@ -119,6 +119,10 @@
         </div>
         </div>
 </div>
+
+    <div id="tabela" v-show="tabela==='true'" v-for="(item,index) in student" :key="item">
+        <p>{{index}} {{item}} </p>
+    </div>
     <div id="resultado">
         {{resultado}}
     </div>
@@ -137,6 +141,8 @@ export default {
 
     data() {
         return {
+            tabela:'false',
+            student:[],
             status:'',
             timer: '',
             questionType: '',
@@ -172,22 +178,22 @@ export default {
 
     methods: {
         countDownTimer() {
-            // if(this.countDown > 0) {
-            //     this.timer = setTimeout(() => {
-            //         this.countDown -= 1
-            //        localStorage.setItem('timer',this.countDown)
-            //
-            //         this.countDownTimer()
-            //     }, 1000)
-            // }
-            // else if(this.countDown ===0){
-            //     localStorage.setItem('questionStatus','true');
-            //     if (this.pergunta['tipo']==='multiple-select'){
-            //         this.responseMultiplas('erro')
-            //     }else {
-            //         this.response(this.pergunta['tipo'], 'erro')
-            //     }
-            // }
+            if(this.countDown > 0) {
+                this.timer = setTimeout(() => {
+                    this.countDown -= 1
+                   localStorage.setItem('timer',this.countDown)
+
+                    this.countDownTimer()
+                }, 1000)
+            }
+            else if(this.countDown ===0){
+                localStorage.setItem('questionStatus','true');
+                if (this.pergunta['tipo']==='multiple-select'){
+                    this.responseMultiplas('erro')
+                }else {
+                    this.response(this.pergunta['tipo'], 'erro')
+                }
+            }
         },
         sair() {
             localStorage.clear();
@@ -232,7 +238,7 @@ export default {
                             $('.wrapper-wright').hide();
 
                         }
-                        this.resultado += this.res;
+                        this.resultado += parseInt(this.res);
                         clearTimeout(this.timer)
                         this.countDown = 0;
                         let form = new FormData();
@@ -293,7 +299,9 @@ export default {
             }
             return 0;
         },
-
+        timeout(ms) { //pass a time in milliseconds to this function
+            return new Promise(resolve => setTimeout(resolve, ms));
+        },
         connect() {
             window.Echo.private('room.'+this.MasterSessao)
                 .listen('.NewStudent', e => {
@@ -325,7 +333,9 @@ export default {
                            this.getResposta(e.quizzArray,e.Ans)
 
                         }else if (e.type==='NewQuestion'){
-                            $('#game').show();
+                            $('#game').hide();
+                            this.student=e.usr;
+                            this.tabela='true'
                             this.respondeu='false'
                             $('.wrapper').hide();
                             $('.wrapper-wrong').hide();
@@ -334,7 +344,14 @@ export default {
                             localStorage.setItem('ansers',JSON.stringify(e.Ans));
                             localStorage.setItem('resultado',this.resultado)
                             localStorage.setItem('questionStatus',this.respondeu);
-                            this.getResposta(e.quizzArray,e.Ans)
+
+                            var that = this;
+                            setTimeout(function() {
+
+                                $('#game').show();
+                                that.getResposta(e.quizzArray,e.Ans)
+                                that.tabela='false'}, 4000);
+
 
                         }
                         else if (e.type==='stop'){
@@ -372,6 +389,8 @@ export default {
             while (currentDate - date < milliseconds) {
                 currentDate = Date.now();
             }
+
+
         },
         response(type,id) {
             let resposta;
@@ -435,8 +454,7 @@ export default {
             this.pergunta=array;
             var respostas=Ans;
 
-            console.log(this.pergunta)
-            console.log(respostas)
+
             if (this.pergunta['tipo'] === 'true/false') {
                 this.resposta = respostas[0]['resposta']
 
@@ -444,7 +462,7 @@ export default {
 
                 let i;
                 for (i = 0; i < respostas.length; i++) {
-                        console.log(respostas[i]['resposta'])
+
                     if (respostas[i]['resposta'] === " " ) {
                         this.multipleQuestion[i]=null;
 
@@ -463,7 +481,7 @@ export default {
 
             } else if (this.pergunta['tipo'] === 'multiple-select') {
 
-                console.log(respostas)
+
                 this.first = 0;
                 this.respostasMultiplas = [];
                 let i;
@@ -483,6 +501,7 @@ export default {
                     this.multipleQuestion[i]=null;
                 }
             }
+            $('#tabela').hide();
             this.startQuestion();
             $('#quizz').show();
             this.respondeu='false';
@@ -490,6 +509,7 @@ export default {
             this.countDown=this.pergunta['tempo']
             this.countDownTimer();
         },
+
         startQuestion() {
             this.questionType = this.pergunta['tipo']
             this.enunciado = this.pergunta['enunciado']
@@ -503,6 +523,7 @@ export default {
         mounted() {
             $('.wrapper').hide();
             $('#quizz').hide();
+            $('#tabela').hide();
             $('#game').show();
             $('#resultado').hide();
             if (localStorage.getItem('sessao')!=null){

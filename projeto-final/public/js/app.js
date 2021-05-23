@@ -6358,6 +6358,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -6365,6 +6369,8 @@ __webpack_require__.r(__webpack_exports__);
   props: ['sessao_prop', 'id_prop', 'user_prop'],
   data: function data() {
     return {
+      tabela: 'false',
+      student: [],
       status: '',
       timer: '',
       questionType: '',
@@ -6396,22 +6402,25 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    countDownTimer: function countDownTimer() {// if(this.countDown > 0) {
-      //     this.timer = setTimeout(() => {
-      //         this.countDown -= 1
-      //        localStorage.setItem('timer',this.countDown)
-      //
-      //         this.countDownTimer()
-      //     }, 1000)
-      // }
-      // else if(this.countDown ===0){
-      //     localStorage.setItem('questionStatus','true');
-      //     if (this.pergunta['tipo']==='multiple-select'){
-      //         this.responseMultiplas('erro')
-      //     }else {
-      //         this.response(this.pergunta['tipo'], 'erro')
-      //     }
-      // }
+    countDownTimer: function countDownTimer() {
+      var _this = this;
+
+      if (this.countDown > 0) {
+        this.timer = setTimeout(function () {
+          _this.countDown -= 1;
+          localStorage.setItem('timer', _this.countDown);
+
+          _this.countDownTimer();
+        }, 1000);
+      } else if (this.countDown === 0) {
+        localStorage.setItem('questionStatus', 'true');
+
+        if (this.pergunta['tipo'] === 'multiple-select') {
+          this.responseMultiplas('erro');
+        } else {
+          this.response(this.pergunta['tipo'], 'erro');
+        }
+      }
     },
     sair: function sair() {
       localStorage.clear();
@@ -6456,7 +6465,7 @@ __webpack_require__.r(__webpack_exports__);
               jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').hide();
             }
 
-            this.resultado += this.res;
+            this.resultado += parseInt(this.res);
             clearTimeout(this.timer);
             this.countDown = 0;
             var form = new FormData();
@@ -6518,46 +6527,58 @@ __webpack_require__.r(__webpack_exports__);
 
       return 0;
     },
+    timeout: function timeout(ms) {
+      //pass a time in milliseconds to this function
+      return new Promise(function (resolve) {
+        return setTimeout(resolve, ms);
+      });
+    },
     connect: function connect() {
-      var _this = this;
+      var _this2 = this;
 
       window.Echo["private"]('room.' + this.MasterSessao).listen('.NewStudent', function (e) {
-        if (e.Mainsession === _this.MasterSessao) {
+        if (e.Mainsession === _this2.MasterSessao) {
           if (e.type === 'student') {
-            _this.students++;
-            localStorage.setItem('students', _this.students);
+            _this2.students++;
+            localStorage.setItem('students', _this2.students);
           } else if (e.type === 'leaveMaster') {
-            _this.sair();
+            _this2.sair();
           } else if (e.type === 'leavestudent') {
-            _this.students--;
-            localStorage.setItem('students', _this.students);
+            _this2.students--;
+            localStorage.setItem('students', _this2.students);
           } else if (e.type === 'startQuizz') {
             // $('#waitRoom').hide()
-            _this.status = 'game';
-            localStorage.setItem('status', _this.status);
+            _this2.status = 'game';
+            localStorage.setItem('status', _this2.status);
             localStorage.setItem('questions', JSON.stringify(e.quizzArray));
             localStorage.setItem('ansers', JSON.stringify(e.Ans));
-            localStorage.setItem('resultado', _this.resultado);
+            localStorage.setItem('resultado', _this2.resultado);
 
-            _this.getResposta(e.quizzArray, e.Ans);
+            _this2.getResposta(e.quizzArray, e.Ans);
           } else if (e.type === 'NewQuestion') {
-            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').show();
-            _this.respondeu = 'false';
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').hide();
+            _this2.student = e.usr;
+            _this2.tabela = 'true';
+            _this2.respondeu = 'false';
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').hide();
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').hide();
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').hide();
             localStorage.setItem('questions', JSON.stringify(e.quizzArray));
             localStorage.setItem('ansers', JSON.stringify(e.Ans));
-            localStorage.setItem('resultado', _this.resultado);
-            localStorage.setItem('questionStatus', _this.respondeu);
-
-            _this.getResposta(e.quizzArray, e.Ans);
+            localStorage.setItem('resultado', _this2.resultado);
+            localStorage.setItem('questionStatus', _this2.respondeu);
+            var that = _this2;
+            setTimeout(function () {
+              jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').show();
+              that.getResposta(e.quizzArray, e.Ans);
+              that.tabela = 'false';
+            }, 4000);
           } else if (e.type === 'stop') {
-            if (!_this.respondeu) {
-              if (_this.pergunta['tipo'] === 'multiple-select') {
-                _this.responseMultiplas('erro');
+            if (!_this2.respondeu) {
+              if (_this2.pergunta['tipo'] === 'multiple-select') {
+                _this2.responseMultiplas('erro');
               } else {
-                _this.response(_this.pergunta['tipo'], 'erro');
+                _this2.response(_this2.pergunta['tipo'], 'erro');
               }
 
               jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').show();
@@ -6640,8 +6661,6 @@ __webpack_require__.r(__webpack_exports__);
     getResposta: function getResposta(array, Ans) {
       this.pergunta = array;
       var respostas = Ans;
-      console.log(this.pergunta);
-      console.log(respostas);
 
       if (this.pergunta['tipo'] === 'true/false') {
         this.resposta = respostas[0]['resposta'];
@@ -6649,8 +6668,6 @@ __webpack_require__.r(__webpack_exports__);
         var i;
 
         for (i = 0; i < respostas.length; i++) {
-          console.log(respostas[i]['resposta']);
-
           if (respostas[i]['resposta'] === " ") {
             this.multipleQuestion[i] = null;
           } else {
@@ -6666,7 +6683,6 @@ __webpack_require__.r(__webpack_exports__);
           this.multipleQuestion[i] = null;
         }
       } else if (this.pergunta['tipo'] === 'multiple-select') {
-        console.log(respostas);
         this.first = 0;
         this.respostasMultiplas = [];
 
@@ -6692,6 +6708,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
 
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#tabela').hide();
       this.startQuestion();
       jquery__WEBPACK_IMPORTED_MODULE_1___default()('#quizz').show();
       this.respondeu = 'false';
@@ -6709,6 +6726,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').hide();
     jquery__WEBPACK_IMPORTED_MODULE_1___default()('#quizz').hide();
+    jquery__WEBPACK_IMPORTED_MODULE_1___default()('#tabela').hide();
     jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').show();
     jquery__WEBPACK_IMPORTED_MODULE_1___default()('#resultado').hide();
 
@@ -7252,6 +7270,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -7260,12 +7279,11 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       stutus: '',
-      student: {
-        usersId: [],
-        users: [],
-        points: [],
-        resposta: []
-      },
+      usersId: [],
+      users: [],
+      points: [],
+      questionPoints: [],
+      resposta: [],
       students: 0,
       couter: 0,
       index: 1,
@@ -7292,6 +7310,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     stopQuestion: function stopQuestion() {
       this.index++;
+      localStorage.setItem('index', this.index);
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/StopQuestionQuizz').then(function (response) {
         $('#waitRoom').hide();
         $('#gameMode').show();
@@ -7316,6 +7335,8 @@ __webpack_require__.r(__webpack_exports__);
       var form = new FormData();
       form.append('index', this.index);
       form.append('tag', tag);
+      form.append('users', this.users);
+      form.append('points', this.points);
       this.sleep(2000);
       this.couter = 0;
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/NextQuestionQuizz', form).then(function (response) {
@@ -7323,51 +7344,58 @@ __webpack_require__.r(__webpack_exports__);
         $('#gameMode').show();
         $('#stop').show();
         $('#next').hide();
-        this.student.resposta = [];
       });
     },
     connect: function connect() {
       var _this = this;
 
       window.Echo["private"]('room.' + this.sessao).listen('.NewStudent', function (e) {
-        console.log(e.type);
-
         if (e.Mainsession === _this.sessao) {
-          if (!_this.student.usersId.includes(e.userId) && e.type === 'student') {
-            _this.student.usersId.push(e.userId);
+          if (!_this.usersId.includes(e.userId) && e.type === 'student') {
+            _this.usersId.push(e.userId);
 
-            _this.student.users.push(e.name);
+            _this.users.push(e.name);
 
-            _this.student.points.push(0);
+            _this.points.push(0);
 
-            _this.student.resposta.push("");
+            _this.resposta.push("");
 
             _this.students++;
-            localStorage.setItem('user', JSON.stringify(_this.student));
+            localStorage.setItem('user', JSON.stringify(_this.users));
+            localStorage.setItem('userId', JSON.stringify(_this.usersId));
+            localStorage.setItem('pontos', JSON.stringify(_this.points));
             localStorage.setItem('students', _this.students);
           } else if (e.type === 'leavestudent') {
             _this.students--;
 
-            _this.student.usersId.splice(_this.usersId.indexOf(e.userId), 1);
+            _this.usersId.splice(_this.usersId.indexOf(e.userId), 1);
 
-            _this.student.users.splice(_this.users.indexOf(e.name), 1);
+            _this.users.splice(_this.users.indexOf(e.name), 1);
 
-            _this.student.points.splice(_this.users.indexOf(e.name), 1);
+            _this.points.splice(_this.users.indexOf(e.name), 1);
 
             localStorage.setItem('students', _this.students);
-            localStorage.setItem('user', JSON.stringify(_this.student));
+            localStorage.setItem('userId', JSON.stringify(_this.usersId));
+            localStorage.setItem('pontos', JSON.stringify(_this.points));
+            localStorage.setItem('user', JSON.stringify(_this.users));
           } else if (e.type === 'NextQuestion') {
-            _this.student.points[_this.student.usersId.indexOf(e.userId)] += e.points;
-            _this.student.resposta[_this.student.usersId.indexOf(e.userId)] = e.answer;
+            _this.points[_this.usersId.indexOf(e.userId)] += parseInt(e.points);
+            _this.resposta[_this.usersId.indexOf(e.userId)] = e.answer;
+            localStorage.setItem('pontos', JSON.stringify(_this.points));
+            $('#tabela').show();
             _this.couter++;
 
             if (_this.students === _this.couter) {
               _this.index++;
+              localStorage.setItem('index', _this.index);
 
               if (_this.Questions < _this.index) {
                 $('#stop').hide();
                 $('#next').hide();
-                axios__WEBPACK_IMPORTED_MODULE_0___default().post('/EndQuizz').then(function (response) {}.bind(_this));
+                var form = new FormData();
+                form.append('users', _this.users);
+                form.append('points', _this.points);
+                axios__WEBPACK_IMPORTED_MODULE_0___default().post('/EndQuizz', form).then(function (response) {}.bind(_this));
                 localStorage.setItem('status', 'end');
               } else {
                 $('#stop').hide();
@@ -7385,8 +7413,22 @@ __webpack_require__.r(__webpack_exports__);
     this.sessionId = l[l.length - 1];
     this.couter = 0;
 
+    if (localStorage.getItem('sessao')) {
+      this.students = JSON.parse(localStorage.getItem('students'));
+      this.points = JSON.parse(localStorage.getItem('pontos'));
+      this.users = JSON.parse(localStorage.getItem('user'));
+      this.usersId = JSON.parse(localStorage.getItem('userId'));
+    } else {
+      localStorage.setItem('sessao', this.sessao);
+      this.usersId = [];
+      this.users = [];
+      this.points = [];
+      this.students = 0;
+    }
+
     if (localStorage.getItem('status') === 'game') {
       this.Questions = localStorage.getItem('question');
+      this.index = localStorage.getItem('index');
       $('#waitRoom').hide();
       $('#gameMode').show();
       $('#stop').hide();
@@ -7402,19 +7444,6 @@ __webpack_require__.r(__webpack_exports__);
       $('#waitRoom').show();
     }
 
-    if (localStorage.getItem('sessao') != null) {
-      this.students = JSON.parse(localStorage.getItem('students'));
-      this.student = JSON.parse(localStorage.getItem('user'));
-      this.users = localStorage.getItem('users');
-    } else {
-      localStorage.setItem('sessao', this.sessao);
-      this.student.usersId = [];
-      this.student.users = [];
-      this.student.points = [];
-    }
-
-    console.log(this.sessao);
-    console.log(this.student);
     this.connect();
   }
 });
@@ -51199,405 +51228,439 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { attrs: { id: "game" } }, [
-      _vm.pergunta.length === 0
-        ? _c("div", [
-            _c("p", [_vm._v(_vm._s(_vm.students))]),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                on: {
-                  click: function($event) {
-                    return _vm.sair()
+  return _c(
+    "div",
+    [
+      _c("div", { attrs: { id: "game" } }, [
+        _vm.pergunta.length === 0
+          ? _c("div", [
+              _c("p", [_vm._v(_vm._s(_vm.students))]),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  on: {
+                    click: function($event) {
+                      return _vm.sair()
+                    }
                   }
-                }
-              },
-              [_vm._v("cancel")]
-            )
-          ])
-        : _vm.pergunta.length !== 0
-        ? _c("div", [
-            _c(
-              "div",
-              { staticClass: "fazerTeste mx-auto", attrs: { id: "container" } },
-              [
-                _c("div", { staticClass: "counter d-flex" }, [
-                  _c("span", [_vm._v(_vm._s(_vm.countDown))])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "pergunta text-start" }, [
-                  _c("p", [_vm._v(_vm._s(_vm.enunciado))])
-                ]),
-                _vm._v(" "),
-                _vm.fileCheck() === 1
-                  ? _c(
-                      "div",
-                      {
-                        staticClass: "text-center",
-                        staticStyle: { "min-height": "30rem" }
-                      },
-                      [
-                        _c("img", {
-                          staticClass: "mx-auto",
-                          attrs: {
-                            src:
-                              "/images/Pergunta/Multimedia/" +
-                              _vm.pergunta["link"],
-                            alt: "imagem da pergunta",
-                            height: "40%",
-                            width: "40%"
-                          }
-                        })
-                      ]
-                    )
-                  : _vm.fileCheck() === 2
-                  ? _c(
-                      "div",
-                      {
-                        staticClass: "text-center",
-                        staticStyle: { "min-height": "30rem" }
-                      },
-                      [
-                        _c(
-                          "video",
-                          {
+                },
+                [_vm._v("cancel")]
+              )
+            ])
+          : _vm.pergunta.length !== 0
+          ? _c("div", [
+              _c(
+                "div",
+                {
+                  staticClass: "fazerTeste mx-auto",
+                  attrs: { id: "container" }
+                },
+                [
+                  _c("div", { staticClass: "counter d-flex" }, [
+                    _c("span", [_vm._v(_vm._s(_vm.countDown))])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "pergunta text-start" }, [
+                    _c("p", [_vm._v(_vm._s(_vm.enunciado))])
+                  ]),
+                  _vm._v(" "),
+                  _vm.fileCheck() === 1
+                    ? _c(
+                        "div",
+                        {
+                          staticClass: "text-center",
+                          staticStyle: { "min-height": "30rem" }
+                        },
+                        [
+                          _c("img", {
                             staticClass: "mx-auto",
-                            attrs: { width: "320", height: "240", controls: "" }
-                          },
-                          [
+                            attrs: {
+                              src:
+                                "/images/Pergunta/Multimedia/" +
+                                _vm.pergunta["link"],
+                              alt: "imagem da pergunta",
+                              height: "40%",
+                              width: "40%"
+                            }
+                          })
+                        ]
+                      )
+                    : _vm.fileCheck() === 2
+                    ? _c(
+                        "div",
+                        {
+                          staticClass: "text-center",
+                          staticStyle: { "min-height": "30rem" }
+                        },
+                        [
+                          _c(
+                            "video",
+                            {
+                              staticClass: "mx-auto",
+                              attrs: {
+                                width: "320",
+                                height: "240",
+                                controls: ""
+                              }
+                            },
+                            [
+                              _c("source", {
+                                attrs: {
+                                  id: "questionMulti",
+                                  src:
+                                    "/images/Pergunta/Multimedia/" +
+                                    _vm.pergunta["link"],
+                                  type: ""
+                                }
+                              })
+                            ]
+                          )
+                        ]
+                      )
+                    : _vm.fileCheck() === 3
+                    ? _c(
+                        "div",
+                        {
+                          staticClass: "text-center",
+                          staticStyle: { "min-height": "30rem" }
+                        },
+                        [
+                          _c("audio", { attrs: { controls: "" } }, [
                             _c("source", {
                               attrs: {
-                                id: "questionMulti",
+                                id: "questionMultiAudio",
                                 src:
                                   "/images/Pergunta/Multimedia/" +
                                   _vm.pergunta["link"],
                                 type: ""
                               }
                             })
-                          ]
-                        )
-                      ]
-                    )
-                  : _vm.fileCheck() === 3
-                  ? _c(
-                      "div",
-                      {
-                        staticClass: "text-center",
-                        staticStyle: { "min-height": "30rem" }
-                      },
-                      [
-                        _c("audio", { attrs: { controls: "" } }, [
-                          _c("source", {
-                            attrs: {
-                              id: "questionMultiAudio",
-                              src:
-                                "/images/Pergunta/Multimedia/" +
-                                _vm.pergunta["link"],
-                              type: ""
-                            }
-                          })
-                        ])
-                      ]
-                    )
-                  : _vm.fileCheck() === 0
-                  ? _c("div", { staticStyle: { "min-height": "30rem" } })
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.pergunta["tipo"] === "multiple"
-                  ? _c("div", { staticClass: "respostas mt-5" }, [
-                      _c("div", { staticClass: "row" }, [
-                        _c("div", { staticClass: "col-md-6" }, [
-                          _c(
-                            "button",
-                            {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: _vm.multipleQuestion[0] !== null,
-                                  expression: "multipleQuestion[0] !== null"
+                          ])
+                        ]
+                      )
+                    : _vm.fileCheck() === 0
+                    ? _c("div", { staticStyle: { "min-height": "30rem" } })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.pergunta["tipo"] === "multiple"
+                    ? _c("div", { staticClass: "respostas mt-5" }, [
+                        _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "col-md-6" }, [
+                            _c(
+                              "button",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.multipleQuestion[0] !== null,
+                                    expression: "multipleQuestion[0] !== null"
+                                  }
+                                ],
+                                staticClass: "respostas-btn respostas-btn-1",
+                                attrs: { id: "Qm" + _vm.multipleQuestion[0] },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.response("multiple", "0")
+                                  }
                                 }
-                              ],
-                              staticClass: "respostas-btn respostas-btn-1",
-                              attrs: { id: "Qm" + _vm.multipleQuestion[0] },
-                              on: {
-                                click: function($event) {
-                                  return _vm.response("multiple", "0")
+                              },
+                              [_vm._v(" " + _vm._s(_vm.multipleQuestion[0]))]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-6" }, [
+                            _c(
+                              "button",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.multipleQuestion[1] !== null,
+                                    expression: "multipleQuestion[1] !== null"
+                                  }
+                                ],
+                                staticClass: "respostas-btn respostas-btn-2",
+                                attrs: { id: "Qm" + _vm.multipleQuestion[1] },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.response("multiple", "1")
+                                  }
                                 }
-                              }
-                            },
-                            [_vm._v(" " + _vm._s(_vm.multipleQuestion[0]))]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-6" }, [
-                          _c(
-                            "button",
-                            {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: _vm.multipleQuestion[1] !== null,
-                                  expression: "multipleQuestion[1] !== null"
+                              },
+                              [_vm._v(" " + _vm._s(_vm.multipleQuestion[1]))]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-6" }, [
+                            _c(
+                              "button",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.multipleQuestion[2] !== null,
+                                    expression: "multipleQuestion[2] !== null"
+                                  }
+                                ],
+                                staticClass:
+                                  "respostas-btn respostas-btn-3 mt-4",
+                                attrs: { id: "Qm" + _vm.multipleQuestion[2] },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.response("multiple", "2")
+                                  }
                                 }
-                              ],
-                              staticClass: "respostas-btn respostas-btn-2",
-                              attrs: { id: "Qm" + _vm.multipleQuestion[1] },
-                              on: {
-                                click: function($event) {
-                                  return _vm.response("multiple", "1")
+                              },
+                              [_vm._v(" " + _vm._s(_vm.multipleQuestion[2]))]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-6" }, [
+                            _c(
+                              "button",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.multipleQuestion[3] !== null,
+                                    expression: "multipleQuestion[3] !== null"
+                                  }
+                                ],
+                                staticClass:
+                                  "respostas-btn respostas-btn-4 mt-4",
+                                attrs: { id: "Qm" + _vm.multipleQuestion[3] },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.response("multiple", "3")
+                                  }
                                 }
-                              }
-                            },
-                            [_vm._v(" " + _vm._s(_vm.multipleQuestion[1]))]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-6" }, [
-                          _c(
-                            "button",
-                            {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: _vm.multipleQuestion[2] !== null,
-                                  expression: "multipleQuestion[2] !== null"
-                                }
-                              ],
-                              staticClass: "respostas-btn respostas-btn-3 mt-4",
-                              attrs: { id: "Qm" + _vm.multipleQuestion[2] },
-                              on: {
-                                click: function($event) {
-                                  return _vm.response("multiple", "2")
-                                }
-                              }
-                            },
-                            [_vm._v(" " + _vm._s(_vm.multipleQuestion[2]))]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-6" }, [
-                          _c(
-                            "button",
-                            {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: _vm.multipleQuestion[3] !== null,
-                                  expression: "multipleQuestion[3] !== null"
-                                }
-                              ],
-                              staticClass: "respostas-btn respostas-btn-4 mt-4",
-                              attrs: { id: "Qm" + _vm.multipleQuestion[3] },
-                              on: {
-                                click: function($event) {
-                                  return _vm.response("multiple", "3")
-                                }
-                              }
-                            },
-                            [_vm._v(" " + _vm._s(_vm.multipleQuestion[3]))]
-                          )
+                              },
+                              [_vm._v(" " + _vm._s(_vm.multipleQuestion[3]))]
+                            )
+                          ])
                         ])
                       ])
-                    ])
-                  : _vm.pergunta["tipo"] === "true/false"
-                  ? _c("div", { staticClass: "respostas mt-5" }, [
-                      _c("div", { staticClass: "row" }, [
-                        _c("div", { staticClass: "col-md-6" }, [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "respostas-btn respostas-btn-1",
-                              attrs: { id: "tf1", value: "true" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.response("true_false", "true")
+                    : _vm.pergunta["tipo"] === "true/false"
+                    ? _c("div", { staticClass: "respostas mt-5" }, [
+                        _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "col-md-6" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "respostas-btn respostas-btn-1",
+                                attrs: { id: "tf1", value: "true" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.response("true_false", "true")
+                                  }
                                 }
-                              }
-                            },
-                            [_vm._v("True\n                        ")]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-6" }, [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "respostas-btn respostas-btn-2",
-                              attrs: { id: "tf2", value: "false" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.response("true_false", "false")
+                              },
+                              [_vm._v("True\n                        ")]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-6" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "respostas-btn respostas-btn-2",
+                                attrs: { id: "tf2", value: "false" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.response("true_false", "false")
+                                  }
                                 }
-                              }
-                            },
-                            [_vm._v("False\n                        ")]
-                          )
+                              },
+                              [_vm._v("False\n                        ")]
+                            )
+                          ])
                         ])
                       ])
-                    ])
-                  : _vm.pergunta["tipo"] === "multiple-select"
-                  ? _c("div", { staticClass: "respostas mt-5" }, [
-                      _c("div", { staticClass: "row" }, [
-                        _c("p", { staticClass: "text-center" }, [
-                          _vm.pergunta["tipo"] === "multiple-select"
-                            ? _c(
-                                "span",
-                                { staticClass: "selecao-mul mx-auto" },
-                                [
-                                  _vm._v(
-                                    "\n                         Respostas"
-                                  ),
-                                  _c("span", [
+                    : _vm.pergunta["tipo"] === "multiple-select"
+                    ? _c("div", { staticClass: "respostas mt-5" }, [
+                        _c("div", { staticClass: "row" }, [
+                          _c("p", { staticClass: "text-center" }, [
+                            _vm.pergunta["tipo"] === "multiple-select"
+                              ? _c(
+                                  "span",
+                                  { staticClass: "selecao-mul mx-auto" },
+                                  [
                                     _vm._v(
-                                      " " + _vm._s(_vm.botaoEscolhido.length)
+                                      "\n                         Respostas"
+                                    ),
+                                    _c("span", [
+                                      _vm._v(
+                                        " " + _vm._s(_vm.botaoEscolhido.length)
+                                      )
+                                    ]),
+                                    _vm._v(
+                                      "  / " +
+                                        _vm._s(_vm.respostasMultiplas.length) +
+                                        "\n            "
                                     )
-                                  ]),
-                                  _vm._v(
-                                    "  / " +
-                                      _vm._s(_vm.respostasMultiplas.length) +
-                                      "\n            "
-                                  )
-                                ]
-                              )
-                            : _vm._e()
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-6" }, [
-                          _c(
-                            "button",
-                            {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: _vm.multipleQuestion[0] !== null,
-                                  expression: "multipleQuestion[0] !== null"
+                                  ]
+                                )
+                              : _vm._e()
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-6" }, [
+                            _c(
+                              "button",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.multipleQuestion[0] !== null,
+                                    expression: "multipleQuestion[0] !== null"
+                                  }
+                                ],
+                                staticClass: "respostas-btn respostas-btn-1",
+                                attrs: { id: "Qm" + _vm.multipleQuestion[0] },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.responseMultiplas("0")
+                                  }
                                 }
-                              ],
-                              staticClass: "respostas-btn respostas-btn-1",
-                              attrs: { id: "Qm" + _vm.multipleQuestion[0] },
-                              on: {
-                                click: function($event) {
-                                  return _vm.responseMultiplas("0")
+                              },
+                              [
+                                _vm._v(
+                                  " " +
+                                    _vm._s(_vm.multipleQuestion[0]) +
+                                    "\n                        "
+                                )
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-6" }, [
+                            _c(
+                              "button",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.multipleQuestion[1] !== null,
+                                    expression: "multipleQuestion[1] !== null"
+                                  }
+                                ],
+                                staticClass: "respostas-btn respostas-btn-2",
+                                attrs: { id: "Qm" + _vm.multipleQuestion[1] },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.responseMultiplas("1")
+                                  }
                                 }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                " " +
-                                  _vm._s(_vm.multipleQuestion[0]) +
-                                  "\n                        "
-                              )
-                            ]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-6" }, [
-                          _c(
-                            "button",
-                            {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: _vm.multipleQuestion[1] !== null,
-                                  expression: "multipleQuestion[1] !== null"
+                              },
+                              [
+                                _vm._v(
+                                  " " +
+                                    _vm._s(_vm.multipleQuestion[1]) +
+                                    "\n                        "
+                                )
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-6" }, [
+                            _c(
+                              "button",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.multipleQuestion[2] !== null,
+                                    expression: "multipleQuestion[2] !== null"
+                                  }
+                                ],
+                                staticClass:
+                                  "respostas-btn respostas-btn-3 mt-4",
+                                attrs: { id: "Qm" + _vm.multipleQuestion[2] },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.responseMultiplas("2")
+                                  }
                                 }
-                              ],
-                              staticClass: "respostas-btn respostas-btn-2",
-                              attrs: { id: "Qm" + _vm.multipleQuestion[1] },
-                              on: {
-                                click: function($event) {
-                                  return _vm.responseMultiplas("1")
+                              },
+                              [
+                                _vm._v(
+                                  _vm._s(_vm.multipleQuestion[2]) +
+                                    "\n                             \n                        "
+                                )
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-6" }, [
+                            _c(
+                              "button",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.multipleQuestion[3] !== null,
+                                    expression: "multipleQuestion[3] !== null"
+                                  }
+                                ],
+                                staticClass:
+                                  "respostas-btn respostas-btn-4 mt-4",
+                                attrs: { id: "Qm" + _vm.multipleQuestion[3] },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.responseMultiplas("3")
+                                  }
                                 }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                " " +
-                                  _vm._s(_vm.multipleQuestion[1]) +
-                                  "\n                        "
-                              )
-                            ]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-6" }, [
-                          _c(
-                            "button",
-                            {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: _vm.multipleQuestion[2] !== null,
-                                  expression: "multipleQuestion[2] !== null"
-                                }
-                              ],
-                              staticClass: "respostas-btn respostas-btn-3 mt-4",
-                              attrs: { id: "Qm" + _vm.multipleQuestion[2] },
-                              on: {
-                                click: function($event) {
-                                  return _vm.responseMultiplas("2")
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                _vm._s(_vm.multipleQuestion[2]) +
-                                  "\n                             \n                        "
-                              )
-                            ]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-6" }, [
-                          _c(
-                            "button",
-                            {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: _vm.multipleQuestion[3] !== null,
-                                  expression: "multipleQuestion[3] !== null"
-                                }
-                              ],
-                              staticClass: "respostas-btn respostas-btn-4 mt-4",
-                              attrs: { id: "Qm" + _vm.multipleQuestion[3] },
-                              on: {
-                                click: function($event) {
-                                  return _vm.responseMultiplas("3")
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                _vm._s(_vm.multipleQuestion[3]) +
-                                  "\n                             \n                        "
-                              )
-                            ]
-                          )
+                              },
+                              [
+                                _vm._v(
+                                  _vm._s(_vm.multipleQuestion[3]) +
+                                    "\n                             \n                        "
+                                )
+                              ]
+                            )
+                          ])
                         ])
                       ])
-                    ])
-                  : _vm._e()
-              ]
-            )
-          ])
-        : _vm._e()
-    ]),
-    _vm._v(" "),
-    _c("div", { attrs: { id: "resultado" } }, [
-      _vm._v("\n        " + _vm._s(_vm.resultado) + "\n    ")
-    ])
-  ])
+                    : _vm._e()
+                ]
+              )
+            ])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _vm._l(_vm.student, function(item, index) {
+        return _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.tabela === "true",
+                expression: "tabela==='true'"
+              }
+            ],
+            key: item,
+            attrs: { id: "tabela" }
+          },
+          [_c("p", [_vm._v(_vm._s(index) + " " + _vm._s(item) + " ")])]
+        )
+      }),
+      _vm._v(" "),
+      _c("div", { attrs: { id: "resultado" } }, [
+        _vm._v("\n        " + _vm._s(_vm.resultado) + "\n    ")
+      ])
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -51953,7 +52016,7 @@ var render = function() {
         [_vm._v("Iniciar Quizz")]
       ),
       _vm._v(" "),
-      _c("p", [_vm._v(_vm._s(_vm.student.users))])
+      _c("p", [_vm._v(_vm._s(_vm.users))])
     ]),
     _vm._v(" "),
     _c(
@@ -51969,9 +52032,17 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _vm._l(_vm.student, function(item) {
-          return _c("div", { key: item }, [
-            _c("p", [_vm._v(_vm._s(item.users))])
+        _vm._l(_vm.usersId, function(item) {
+          return _c("div", { key: item.users, attrs: { id: "tabela" } }, [
+            _c("p", [
+              _vm._v(
+                _vm._s(_vm.users[_vm.usersId.indexOf(item)]) +
+                  " " +
+                  _vm._s(_vm.points[_vm.usersId.indexOf(item)]) +
+                  " " +
+                  _vm._s(_vm.resposta[_vm.usersId.indexOf(item)])
+              )
+            ])
           ])
         }),
         _vm._v(" "),

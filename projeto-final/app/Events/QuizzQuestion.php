@@ -20,8 +20,10 @@ class QuizzQuestion implements ShouldBroadcast
     public $userId;
     public $quizzArray;
     public $Ans;
+    public $usr;
 
-    public function __construct($nName, String $session, String $aType, $aId, $quizz,$aRes)
+
+    public function __construct($nName, String $session, String $aType, $aId, $quizz,$aRes,$aUsr)
     {
         $this->name=$nName;
         $this->Mainsession=$session;
@@ -29,6 +31,8 @@ class QuizzQuestion implements ShouldBroadcast
         $this->userId=$aId;
         $this->quizzArray=$quizz;
         $this->Ans=$aRes;
+        $this->usr=$aUsr;
+
     }
 
     /**

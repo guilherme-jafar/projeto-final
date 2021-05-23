@@ -453,7 +453,7 @@ GROUP BY s.nomequizz', ['id' => session('utilizador')['id'], 'sessionId' => $req
 
         Cache::put('quizz', $quizz);
 
-        broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'startQuizz', session('utilizador')['id'], $quizz[0], $res))->toOthers();
+        broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'startQuizz', session('utilizador')['id'], $quizz[0], $res,[]))->toOthers();
 
         return response()->json([
             'message' => count($quizz),
@@ -479,10 +479,23 @@ GROUP BY s.nomequizz', ['id' => session('utilizador')['id'], 'sessionId' => $req
     function nextQuestionQuizz(Request $request){
 
         $index=$request->index;
-
+        $users=$request->users;
+        $points=$request->points;
+        $users=explode( ',', $users );
+        $points=explode( ',', $points);
         $quizz=Cache::get('quizz');
+        $newArray=[];
+        if (count($users)>5){
+            $users=array_chunk($users, 5);
+            $points=array_chunk($points, 5);
+        }
 
+        for ($i=0;$i<count($users);$i++){
+            $newArray+=[$users[$i]=>$points[$i]];
 
+        }
+        asort($newArray);
+        $newArray=array_reverse($newArray);
         foreach ( $quizz as $value){
 
             if ($value->PergIndex==$index){
@@ -490,7 +503,7 @@ GROUP BY s.nomequizz', ['id' => session('utilizador')['id'], 'sessionId' => $req
                                  from respostas r
                                  where r.perguntas_id=:id', ['id' => $value->pId]);
 
-                broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'NewQuestion', session('utilizador')['id'], $value, $res))->toOthers();
+                broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'NewQuestion', session('utilizador')['id'], $value, $res,$newArray))->toOthers();
 
 
             }
@@ -498,13 +511,30 @@ GROUP BY s.nomequizz', ['id' => session('utilizador')['id'], 'sessionId' => $req
 
 }
     function stopQuestionQuizz(Request $request){
-        broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'stop', session('utilizador')['id'], [],[]))->toOthers();
+        broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'stop', session('utilizador')['id'], [],[],[]))->toOthers();
 
 
     }
 
-    function EndQuizzRealTime(){
-    broadcast(new WaitRoom(session('utilizador')['nome'], session('sessao')['id'], 'EndQuizz', session('utilizador')['id']))->toOthers();
+    function EndQuizzRealTime(Request $request){
+        $users=$request->users;
+        $points=$request->points;
+        $users=explode( ',', $users );
+        $points=explode( ',', $points);
+        $quizz=Cache::get('quizz');
+        $newArray=[];
+        if (count($users)>5){
+            $users=array_chunk($users, 5);
+            $points=array_chunk($points, 5);
+        }
+
+        for ($i=0;$i<count($users);$i++){
+            $newArray+=[$users[$i]=>$points[$i]];
+
+        }
+        asort($newArray);
+        $newArray=array_reverse($newArray);
+       broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'EndQuizz', session('utilizador')['id'], [],[],$newArray))->toOthers();
 
 }
 
