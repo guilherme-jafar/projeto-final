@@ -8,11 +8,12 @@ use Illuminate\Support\Facades\DB;
 
 class Pergunta extends Controller
 {
-    function show(Request $request){
+    function show(Request $request)
+    {
 
 //        return view('/prof/Disciplina', ['topico' => $topico]);
 
-        $pergunta =  \App\Models\pergunta::find($request->id);
+        $pergunta = \App\Models\pergunta::find($request->id);
 
 
         if (!empty($pergunta)) {
@@ -24,31 +25,53 @@ class Pergunta extends Controller
 
     }
 
-    function getRespostas(Request $request){
+    function getRespostas(Request $request)
+    {
 
         $respostas = DB::select('SELECT * FROM respostas WHERE perguntas_id =:id', ['id' => $request->id]);
-        $respostas['multimedia'] = DB::select('SELECT * FROM multimedia WHERE perguntas_id =:id', ['id' => $request->id]);
+//        $respostas['multimedia'] = DB::select('SELECT * FROM multimedia WHERE perguntas_id =:id', ['id' => $request->id]);
 
-        if (!empty($respostas)){
+        if (!empty($respostas)) {
             return response()->json([
                 'message' => $respostas,
             ]);
-        }else{
+        } else {
             return response()->json([
-                'message' =>[],
+                'message' => [],
             ]);
         }
 
     }
 
-    function editar(Request $request){
-        dd($request);
+    function getMultimedia(Request $request)
+    {
+        $multimedia = DB::select('SELECT * FROM multimedia WHERE perguntas_id =:id', ['id' => $request->id]);
+
+        if (!empty($multimedia)) {
+            return response()->json([
+                'message' => $multimedia,
+            ]);
+        } else {
+            return response()->json([
+                'message' => [],
+            ]);
+        }
+    }
+
+    function editar(Request $request)
+    {
+
 
         $pergunta = $request->pergunta;
         $tempo = $request->tempo;
         $tipo = $request->tipo;
         $pontos = $request->pontos;
         $nomeFile = null;
+        $respostasId = json_decode($request->respostasId);
+        $tipoInicial = $request->tipoInicial;
+//        $topico = $request->topicoId;
+        $multimedia = json_decode($request->multimedia);
+        $youtubeLink = $request->file;
 
         try {
 
@@ -63,69 +86,267 @@ class Pergunta extends Controller
                     $p = 0;
                     break;
             }
-            if ($tipo == "multiple") {
-
-                $question = json_decode($request->array);
-                $resposta = $request->resposta;
 
 
+            if ($tipoInicial !== $tipo){
 
 
-                for ($i = 0; $i < count($question); $i++) {
+                DB::delete('delete from respostas where perguntas_id=:id', ['id' => $request->id]);
+                $id = $request->id;
+                if ($tipo == "multiple") {
 
-                    if ($question[$i] == $resposta) {
+                    $question = json_decode($request->array);
+                    $resposta = $request->resposta;
 
 
-                    } else {
+
+                    for ($i = 0; $i < count($question); $i++) {
+                        $idRes = time() . uniqid();
+                        if ($question[$i] == $resposta) {
+                            DB::insert('insert into respostas (id,resposta,resultado,perguntas_id) values (?,?,?,?)'
+                                , [$idRes, $question[$i], 1, $id]);
+
+                        } else {
+                            DB::insert('insert into respostas (id,resposta,resultado,perguntas_id) values (?,?,?,?)'
+                                , [$idRes, $question[$i], 0, $id]);
+                        }
+
+                    }
+                } else if ($tipo == "true/false") {
+
+
+                    $idRes = time() . uniqid();
+                    DB::insert('insert into respostas (id,resposta,resultado,perguntas_id) values (?,?,?,?)'
+                        , [$idRes, $request->resposta, 1, $id]);
+
+
+                } else if ($tipo == "multiple-select") {
+                    $question = json_decode($request->array);
+                    $resposta = json_decode($request->respostas);
+
+
+                    for ($i = 0; $i < count($question); $i++) {
+                        $idRes = time() . uniqid();
+
+
+                        if (in_array("rem" . ($i + 1) . $request->id, $resposta)) {
+                            DB::insert('insert into respostas (id,resposta,resultado,perguntas_id) values (?,?,?,?)'
+                                , [$idRes, $question[$i], 1, $id]);
+
+                        } else {
+                            DB::insert('insert into respostas (id,resposta,resultado,perguntas_id) values (?,?,?,?)'
+                                , [$idRes, $question[$i], 0, $id]);
+                        }
 
                     }
 
+
                 }
-            } else if ($tipo == "true/false") {
 
-                DB::insert('insert into perguntas (id, enunciado,tempo,tipo,valor,topicos_id) values (?,?,?,?,?,?)'
-                    , [$id, $pergunta, $tempo, $tipo, $p, $topico]);
+            }else{
+                if ($tipo == "multiple") {
 
-
-
-
-            } else if ($tipo == "multiple-select") {
-                $question = json_decode($request->array);
-                $resposta = json_decode($request->respostas);
+                    $question = json_decode($request->array);
+                    $resposta = $request->resposta;
 
 
-                for ($i = 0; $i < count($question); $i++) {
+                    if (count($respostasId) == count($question)) {
+                        for ($i = 0; $i < count($respostasId); $i++) {
+
+                            if ($question[$i] == $resposta) {
+                                DB::table('respostas')
+                                    ->where('id', '=', $respostasId[$i]->id)
+                                    ->update(['resposta' => $question[$i], 'resultado' => 1]);
+
+                            } else {
+                                DB::table('respostas')
+                                    ->where('id', '=', $respostasId[$i]->id)
+                                    ->update(['resposta' => $question[$i], 'resultado' => 0]);
+                            }
+
+                        }
+                    } elseif (count($respostasId) > count($question)) {
+
+                        for ($i = 0; $i < count($respostasId); $i++) {
+
+                            if ($i < count($question)){
+
+                                if ($question[$i] == $resposta) {
+                                    DB::table('respostas')
+                                        ->where('id', '=', $respostasId[$i]->id)
+                                        ->update(['resposta' => $question[$i], 'resultado' => 1]);
+
+                                } else {
+                                    DB::table('respostas')
+                                        ->where('id', '=', $respostasId[$i]->id)
+                                        ->update(['resposta' => $question[$i], 'resultado' => 0]);
+                                }
+
+                            }else{
+                                DB::table('respostas')
+                                    ->where('id', '=', $respostasId[$i]->id)
+                                    ->update(['resposta' => "", 'resultado' => 0]);
+                            }
 
 
 
-                    var_dump(in_array("re" . ($i + 1) . $topico, $resposta));
+                        }
 
-                    var_dump("re" . ($i + 1) . $topico . "/n");
-                    if (in_array("re" . ($i + 1) . $topico, $resposta)) {
+                    }elseif (count($respostasId) < count($question)){
 
 
-                    } else {
+                        for ($i = 0; $i < count($question); $i++) {
+
+                            if ($i < count($respostasId)){
+
+                                if ($question[$i] == $resposta) {
+                                    DB::table('respostas')
+                                        ->where('id', '=', $respostasId[$i]->id)
+                                        ->update(['resposta' => $question[$i], 'resultado' => 1]);
+
+                                } else {
+                                    DB::table('respostas')
+                                        ->where('id', '=', $respostasId[$i]->id)
+                                        ->update(['resposta' => $question[$i], 'resultado' => 0]);
+                                }
+
+                            }else{
+                                $idRes = time() . uniqid();
+                                if ($question[$i] == $resposta) {
+                                    DB::insert('insert into respostas (id,resposta,resultado,perguntas_id) values (?,?,?,?)'
+                                        , [$idRes, $question[$i], 1, $request->id]);
+
+                                } else {
+                                    DB::insert('insert into respostas (id,resposta,resultado,perguntas_id) values (?,?,?,?)'
+                                        , [$idRes, $question[$i], 0, $request->id]);
+                                }
+                            }
+
+
+
+                        }
 
                     }
 
+
+
+
+
+                } else if ($tipo == "true/false") {
+
+
+
+                    DB::table('respostas')
+                        ->where('id', '=', $respostasId[0]->id)
+                        ->update(['resposta' => $request->resposta]);
+
+
+
+                } else if ($tipo == "multiple-select") {
+                    $question = json_decode($request->array);
+                    $resposta = json_decode($request->respostas);
+
+
+                    if (count($respostasId) == count($question)) {
+                        for ($i = 0; $i < count($question); $i++) {
+
+                            if (in_array("rem" . ($i + 1) . $request->id, $resposta)){
+                                DB::table('respostas')
+                                    ->where('id', '=', $respostasId[$i]->id)
+                                    ->update(['resposta' => $question[$i], 'resultado' => 1]);
+
+                            } else {
+                                DB::table('respostas')
+                                    ->where('id', '=', $respostasId[$i]->id)
+                                    ->update(['resposta' => $question[$i], 'resultado' => 0]);
+                            }
+                        }
+
+                    }else if(count($respostasId) > count($question)){
+                        for ($i = 0; $i < count($respostasId); $i++) {
+
+                            if ($i < count($question)){
+
+                                if (in_array("rem" . ($i + 1) . $request->id, $resposta)) {
+                                    DB::table('respostas')
+                                        ->where('id', '=', $respostasId[$i]->id)
+                                        ->update(['resposta' => $question[$i], 'resultado' => 1]);
+
+                                } else {
+                                    DB::table('respostas')
+                                        ->where('id', '=', $respostasId[$i]->id)
+                                        ->update(['resposta' => $question[$i], 'resultado' => 0]);
+                                }
+
+                            }else{
+                                DB::table('respostas')
+                                    ->where('id', '=', $respostasId[$i]->id)
+                                    ->update(['resposta' => "", 'resultado' => 0]);
+                            }
+
+
+
+                        }
+                    }elseif (count($respostasId) < count($question)) {
+//                    dd($question, $respostasId);
+
+                        for ($i = 0; $i < count($question); $i++) {
+
+                            if ($i < count($respostasId)) {
+
+                                if (in_array("rem" . ($i + 1) . $request->id, $resposta)) {
+                                    DB::table('respostas')
+                                        ->where('id', '=', $respostasId[$i]->id)
+                                        ->update(['resposta' => $question[$i], 'resultado' => 1]);
+
+                                } else {
+                                    DB::table('respostas')
+                                        ->where('id', '=', $respostasId[$i]->id)
+                                        ->update(['resposta' => $question[$i], 'resultado' => 0]);
+                                }
+
+                            } else {
+                                $idRes = time() . uniqid();
+                                if (in_array("rem" . ($i + 1) . $request->id, $resposta)) {
+                                    DB::insert('insert into respostas (id,resposta,resultado,perguntas_id) values (?,?,?,?)'
+                                        , [$idRes, $question[$i], 1, $request->id]);
+
+                                } else {
+                                    DB::insert('insert into respostas (id,resposta,resultado,perguntas_id) values (?,?,?,?)'
+                                        , [$idRes, $question[$i], 0, $request->id]);
+                                }
+                            }
+
+
+                        }
+
+                    }
+
+
                 }
-
-
             }
 
 
             if ($request->hasFile('file') != null) {
                 $nomeFile = uniqid() . "." . $request->file->getClientOriginalExtension();
-
+                $idMulti = uniqid() . time();
                 $request->file->move(public_path('.\images\Pergunta\Multimedia'), $nomeFile);
 
-            } else {
+                DB::table('multimedia')
+                    ->where('id', '=', $multimedia[0]->id)
+                    ->update(['link' => $nomeFile]);
 
 
 
+            }else if ($youtubeLink != null){
+                DB::table('multimedia')
+                    ->where('id', '=', $multimedia[0]->id)
+                    ->update(['link' => $youtubeLink]);
             }
 
-
+            DB::table('perguntas')
+                ->where('id', '=', $request->id)
+                ->update(['tempo' => $tempo, 'tipo' => $request->tipo, 'enunciado' => $pergunta, 'valor' => $p]);
             return response()->json([
                 'message' => 'sucesso'
             ]);
@@ -139,14 +360,15 @@ class Pergunta extends Controller
 
     }
 
-    function destroy(Request $request){
+    function destroy(Request $request)
+    {
 
-        try{
+        try {
 
             $perguntas_quizz = DB::select('SELECT * FROM pergunta_quizz WHERE id_pergunta=:id', ['id' => $request->id]);
             $respostas_quizz = DB::select('SELECT * FROM respostas_quizz WHERE pergunta_id=:id', ['id' => $request->id]);
 
-            if (empty($respostas_quizz) && empty($perguntas_quizz)){
+            if (empty($respostas_quizz) && empty($perguntas_quizz)) {
                 DB::statement('call deletePergunta(?)', [$request->id]);
 
                 $pergunta = DB::select('SELECT *
@@ -163,15 +385,14 @@ class Pergunta extends Controller
                         'message' => [],
                     ]);
                 }
-            }else{
+            } else {
                 return response()->json([
                     'message' => 'erro',
                 ]);
             }
 
 
-
-        }catch (\Illuminate\Database\QueryException $ex) {
+        } catch (\Illuminate\Database\QueryException $ex) {
 
             return response()->json([
                 'message' => 'erro',
@@ -181,7 +402,6 @@ class Pergunta extends Controller
                 'message' => 'erro2',
             ]);
         }
-
 
 
     }

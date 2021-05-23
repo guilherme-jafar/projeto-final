@@ -9,7 +9,9 @@
       <sourceFolder url="file://$MODULE_DIR$/projeto-final/app" isTestSource="false" packagePrefix="App\" />
       <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/asm89/stack-cors" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/beyondcode/laravel-websockets" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/brick/math" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/cboden/ratchet" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/dnoegel/php-xdg-base-dir" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/doctrine/inflector" />
@@ -17,6 +19,8 @@
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/doctrine/lexer" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/dragonmantank/cron-expression" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/egulias/email-validator" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/evenement/evenement" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/ezyang/htmlpurifier" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/facade/flare-client-php" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/facade/ignition" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/facade/ignition-contracts" />
@@ -35,18 +39,26 @@
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/league/commonmark" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/league/flysystem" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/league/mime-type-detection" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/maatwebsite/excel" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/maennchen/zipstream-php" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/markbaker/complex" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/markbaker/matrix" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/mockery/mockery" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/monolog/monolog" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/myclabs/deep-copy" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/myclabs/php-enum" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/nesbot/carbon" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/nikic/php-parser" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/nunomaduro/collision" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/opis/closure" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/paragonie/random_compat" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/paragonie/sodium_compat" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/phar-io/manifest" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/phar-io/version" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/phpdocumentor/reflection-common" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/phpdocumentor/reflection-docblock" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/phpdocumentor/type-resolver" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/phpoffice/phpspreadsheet" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/phpoption/phpoption" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/phpspec/prophecy" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/phpunit/php-code-coverage" />
@@ -55,16 +67,30 @@
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/phpunit/php-text-template" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/phpunit/php-timer" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/phpunit/phpunit" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/predis/predis" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/psr/container" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/psr/event-dispatcher" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/psr/http-client" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/psr/http-factory" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/psr/http-message" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/psr/log" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/psr/simple-cache" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/psy/psysh" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/pusher/pusher-php-server" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/ralouphie/getallheaders" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/ramsey/collection" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/ramsey/uuid" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/ratchet/rfc6455" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/react/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/react/dns" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/react/event-loop" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/react/http" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/react/promise" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/react/promise-stream" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/react/promise-timer" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/react/socket" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/react/stream" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/ringcentral/psr7" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/sebastian/cli-parser" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/sebastian/code-unit" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/sebastian/code-unit-reverse-lookup" />
@@ -103,6 +129,7 @@
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/symfony/polyfill-php73" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/symfony/polyfill-php80" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/symfony/process" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/symfony/psr-http-message-bridge" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/symfony/routing" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/symfony/service-contracts" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/symfony/string" />
@@ -111,6 +138,7 @@
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/symfony/var-dumper" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/theseer/tokenizer" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/tijsverkoyen/css-to-inline-styles" />
+      <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/viest/php-ext-xlswriter-ide-helper" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/vlucas/phpdotenv" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/voku/portable-ascii" />
       <excludeFolder url="file://$MODULE_DIR$/projeto-final/vendor/webmozart/assert" />
@@ -118,5 +146,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="vue" level="application" />
+    <orderEntry type="library" name="read-excel-file" level="application" />
+    <orderEntry type="library" name="xlsx.full" level="application" />
   </component>
 </module>

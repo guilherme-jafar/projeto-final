@@ -81,14 +81,14 @@
                                         <h2>Tem certeza que deseja eliminar a pergunta?</h2>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                        <button type="button" class="btn btn-secondary " data-bs-dismiss="modal">
                                             Cancelar
                                         </button>
-                                        <button type="button" class="btn btn-primary eliminar-btn"
+                                        <button type="button" class="btn btn-primary eliminar-btn btn-loading"
                                                 :id="'eliminarUtilizadorBtn' + pergunta['id']"
                                                 @click="eliminarPergunta(pergunta, topicos)">
                                             <span class="">Sim</span>
-                                            <div class="spinner-border text-light d-none btn-loading" role="status">
+                                            <div class="spinner-border text-light d-none " role="status">
 
                                             </div>
                                         </button>
@@ -421,7 +421,7 @@
         },
         methods: {
             eliminarPergunta(pergunta, topidoId) {
-                console.log(topidoId)
+
                 $('.eliminar-btn span').addClass('d-none');
                 $('.eliminar-btn div').removeClass('d-none');
 
@@ -643,7 +643,7 @@
                         var radios2 = document.getElementsByName("TF" + top);
                         for (let i = 0; i < 2; i++) {
                             if (radios2[i].checked) {
-                                radios2[i - 1].checked = false;
+                                radios2[i].checked = false;
                             }
                         }
 

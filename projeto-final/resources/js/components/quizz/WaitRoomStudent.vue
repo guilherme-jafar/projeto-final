@@ -172,22 +172,22 @@ export default {
 
     methods: {
         countDownTimer() {
-            if(this.countDown > 0) {
-                this.timer = setTimeout(() => {
-                    this.countDown -= 1
-                   localStorage.setItem('timer',this.countDown)
-
-                    this.countDownTimer()
-                }, 1000)
-            }
-            else if(this.countDown ===0){
-                localStorage.setItem('questionStatus','true');
-                if (this.pergunta['tipo']==='multiple-select'){
-                    this.responseMultiplas('erro')
-                }else {
-                    this.response(this.pergunta['tipo'], 'erro')
-                }
-            }
+            // if(this.countDown > 0) {
+            //     this.timer = setTimeout(() => {
+            //         this.countDown -= 1
+            //        localStorage.setItem('timer',this.countDown)
+            //
+            //         this.countDownTimer()
+            //     }, 1000)
+            // }
+            // else if(this.countDown ===0){
+            //     localStorage.setItem('questionStatus','true');
+            //     if (this.pergunta['tipo']==='multiple-select'){
+            //         this.responseMultiplas('erro')
+            //     }else {
+            //         this.response(this.pergunta['tipo'], 'erro')
+            //     }
+            // }
         },
         sair() {
             localStorage.clear();

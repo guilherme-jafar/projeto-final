@@ -11,7 +11,7 @@
 <div id="gameMode">
     <p>Numero de perguntas {{index}}/{{Questions}}</p>
     <div v-for="item in student" :key="item">
-            <p>{{item.users}} {{item.points}} {{item.resposta}}</p>
+            <p>{{item.users}}</p>
     </div>
     <button id="stop" @click="stopQuestion()">Parar Pergunta</button>
     <button id="next" @click="nextQuestion('next')">Proxima Pergunta</button>
