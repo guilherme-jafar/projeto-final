@@ -347,16 +347,20 @@ class Pergunta extends Controller
             DB::table('perguntas')
                 ->where('id', '=', $request->id)
                 ->update(['tempo' => $tempo, 'tipo' => $request->tipo, 'enunciado' => $pergunta, 'valor' => $p]);
+
+
             return response()->json([
                 'message' => 'sucesso'
             ]);
 
 
+
+
         } catch (\Exception $e) {
             return response()->json([
-                'message' => $e->getMessage()
+                'message' => 'erro'
             ]);
-        };
+        }
 
     }
 

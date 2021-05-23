@@ -23,6 +23,10 @@ class Quizz extends Controller
         $Quizz = DB::table('quizz')
             ->where('disciplina_id', '=', session('disciplina')['id'])
             ->paginate(5);
+       // dd($Quizz[0]);
+
+
+
 
 
         if (!empty($Quizz)) {
@@ -37,6 +41,136 @@ class Quizz extends Controller
             ]);
         }
     }
+
+    function listQuizzTopico(Request $request){
+
+        $topicoQuizz = DB::select('SELECT t.id FROM topicos t, topicos_quizz tq
+                                WHERE t.id = tq.topicos_id
+                                AND tq.quizz_id =:id' ,['id' => $request->id]);
+
+
+        if (!empty($topicoQuizz)) {
+            return response()->json([
+                'message' => $topicoQuizz
+            ]);
+
+
+        } else {
+            return response()->json([
+                'message' => []
+            ]);
+        }
+    }
+
+    function editar(Request $request){
+
+       // dd($request);
+        $topicos = json_decode($request->array);
+        $numQuestion = $request->nPerguntas;
+        $comand = "";
+        $stack = array();
+        $id = $request->id;
+        $numQuestionAntigas = $request->numeroPerguntasAntigo;
+        $editarPerguntas = false;
+        try {
+
+            DB::table('quizz')
+                ->where('id', '=', $id)
+                ->update(['nome' => $request->titulo, 'tipo' => $request->realtime, 'numeroperguntas' => $numQuestion, 'Descricao' => $request->descricao, 'visivel' =>  $request->visible, 'vale_pontos' => $request->pontos]);
+
+
+            $topicoQuizz = DB::select('SELECT t.id FROM topicos t, topicos_quizz tq
+                                WHERE t.id = tq.topicos_id
+                                AND tq.quizz_id =:id' ,['id' => $id]);
+
+
+
+            if(count($topicos) == count($topicoQuizz)){
+                $mesmoTopico = 0;
+                for ($i = 0; $i < count($topicos); $i++){
+
+                    if (in_array($topicoQuizz[$i]->id, $topicos)){
+                        $mesmoTopico++;
+                    }
+                }
+
+                if ($mesmoTopico != count($topicoQuizz)){
+
+                    $editarPerguntas = true;
+
+                }elseif ($numQuestionAntigas != $numQuestion){
+
+                    $editarPerguntas = true;
+
+                }else{
+                    return response()->json([
+                        'message' => "sucesso"
+                    ]);
+                }
+            }elseif (count($topicos) != count($topicoQuizz)){
+                $editarPerguntas = true;
+            }
+
+
+
+            if ($editarPerguntas){
+                for ($i = 0; $i < count($topicos); $i++) {
+
+                    if ($i == 0) {
+                        $comand .= "WHERE p.topicos_id=t.id AND t.id='" . $topicos[$i] . "'";
+                    } else {
+                        $comand .= " OR t.id='" . $topicos[$i] . "' AND p.topicos_id=t.id ";
+                    }
+                }
+                $res = DB::select("SELECT p.id AS \"pergunta_id\", p.enunciado,p.topicos_id,t.disciplina_id FROM perguntas p, topicos t " . $comand);
+
+                DB::delete('delete from pergunta_quizz where quizz_id=:id', ['id' => $id]);
+                DB::delete('delete from topicos_quizz where quizz_id=:id', ['id' => $id]);
+
+                if (count($res) >= $numQuestion) {
+
+                    for ($i = 0; $i < $numQuestion; $i++) {
+                        while (true) {
+                            $index = rand(0, count($res) - 1);
+
+                            if (!in_array($index, $stack)) {
+                                break;
+                            }
+                        }
+                        array_push($stack, $index);
+
+                        DB::insert('insert into pergunta_quizz (id,enuncia,id_pergunta,quizz_id,topico_id, PergIndex) value (?,?,?,?,?,?)',
+                            [uniqid(), $res[$index]->enunciado, $res[$index]->pergunta_id, $id, $res[$index]->topicos_id, $i + 1]);
+
+
+                    }
+                } else {
+                    return response()->json([
+                        'message' => "numero de perguntas invalido"
+                    ]);
+                }
+
+                for ($i = 0; $i < count($topicos); $i++) {
+                    DB::insert('insert into topicos_quizz (quizz_id, topicos_id) values(?,?)', [$id, $topicos[$i]]);
+                }
+
+                return response()->json([
+                    'message' => "sucesso"
+                ]);
+            }
+
+
+        }catch (Exception $e) {
+
+            return response()->json([
+                'message' => "erro"
+            ]);
+        }
+
+
+
+    }
+
 
     function insertQuizz(Request $request)
     {
@@ -83,6 +217,9 @@ class Quizz extends Controller
                 ]);
             }
 
+            for ($i = 0; $i < count($topicos); $i++) {
+                DB::insert('insert into topicos_quizz (quizz_id, topicos_id) values(?,?)', [$id, $topicos[$i]]);
+            }
 
             return response()->json([
                 'message' => "sucesso"
@@ -169,12 +306,6 @@ class Quizz extends Controller
 
     }
 
-
-
-
-
-
-
     function EndQuizz(Request $request)
     {
 
@@ -188,7 +319,6 @@ GROUP BY s.nomequizz', ['id' => session('utilizador')['id'], 'sessionId' => $req
         return view('/quizz/EndQuizz', ['res' => $query[0]->res, 'nome' => $query[0]->nome]);
 
     }
-
 
     function CreateWaitRoom(Request $request)
     {
@@ -331,9 +461,6 @@ GROUP BY s.nomequizz', ['id' => session('utilizador')['id'], 'sessionId' => $req
         ]);
 }
 
-
-
-
     function setRespostaQuizz(Request $request)
     {
 
@@ -349,8 +476,7 @@ GROUP BY s.nomequizz', ['id' => session('utilizador')['id'], 'sessionId' => $req
 
     }
 
-
-function nextQuestionQuizz(Request $request){
+    function nextQuestionQuizz(Request $request){
 
         $index=$request->index;
 
@@ -377,9 +503,7 @@ function nextQuestionQuizz(Request $request){
 
     }
 
-
-
-function EndQuizzRealTime(){
+    function EndQuizzRealTime(){
     broadcast(new WaitRoom(session('utilizador')['nome'], session('sessao')['id'], 'EndQuizz', session('utilizador')['id']))->toOthers();
 
 }
@@ -390,6 +514,8 @@ function EndQuizzRealTime(){
 
 
     ////////////////////////////////////////////////////////editar//////////////////////////////////////
+
+
     function ocultarQuizz(Request $request){
         try {
 

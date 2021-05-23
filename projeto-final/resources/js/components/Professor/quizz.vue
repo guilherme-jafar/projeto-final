@@ -75,7 +75,8 @@
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                         <li>
                                             <button type="button" class="dropdown-item" data-bs-toggle="modal"
-                                                    :data-bs-target="'#editarQuizz' + quizz['id']">Editar
+                                                    :data-bs-target="'#editarQuizz' + quizz['id']"
+                                                    @click="listTopicosQuizz(quizz['id'])">Editar
                                             </button>
 
                                         </li>
@@ -84,7 +85,7 @@
                                                     :data-bs-target="'#eliminarQuizz' + quizz['id']">Eliminar
                                             </button>
                                         </li>
-                                        <li v-if="quizz['tipo']==='false'">
+                                        <li>
                                             <button v-if="quizz['visivel'] === 'false'" type="button"
                                                     class="dropdown-item" @click="tornarVisivel(quizz['id'])">Tornar
                                                 Visivel
@@ -226,7 +227,7 @@
                                             <div class="col-12 mt-3">
                                                 <label class="label" for="quizzdescricao">Descrição</label>
                                                 <textarea class="form-control" :value="quizz['descricao']"
-                                                          name="quizzdescricao" :id="'quizzdescricao' + quizz['id']"
+                                                          :name="'quizzdescricao'+ quizz['id']" :id="'quizzdescricao' + quizz['id']"
                                                           rows="2"></textarea>
 
                                             </div>
@@ -235,25 +236,25 @@
                                                 <div :id="'realTime'+ quizz['id']" class="mb-1 mt-5">
                                                     <h4>Realtime</h4>
                                                     <div class="mb-1">
-                                                        <label v-if="quizz['tipo'] === 'true'">
+                                                        <label>
                                                             <input type="radio" :name="'realtimeop' + quizz['id']"
-                                                                   value="true" checked> Sim
+                                                                   value="true" v-bind:checked="quizz['tipo'] === 'true'" > Sim
                                                         </label>
-                                                        <label v-else>
-                                                            <input type="radio" :name="'realtimeop' + quizz['id']"
-                                                                   value="true"> Sim
-                                                        </label>
+<!--                                                        <label v-else>-->
+<!--                                                            <input type="radio" :name="'realtimeop' + quizz['id']"-->
+<!--                                                                   value="true"> Sim-->
+<!--                                                        </label>-->
 
                                                     </div>
                                                     <div>
-                                                        <label v-if="quizz['tipo'] === 'false'">
+                                                        <label>
                                                             <input type="radio" :name="'realtimeop' + quizz['id']"
-                                                                   value="false" checked>Não
+                                                                   value="false" v-bind:checked="quizz['tipo'] === 'false'">Não
                                                         </label>
-                                                        <label v-else>
-                                                            <input type="radio" :name="'realtimeop' + quizz['id']"
-                                                                   value="false">Não
-                                                        </label>
+<!--                                                        <label v-else>-->
+<!--                                                            <input type="radio" :name="'realtimeop' + quizz['id']"-->
+<!--                                                                   value="false">Não-->
+<!--                                                        </label>-->
 
                                                     </div>
 
@@ -264,53 +265,33 @@
                                                 <div :id="'pontos' + quizz['id']" class="mb-1 mt-5">
                                                     <h4>Vale Pontos?</h4>
                                                     <div class="mb-1">
-                                                        <label v-if="quizz['vale_pontos'] === 'true'">
+                                                        <label >
                                                             <input type="radio" :name="'Valepontos' +quizz['id']"
-                                                                   value="true" checked> Sim
+                                                                   value="true" v-bind:checked="quizz['vale_pontos'] === 'true'"> Sim
                                                         </label>
-                                                        <label v-else>
-                                                            <input type="radio" :name="'Valepontos' +quizz['id']"
-                                                                   value="true"> Sim
-                                                        </label>
-
                                                     </div>
                                                     <div>
-                                                        <label v-if="quizz['vale_pontos'] === 'false'">
+                                                        <label >
                                                             <input type="radio" :name="'Valepontos' +quizz['id']"
-                                                                   value="false" checked>Não
+                                                                   value="false" v-bind:checked="quizz['vale_pontos'] === 'false'">Não
                                                         </label>
-                                                        <label v-else>
-                                                            <input type="radio" :name="'Valepontos' +quizz['id']"
-                                                                   value="false">Não
-                                                        </label>
-
                                                     </div>
-
                                                 </div>
                                             </div>
                                             <div class="col-md-4 mb-5 mb-xs-0 text-center">
                                                 <div :id="'Visivel'+quizz['id']" class="mb-1 mt-5">
                                                     <h4>Visivel</h4>
                                                     <div class="mb-1">
-                                                        <label v-if="quizz['visivel'] === 'true'">
+                                                        <label v-if="">
                                                             <input type="radio" :name="'Visivelop' + quizz['id']"
                                                                    value="true"
-                                                                   checked>&nbsp;Sim
-                                                        </label>
-                                                        <label v-else>
-                                                            <input type="radio" :name="'Visivelop' + quizz['id']"
-                                                                   value="true"
-                                                            >&nbsp;Sim
+                                                                   v-bind:checked="quizz['visivel'] === 'true'">&nbsp;Sim
                                                         </label>
                                                     </div>
                                                     <div>
-                                                        <label v-if="quizz['visivel'] === 'false'">
+                                                        <label>
                                                             <input type="radio" :name="'Visivelop' + quizz['id']"
-                                                                   value="false" checked>&nbsp;Não
-                                                        </label>
-                                                        <label v-else>
-                                                            <input type="radio" :name="'Visivelop' + quizz['id']"
-                                                                   value="false">&nbsp;Não
+                                                                   value="false" v-bind:checked="quizz['visivel'] === 'false'">&nbsp;Não
                                                         </label>
                                                     </div>
 
@@ -324,8 +305,9 @@
 
 
                                             <div class="col-12 mt-1">
-                                                <label class="label" for="nPerguntas">Numero perguntas</label>
-                                                <input class="form-control" :name="'nPerguntas' + quizz['id']" :id="'nPerguntas' + quizz['id']"
+                                                <label class="label" :for="'nPerguntas' +quizz['id'] ">Numero perguntas</label>
+                                                <input class="form-control" :name="'nPerguntas' + quizz['id']"
+                                                       :id="'nPerguntas' + quizz['id']"
                                                        type="number" :value="quizz['numeroperguntas']">
 
                                             </div>
@@ -334,20 +316,25 @@
                                             </div>
 
                                             <div class="col-12">
-<!--                                                <div class="card-box  mb-5 mt-4" v-for="topico in topicos.data"-->
-<!--                                                     :key="topico['id']">-->
+                                                <div v-if="topicosQuizz.length !== 0">
+                                                    <div class="mb-5 mt-4" v-for="topico in topicos.data"
+                                                         :key="topico['id']">
 
-<!--                                                    <div class="card-box-topicos">-->
-<!--                                                        <label class="d-flex " :for="'inputTopico' + topico['id']"><h2>-->
-<!--                                                            {{topico['nome']}}</h2>-->
-<!--                                                            <input-->
-<!--                                                            :id="'inputTopico' + topico['id']"-->
-<!--                                                            class="ms-auto mt-3" type="checkbox"-->
-<!--                                                            :value="topico['id']" name="topico">-->
-<!--                                                        </label>-->
-<!--                                                    </div>-->
+                                                        <div class="card-box-topicos">
+                                                            <label class="d-flex " :for="'inputTopico' + topico['id'] + quizz['id']">
+                                                                <h2>
+                                                                    {{topico['nome']}}</h2>
+                                                                <input
+                                                                    :id="'inputTopico' + topico['id'] + quizz['id']"
+                                                                    class="ms-auto mt-3" type="checkbox"
+                                                                    :value="topico['id']" :name="'topico' + quizz['id']"
+                                                                    v-bind:checked="checked(topico['id'])">
+                                                            </label>
+                                                        </div>
 
-<!--                                                </div>-->
+                                                    </div>
+                                                </div>
+
                                             </div>
 
 
@@ -529,12 +516,165 @@
                 modalEditarQuizz: '',
                 toastDeleteQuizz: '',
                 toastEliminarQuizz: '',
+                topicosQuizz: [],
+                fetchedQuizzTopico: false
             }
         },
 
         methods: {
-            editarQuizz(quizz){
+            checked(id) {
+                for (let topico of this.topicosQuizz){
+                    if (topico['id'] === id){
+                        return true
+                    }
+                }
+                return false;
+            },
+            listTopicosQuizz(id) {
+                this.topicosQuizz = []
+                axios.get('/prof/getTopicoQuizz/' + id
+                ).then(function (response) {
 
+                    this.topicosQuizz = response.data.message;
+                    this.fetchedQuizzTopico = true;
+
+                }.bind(this));
+            },
+            editarQuizz(quizz) {
+               let  id = quizz['id'];
+
+                $('.btn-loading span').addClass('d-none');
+                $('.btn-loading div').removeClass('d-none');
+                let l = window.location.href.split('/');
+                var flagTime, corretTime, flagVisibel, corretVisibel, flagPontos, corretPontos;
+                var array = [];
+                var form = new FormData();
+                this.modalEditarQuizz = bootstrap.Modal.getInstance(document.getElementById('editarQuizz' + id), {});
+                $('#TituloError' + id).text(" ").css('color', 'red').css('opacity', '1');
+                $('#TError' + id).text(" ").css('color', 'red').css('opacity', '1');
+                $('#PError'+ id).text(" ").css('color', 'red').css('opacity', '1');
+                $('#ErrorVisivel' + id).text(" ").css('color', 'red').css('opacity', '1');
+                $('#TopicoError' + id).text(" ").css('color', 'red').css('opacity', '1');
+                $('#NumeroError' + id).text(" ").css('color', 'red').css('opacity', '1');
+
+                if ($('#titulo' +id).val().length === 0) {
+                    $('#TituloError' + id).text("Indique um titulo para o quizz").css('color', 'red').css('opacity', '1');
+                    $('.btn-loading span').removeClass('d-none');
+                    $('.btn-loading div').addClass('d-none');
+
+                } else {
+
+                    var radios = document.getElementsByName("realtimeop" + id);
+                    for (let i = 0; i < 2; i++) {
+                        if (radios[i].checked) {
+                            flagTime = true;
+                            corretTime = radios[i].value;
+                        }
+                    }
+                    if (!flagTime) {
+                        $('#TError' + id).text("Indique o tipo de quizz que quer").css('color', 'red').css('opacity', '1');
+                        $('.btn-loading span').removeClass('d-none');
+                        $('.btn-loading div').addClass('d-none');
+                    }else {
+                        form.append('realtime', corretTime);
+                        form.append('titulo', $('#titulo' + id).val());
+                        form.append('descricao', $('#quizzdescricao' + id).val());
+                        var radios2 = document.getElementsByName("Visivelop" + id);
+                        for (let i = 0; i < 2; i++) {
+                            if (radios2[i].checked) {
+                                flagVisibel = true;
+                                corretVisibel = radios2[i].value;
+                            }
+                        }
+
+                        if (!flagVisibel) {
+                            $('#ErrorVisivel' +id).text("Indique se quer o teste já visivel ou não").css('color', 'red').css('opacity', '1');
+                            $('.btn-loading span').removeClass('d-none');
+                            $('.btn-loading div').addClass('d-none');
+                        } else {
+                            form.append('visible', corretVisibel);
+
+
+                            let radios3 = document.getElementsByName("Valepontos" + id);
+                            for (let i = 0; i < 2; i++) {
+
+                                if (radios3[i].checked) {
+                                    flagPontos = true;
+                                    corretPontos = radios3[i].value;
+                                }
+                            }
+
+                            if (!flagPontos) {
+                                $('#ErrorVisivel' + id).text("Indique se o quiz vale pontos ou não").css('color', 'red').css('opacity', '1');
+                                $('.btn-loading span').removeClass('d-none');
+                                $('.btn-loading div').addClass('d-none');
+                            } else {
+                                form.append('pontos', corretPontos);
+                                if ($('#nPerguntas'+ id).val() < 3) {
+                                    $('#NumeroError' + id).text("Um quizz deve ter pelo menos três perguntas").css('color', 'red').css('opacity', '1');
+                                    $('.btn-loading span').removeClass('d-none');
+                                    $('.btn-loading div').addClass('d-none');
+
+                                } else {
+                                    form.append('nPerguntas', $('#nPerguntas' + id).val());
+                                    var check = document.getElementsByName("topico" + id);
+                                    var count = 0
+
+
+                                    for (let i = 0; i < check.length; i++) {
+
+                                        if (check[i].checked) {
+                                            array.push(check[i].value)
+                                            count++
+
+                                        }
+                                    }
+
+                                    if (count === 0) {
+                                        $('#TopicoError' + id).text("Tem que indicar pelo menos um topico").css('color', 'red').css('opacity', '1');
+                                        $('.btn-loading span').removeClass('d-none');
+                                        $('.btn-loading div').addClass('d-none');
+                                    } else {
+                                        form.append('array', JSON.stringify(array));
+                                        form.append('id', id);
+                                        form.append('numeroPerguntasAntigo', quizz['numeroperguntas']);
+
+
+                                        axios.post('/prof/quizz/' + id + '/editar', form
+                                        ).then(function (response) {
+                                            if (response.data.message === "sucesso") {
+
+                                                $('.btn-loading span').removeClass('d-none');
+                                                $('.btn-loading div').addClass('d-none');
+                                                this.modalEditarQuizz.hide();
+                                                this.toastEditarQuizz.show();
+                                                $('#toastEditarQuizz').removeClass('d-none');
+                                            }else if (response.data.message === "numero de perguntas invalido") {
+                                                $('#NumeroError' + id).text("numero de perguntas invalido").css('color', 'red').css('opacity', '1');
+                                                $('.btn-loading span').removeClass('d-none');
+                                                $('.btn-loading div').addClass('d-none');
+                                            } else {
+                                                alert("Erro a tentar editar o quizz");
+                                                this.modal.hide();
+                                                this.modalEditarQuizz.hide();
+                                                $('.btn-loading span').removeClass('d-none');
+                                                $('.btn-loading div').addClass('d-none');
+                                            }
+
+                                        }.bind(this));
+
+
+                                    }
+
+
+                                }
+
+                            }
+
+
+                        }
+                    }
+                }
             },
             eliminarQuizz(quizz) {
                 $('.eliminar-btn span').addClass('d-none');
@@ -734,7 +874,7 @@
 
                         var radios = document.getElementsByName("realtimeop");
                         for (let i = 0; i < 2; i++) {
-                            console.log(radios[i].checked)
+
                             if (radios[i].checked) {
                                 radios[i].checked = false;
                             }
@@ -776,10 +916,14 @@
                     } else if (response.data.message === "numero de perguntas invalido") {
                         $('#NumeroError').text("numero de perguntas invalido").css('color', 'red').css('opacity', '1');
                         $('#submitQuizz').prop('disabled', false);
+                        $('.btn-loading span').removeClass('d-none');
+                        $('.btn-loading div').addClass('d-none');
                     } else {
                         alert("Erro a tentar inserir o quizz");
                         $('#submitQuizz').prop('disabled', false);
                         this.modal.hide();
+                        $('.btn-loading span').removeClass('d-none');
+                        $('.btn-loading div').addClass('d-none');
                     }
 
                 }.bind(this));
@@ -817,7 +961,7 @@
                 return this.quizz.data.filter((quizz) => {
                     return quizz['nome'].match(this.search)
                 })
-            },
+            }
         },
         watch: {
             modal: function () {

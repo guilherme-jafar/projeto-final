@@ -4123,6 +4123,16 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -4137,7 +4147,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       multimedia: [],
       isFetchingM: true,
       i: 0,
-      temImagem: false
+      temImagem: false,
+      toastEditarPergunta: ''
     };
   },
   methods: {
@@ -4349,15 +4360,14 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }
 
       axios__WEBPACK_IMPORTED_MODULE_1___default().post('/prof/pergunta/' + perguntaID + '/editar', form).then(function (response) {
-        if (response.data.message === "erro") {
-          alert("Erro a inserir a pergunta");
-        } else {//  $('#submit' + top).prop('disabled', false);
-          // this.toastPergunta.show();
-          //this.$root.$emit('ShowToastPergunta', 3);
-          // $('#toast-pergunta').removeClass('d-none');
-        } // document.getElementById("pergunta" + top).value = ""
-        // document.getElementById("file" + top).value = ""
-
+        if (response.data.message === "sucesso") {
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#toastEditarPergunta').removeClass('d-none');
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
+          this.toastEditarPergunta.show();
+        } else if (response.data.message === "erro") {
+          alert("Erro a editar a pergunta");
+        }
       }.bind(this));
     },
     fileType: function fileType(tipo) {
@@ -4438,6 +4448,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).hide();
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).hide();
     }
+
+    this.toastEditarPergunta = new bootstrap.Toast(document.getElementById('toastEditarPergunta'), {
+      delay: 10000
+    });
+    this.toastEditarPergunta.hide();
   }
 });
 
@@ -4458,19 +4473,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 //
 //
 //
@@ -4984,11 +4992,158 @@ __webpack_require__.r(__webpack_exports__);
       modalDeleteQuizz: '',
       modalEditarQuizz: '',
       toastDeleteQuizz: '',
-      toastEliminarQuizz: ''
+      toastEliminarQuizz: '',
+      topicosQuizz: [],
+      fetchedQuizzTopico: false
     };
   },
   methods: {
-    editarQuizz: function editarQuizz(quizz) {},
+    checked: function checked(id) {
+      var _iterator = _createForOfIteratorHelper(this.topicosQuizz),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var topico = _step.value;
+
+          if (topico['id'] === id) {
+            return true;
+          }
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
+      return false;
+    },
+    listTopicosQuizz: function listTopicosQuizz(id) {
+      this.topicosQuizz = [];
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get('/prof/getTopicoQuizz/' + id).then(function (response) {
+        this.topicosQuizz = response.data.message;
+        this.fetchedQuizzTopico = true;
+      }.bind(this));
+    },
+    editarQuizz: function editarQuizz(quizz) {
+      var id = quizz['id'];
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').addClass('d-none');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').removeClass('d-none');
+      var l = window.location.href.split('/');
+      var flagTime, corretTime, flagVisibel, corretVisibel, flagPontos, corretPontos;
+      var array = [];
+      var form = new FormData();
+      this.modalEditarQuizz = bootstrap.Modal.getInstance(document.getElementById('editarQuizz' + id), {});
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#TituloError' + id).text(" ").css('color', 'red').css('opacity', '1');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#TError' + id).text(" ").css('color', 'red').css('opacity', '1');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#PError' + id).text(" ").css('color', 'red').css('opacity', '1');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#ErrorVisivel' + id).text(" ").css('color', 'red').css('opacity', '1');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#TopicoError' + id).text(" ").css('color', 'red').css('opacity', '1');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#NumeroError' + id).text(" ").css('color', 'red').css('opacity', '1');
+
+      if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('#titulo' + id).val().length === 0) {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#TituloError' + id).text("Indique um titulo para o quizz").css('color', 'red').css('opacity', '1');
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
+      } else {
+        var radios = document.getElementsByName("realtimeop" + id);
+
+        for (var i = 0; i < 2; i++) {
+          if (radios[i].checked) {
+            flagTime = true;
+            corretTime = radios[i].value;
+          }
+        }
+
+        if (!flagTime) {
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#TError' + id).text("Indique o tipo de quizz que quer").css('color', 'red').css('opacity', '1');
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
+        } else {
+          form.append('realtime', corretTime);
+          form.append('titulo', jquery__WEBPACK_IMPORTED_MODULE_0___default()('#titulo' + id).val());
+          form.append('descricao', jquery__WEBPACK_IMPORTED_MODULE_0___default()('#quizzdescricao' + id).val());
+          var radios2 = document.getElementsByName("Visivelop" + id);
+
+          for (var _i = 0; _i < 2; _i++) {
+            if (radios2[_i].checked) {
+              flagVisibel = true;
+              corretVisibel = radios2[_i].value;
+            }
+          }
+
+          if (!flagVisibel) {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#ErrorVisivel' + id).text("Indique se quer o teste já visivel ou não").css('color', 'red').css('opacity', '1');
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
+          } else {
+            form.append('visible', corretVisibel);
+            var radios3 = document.getElementsByName("Valepontos" + id);
+
+            for (var _i2 = 0; _i2 < 2; _i2++) {
+              if (radios3[_i2].checked) {
+                flagPontos = true;
+                corretPontos = radios3[_i2].value;
+              }
+            }
+
+            if (!flagPontos) {
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('#ErrorVisivel' + id).text("Indique se o quiz vale pontos ou não").css('color', 'red').css('opacity', '1');
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
+            } else {
+              form.append('pontos', corretPontos);
+
+              if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('#nPerguntas' + id).val() < 3) {
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#NumeroError' + id).text("Um quizz deve ter pelo menos três perguntas").css('color', 'red').css('opacity', '1');
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
+              } else {
+                form.append('nPerguntas', jquery__WEBPACK_IMPORTED_MODULE_0___default()('#nPerguntas' + id).val());
+                var check = document.getElementsByName("topico" + id);
+                var count = 0;
+
+                for (var _i3 = 0; _i3 < check.length; _i3++) {
+                  if (check[_i3].checked) {
+                    array.push(check[_i3].value);
+                    count++;
+                  }
+                }
+
+                if (count === 0) {
+                  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#TopicoError' + id).text("Tem que indicar pelo menos um topico").css('color', 'red').css('opacity', '1');
+                  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
+                  jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
+                } else {
+                  form.append('array', JSON.stringify(array));
+                  form.append('id', id);
+                  form.append('numeroPerguntasAntigo', quizz['numeroperguntas']);
+                  axios__WEBPACK_IMPORTED_MODULE_1___default().post('/prof/quizz/' + id + '/editar', form).then(function (response) {
+                    if (response.data.message === "sucesso") {
+                      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
+                      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
+                      this.modalEditarQuizz.hide();
+                      this.toastEditarQuizz.show();
+                      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#toastEditarQuizz').removeClass('d-none');
+                    } else if (response.data.message === "numero de perguntas invalido") {
+                      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#NumeroError' + id).text("numero de perguntas invalido").css('color', 'red').css('opacity', '1');
+                      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
+                      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
+                    } else {
+                      alert("Erro a tentar editar o quizz");
+                      this.modal.hide();
+                      this.modalEditarQuizz.hide();
+                      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
+                      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
+                    }
+                  }.bind(this));
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     eliminarQuizz: function eliminarQuizz(quizz) {
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn span').addClass('d-none');
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn div').removeClass('d-none');
@@ -5086,10 +5241,10 @@ __webpack_require__.r(__webpack_exports__);
           form.append('descricao', jquery__WEBPACK_IMPORTED_MODULE_0___default()('#quizzdescricao').val());
           var radios2 = document.getElementsByName("Visivelop");
 
-          for (var _i = 0; _i < 2; _i++) {
-            if (radios2[_i].checked) {
+          for (var _i4 = 0; _i4 < 2; _i4++) {
+            if (radios2[_i4].checked) {
               flagVisibel = true;
-              corretVisibel = radios2[_i].value;
+              corretVisibel = radios2[_i4].value;
             }
           }
 
@@ -5101,10 +5256,10 @@ __webpack_require__.r(__webpack_exports__);
             form.append('visible', corretVisibel);
             var radios3 = document.getElementsByName("Valepontos");
 
-            for (var _i2 = 0; _i2 < 2; _i2++) {
-              if (radios3[_i2].checked) {
+            for (var _i5 = 0; _i5 < 2; _i5++) {
+              if (radios3[_i5].checked) {
                 flagPontos = true;
-                corretPontos = radios3[_i2].value;
+                corretPontos = radios3[_i5].value;
               }
             }
 
@@ -5124,9 +5279,9 @@ __webpack_require__.r(__webpack_exports__);
                 var check = document.getElementsByName("topico");
                 var count = 0;
 
-                for (var _i3 = 0; _i3 < check.length; _i3++) {
-                  if (check[_i3].checked) {
-                    array.push(check[_i3].value);
+                for (var _i6 = 0; _i6 < check.length; _i6++) {
+                  if (check[_i6].checked) {
+                    array.push(check[_i6].value);
                     count++;
                   }
                 }
@@ -5155,8 +5310,6 @@ __webpack_require__.r(__webpack_exports__);
           var radios = document.getElementsByName("realtimeop");
 
           for (var i = 0; i < 2; i++) {
-            console.log(radios[i].checked);
-
             if (radios[i].checked) {
               radios[i].checked = false;
             }
@@ -5164,25 +5317,25 @@ __webpack_require__.r(__webpack_exports__);
 
           var radios2 = document.getElementsByName("Visivelop");
 
-          for (var _i4 = 0; _i4 < 2; _i4++) {
-            if (radios2[_i4].checked) {
-              radios2[_i4].checked = false;
+          for (var _i7 = 0; _i7 < 2; _i7++) {
+            if (radios2[_i7].checked) {
+              radios2[_i7].checked = false;
             }
           }
 
           var radios3 = document.getElementsByName("Valepontos");
 
-          for (var _i5 = 0; _i5 < 2; _i5++) {
-            if (radios3[_i5].checked) {
-              radios3[_i5].checked = false;
+          for (var _i8 = 0; _i8 < 2; _i8++) {
+            if (radios3[_i8].checked) {
+              radios3[_i8].checked = false;
             }
           }
 
           var check = document.getElementsByName("topico");
 
-          for (var _i6 = 0; _i6 < check.length; _i6++) {
-            if (check[_i6].checked) {
-              check[_i6].checked = false;
+          for (var _i9 = 0; _i9 < check.length; _i9++) {
+            if (check[_i9].checked) {
+              check[_i9].checked = false;
             }
           }
 
@@ -5197,10 +5350,14 @@ __webpack_require__.r(__webpack_exports__);
         } else if (response.data.message === "numero de perguntas invalido") {
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('#NumeroError').text("numero de perguntas invalido").css('color', 'red').css('opacity', '1');
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submitQuizz').prop('disabled', false);
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
         } else {
           alert("Erro a tentar inserir o quizz");
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submitQuizz').prop('disabled', false);
           this.modal.hide();
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
         }
       }.bind(this));
     },
@@ -46926,6 +47083,8 @@ var render = function() {
       _c("div", { staticClass: "container-fluid" }, [
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
+            _vm._m(0),
+            _vm._v(" "),
             _c("input", {
               staticClass: "form-control form-control-pergunta",
               attrs: {
@@ -47349,15 +47508,15 @@ var render = function() {
             ? _c("div", [
                 _vm.pergunta["tipo"] !== "true/false"
                   ? _c("div", [
-                      _vm._m(0),
-                      _vm._v(" "),
                       _vm._m(1),
                       _vm._v(" "),
                       _vm._m(2),
                       _vm._v(" "),
-                      _vm._m(3)
+                      _vm._m(3),
+                      _vm._v(" "),
+                      _vm._m(4)
                     ])
-                  : _c("div", [_vm._m(4), _vm._v(" "), _vm._m(5)])
+                  : _c("div", [_vm._m(5), _vm._v(" "), _vm._m(6)])
               ])
             : _vm._e(),
           _vm._v(" "),
@@ -47806,6 +47965,43 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "toast toast-primary align-items-center mb-5 mtn-5 d-none",
+        attrs: {
+          id: "toastEditarPergunta",
+          role: "alert",
+          "aria-live": "assertive",
+          "aria-atomic": "true"
+        }
+      },
+      [
+        _c("div", { staticClass: "d-flex" }, [
+          _c("div", { staticClass: "toast-body" }, [
+            _c("strong", [
+              _c("i", { staticClass: "bi bi-check-circle-fill" }),
+              _vm._v("   \n                                    "),
+              _c("span", [_vm._v("Pergunta editada com sucesso!!")])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("button", {
+            staticClass: "btn-close me-2 m-auto",
+            attrs: {
+              type: "button",
+              "data-bs-dismiss": "toast",
+              "aria-label": "Close"
+            }
+          })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-loading is-loading mt-5" }, [
       _c("div", { staticClass: "content" }, [_c("p")])
     ])
@@ -47974,6 +48170,13 @@ var render = function() {
                                               "data-bs-toggle": "modal",
                                               "data-bs-target":
                                                 "#editarQuizz" + quizz["id"]
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.listTopicosQuizz(
+                                                  quizz["id"]
+                                                )
+                                              }
                                             }
                                           },
                                           [
@@ -48004,51 +48207,47 @@ var render = function() {
                                         )
                                       ]),
                                       _vm._v(" "),
-                                      quizz["tipo"] === "false"
-                                        ? _c("li", [
-                                            quizz["visivel"] === "false"
-                                              ? _c(
-                                                  "button",
-                                                  {
-                                                    staticClass:
-                                                      "dropdown-item",
-                                                    attrs: { type: "button" },
-                                                    on: {
-                                                      click: function($event) {
-                                                        return _vm.tornarVisivel(
-                                                          quizz["id"]
-                                                        )
-                                                      }
-                                                    }
-                                                  },
-                                                  [
-                                                    _vm._v(
-                                                      "Tornar\n                                                Visivel\n                                            "
+                                      _c("li", [
+                                        quizz["visivel"] === "false"
+                                          ? _c(
+                                              "button",
+                                              {
+                                                staticClass: "dropdown-item",
+                                                attrs: { type: "button" },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.tornarVisivel(
+                                                      quizz["id"]
                                                     )
-                                                  ]
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "Tornar\n                                                Visivel\n                                            "
                                                 )
-                                              : _c(
-                                                  "button",
-                                                  {
-                                                    staticClass:
-                                                      "dropdown-item",
-                                                    attrs: { type: "button" },
-                                                    on: {
-                                                      click: function($event) {
-                                                        return _vm.ocultarQuizz(
-                                                          quizz["id"]
-                                                        )
-                                                      }
-                                                    }
-                                                  },
-                                                  [
-                                                    _vm._v(
-                                                      "Ocultar Quizz\n                                            "
+                                              ]
+                                            )
+                                          : _c(
+                                              "button",
+                                              {
+                                                staticClass: "dropdown-item",
+                                                attrs: { type: "button" },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.ocultarQuizz(
+                                                      quizz["id"]
                                                     )
-                                                  ]
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "Ocultar Quizz\n                                            "
                                                 )
-                                          ])
-                                        : _vm._e()
+                                              ]
+                                            )
+                                      ])
                                     ]
                                   )
                                 ]),
@@ -48533,7 +48732,9 @@ var render = function() {
                                                       staticClass:
                                                         "form-control",
                                                       attrs: {
-                                                        name: "quizzdescricao",
+                                                        name:
+                                                          "quizzdescricao" +
+                                                          quizz["id"],
                                                         id:
                                                           "quizzdescricao" +
                                                           quizz["id"],
@@ -48576,89 +48777,50 @@ var render = function() {
                                                             staticClass: "mb-1"
                                                           },
                                                           [
-                                                            quizz["tipo"] ===
-                                                            "true"
-                                                              ? _c("label", [
-                                                                  _c("input", {
-                                                                    attrs: {
-                                                                      type:
-                                                                        "radio",
-                                                                      name:
-                                                                        "realtimeop" +
-                                                                        quizz[
-                                                                          "id"
-                                                                        ],
-                                                                      value:
-                                                                        "true",
-                                                                      checked:
-                                                                        ""
-                                                                    }
-                                                                  }),
-                                                                  _vm._v(
-                                                                    " Sim\n                                                        "
-                                                                  )
-                                                                ])
-                                                              : _c("label", [
-                                                                  _c("input", {
-                                                                    attrs: {
-                                                                      type:
-                                                                        "radio",
-                                                                      name:
-                                                                        "realtimeop" +
-                                                                        quizz[
-                                                                          "id"
-                                                                        ],
-                                                                      value:
-                                                                        "true"
-                                                                    }
-                                                                  }),
-                                                                  _vm._v(
-                                                                    " Sim\n                                                        "
-                                                                  )
-                                                                ])
+                                                            _c("label", [
+                                                              _c("input", {
+                                                                attrs: {
+                                                                  type: "radio",
+                                                                  name:
+                                                                    "realtimeop" +
+                                                                    quizz["id"],
+                                                                  value: "true"
+                                                                },
+                                                                domProps: {
+                                                                  checked:
+                                                                    quizz[
+                                                                      "tipo"
+                                                                    ] === "true"
+                                                                }
+                                                              }),
+                                                              _vm._v(
+                                                                " Sim\n                                                        "
+                                                              )
+                                                            ])
                                                           ]
                                                         ),
                                                         _vm._v(" "),
                                                         _c("div", [
-                                                          quizz["tipo"] ===
-                                                          "false"
-                                                            ? _c("label", [
-                                                                _c("input", {
-                                                                  attrs: {
-                                                                    type:
-                                                                      "radio",
-                                                                    name:
-                                                                      "realtimeop" +
-                                                                      quizz[
-                                                                        "id"
-                                                                      ],
-                                                                    value:
-                                                                      "false",
-                                                                    checked: ""
-                                                                  }
-                                                                }),
-                                                                _vm._v(
-                                                                  "Não\n                                                        "
-                                                                )
-                                                              ])
-                                                            : _c("label", [
-                                                                _c("input", {
-                                                                  attrs: {
-                                                                    type:
-                                                                      "radio",
-                                                                    name:
-                                                                      "realtimeop" +
-                                                                      quizz[
-                                                                        "id"
-                                                                      ],
-                                                                    value:
-                                                                      "false"
-                                                                  }
-                                                                }),
-                                                                _vm._v(
-                                                                  "Não\n                                                        "
-                                                                )
-                                                              ])
+                                                          _c("label", [
+                                                            _c("input", {
+                                                              attrs: {
+                                                                type: "radio",
+                                                                name:
+                                                                  "realtimeop" +
+                                                                  quizz["id"],
+                                                                value: "false"
+                                                              },
+                                                              domProps: {
+                                                                checked:
+                                                                  quizz[
+                                                                    "tipo"
+                                                                  ] === "false"
+                                                              }
+                                                            }),
+                                                            _vm._v(
+                                                              "Não\n                                                        "
+                                                            )
+                                                          ])
                                                         ])
                                                       ]
                                                     )
@@ -48694,91 +48856,50 @@ var render = function() {
                                                             staticClass: "mb-1"
                                                           },
                                                           [
-                                                            quizz[
-                                                              "vale_pontos"
-                                                            ] === "true"
-                                                              ? _c("label", [
-                                                                  _c("input", {
-                                                                    attrs: {
-                                                                      type:
-                                                                        "radio",
-                                                                      name:
-                                                                        "Valepontos" +
-                                                                        quizz[
-                                                                          "id"
-                                                                        ],
-                                                                      value:
-                                                                        "true",
-                                                                      checked:
-                                                                        ""
-                                                                    }
-                                                                  }),
-                                                                  _vm._v(
-                                                                    " Sim\n                                                        "
-                                                                  )
-                                                                ])
-                                                              : _c("label", [
-                                                                  _c("input", {
-                                                                    attrs: {
-                                                                      type:
-                                                                        "radio",
-                                                                      name:
-                                                                        "Valepontos" +
-                                                                        quizz[
-                                                                          "id"
-                                                                        ],
-                                                                      value:
-                                                                        "true"
-                                                                    }
-                                                                  }),
-                                                                  _vm._v(
-                                                                    " Sim\n                                                        "
-                                                                  )
-                                                                ])
+                                                            _c("label", [
+                                                              _c("input", {
+                                                                attrs: {
+                                                                  type: "radio",
+                                                                  name:
+                                                                    "Valepontos" +
+                                                                    quizz["id"],
+                                                                  value: "true"
+                                                                },
+                                                                domProps: {
+                                                                  checked:
+                                                                    quizz[
+                                                                      "vale_pontos"
+                                                                    ] === "true"
+                                                                }
+                                                              }),
+                                                              _vm._v(
+                                                                " Sim\n                                                        "
+                                                              )
+                                                            ])
                                                           ]
                                                         ),
                                                         _vm._v(" "),
                                                         _c("div", [
-                                                          quizz[
-                                                            "vale_pontos"
-                                                          ] === "false"
-                                                            ? _c("label", [
-                                                                _c("input", {
-                                                                  attrs: {
-                                                                    type:
-                                                                      "radio",
-                                                                    name:
-                                                                      "Valepontos" +
-                                                                      quizz[
-                                                                        "id"
-                                                                      ],
-                                                                    value:
-                                                                      "false",
-                                                                    checked: ""
-                                                                  }
-                                                                }),
-                                                                _vm._v(
-                                                                  "Não\n                                                        "
-                                                                )
-                                                              ])
-                                                            : _c("label", [
-                                                                _c("input", {
-                                                                  attrs: {
-                                                                    type:
-                                                                      "radio",
-                                                                    name:
-                                                                      "Valepontos" +
-                                                                      quizz[
-                                                                        "id"
-                                                                      ],
-                                                                    value:
-                                                                      "false"
-                                                                  }
-                                                                }),
-                                                                _vm._v(
-                                                                  "Não\n                                                        "
-                                                                )
-                                                              ])
+                                                          _c("label", [
+                                                            _c("input", {
+                                                              attrs: {
+                                                                type: "radio",
+                                                                name:
+                                                                  "Valepontos" +
+                                                                  quizz["id"],
+                                                                value: "false"
+                                                              },
+                                                              domProps: {
+                                                                checked:
+                                                                  quizz[
+                                                                    "vale_pontos"
+                                                                  ] === "false"
+                                                              }
+                                                            }),
+                                                            _vm._v(
+                                                              "Não\n                                                        "
+                                                            )
+                                                          ])
                                                         ])
                                                       ]
                                                     )
@@ -48814,89 +48935,50 @@ var render = function() {
                                                             staticClass: "mb-1"
                                                           },
                                                           [
-                                                            quizz["visivel"] ===
-                                                            "true"
-                                                              ? _c("label", [
-                                                                  _c("input", {
-                                                                    attrs: {
-                                                                      type:
-                                                                        "radio",
-                                                                      name:
-                                                                        "Visivelop" +
-                                                                        quizz[
-                                                                          "id"
-                                                                        ],
-                                                                      value:
-                                                                        "true",
-                                                                      checked:
-                                                                        ""
-                                                                    }
-                                                                  }),
-                                                                  _vm._v(
-                                                                    " Sim\n                                                        "
-                                                                  )
-                                                                ])
-                                                              : _c("label", [
-                                                                  _c("input", {
-                                                                    attrs: {
-                                                                      type:
-                                                                        "radio",
-                                                                      name:
-                                                                        "Visivelop" +
-                                                                        quizz[
-                                                                          "id"
-                                                                        ],
-                                                                      value:
-                                                                        "true"
-                                                                    }
-                                                                  }),
-                                                                  _vm._v(
-                                                                    " Sim\n                                                        "
-                                                                  )
-                                                                ])
+                                                            _c("label", [
+                                                              _c("input", {
+                                                                attrs: {
+                                                                  type: "radio",
+                                                                  name:
+                                                                    "Visivelop" +
+                                                                    quizz["id"],
+                                                                  value: "true"
+                                                                },
+                                                                domProps: {
+                                                                  checked:
+                                                                    quizz[
+                                                                      "visivel"
+                                                                    ] === "true"
+                                                                }
+                                                              }),
+                                                              _vm._v(
+                                                                " Sim\n                                                        "
+                                                              )
+                                                            ])
                                                           ]
                                                         ),
                                                         _vm._v(" "),
                                                         _c("div", [
-                                                          quizz["visivel"] ===
-                                                          "false"
-                                                            ? _c("label", [
-                                                                _c("input", {
-                                                                  attrs: {
-                                                                    type:
-                                                                      "radio",
-                                                                    name:
-                                                                      "Visivelop" +
-                                                                      quizz[
-                                                                        "id"
-                                                                      ],
-                                                                    value:
-                                                                      "false",
-                                                                    checked: ""
-                                                                  }
-                                                                }),
-                                                                _vm._v(
-                                                                  " Não\n                                                        "
-                                                                )
-                                                              ])
-                                                            : _c("label", [
-                                                                _c("input", {
-                                                                  attrs: {
-                                                                    type:
-                                                                      "radio",
-                                                                    name:
-                                                                      "Visivelop" +
-                                                                      quizz[
-                                                                        "id"
-                                                                      ],
-                                                                    value:
-                                                                      "false"
-                                                                  }
-                                                                }),
-                                                                _vm._v(
-                                                                  " Não\n                                                        "
-                                                                )
-                                                              ])
+                                                          _c("label", [
+                                                            _c("input", {
+                                                              attrs: {
+                                                                type: "radio",
+                                                                name:
+                                                                  "Visivelop" +
+                                                                  quizz["id"],
+                                                                value: "false"
+                                                              },
+                                                              domProps: {
+                                                                checked:
+                                                                  quizz[
+                                                                    "visivel"
+                                                                  ] === "false"
+                                                              }
+                                                            }),
+                                                            _vm._v(
+                                                              " Não\n                                                        "
+                                                            )
+                                                          ])
                                                         ])
                                                       ]
                                                     )
@@ -48942,7 +49024,9 @@ var render = function() {
                                                       {
                                                         staticClass: "label",
                                                         attrs: {
-                                                          for: "nPerguntas"
+                                                          for:
+                                                            "nPerguntas" +
+                                                            quizz["id"]
                                                         }
                                                       },
                                                       [
@@ -48991,9 +49075,116 @@ var render = function() {
                                                   ]
                                                 ),
                                                 _vm._v(" "),
-                                                _c("div", {
-                                                  staticClass: "col-12"
-                                                }),
+                                                _c(
+                                                  "div",
+                                                  { staticClass: "col-12" },
+                                                  [
+                                                    _vm.topicosQuizz.length !==
+                                                    0
+                                                      ? _c(
+                                                          "div",
+                                                          _vm._l(
+                                                            _vm.topicos.data,
+                                                            function(topico) {
+                                                              return _c(
+                                                                "div",
+                                                                {
+                                                                  key:
+                                                                    topico[
+                                                                      "id"
+                                                                    ],
+                                                                  staticClass:
+                                                                    "mb-5 mt-4"
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "div",
+                                                                    {
+                                                                      staticClass:
+                                                                        "card-box-topicos"
+                                                                    },
+                                                                    [
+                                                                      _c(
+                                                                        "label",
+                                                                        {
+                                                                          staticClass:
+                                                                            "d-flex ",
+                                                                          attrs: {
+                                                                            for:
+                                                                              "inputTopico" +
+                                                                              topico[
+                                                                                "id"
+                                                                              ] +
+                                                                              quizz[
+                                                                                "id"
+                                                                              ]
+                                                                          }
+                                                                        },
+                                                                        [
+                                                                          _c(
+                                                                            "h2",
+                                                                            [
+                                                                              _vm._v(
+                                                                                "\n                                                                    " +
+                                                                                  _vm._s(
+                                                                                    topico[
+                                                                                      "nome"
+                                                                                    ]
+                                                                                  )
+                                                                              )
+                                                                            ]
+                                                                          ),
+                                                                          _vm._v(
+                                                                            " "
+                                                                          ),
+                                                                          _c(
+                                                                            "input",
+                                                                            {
+                                                                              staticClass:
+                                                                                "ms-auto mt-3",
+                                                                              attrs: {
+                                                                                id:
+                                                                                  "inputTopico" +
+                                                                                  topico[
+                                                                                    "id"
+                                                                                  ] +
+                                                                                  quizz[
+                                                                                    "id"
+                                                                                  ],
+                                                                                type:
+                                                                                  "checkbox",
+                                                                                name:
+                                                                                  "topico" +
+                                                                                  quizz[
+                                                                                    "id"
+                                                                                  ]
+                                                                              },
+                                                                              domProps: {
+                                                                                value:
+                                                                                  topico[
+                                                                                    "id"
+                                                                                  ],
+                                                                                checked: _vm.checked(
+                                                                                  topico[
+                                                                                    "id"
+                                                                                  ]
+                                                                                )
+                                                                              }
+                                                                            }
+                                                                          )
+                                                                        ]
+                                                                      )
+                                                                    ]
+                                                                  )
+                                                                ]
+                                                              )
+                                                            }
+                                                          ),
+                                                          0
+                                                        )
+                                                      : _vm._e()
+                                                  ]
+                                                ),
                                                 _vm._v(" "),
                                                 _c(
                                                   "div",
