@@ -100,8 +100,10 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (
     Route::delete("/prof/disciplina/delete/{id}", [App\Http\Controllers\Disciplina::class,'destroy']);
     Route::get('/prof/getRespostas/{id}',[App\Http\Controllers\Pergunta::class,'getRespostas']);
     Route::get('/prof/getMultimedia/{id}',[App\Http\Controllers\Pergunta::class,'getMultimedia']);
+    Route::get('/prof/getTopicoQuizz/{id}',[App\Http\Controllers\Quizz::class,'listQuizzTopico']);
     Route::post("/prof/topico/{id}/editar", [App\Http\Controllers\topicos::class,'editar']);
     Route::post("/prof/disciplina/{id}/editar", [App\Http\Controllers\Disciplina::class,'editar']);
+    Route::post("/prof/quizz/{id}/editar", [App\Http\Controllers\Quizz::class,'editar']);
 
 
     Route::post("prof/pergunta/{id}/editar", [App\Http\Controllers\Pergunta::class,'editar']);

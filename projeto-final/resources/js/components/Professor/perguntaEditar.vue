@@ -5,7 +5,16 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-
+                        <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toastEditarPergunta" role="alert"
+                             aria-live="assertive" aria-atomic="true">
+                            <div class="d-flex">
+                                <div class="toast-body">
+                                    <strong><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp;
+                                        <span>Pergunta editada com sucesso!!</span> </strong>
+                                </div>
+                                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                        </div>
                         <input type="text" class="form-control form-control-pergunta"
                                placeholder="Escreva a pergunta aqui" :id="'pergunta'+pergunta['id']"
                                :value="pergunta['enunciado']"><br>
@@ -45,7 +54,7 @@
                                              width="40%" class="mx-auto mb-4" id="imagem">
                                     </div>
                                 </div>
-                                <div v-else-if="fileCheck()===0" >
+                                <div v-else-if="fileCheck()===0">
 
                                 </div>
 
@@ -374,7 +383,8 @@
                                     <div v-for="(resposta, index) in  4 - respostas.length ">
                                         <div class="input-group mb-3 insertAnsewr">
 
-                                            <input type='text' :id="'rem'+(index + respostas.length +1) +pergunta['id']" class=" form-control"
+                                            <input type='text' :id="'rem'+(index + respostas.length +1) +pergunta['id']"
+                                                   class=" form-control"
                                                    style="border: none;"
                                                    aria-label="Text input with radio button"
                                                    :placeholder="'Opção' + (index + respostas.length +1)"
@@ -537,13 +547,13 @@
                 multimedia: [],
                 isFetchingM: true,
                 i: 0,
-                temImagem: false
+                temImagem: false,
+                toastEditarPergunta: ''
 
             }
         },
         methods: {
             alterarFoto(e) {
-
 
 
                 if (this.tipoFicheiro === 1) {
@@ -570,7 +580,7 @@
                         case 'jpg':
                             return 1;
                     }
-                    if (this.multimedia[0]['link'].includes("youtube")){
+                    if (this.multimedia[0]['link'].includes("youtube")) {
                         $('#inputLink').show();
                         $('#dropdownFile').addClass('btn-file-hide')
                         document.getElementById('inputLink').value = this.multimedia[0]['link'];
@@ -605,7 +615,6 @@
                 let type, flag = false, flag2 = false, corret, flag3 = false;
                 let array = [];
                 let index = 0;
-
 
 
                 if (document.getElementById("pergunta" + perguntaId).value.length <= 0) {
@@ -709,11 +718,11 @@
                             for (let i = 0; i < opcoes.length; i++) {
                                 opcoesEscolhidas[i] = opcoes[i].value;
 
-                                if (document.getElementById( opcoes[i].value).value.length === 0){
+                                if (document.getElementById(opcoes[i].value).value.length === 0) {
                                     $('#RError' + perguntaId).text("Não pode escolher uma opção vazia como certa!!").css('color', 'red').css('opacity', '1');
                                     guardarOpcoes = false;
                                     break;
-                                }else if (document.getElementById("rem" + (i + 1) + perguntaId).value.length === 0) {
+                                } else if (document.getElementById("rem" + (i + 1) + perguntaId).value.length === 0) {
                                     $('#RError' + perguntaId).text("Não pode escolher uma opção vazia como certa!!").css('color', 'red').css('opacity', '1');
                                     guardarOpcoes = false;
                                     break;
@@ -765,18 +774,20 @@
                 }
                 axios.post('/prof/pergunta/' + perguntaID + '/editar', form
                 ).then(function (response) {
-                    if (response.data.message === "erro") {
 
-                        alert("Erro a inserir a pergunta");
-                    } else {
-                      //  $('#submit' + top).prop('disabled', false);
+                    if (response.data.message === "sucesso") {
 
-                        // this.toastPergunta.show();
-                        //this.$root.$emit('ShowToastPergunta', 3);
-                       // $('#toast-pergunta').removeClass('d-none');
+                        $('#toastEditarPergunta').removeClass('d-none');
+                        $('.btn-loading span').removeClass('d-none');
+                        $('.btn-loading div').addClass('d-none');
+                        this.toastEditarPergunta.show();
+                    } else if (response.data.message === "erro"){
+
+                        alert("Erro a editar a pergunta");
+
+
                     }
-                    // document.getElementById("pergunta" + top).value = ""
-                    // document.getElementById("file" + top).value = ""
+
 
                 }.bind(this));
 
@@ -861,6 +872,8 @@
                 $('#' + id2).hide();
                 $('#' + id3).hide();
             }
+            this.toastEditarPergunta = new bootstrap.Toast(document.getElementById('toastEditarPergunta'), {delay: 10000})
+            this.toastEditarPergunta.hide()
         }
 
     }
