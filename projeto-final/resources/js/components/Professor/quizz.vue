@@ -413,8 +413,9 @@
                             <div class="col-md-4 mb-5 mb-xs-0 text-center">
                                 <div id="pontos" class="mb-1 mt-5">
                                     <h4>Vale Pontos?</h4>
-                                    <div class="mb-1">
+                                    <div class=" btn-group mb-1">
                                         <label> <input type="radio" name="Valepontos" value="true" class=""> Sim</label>
+                                        <label><input id="avalicaoNumber" type="number" value="0"></label>
 
                                     </div>
                                     <div>
@@ -757,7 +758,7 @@
                 $('.btn-loading span').addClass('d-none');
                 $('.btn-loading div').removeClass('d-none');
                 let l = window.location.href.split('/');
-                var flagTime, corretTime, flagVisibel, corretVisibel, flagPontos, corretPontos;
+                var flagTime, corretTime, flagVisibel, corretVisibel, flagPontos, corretPontos,numberAvaliacoes;
                 var array = [];
                 var form = new FormData();
                 $('#TituloError').text(" ").css('color', 'red').css('opacity', '1');
@@ -811,6 +812,15 @@
                                 if (radios3[i].checked) {
                                     flagPontos = true;
                                     corretPontos = radios3[i].value;
+                                    if (corretPontos==='true'){
+                                        numberAvaliacoes=$('#avalicaoNumber').val();
+
+                                        if (numberAvaliacoes<=0 || numberAvaliacoes===null){
+                                            $('#ErrorVisivel').text("Indique o numero de tentativas").css('color', 'red').css('opacity', '1');
+                                            $('.btn-loading span').removeClass('d-none');
+                                            $('.btn-loading div').addClass('d-none');
+                                        }
+                                    }
                                 }
                             }
 
@@ -821,6 +831,7 @@
                                 $('.btn-loading div').addClass('d-none');
                             } else {
                                 form.append('pontos', corretPontos);
+                                form.append('numeroAvaliaçoes',numberAvaliacoes);
                                 if ($('#nPerguntas').val() < 3) {
                                     $('#NumeroError').text("Um quizz deve ter pelo menos três perguntas").css('color', 'red').css('opacity', '1');
                                     $('.btn-loading span').removeClass('d-none');
@@ -848,7 +859,7 @@
                                     } else {
                                         form.append('array', JSON.stringify(array));
                                         form.append('id', l[l.length - 1]);
-                                        this.sendQuizz(form);
+                                       this.sendQuizz(form);
                                     }
 
 

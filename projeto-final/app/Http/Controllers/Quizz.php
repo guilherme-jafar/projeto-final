@@ -193,8 +193,8 @@ class Quizz extends Controller
 
 
             if (count($res) >= $numQuestion) {
-                DB::insert('insert into quizz (id, nome ,tipo,numeroperguntas,disciplina_id,Descricao,visivel, vale_pontos) values (?,?,?,?,?,?,?,?)'
-                    , [$id, $request->titulo, $request->realtime, $numQuestion, $request->id, $request->descricao, $request->visible, $request->pontos]);
+                DB::insert('insert into quizz (id, nome ,tipo,numeroperguntas,disciplina_id,Descricao,visivel, vale_pontos,tentativas) values (?,?,?,?,?,?,?,?,?)'
+                    , [$id, $request->titulo, $request->realtime, $numQuestion, $request->id, $request->descricao, $request->visible, $request->pontos,$request->numeroAvaliaçoes]);
 
                 for ($i = 0; $i < $numQuestion; $i++) {
                     while (true) {

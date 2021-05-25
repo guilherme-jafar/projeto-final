@@ -4975,6 +4975,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5207,7 +5208,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').addClass('d-none');
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').removeClass('d-none');
       var l = window.location.href.split('/');
-      var flagTime, corretTime, flagVisibel, corretVisibel, flagPontos, corretPontos;
+      var flagTime, corretTime, flagVisibel, corretVisibel, flagPontos, corretPontos, numberAvaliacoes;
       var array = [];
       var form = new FormData();
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#TituloError').text(" ").css('color', 'red').css('opacity', '1');
@@ -5260,6 +5261,16 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
               if (radios3[_i5].checked) {
                 flagPontos = true;
                 corretPontos = radios3[_i5].value;
+
+                if (corretPontos === 'true') {
+                  numberAvaliacoes = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#avalicaoNumber').val();
+
+                  if (numberAvaliacoes <= 0 || numberAvaliacoes === null) {
+                    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#ErrorVisivel').text("Indique o numero de tentativas").css('color', 'red').css('opacity', '1');
+                    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
+                    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
+                  }
+                }
               }
             }
 
@@ -5269,6 +5280,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
               jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
             } else {
               form.append('pontos', corretPontos);
+              form.append('numeroAvaliaçoes', numberAvaliacoes);
 
               if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('#nPerguntas').val() < 3) {
                 jquery__WEBPACK_IMPORTED_MODULE_0___default()('#NumeroError').text("Um quizz deve ter pelo menos três perguntas").css('color', 'red').css('opacity', '1');
@@ -49772,12 +49784,18 @@ var staticRenderFns = [
       _c("div", { staticClass: "mb-1 mt-5", attrs: { id: "pontos" } }, [
         _c("h4", [_vm._v("Vale Pontos?")]),
         _vm._v(" "),
-        _c("div", { staticClass: "mb-1" }, [
+        _c("div", { staticClass: " btn-group mb-1" }, [
           _c("label", [
             _c("input", {
               attrs: { type: "radio", name: "Valepontos", value: "true" }
             }),
             _vm._v(" Sim")
+          ]),
+          _vm._v(" "),
+          _c("label", [
+            _c("input", {
+              attrs: { id: "avalicaoNumber", type: "number", value: "0" }
+            })
           ])
         ]),
         _vm._v(" "),
