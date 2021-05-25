@@ -28,7 +28,10 @@ Vue.component('perguntaQuizz', require('./components/quizz/perguntaQuizz').defau
 Vue.component('waitRoom',require('./components/quizz/waitRoom').default)
 Vue.component('waitRoomAluno',require('./components/quizz/WaitRoomStudent').default)
 
-
+//Forum
+Vue.component('forum',require('./components/forum/forum').default)
+Vue.component('mensagem',require('./components/forum/mensagem').default)
+Vue.component('forumShow',require('./components/forum/forumShow').default)
 
 
 

@@ -663,6 +663,26 @@
         }
     }
 
+    .section-mensagem{
+        .nova-mensagem{
+
+            input{
+                font-size: 2rem;
+
+                &:active{
+                    border: 2px solid $cor-principal-1;
+                }
+            }
+
+            .btn{
+                border-radius: 0.2rem;
+
+
+            }
+
+        }
+    }
+
 }
 
 

@@ -74,11 +74,11 @@ Route::get('/mail1', function () {
 
 
 
-//Conta professor
+
 //Route::get('/prof/dashboard', function (){return view('/prof/dashboard');})->middleware(['check.auth', 'tipo.utilizador:prof']);
 
 
-
+//Conta professor
 Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (){
     Route::get('/prof/dashboard',[App\Http\Controllers\Disciplina::class, 'index'])->name('prof/dashboard');
     Route::post('/prof/disciplina/create',[App\Http\Controllers\Disciplina::class, 'create']);
@@ -113,8 +113,10 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (
     Route::post('/prof/quizz/ocultarquizz/{id}', [App\Http\Controllers\Quizz::class, 'ocultarQuizz']);
     Route::post('/prof/quizz/tornarvisivel/{id}', [App\Http\Controllers\Quizz::class, 'tornarVisivel']);
     Route::delete('/prof/quizz/delete/{id}', [App\Http\Controllers\Quizz::class, 'destroy']);
-});
 
+
+
+});
 
 //conta Aluno
 Route::group(['middleware' =>['check.auth', 'tipo.utilizador:aluno']], function () {
@@ -130,6 +132,19 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:aluno']], function 
     Route::get('/InsideRoomStudent/{id}/{quizzId}',[\App\Http\Controllers\Quizz::class,'EnterWaitRoom']);
     // Route::get('/loading', function () {return view('/loading');});
     Route::delete("/aluno/disciplina/delete/{id}", [App\Http\Controllers\Disciplina::class,'destroy']);
+
+//    Route::get('/getForum', [App\Http\Controllers\forum::class, 'index']);
+
+});
+
+Route::group(['middleware' =>['check.auth']], function () {
+
+    Route::get('/getForum', [App\Http\Controllers\forum::class, 'index']);
+    Route::post('/forum/create', [App\Http\Controllers\forum::class, 'create']);
+    Route::post('/mensagem/create', [App\Http\Controllers\forum::class, 'createMensagem']);
+
+    Route::get('/getMensagens/{id}', [App\Http\Controllers\forum::class, 'indexMensagens']);
+
 
 });
 
