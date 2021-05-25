@@ -10,7 +10,7 @@ class Disciplina extends Model
     protected $table = 'disciplina';
     use HasFactory;
     protected $fillable = [''];
-    protected $casts = ['id' => 'string'];
+    protected $casts = ['id' => 'string','nome'=>'string'];
     protected $pontos = 0;
     protected $total_quizz = 0;
     protected $total_topico= 0;

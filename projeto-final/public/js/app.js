@@ -6229,6 +6229,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 //
 //
 //
@@ -6362,6 +6364,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -6402,6 +6406,14 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    endQuizz: function endQuizz() {
+      localStorage.clear();
+      window.Echo.leave('room.' + this.sessao);
+      var form = new FormData();
+      form.append('nota', this.resultado);
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post('/EndRealTimeQuizzAluno', form);
+      window.location.replace('/');
+    },
     countDownTimer: function countDownTimer() {
       var _this = this;
 
@@ -6475,7 +6487,7 @@ __webpack_require__.r(__webpack_exports__);
             form.append('resultado', this.res);
             form.append('tipo', this.pergunta['tipo']);
             form.append('sessioId', this.sessao);
-            axios.post('/setRespostaQuizz', form).then(function (response) {
+            axios__WEBPACK_IMPORTED_MODULE_2___default().post('/setRespostaQuizz', form).then(function (response) {
               this.respondeu = 'true';
               localStorage.setItem('points', this.res);
               localStorage.setItem('questionStatus', this.respondeu);
@@ -6650,7 +6662,7 @@ __webpack_require__.r(__webpack_exports__);
       form.append('resultado', this.res);
       form.append('tipo', this.pergunta['tipo']);
       form.append('sessioId', this.sessao);
-      axios.post('/setRespostaQuizz', form).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post('/setRespostaQuizz', form).then(function (response) {
         this.respondeu = 'true';
         localStorage.setItem('points', this.res);
         localStorage.setItem('questionStatus', this.respondeu);
@@ -7271,6 +7283,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -7297,6 +7315,12 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    endQuizz: function endQuizz() {
+      localStorage.clear();
+      window.Echo.leave('room.' + this.sessao);
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/EndRealTimeQuizz');
+      window.location.replace('/');
+    },
     start: function start() {
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/startQuizz').then(function (response) {
         this.Questions = response.data.message;
@@ -7361,6 +7385,11 @@ __webpack_require__.r(__webpack_exports__);
             _this.resposta.push("");
 
             _this.students++;
+
+            if (_this.students > 0) {
+              $('#Inciar').show();
+            }
+
             localStorage.setItem('user', JSON.stringify(_this.users));
             localStorage.setItem('userId', JSON.stringify(_this.usersId));
             localStorage.setItem('pontos', JSON.stringify(_this.points));
@@ -7378,6 +7407,10 @@ __webpack_require__.r(__webpack_exports__);
             localStorage.setItem('userId', JSON.stringify(_this.usersId));
             localStorage.setItem('pontos', JSON.stringify(_this.points));
             localStorage.setItem('user', JSON.stringify(_this.users));
+
+            if (_this.students === 0) {
+              $('#Inciar').hide();
+            }
           } else if (e.type === 'NextQuestion') {
             _this.points[_this.usersId.indexOf(e.userId)] += parseInt(e.points);
             _this.resposta[_this.usersId.indexOf(e.userId)] = e.answer;
@@ -7396,6 +7429,8 @@ __webpack_require__.r(__webpack_exports__);
                 form.append('users', _this.users);
                 form.append('points', _this.points);
                 axios__WEBPACK_IMPORTED_MODULE_0___default().post('/EndQuizz', form).then(function (response) {}.bind(_this));
+                $('#gameMode').hide();
+                $('#EndGame').show();
                 localStorage.setItem('status', 'end');
               } else {
                 $('#stop').hide();
@@ -7408,7 +7443,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
+    $('#EndGame').hide();
     $('#gameMode').hide();
+    $('#Inciar').hide();
     var l = window.location.href.split('/');
     this.sessionId = l[l.length - 1];
     this.couter = 0;
@@ -7420,10 +7457,10 @@ __webpack_require__.r(__webpack_exports__);
       this.usersId = JSON.parse(localStorage.getItem('userId'));
     } else {
       localStorage.setItem('sessao', this.sessao);
-      this.usersId = [];
-      this.users = [];
-      this.points = [];
-      this.students = 0;
+      localStorage.setItem('students', this.students);
+      localStorage.setItem('userId', JSON.stringify(this.usersId));
+      localStorage.setItem('pontos', JSON.stringify(this.points));
+      localStorage.setItem('user', JSON.stringify(this.users));
     }
 
     if (localStorage.getItem('status') === 'game') {
@@ -51656,7 +51693,8 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("div", { attrs: { id: "resultado" } }, [
-        _vm._v("\n        " + _vm._s(_vm.resultado) + "\n    ")
+        _vm._v("\n        " + _vm._s(_vm.resultado) + "\n        "),
+        _c("button", { on: { click: _vm.endQuizz } }, [_vm._v("Sair e Gravar")])
       ])
     ],
     2
@@ -52007,6 +52045,7 @@ var render = function() {
       _c(
         "button",
         {
+          attrs: { id: "Inciar" },
           on: {
             click: function($event) {
               return _vm.start()
@@ -52071,6 +52110,29 @@ var render = function() {
           },
           [_vm._v("Proxima Pergunta")]
         )
+      ],
+      2
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { attrs: { id: "EndGame" } },
+      [
+        _vm._l(_vm.usersId, function(item) {
+          return _c("div", { key: item.users, attrs: { id: "tabelaFim" } }, [
+            _c("p", [
+              _vm._v(
+                _vm._s(_vm.users[_vm.usersId.indexOf(item)]) +
+                  " " +
+                  _vm._s(_vm.points[_vm.usersId.indexOf(item)]) +
+                  " " +
+                  _vm._s(_vm.resposta[_vm.usersId.indexOf(item)])
+              )
+            ])
+          ])
+        }),
+        _vm._v(" "),
+        _c("button", { on: { click: _vm.endQuizz } }, [_vm._v("Sair e Gravar")])
       ],
       2
     )

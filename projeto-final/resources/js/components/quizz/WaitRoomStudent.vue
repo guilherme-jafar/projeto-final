@@ -125,6 +125,7 @@
     </div>
     <div id="resultado">
         {{resultado}}
+        <button @click="endQuizz">Sair e Gravar</button>
     </div>
 
 
@@ -134,6 +135,7 @@
 <script>
 import Echo from "laravel-echo";
 import $ from "jquery";
+import axios from "axios";
 
 export default {
     name: "WaitRoomStudent",
@@ -177,6 +179,14 @@ export default {
     },
 
     methods: {
+        endQuizz(){
+            localStorage.clear();
+            window.Echo.leave('room.'+this.sessao);
+            let form=new FormData;
+            form.append('nota',this.resultado)
+            axios.post('/EndRealTimeQuizzAluno',form);
+            window.location.replace('/')
+        },
         countDownTimer() {
             if(this.countDown > 0) {
                 this.timer = setTimeout(() => {

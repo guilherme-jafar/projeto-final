@@ -309,12 +309,19 @@ class Quizz extends Controller
     function EndQuizz(Request $request)
     {
 
-        $query = DB::select('SELECT s.nomequizz AS "nome" , SUM(rq.resultado) AS "res"
-FROM sessao s ,respostas_quizz rq ,utilizador u
+        $query = DB::select('SELECT q.nome AS "nome" , SUM(rq.resultado) AS "res" ,q.id
+FROM sessao s ,respostas_quizz rq ,utilizador u,quizz q
 WHERE s.id= :sessionId
+AND  q.id= s.quizz_id
 AND s.id=rq.sessao_id
 AND  u.id= :id
 GROUP BY s.nomequizz', ['id' => session('utilizador')['id'], 'sessionId' => $request->sessionId]);
+
+        DB::insert('insert into historico (id, disciplina,quizz,nota,idquizz,tipo,disciplina_id,sessaoId) values(?,?,?,?,?,?,?,?)'
+            , [uniqid(),session('disciplina')['nome'],$query[0]->nome,$query[0]->res,
+                $query[0]->id   ,session('utilizador')['tipo'],session('disciplina')['id'],$request->sessionId]);
+
+        DB::table('disciplina_aluno')->where('aluno_utilizador_id', '=', ['id'=>session('utilizador')['id']])->increment('pontos',$query[0]->res);
 
         return view('/quizz/EndQuizz', ['res' => $query[0]->res, 'nome' => $query[0]->nome]);
 
@@ -338,7 +345,7 @@ GROUP BY s.nomequizz', ['id' => session('utilizador')['id'], 'sessionId' => $req
         if (!empty($quizz)) {
 
             if (empty(session()->get('sessao'))) {
-                session()->put('sessao', ["id" => $session, 'idQuizz' => $id, 'type' => 'master']);
+                session()->put('sessao', ["id" => $session,"nomeQuizz"=>$quizz[0]->nome, 'idQuizz' => $id, 'type' => 'master']);
                 DB::insert('insert into sessao (id, nomequizz ,tipo,quizz_id,iduser,tipoUser, masterActive) values (?,?,?,?,?,?,?)'
                     , [$session, $quizz[0]->nome, $quizz[0]->quizzTipo, $id, session('utilizador')['id'], session('utilizador')['tipo'], 1]);
 
@@ -384,7 +391,8 @@ GROUP BY s.nomequizz', ['id' => session('utilizador')['id'], 'sessionId' => $req
         if (!empty($quizz) && !empty($Cheek) && !isset(session('sessao')['check'])) {
 
             $users=DB::select('select id from sessao where sessaoMaster=:id  and quizz_id=:idQuizz', ['id' => $id, 'idQuizz' => $quizzId]);
-            session()->put('sessao', ["id" => $session, "check" => 'yes', 'users' => count($users), 'master' => $id, "quizz" => $quizzId, 'type' => 'student']);
+            session()->put('sessao', ["id" => $session,"nomeQuizz"=>$quizz[0]->nome, "check" => 'yes', 'users' => count($users), 'master' => $id, "quizz" => $quizzId, 'type' => 'student']);
+
             DB::insert('insert into sessao (id, nomequizz ,tipo,quizz_id,iduser,tipoUser,sessaoMaster) values (?,?,?,?,?,?,?)'
                 , [$session, $quizz[0]->nome, $quizz[0]->quizzTipo, $quizzId, session('utilizador')['id'], session('utilizador')['tipo'], $id]);
             event(new WaitRoom(session('utilizador')['nome'], $id, 'student', session('utilizador')['id']));
@@ -537,6 +545,27 @@ GROUP BY s.nomequizz', ['id' => session('utilizador')['id'], 'sessionId' => $req
        broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'EndQuizz', session('utilizador')['id'], [],[],$newArray))->toOthers();
 
 }
+
+function CloseQuizzProf(){
+
+    DB::insert('insert into historico (id, disciplina,quizz,idquizz,tipo,disciplina_id,sessaoId) values(?,?,?,?,?,?,?)'
+        , [uniqid(),session('disciplina')['nome'],session('sessao')['nomeQuizz'],
+            session('sessao')['idQuizz'],session('utilizador')['tipo'],session('disciplina')['id'],session('sessao')['id']]);
+
+
+    session()->forget('sessao');
+}
+    function CloseQuizzAluno(Request $request){
+
+
+        DB::insert('insert into historico (id, disciplina,quizz,nota,idquizz,tipo,disciplina_id,sessaoId) values(?,?,?,?,?,?,?,?)'
+            , [uniqid(),session('disciplina')['nome'],session('sessao')['nomeQuizz'],$request->nota,
+                session('sessao')['quizz'],session('utilizador')['tipo'],session('disciplina')['id'],session('sessao')['id']]);
+
+        DB::table('disciplina_aluno')->where('aluno_utilizador_id', '=', ['id'=>session('utilizador')['id']])->increment('pontos',$request->nota);
+
+        session()->forget('sessao');
+    }
 
 
 
