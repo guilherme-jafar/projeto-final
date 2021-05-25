@@ -4,7 +4,7 @@
         <p>{{students}}</p>
         <p>{{sessao}}</p>
         <button @click="sair()">cancel</button>
-        <button @click="start()">Iniciar Quizz</button>
+        <button @click="start()" id="Inciar">Iniciar Quizz</button>
             <p>{{users}}</p>
 
         </div>
@@ -19,6 +19,12 @@
 
 </div>
 
+        <div id="EndGame">
+            <div id="tabelaFim" v-for="item in usersId" :key="item.users">
+                <p>{{users[usersId.indexOf(item)]}} {{points[usersId.indexOf(item)]}} {{resposta[usersId.indexOf(item)]}}</p>
+            </div>
+            <button @click="endQuizz">Sair e Gravar</button>
+        </div>
 
 
     </div>
@@ -61,6 +67,12 @@ export default {
 
     methods: {
 
+        endQuizz(){
+            localStorage.clear();
+            window.Echo.leave('room.'+this.sessao);
+            axios.post('/EndRealTimeQuizz');
+            window.location.replace('/')
+        },
         start(){
 
             axios.post('/startQuizz').then(function (response){
@@ -131,7 +143,8 @@ export default {
                             this.points.push(0);
                             this.resposta.push("");
                             this.students++;
-
+                            if(this.students>0){
+                                $('#Inciar').show();}
                             localStorage.setItem('user',JSON.stringify(this.users));
                             localStorage.setItem('userId',JSON.stringify(this.usersId));
                             localStorage.setItem('pontos',JSON.stringify((this.points)));
@@ -146,6 +159,8 @@ export default {
                             localStorage.setItem('userId',JSON.stringify(this.usersId));
                             localStorage.setItem('pontos',JSON.stringify((this.points)));
                             localStorage.setItem('user',JSON.stringify(this.users));
+                            if(this.students===0){
+                                $('#Inciar').hide();}
 
                         }
                         else if(e.type==='NextQuestion'){
@@ -170,6 +185,8 @@ export default {
 
 
                                     }.bind(this));
+                                    $('#gameMode').hide();
+                                    $('#EndGame').show();
                                     localStorage.setItem('status','end');
                                 }
                             else
@@ -193,7 +210,9 @@ export default {
 
         },
         mounted() {
+            $('#EndGame').hide();
             $('#gameMode').hide();
+            $('#Inciar').hide();
             let l = window.location.href.split('/');
             this.sessionId = l[l.length - 1]
             this.couter=0;
@@ -211,10 +230,10 @@ export default {
             }
             else{
                 localStorage.setItem('sessao',this.sessao);
-                this.usersId=[];
-                this.users=[];
-                this.points=[];
-                this.students=0;
+                localStorage.setItem('students',this.students);
+                localStorage.setItem('userId',JSON.stringify(this.usersId));
+                localStorage.setItem('pontos',JSON.stringify((this.points)));
+                localStorage.setItem('user',JSON.stringify(this.users));
             }
 
 

@@ -163,7 +163,8 @@ Route::group(['middleware' =>'quizz.session'], function () {
     Route::post('/StopQuestionQuizz',[\App\Http\Controllers\Quizz::class,'stopQuestionQuizz']);
     Route::get('/leaveRoom',[App\Http\Controllers\Quizz::class,'leave']);
     Route::post('/EndQuizz',[\App\Http\Controllers\Quizz::class, 'EndQuizzRealTime']);
-
+    Route::post('/EndRealTimeQuizz',[\App\Http\Controllers\Quizz::class,'CloseQuizzProf']);
+    Route::post('/EndRealTimeQuizzAluno',[\App\Http\Controllers\Quizz::class,'CloseQuizzAluno']);
 });
 
 
