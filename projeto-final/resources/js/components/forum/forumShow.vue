@@ -10,8 +10,8 @@
 <!--        <mensagem id_props="id_forum" :is='!componentInicial' />-->
 
 
-        <div class="text-end mt-5" v-if='voltar'>
-            <button class="btn btn-primary" @click ='mudar'>Voltar</button>
+        <div class="mt-5 text-end" v-if='voltar'>
+            <button class="ms-5 btn btn-primary" @click ='mudar'><i class="bi bi-arrow-left"></i></button>
 
         </div>
     </div>

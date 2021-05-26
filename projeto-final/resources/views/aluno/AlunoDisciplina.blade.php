@@ -52,7 +52,7 @@
 
                         </div>
                         <div id="forum" >
-                            <forum  :tipo_prop="'{{json_encode(session('utilizador')['tipo'], TRUE)}}'"></forum>
+                            <forum-show  :tipo_props="'{{json_encode(session('utilizador')['tipo'], TRUE)}}'"></forum-show>
 
                         </div>
                     </div>

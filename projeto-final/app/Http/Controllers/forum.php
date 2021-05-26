@@ -34,6 +34,12 @@ class forum extends Controller
             ->where('forum_id', '=', $request->id)
             ->paginate(5);
 
+        $mensagem = DB::table('mensagem', 'm')->select('m.*', 'u.nome', 'u.foto_perfil')
+            ->join('utilizador as u', 'm.id_utilizador', '=', 'u.id' )
+            ->where('forum_id', '=', $request->id)
+            ->paginate(5);
+
+
         if (!empty($mensagem)) {
             return response()->json([
                 'message' => $mensagem
@@ -83,23 +89,30 @@ class forum extends Controller
 
     function createMensagem(Request $request){
 
-        dd($request);
+
+
+
+
         try {
             $id = uniqid() . time();
-            $nomeForum = $request->input('nomeforum');
-            $assuntoForum = $request->input('assuntoForum');
-
-            $insertforum = DB::insert('insert into forum (id, topico,assunto,disciplina_id) values (?,?,?,?)'
-                , [$id, $nomeForum, $assuntoForum, session('disciplina')['id']]);
+            $forumId = $request->idForum;
+            $textoMensagem = $request->textoMensagem;
+            $tipo = $request->mensagem;
 
 
-            $foruns = DB::table('forum')->where('disciplina_id', '=', ['id' => session('disciplina')['id']])
-                ->paginate(4);
+            $insertMensagem = DB::insert('insert into mensagem (id, mensagem,data,tipo, id_utilizador, forum_id) values (?,?,?,?,?,?)'
+                , [$id, $textoMensagem, now(), $tipo,session('utilizador')['id'], $forumId]);
 
 
-            if ($insertforum) {
+            $mensagem = DB::table('mensagem', 'm')->select('m.*', 'u.nome', 'u.foto_perfil')
+                ->join('utilizador as u', 'm.id_utilizador', '=', 'u.id' )
+                ->where('forum_id', '=', $forumId)
+                ->paginate(5);
+
+
+            if ($insertMensagem) {
                 return response()->json([
-                    'message' => $foruns,
+                    'message' => $mensagem,
                 ]);
             } else {
                 return response()->json([

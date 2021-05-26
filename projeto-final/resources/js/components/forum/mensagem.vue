@@ -38,7 +38,25 @@
                     <ul>
                         <li class="card-box mb-5 mt-5" v-for="mensagem in filter" :key="mensagem['id']">
                             <div class="card-box-text">
-                                <h2 @click="entrarForum(mensagem['id'])"> {{mensagem['mensagem']}}</h2>
+<!--                                <div class="box-imagem" >-->
+<!--                                    <img v-if="mensagem['foto_perfil'] != null" :src="'/images/'+ mensagem['foto_perfil']"-->
+<!--                                         alt="imagem da pergunta"  class="img-fluid mx-auto mb-4" id="imagem">-->
+<!--                                    <img v-else :src="'/images/imgDefault.jpg'"-->
+<!--                                         alt="imagem da pergunta" height="60%"-->
+<!--                                         width="95%"  class="img-fluid mx-auto mb-4" id="imagem">-->
+<!--                                </div>-->
+                                <div class="ms-3">
+                                    <div class="d-flex">
+                                        <h2>
+                                            {{mensagem['nome']}}
+                                        </h2>
+                                        <p class="fs-4 ms-auto">
+                                            {{mensagem['data']}}
+                                        </p>
+                                    </div>
+                                    <p>{{mensagem['mensagem']}}</p>
+
+                                </div>
                                 <div v-if="tipoUtilizador === 'prof'" class="dropdown ms-auto">
                                     <button class="" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
                                             aria-expanded="false">
@@ -61,17 +79,31 @@
                                     </ul>
                                 </div>
                             </div>
+                            <div class="text-end d-flex">
+                                <div class="dropdown-pontos ms-auto">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Pontos
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                        <li><a class="dropdown-item" href="#">500</a></li>
+                                        <li><a class="dropdown-item" href="#">1000</a></li>
+                                    </ul>
+                                </div>
+                                <button class="ms-3 btn btn-primary">Responder</button>
+                            </div>
 
                         </li>
                     </ul>
 
+
+
                 </div>
                 <div id="nova-mensagem" class="nova-mensagem d-none ">
                     <div class="d-flex">
-                        <input class=" form-control form-control-lg" id="textoMensagem" type="text" v-model="search"
+                        <input class=" form-control form-control-lg" id="textoMensagem" type="text"
                                placeholder="Escreva a mensagem...">
                         <!--                    <i class="bi bi-search"></i>-->
-                        <button type="button" id="submit" class="btn btn-secondary btn-submit btn-loading"
+                        <button type="button" id="submit" class="ms-3 btn btn-secondary btn-submit btn-loading"
                                 @click="send()"><span
                             class="">Enviar &nbsp;</span>
                             <div class="spinner-border text-light d-none" role="status">
@@ -79,16 +111,20 @@
                             </div>
                         </button>
                     </div>
-                    <small class="error " id="mensagemError"></small>
+                    <p class="error " id="mensagemError"></p>
 
 
                 </div>
+
+                <button type="button" class="btn btn-primary" @click="buttonAdicionar" >
+                    Adicionar Mensagem
+                </button>
 
             </div>
 
 
         </div>
-
+        <pagination-2 :data="mensagens" :align="'center'" @pagination-change-page="listMensagem"></pagination-2>
     </div>
 </template>
 
@@ -122,7 +158,7 @@
                     $('#submit div').addClass('d-none');
                     enviar = false;
                 } else {
-                    $("#textoMensagem").text("").css('color', 'red').css('opacity', '1');
+                    $("#mensagemError").text("").css('color', 'red').css('opacity', '1');
                 }
 
                 this.toastMensagem.show();
@@ -142,6 +178,7 @@
                             this.mensagens = response.data.message
                             this.toastMensagem.show();
                             $('#toastMensagem').removeClass('d-none');
+                            $('#nova-mensagem').fadeOut('d-none')
 
                         } else {
 

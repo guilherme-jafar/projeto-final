@@ -6520,6 +6520,42 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -6549,7 +6585,7 @@ __webpack_require__.r(__webpack_exports__);
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
         enviar = false;
       } else {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#textoMensagem").text("").css('color', 'red').css('opacity', '1');
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()("#mensagemError").text("").css('color', 'red').css('opacity', '1');
       }
 
       this.toastMensagem.show();
@@ -6566,6 +6602,7 @@ __webpack_require__.r(__webpack_exports__);
             this.mensagens = response.data.message;
             this.toastMensagem.show();
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#toastMensagem').removeClass('d-none');
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#nova-mensagem').fadeOut('d-none');
           } else {
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit span').removeClass('d-none');
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#submit div').addClass('d-none');
@@ -52258,11 +52295,11 @@ var render = function() {
       }),
       _vm._v(" "),
       _vm.voltar
-        ? _c("div", { staticClass: "text-end mt-5" }, [
+        ? _c("div", { staticClass: "mt-5 text-end" }, [
             _c(
               "button",
-              { staticClass: "btn btn-primary", on: { click: _vm.mudar } },
-              [_vm._v("Voltar")]
+              { staticClass: "ms-5 btn btn-primary", on: { click: _vm.mudar } },
+              [_c("i", { staticClass: "bi bi-arrow-left" })]
             )
           ])
         : _vm._e()
@@ -52293,233 +52330,259 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "section-mensagem mt-5 me-md-5 ms-md-5" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _vm.isFetching ? _c("div", [_vm._m(1)]) : _vm._e(),
-      _vm._v(" "),
-      !_vm.isFetching
-        ? _c("div", [
-            _vm.mensagens.data.length === 0
-              ? _c(
-                  "div",
-                  {
-                    staticClass: "mx-auto",
-                    attrs: { id: "mensagem-adicionar" }
-                  },
-                  [
-                    _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
-                      _vm._v("Não há nenhuma mensagem!!")
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "section-mensagem mt-5 me-md-5 ms-md-5" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _vm.isFetching ? _c("div", [_vm._m(1)]) : _vm._e(),
+        _vm._v(" "),
+        !_vm.isFetching
+          ? _c("div", [
+              _vm.mensagens.data.length === 0
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "mx-auto",
+                      attrs: { id: "mensagem-adicionar" }
+                    },
+                    [
+                      _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
+                        _vm._v("Não há nenhuma mensagem!!")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-new mt-5 mx-auto",
+                          attrs: { type: "button", id: "btn-new" },
+                          on: { click: _vm.buttonAdicionar }
+                        },
+                        [
+                          _c("i", { staticClass: "bi bi-plus-circle" }),
+                          _vm._v("    Adicionar Mensagem\n                    ")
+                        ]
+                      )
+                    ]
+                  )
+                : _c("div", { staticClass: "section-disciplinas-items" }, [
+                    _c("div", { staticClass: "box-search mb-5" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.search,
+                            expression: "search"
+                          }
+                        ],
+                        staticClass:
+                          " form-control form-control-lg form-search",
+                        attrs: {
+                          type: "text",
+                          placeholder: "Pesquisar Mensagens..."
+                        },
+                        domProps: { value: _vm.search },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.search = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("i", { staticClass: "bi bi-search" })
                     ]),
+                    _vm._v(" "),
+                    _c("h1", [_vm._v("Mensagens")]),
+                    _vm._v(" "),
+                    _c(
+                      "ul",
+                      _vm._l(_vm.filter, function(mensagem) {
+                        return _c(
+                          "li",
+                          {
+                            key: mensagem["id"],
+                            staticClass: "card-box mb-5 mt-5"
+                          },
+                          [
+                            _c("div", { staticClass: "card-box-text" }, [
+                              _c("div", { staticClass: "ms-3" }, [
+                                _c("div", { staticClass: "d-flex" }, [
+                                  _c("h2", [
+                                    _vm._v(
+                                      "\n                                            " +
+                                        _vm._s(mensagem["nome"]) +
+                                        "\n                                        "
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("p", { staticClass: "fs-4 ms-auto" }, [
+                                    _vm._v(
+                                      "\n                                            " +
+                                        _vm._s(mensagem["data"]) +
+                                        "\n                                        "
+                                    )
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("p", [_vm._v(_vm._s(mensagem["mensagem"]))])
+                              ]),
+                              _vm._v(" "),
+                              _vm.tipoUtilizador === "prof"
+                                ? _c(
+                                    "div",
+                                    { staticClass: "dropdown ms-auto" },
+                                    [
+                                      _vm._m(2, true),
+                                      _vm._v(" "),
+                                      _c(
+                                        "ul",
+                                        {
+                                          staticClass: "dropdown-menu",
+                                          attrs: {
+                                            "aria-labelledby":
+                                              "dropdownMenuButton1"
+                                          }
+                                        },
+                                        [
+                                          _c("li", [
+                                            _c(
+                                              "button",
+                                              {
+                                                staticClass: "dropdown-item",
+                                                attrs: {
+                                                  type: "button",
+                                                  "data-bs-toggle": "modal",
+                                                  "data-bs-target":
+                                                    "#editarQuizz" +
+                                                    mensagem["id"]
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.listTopicosQuizz(
+                                                      mensagem["id"]
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "Editar\n                                            "
+                                                )
+                                              ]
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("li", [
+                                            _c(
+                                              "button",
+                                              {
+                                                staticClass: "dropdown-item",
+                                                attrs: {
+                                                  type: "button",
+                                                  "data-bs-toggle": "modal",
+                                                  "data-bs-target":
+                                                    "#eliminarQuizz" +
+                                                    mensagem["id"]
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "Eliminar\n                                            "
+                                                )
+                                              ]
+                                            )
+                                          ])
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                : _vm._e()
+                            ]),
+                            _vm._v(" "),
+                            _vm._m(3, true)
+                          ]
+                        )
+                      }),
+                      0
+                    )
+                  ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "nova-mensagem d-none ",
+                  attrs: { id: "nova-mensagem" }
+                },
+                [
+                  _c("div", { staticClass: "d-flex" }, [
+                    _c("input", {
+                      staticClass: " form-control form-control-lg",
+                      attrs: {
+                        id: "textoMensagem",
+                        type: "text",
+                        placeholder: "Escreva a mensagem..."
+                      }
+                    }),
                     _vm._v(" "),
                     _c(
                       "button",
                       {
-                        staticClass: "btn btn-new mt-5 mx-auto",
-                        attrs: { type: "button", id: "btn-new" },
-                        on: { click: _vm.buttonAdicionar }
+                        staticClass:
+                          "ms-3 btn btn-secondary btn-submit btn-loading",
+                        attrs: { type: "button", id: "submit" },
+                        on: {
+                          click: function($event) {
+                            return _vm.send()
+                          }
+                        }
                       },
                       [
-                        _c("i", { staticClass: "bi bi-plus-circle" }),
-                        _vm._v("    Adicionar Mensagem\n                ")
+                        _c("span", {}, [_vm._v("Enviar  ")]),
+                        _vm._v(" "),
+                        _c("div", {
+                          staticClass: "spinner-border text-light d-none",
+                          attrs: { role: "status" }
+                        })
                       ]
                     )
-                  ]
-                )
-              : _c("div", { staticClass: "section-disciplinas-items" }, [
-                  _c("div", { staticClass: "box-search mb-5" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.search,
-                          expression: "search"
-                        }
-                      ],
-                      staticClass: " form-control form-control-lg form-search",
-                      attrs: {
-                        type: "text",
-                        placeholder: "Pesquisar Mensagens..."
-                      },
-                      domProps: { value: _vm.search },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.search = $event.target.value
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("i", { staticClass: "bi bi-search" })
                   ]),
                   _vm._v(" "),
-                  _c("h1", [_vm._v("Mensagens")]),
-                  _vm._v(" "),
-                  _c(
-                    "ul",
-                    _vm._l(_vm.filter, function(mensagem) {
-                      return _c(
-                        "li",
-                        {
-                          key: mensagem["id"],
-                          staticClass: "card-box mb-5 mt-5"
-                        },
-                        [
-                          _c("div", { staticClass: "card-box-text" }, [
-                            _c(
-                              "h2",
-                              {
-                                on: {
-                                  click: function($event) {
-                                    return _vm.entrarForum(mensagem["id"])
-                                  }
-                                }
-                              },
-                              [_vm._v(" " + _vm._s(mensagem["mensagem"]))]
-                            ),
-                            _vm._v(" "),
-                            _vm.tipoUtilizador === "prof"
-                              ? _c("div", { staticClass: "dropdown ms-auto" }, [
-                                  _vm._m(2, true),
-                                  _vm._v(" "),
-                                  _c(
-                                    "ul",
-                                    {
-                                      staticClass: "dropdown-menu",
-                                      attrs: {
-                                        "aria-labelledby": "dropdownMenuButton1"
-                                      }
-                                    },
-                                    [
-                                      _c("li", [
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass: "dropdown-item",
-                                            attrs: {
-                                              type: "button",
-                                              "data-bs-toggle": "modal",
-                                              "data-bs-target":
-                                                "#editarQuizz" + mensagem["id"]
-                                            },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.listTopicosQuizz(
-                                                  mensagem["id"]
-                                                )
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _vm._v(
-                                              "Editar\n                                        "
-                                            )
-                                          ]
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("li", [
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass: "dropdown-item",
-                                            attrs: {
-                                              type: "button",
-                                              "data-bs-toggle": "modal",
-                                              "data-bs-target":
-                                                "#eliminarQuizz" +
-                                                mensagem["id"]
-                                            }
-                                          },
-                                          [
-                                            _vm._v(
-                                              "Eliminar\n                                        "
-                                            )
-                                          ]
-                                        )
-                                      ])
-                                    ]
-                                  )
-                                ])
-                              : _vm._e()
-                          ])
-                        ]
-                      )
-                    }),
-                    0
+                  _c("p", {
+                    staticClass: "error ",
+                    attrs: { id: "mensagemError" }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { type: "button" },
+                  on: { click: _vm.buttonAdicionar }
+                },
+                [
+                  _vm._v(
+                    "\n                    Adicionar Mensagem\n                "
                   )
-                ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "nova-mensagem d-none ",
-                attrs: { id: "nova-mensagem" }
-              },
-              [
-                _c("div", { staticClass: "d-flex" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.search,
-                        expression: "search"
-                      }
-                    ],
-                    staticClass: " form-control form-control-lg",
-                    attrs: {
-                      id: "textoMensagem",
-                      type: "text",
-                      placeholder: "Escreva a mensagem..."
-                    },
-                    domProps: { value: _vm.search },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.search = $event.target.value
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-secondary btn-submit btn-loading",
-                      attrs: { type: "button", id: "submit" },
-                      on: {
-                        click: function($event) {
-                          return _vm.send()
-                        }
-                      }
-                    },
-                    [
-                      _c("span", {}, [_vm._v("Enviar  ")]),
-                      _vm._v(" "),
-                      _c("div", {
-                        staticClass: "spinner-border text-light d-none",
-                        attrs: { role: "status" }
-                      })
-                    ]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("small", {
-                  staticClass: "error ",
-                  attrs: { id: "mensagemError" }
-                })
-              ]
-            )
-          ])
-        : _vm._e()
-    ])
-  ])
+                ]
+              )
+            ])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("pagination-2", {
+        attrs: { data: _vm.mensagens, align: "center" },
+        on: { "pagination-change-page": _vm.listMensagem }
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -52542,7 +52605,7 @@ var staticRenderFns = [
           _c("div", { staticClass: "toast-body" }, [
             _c("strong", [
               _c("i", { staticClass: "bi bi-check-circle-fill" }),
-              _vm._v("   \n                        "),
+              _vm._v("   \n                            "),
               _c("span", [_vm._v("Mensagem enviada com sucesso!!")])
             ])
           ]),
@@ -52597,6 +52660,57 @@ var staticRenderFns = [
       },
       [_c("i", { staticClass: "bi bi-three-dots-vertical" })]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "text-end d-flex" }, [
+      _c("div", { staticClass: "dropdown-pontos ms-auto" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-secondary dropdown-toggle",
+            attrs: {
+              type: "button",
+              id: "dropdownMenuButton2",
+              "data-bs-toggle": "dropdown",
+              "aria-expanded": "false"
+            }
+          },
+          [
+            _vm._v(
+              "\n                                        Pontos\n                                    "
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "ul",
+          {
+            staticClass: "dropdown-menu",
+            attrs: { "aria-labelledby": "dropdownMenuButton2" }
+          },
+          [
+            _c("li", [
+              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+                _vm._v("500")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+                _vm._v("1000")
+              ])
+            ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("button", { staticClass: "ms-3 btn btn-primary" }, [
+        _vm._v("Responder")
+      ])
+    ])
   }
 ]
 render._withStripped = true
