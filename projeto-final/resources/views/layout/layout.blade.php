@@ -48,6 +48,7 @@
                         @if(strpos(request()->path(), 'prof/Disciplina') === 0)
                             <button class="btn btn-primary" id="newTopic" data-bs-toggle="modal" data-bs-target="#exampleModal">NOVO TÓPICO</button>
                             <button class="btn btn-primary d-none" id="newQuiz" data-bs-toggle="modal" data-bs-target="#exampleModal2">NOVO QUIZ</button>
+                            <button class="btn btn-primary d-none" id="newForum" data-bs-toggle="modal" data-bs-target="#modalAdicionarForum">NOVO FÓRUM</button>
                         @elseif(strpos(request()->path(), 'editarperfil') === 0)
                             <a class="btn btn-primary" href="{{url( session('utilizador')['tipo'] . '/dashboard')}}" >Dashboard</a>
                         @elseif(strpos(request()->path(), 'prof/dashboard') === 0 || strpos(request()->path(), 'aluno/dashboard') === 0)
