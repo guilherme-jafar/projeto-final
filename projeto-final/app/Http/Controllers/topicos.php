@@ -121,6 +121,32 @@ class topicos extends Controller
                 }
 
 
+            }else if ($tipo == "multiple-image") {
+
+                $question = json_decode($request->array);
+                $resposta = $request->resposta;
+                dd($question);
+                DB::insert('insert into perguntas (id, enunciado,tempo,tipo,valor,topicos_id) values (?,?,?,?,?,?)'
+                    , [$id, $pergunta, $tempo, $tipo, $p, $topico]);
+
+
+                for ($i = 0; $i < count($question); $i++) {
+                    $idRes = time() . uniqid();
+
+                    if ($question[$i] == $resposta) {
+                        $nomeFile = "resp".uniqid() . "." . $question[$i]->getClientOriginalExtension();
+                        $request->$question[$i]->move(public_path('.\images\Pergunta\Multimedia'), $nomeFile);
+                        DB::insert('insert into respostas (id,resposta,resultado,perguntas_id) values (?,?,?,?)'
+                            , [$idRes,$nomeFile , 1, $id]);
+
+                    } else {
+                        $nomeFile = "resp".uniqid() . "." . $question[$i]->getClientOriginalExtension();
+                        $request->$question[$i]->move(public_path('.\images\Pergunta\Multimedia'), $nomeFile);
+                        DB::insert('insert into respostas (id,resposta,resultado,perguntas_id) values (?,?,?,?)'
+                            , [$idRes, $nomeFile, 0, $id]);
+                    }
+
+                }
             }
 
 

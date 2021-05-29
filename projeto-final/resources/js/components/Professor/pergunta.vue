@@ -215,6 +215,7 @@
                                                 <option value="multiple">Seleção Única</option>
                                                 <option value="multiple-select">Seleção Múltipla</option>
                                                 <option value="true/false">Verdadeiro/Falso</option>
+                                                <option value="multiple-image">Pergunta com imagem</option>
 
 
                                             </select>
@@ -375,6 +376,80 @@
 
                                         </div>
                                     </div>
+                                    <div class="col-md-12 ">
+                                        <div :id="'multiple-image'+topicos" style="margin-top: 20px">
+                                            <div class="input-group mb-3 insertAnsewr">
+
+                                                <input type='file' accept="image/png,image/gif, image/jpeg" :id="'ri1'+topicos" class=" form-control"
+                                                       style="border: none;"
+                                                       aria-label="Text input with radio button" placeholder="Opção 1" @change="showImage('ri1','img1','sh1')">
+
+                                                <div :id="'img1'+topicos" >
+
+                                                <img width="260px" height="200px" :id="'sh1'+topicos" src="#" alt="imagem1" />
+                                                    <button type="button" class="btn-close" @click="removeImg('ri1','img1','sh1')"></button>
+                                                </div>
+                                                    <div class="input-group-text">
+                                                    <input type="radio" :name="'corretImage'+topicos" :value="'ri1'+topicos"
+                                                           class="form-check-input">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="input-group mb-3 insertAnsewr">
+
+                                                <input type='file' accept="image/png,image/gif, image/jpeg" :id="'ri2'+topicos" class=" form-control"
+                                                       style="border: none"
+                                                       aria-label="Text input with radio button" placeholder="Opção 2" @change="showImage('ri2','img2','sh2')">
+                                                <div :id="'img2'+topicos" >
+
+                                                    <img width="260px" height="200px" :id="'sh2'+topicos" src="#" alt="imagem2" />
+                                                    <button type="button" class="btn-close" @click="removeImg('ri2','img2','sh2')"></button>
+                                                </div>
+                                                <div class="input-group-text">
+                                                    <input type="radio" :name="'corretImage'+topicos" :value="'ri2'+topicos"
+                                                           class="form-check-input">
+                                                </div>
+                                            </div>
+
+                                            <div class="input-group mb-3 insertAnsewr">
+
+                                                <input type='file' accept="image/png,image/gif, image/jpeg" :id="'ri3'+topicos" class=" form-control"
+                                                       style="border: none; "
+                                                       aria-label="Text input with radio button" placeholder="Opção 3" @change="showImage('ri3','img3','sh3')">
+                                                <div :id="'img3'+topicos" >
+
+                                                    <img width="260px" height="200px" :id="'sh3'+topicos" src="#" alt="imagem3" />
+                                                    <button type="button" class="btn-close" @click="removeImg('ri3','img3','sh3')"></button>
+                                                </div>
+                                                <div class="input-group-text">
+                                                    <input type="radio" :name="'corretImage'+topicos" :value="'ri3'+topicos"
+                                                           class="form-check-input">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="input-group mb-3 insertAnsewr">
+
+                                                <input type='file' accept="image/png,image/gif, image/jpeg" :id="'ri4'+topicos" class=" form-control"
+                                                       style="border: none; "
+                                                       aria-label="Text input with radio button" placeholder="Opção 4" @change="showImage('ri4','img4','sh4')">
+                                                <div :id="'img4'+topicos" >
+
+                                                    <img width="260px" height="200px" :id="'sh4'+topicos" src="#" alt="imagem4" />
+                                                    <button type="button" class="btn-close" @click="removeImg('ri4','img4','sh4')"></button>
+                                                </div>
+                                                <div class="input-group-text">
+                                                    <input type="radio" :name="'corretImage'+topicos" :value="'ri4'+topicos"
+                                                           class="form-check-input">
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+
+                                    </div>
                                     <div class="col-md-12">
                                         <p :id="'RError'+topicos"></p>
                                     </div>
@@ -420,6 +495,24 @@
             }
         },
         methods: {
+            removeImg(idFile,idImg,idSh){
+                let id=idFile+this.topicos;
+                let img=idImg+this.topicos;
+                let sh=idSh+this.topicos;
+                $('#'+id).val('')
+                $('#'+sh).prop('src','#');
+                $('#'+img).hide();
+                $('#'+id).show();
+            },
+            showImage(idFile,idImg,idSh){
+                let id=idFile+this.topicos;
+                let img=idImg+this.topicos;
+                let sh=idSh+this.topicos;
+                let myFile = $('#'+id).prop('files');
+                $('#'+sh).prop('src',URL.createObjectURL(myFile[0]));
+                $('#'+img).show();
+                $('#'+id).hide();
+            },
             eliminarPergunta(pergunta, topidoId) {
 
                 $('.eliminar-btn span').addClass('d-none');
@@ -466,7 +559,6 @@
                         //this.isFetching = false;
                     });
             },
-
             submit(top) {
 
 
@@ -604,6 +696,32 @@
                         }
 
 
+                    } if (document.getElementById("tipo" + top).value === "multiple-image") {
+                        var radios = document.getElementsByName("corretImage" + top);
+
+
+                        for (let i = 1; i < 5; i++) {
+                            if (document.getElementById("ri" + i + top).files.length > 0) {
+                                array.push(document.getElementById("ri" + i + top).files[0])
+                                index++;
+                            }
+
+                            if (radios[i - 1].checked) {
+                                flag = true;
+                                corret = radios[i - 1].value;
+                            }
+                        }
+                        if (index < 2) {
+                            $('#RError' + top).text("Uma pergunta tem de ter pelo menos 2 respostas").css('color', 'red').css('opacity', '1');
+                        } else if (!flag) {
+                            $('#RError' + top).text("Indique a resposta certa").css('color', 'red').css('opacity', '1');
+                        } else {
+                            console.log(array)
+                            form.append('array', JSON.stringify(array));
+                            form.append('resposta', document.getElementById(corret).value)
+                            this.send(form, top)
+                        }
+
                     }
 
 
@@ -656,6 +774,15 @@
 
                         }
 
+                    }else if (document.getElementById("tipo" + top).value === "multiple-image") {
+                        var radios = document.getElementsByName("corretImage" + top);
+                        for (let i = 1; i < 5; i++) {
+                            document.getElementById("re" + i + top).value = ""
+
+                            if (radios[i - 1].checked) {
+                                radios[i - 1].checked = false;
+                            }
+                        }
                     }
                     this.getPerguntas();
                 }.bind(this));
@@ -726,20 +853,29 @@
                 let id = "trueFalse" + this.topicos;
                 let id2 = "multiple" + this.topicos;
                 let id3 = "multiple-select" + this.topicos;
+                let id4 = "multiple-image" + this.topicos;
                 if (document.getElementById("tipo" + this.topicos).value === "multiple") {
 
                     $('#' + id).hide();
                     $('#' + id2).show();
                     $('#' + id3).hide();
+                    $('#' + id4).hide();
                 } else if (document.getElementById("tipo" + this.topicos).value === "true/false") {
 
                     $('#' + id).show();
                     $('#' + id2).hide();
                     $('#' + id3).hide();
+                    $('#' + id4).hide();
                 } else if (document.getElementById("tipo" + this.topicos).value === "multiple-select") {
                     $('#' + id).hide();
                     $('#' + id2).hide();
                     $('#' + id3).show();
+                    $('#' + id4).hide();
+                } else if (document.getElementById("tipo" + this.topicos).value === "multiple-image") {
+                    $('#' + id).hide();
+                    $('#' + id2).hide();
+                    $('#' + id3).hide();
+                    $('#' + id4).show();
                 }
             }
         },
@@ -750,9 +886,21 @@
             let id = "trueFalse" + this.topicos;
             let id2 = "multiple" + this.topicos;
             let id3 = "multiple-select" + this.topicos;
+            let id4 = "multiple-image" + this.topicos;
+            let img1= "img1" + this.topicos;
+            let img2 = "img2" + this.topicos;
+            let img3 = "img3" + this.topicos;
+            let img4 = "img4" + this.topicos;
+
             $('#' + id).hide();
             $('#' + id2).show();
             $('#' + id3).hide();
+            $('#' + id4).hide();
+            $('#'+img1).hide();
+            $('#'+img2).hide();
+            $('#'+img3).hide();
+            $('#'+img4).hide();
+
             // this.toastPergunta = new bootstrap.Toast(document.getElementById('toast-pergunta'), {delay: 10000})
             // this.toastPergunta.hide();
         }

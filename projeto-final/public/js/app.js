@@ -3276,6 +3276,81 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3290,6 +3365,24 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    removeImg: function removeImg(idFile, idImg, idSh) {
+      var id = idFile + this.topicos;
+      var img = idImg + this.topicos;
+      var sh = idSh + this.topicos;
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).val('');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + sh).prop('src', '#');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + img).hide();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).show();
+    },
+    showImage: function showImage(idFile, idImg, idSh) {
+      var id = idFile + this.topicos;
+      var img = idImg + this.topicos;
+      var sh = idSh + this.topicos;
+      var myFile = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).prop('files');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + sh).prop('src', URL.createObjectURL(myFile[0]));
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + img).show();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).hide();
+    },
     eliminarPergunta: function eliminarPergunta(pergunta, topidoId) {
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn span').addClass('d-none');
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn div').removeClass('d-none');
@@ -3450,6 +3543,33 @@ __webpack_require__.r(__webpack_exports__);
             }
           }
         }
+
+        if (document.getElementById("tipo" + top).value === "multiple-image") {
+          var radios = document.getElementsByName("corretImage" + top);
+
+          for (var _i4 = 1; _i4 < 5; _i4++) {
+            if (document.getElementById("ri" + _i4 + top).files.length > 0) {
+              array.push(document.getElementById("ri" + _i4 + top).files[0]);
+              index++;
+            }
+
+            if (radios[_i4 - 1].checked) {
+              flag = true;
+              corret = radios[_i4 - 1].value;
+            }
+          }
+
+          if (index < 2) {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + top).text("Uma pergunta tem de ter pelo menos 2 respostas").css('color', 'red').css('opacity', '1');
+          } else if (!flag) {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + top).text("Indique a resposta certa").css('color', 'red').css('opacity', '1');
+          } else {
+            console.log(array);
+            form.append('array', JSON.stringify(array));
+            form.append('resposta', document.getElementById(corret).value);
+            this.send(form, top);
+          }
+        }
       }
     },
     send: function send(form, top) {
@@ -3481,17 +3601,27 @@ __webpack_require__.r(__webpack_exports__);
         } else if (document.getElementById("tipo" + top).value === "true/false") {
           var radios2 = document.getElementsByName("TF" + top);
 
-          for (var _i4 = 0; _i4 < 2; _i4++) {
-            if (radios2[_i4].checked) {
-              radios2[_i4].checked = false;
+          for (var _i5 = 0; _i5 < 2; _i5++) {
+            if (radios2[_i5].checked) {
+              radios2[_i5].checked = false;
             }
           }
         } else if (document.getElementById("tipo" + top).value === "multiple-select") {
           var checkboxRe = document.getElementsByName("corret" + top + "[]");
 
-          for (var _i5 = 1; _i5 < 5; _i5++) {
-            checkboxRe[_i5 - 1].checked = false;
-            document.getElementById("rem" + _i5 + top).value = "";
+          for (var _i6 = 1; _i6 < 5; _i6++) {
+            checkboxRe[_i6 - 1].checked = false;
+            document.getElementById("rem" + _i6 + top).value = "";
+          }
+        } else if (document.getElementById("tipo" + top).value === "multiple-image") {
+          var radios = document.getElementsByName("corretImage" + top);
+
+          for (var _i7 = 1; _i7 < 5; _i7++) {
+            document.getElementById("re" + _i7 + top).value = "";
+
+            if (radios[_i7 - 1].checked) {
+              radios[_i7 - 1].checked = false;
+            }
           }
         }
 
@@ -3515,9 +3645,9 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
 
-        for (var _i6 = 0; _i6 < newPerguntas.length; _i6++) {
-          if (newPerguntas[_i6][1].length <= 120 && newPerguntas[_i6][2].length <= 120 && newPerguntas[_i6][2].length <= 120 && newPerguntas[_i6][2].length <= 120 && newPerguntas[_i6][2].length <= 120) {
-            if (newPerguntas[_i6][newPerguntas[_i6][7] + 1] === null) {
+        for (var _i8 = 0; _i8 < newPerguntas.length; _i8++) {
+          if (newPerguntas[_i8][1].length <= 120 && newPerguntas[_i8][2].length <= 120 && newPerguntas[_i8][2].length <= 120 && newPerguntas[_i8][2].length <= 120 && newPerguntas[_i8][2].length <= 120) {
+            if (newPerguntas[_i8][newPerguntas[_i8][7] + 1] === null) {
               jquery__WEBPACK_IMPORTED_MODULE_0___default()('#InsertfileError' + topicos).text("Erro no ficheiro").css('color', 'red').css('opacity', '1');
               flag = true;
               jquery__WEBPACK_IMPORTED_MODULE_0___default()('#InsertfileButton' + topicos).prop('disabled', false);
@@ -3549,19 +3679,28 @@ __webpack_require__.r(__webpack_exports__);
       var id = "trueFalse" + this.topicos;
       var id2 = "multiple" + this.topicos;
       var id3 = "multiple-select" + this.topicos;
+      var id4 = "multiple-image" + this.topicos;
 
       if (document.getElementById("tipo" + this.topicos).value === "multiple") {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).hide();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).show();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).hide();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id4).hide();
       } else if (document.getElementById("tipo" + this.topicos).value === "true/false") {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).show();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).hide();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).hide();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id4).hide();
       } else if (document.getElementById("tipo" + this.topicos).value === "multiple-select") {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).hide();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).hide();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).show();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id4).hide();
+      } else if (document.getElementById("tipo" + this.topicos).value === "multiple-image") {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).hide();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).hide();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).hide();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id4).show();
       }
     }
   },
@@ -3572,9 +3711,19 @@ __webpack_require__.r(__webpack_exports__);
     var id = "trueFalse" + this.topicos;
     var id2 = "multiple" + this.topicos;
     var id3 = "multiple-select" + this.topicos;
+    var id4 = "multiple-image" + this.topicos;
+    var img1 = "img1" + this.topicos;
+    var img2 = "img2" + this.topicos;
+    var img3 = "img3" + this.topicos;
+    var img4 = "img4" + this.topicos;
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).hide();
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).show();
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).hide(); // this.toastPergunta = new bootstrap.Toast(document.getElementById('toast-pergunta'), {delay: 10000})
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).hide();
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id4).hide();
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + img1).hide();
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + img2).hide();
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + img3).hide();
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + img4).hide(); // this.toastPergunta = new bootstrap.Toast(document.getElementById('toast-pergunta'), {delay: 10000})
     // this.toastPergunta.hide();
   }
 });
@@ -46519,6 +46668,12 @@ var render = function() {
                                       "option",
                                       { attrs: { value: "true/false" } },
                                       [_vm._v("Verdadeiro/Falso")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "option",
+                                      { attrs: { value: "multiple-image" } },
+                                      [_vm._v("Pergunta com imagem")]
                                     )
                                   ]
                                 )
@@ -46980,6 +47135,329 @@ var render = function() {
                                           },
                                           domProps: {
                                             value: "re4" + _vm.topicos
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-12 " }, [
+                            _c(
+                              "div",
+                              {
+                                staticStyle: { "margin-top": "20px" },
+                                attrs: { id: "multiple-image" + _vm.topicos }
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "input-group mb-3 insertAnsewr"
+                                  },
+                                  [
+                                    _c("input", {
+                                      staticClass: " form-control",
+                                      staticStyle: { border: "none" },
+                                      attrs: {
+                                        type: "file",
+                                        accept:
+                                          "image/png,image/gif, image/jpeg",
+                                        id: "ri1" + _vm.topicos,
+                                        "aria-label":
+                                          "Text input with radio button",
+                                        placeholder: "Opção 1"
+                                      },
+                                      on: {
+                                        change: function($event) {
+                                          return _vm.showImage(
+                                            "ri1",
+                                            "img1",
+                                            "sh1"
+                                          )
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { attrs: { id: "img1" + _vm.topicos } },
+                                      [
+                                        _c("img", {
+                                          attrs: {
+                                            width: "260px",
+                                            height: "200px",
+                                            id: "sh1" + _vm.topicos,
+                                            src: "#",
+                                            alt: "imagem1"
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c("button", {
+                                          staticClass: "btn-close",
+                                          attrs: { type: "button" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.removeImg(
+                                                "ri1",
+                                                "img1",
+                                                "sh1"
+                                              )
+                                            }
+                                          }
+                                        })
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "input-group-text" },
+                                      [
+                                        _c("input", {
+                                          staticClass: "form-check-input",
+                                          attrs: {
+                                            type: "radio",
+                                            name: "corretImage" + _vm.topicos
+                                          },
+                                          domProps: {
+                                            value: "ri1" + _vm.topicos
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "input-group mb-3 insertAnsewr"
+                                  },
+                                  [
+                                    _c("input", {
+                                      staticClass: " form-control",
+                                      staticStyle: { border: "none" },
+                                      attrs: {
+                                        type: "file",
+                                        accept:
+                                          "image/png,image/gif, image/jpeg",
+                                        id: "ri2" + _vm.topicos,
+                                        "aria-label":
+                                          "Text input with radio button",
+                                        placeholder: "Opção 2"
+                                      },
+                                      on: {
+                                        change: function($event) {
+                                          return _vm.showImage(
+                                            "ri2",
+                                            "img2",
+                                            "sh2"
+                                          )
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { attrs: { id: "img2" + _vm.topicos } },
+                                      [
+                                        _c("img", {
+                                          attrs: {
+                                            width: "260px",
+                                            height: "200px",
+                                            id: "sh2" + _vm.topicos,
+                                            src: "#",
+                                            alt: "imagem2"
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c("button", {
+                                          staticClass: "btn-close",
+                                          attrs: { type: "button" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.removeImg(
+                                                "ri2",
+                                                "img2",
+                                                "sh2"
+                                              )
+                                            }
+                                          }
+                                        })
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "input-group-text" },
+                                      [
+                                        _c("input", {
+                                          staticClass: "form-check-input",
+                                          attrs: {
+                                            type: "radio",
+                                            name: "corretImage" + _vm.topicos
+                                          },
+                                          domProps: {
+                                            value: "ri2" + _vm.topicos
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "input-group mb-3 insertAnsewr"
+                                  },
+                                  [
+                                    _c("input", {
+                                      staticClass: " form-control",
+                                      staticStyle: { border: "none" },
+                                      attrs: {
+                                        type: "file",
+                                        accept:
+                                          "image/png,image/gif, image/jpeg",
+                                        id: "ri3" + _vm.topicos,
+                                        "aria-label":
+                                          "Text input with radio button",
+                                        placeholder: "Opção 3"
+                                      },
+                                      on: {
+                                        change: function($event) {
+                                          return _vm.showImage(
+                                            "ri3",
+                                            "img3",
+                                            "sh3"
+                                          )
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { attrs: { id: "img3" + _vm.topicos } },
+                                      [
+                                        _c("img", {
+                                          attrs: {
+                                            width: "260px",
+                                            height: "200px",
+                                            id: "sh3" + _vm.topicos,
+                                            src: "#",
+                                            alt: "imagem3"
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c("button", {
+                                          staticClass: "btn-close",
+                                          attrs: { type: "button" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.removeImg(
+                                                "ri3",
+                                                "img3",
+                                                "sh3"
+                                              )
+                                            }
+                                          }
+                                        })
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "input-group-text" },
+                                      [
+                                        _c("input", {
+                                          staticClass: "form-check-input",
+                                          attrs: {
+                                            type: "radio",
+                                            name: "corretImage" + _vm.topicos
+                                          },
+                                          domProps: {
+                                            value: "ri3" + _vm.topicos
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "input-group mb-3 insertAnsewr"
+                                  },
+                                  [
+                                    _c("input", {
+                                      staticClass: " form-control",
+                                      staticStyle: { border: "none" },
+                                      attrs: {
+                                        type: "file",
+                                        accept:
+                                          "image/png,image/gif, image/jpeg",
+                                        id: "ri4" + _vm.topicos,
+                                        "aria-label":
+                                          "Text input with radio button",
+                                        placeholder: "Opção 4"
+                                      },
+                                      on: {
+                                        change: function($event) {
+                                          return _vm.showImage(
+                                            "ri4",
+                                            "img4",
+                                            "sh4"
+                                          )
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { attrs: { id: "img4" + _vm.topicos } },
+                                      [
+                                        _c("img", {
+                                          attrs: {
+                                            width: "260px",
+                                            height: "200px",
+                                            id: "sh4" + _vm.topicos,
+                                            src: "#",
+                                            alt: "imagem4"
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c("button", {
+                                          staticClass: "btn-close",
+                                          attrs: { type: "button" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.removeImg(
+                                                "ri4",
+                                                "img4",
+                                                "sh4"
+                                              )
+                                            }
+                                          }
+                                        })
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "input-group-text" },
+                                      [
+                                        _c("input", {
+                                          staticClass: "form-check-input",
+                                          attrs: {
+                                            type: "radio",
+                                            name: "corretImage" + _vm.topicos
+                                          },
+                                          domProps: {
+                                            value: "ri4" + _vm.topicos
                                           }
                                         })
                                       ]
