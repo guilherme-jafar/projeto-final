@@ -3549,7 +3549,7 @@ __webpack_require__.r(__webpack_exports__);
 
           for (var _i4 = 1; _i4 < 5; _i4++) {
             if (document.getElementById("ri" + _i4 + top).files.length > 0) {
-              array.push(document.getElementById("ri" + _i4 + top).files[0]);
+              form.append('files[' + _i4 + ']', document.getElementById("ri" + _i4 + top).files[0]);
               index++;
             }
 
@@ -3564,8 +3564,6 @@ __webpack_require__.r(__webpack_exports__);
           } else if (!flag) {
             jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + top).text("Indique a resposta certa").css('color', 'red').css('opacity', '1');
           } else {
-            console.log(array);
-            form.append('array', JSON.stringify(array));
             form.append('resposta', document.getElementById(corret).value);
             this.send(form, top);
           }
@@ -3574,7 +3572,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     send: function send(form, top) {
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit' + top).prop('disabled', true);
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/insertQuestion', form).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/insertQuestion', form, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (response) {
         if (response.data.message === "erro") {
           alert("Erro a inserir a pergunta");
         } else {
@@ -5419,6 +5421,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                     jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
                     jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
                   }
+                } else {
+                  numberAvaliacoes = 0;
                 }
               }
             }
@@ -7594,6 +7598,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -7819,6 +7851,26 @@ __webpack_require__.r(__webpack_exports__);
               var _k3 = _i + 1;
 
               jquery__WEBPACK_IMPORTED_MODULE_0___default()('#m' + _k3).hide();
+            }
+          } else if (this.pergunta[this.index]['tipo'] === 'multiple-image') {
+            var _i2;
+
+            for (_i2 = 0; _i2 < respostas.length; _i2++) {
+              var _k4 = _i2 + 1;
+
+              if (respostas[_i2]['resposta'] === " ") {
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mi' + _k4).hide();
+              } else {
+                if (respostas[_i2]['resultado'] === 1) this.resposta = respostas[_i2]['resposta'];
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mi' + _k4).show();
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mi' + _k4).prop('src', '/images/Pergunta/Multimedia/'.respostas[_i2]['resposta']); //$('#mi' + k).val(respostas[i]['resposta']);
+              }
+            }
+
+            for (_i2 = respostas.length; _i2 < 4; _i2++) {
+              var _k5 = _i2 + 1;
+
+              jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mi' + _k5).hide();
             }
           }
 
@@ -53576,7 +53628,7 @@ var render = function() {
                                   }
                                 }
                               },
-                              [_vm._v("True\r\n                        ")]
+                              [_vm._v("True\n                        ")]
                             )
                           ]),
                           _vm._v(" "),
@@ -53592,7 +53644,7 @@ var render = function() {
                                   }
                                 }
                               },
-                              [_vm._v("False\r\n                        ")]
+                              [_vm._v("False\n                        ")]
                             )
                           ])
                         ])
@@ -53607,7 +53659,7 @@ var render = function() {
                                   { staticClass: "selecao-mul mx-auto" },
                                   [
                                     _vm._v(
-                                      "\r\n                         Respostas"
+                                      "\n                         Respostas"
                                     ),
                                     _c("span", [
                                       _vm._v(
@@ -53617,7 +53669,7 @@ var render = function() {
                                     _vm._v(
                                       "  / " +
                                         _vm._s(_vm.respostasMultiplas.length) +
-                                        "\r\n            "
+                                        "\n            "
                                     )
                                   ]
                                 )
@@ -53648,7 +53700,7 @@ var render = function() {
                                 _vm._v(
                                   " " +
                                     _vm._s(_vm.multipleQuestion[0]) +
-                                    "\r\n                        "
+                                    "\n                        "
                                 )
                               ]
                             )
@@ -53678,7 +53730,7 @@ var render = function() {
                                 _vm._v(
                                   " " +
                                     _vm._s(_vm.multipleQuestion[1]) +
-                                    "\r\n                        "
+                                    "\n                        "
                                 )
                               ]
                             )
@@ -53708,7 +53760,7 @@ var render = function() {
                               [
                                 _vm._v(
                                   _vm._s(_vm.multipleQuestion[2]) +
-                                    "\r\n                             \r\n                        "
+                                    "\n                             \n                        "
                                 )
                               ]
                             )
@@ -53738,7 +53790,7 @@ var render = function() {
                               [
                                 _vm._v(
                                   _vm._s(_vm.multipleQuestion[3]) +
-                                    "\r\n                             \r\n                        "
+                                    "\n                             \n                        "
                                 )
                               ]
                             )
@@ -53772,7 +53824,7 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("div", { attrs: { id: "resultado" } }, [
-        _vm._v("\r\n        " + _vm._s(_vm.resultado) + "\r\n        "),
+        _vm._v("\n        " + _vm._s(_vm.resultado) + "\n        "),
         _c("button", { on: { click: _vm.endQuizz } }, [_vm._v("Sair e Gravar")])
       ])
     ],
@@ -54072,6 +54124,120 @@ var render = function() {
                     }
                   },
                   [_vm._v("\n                     \n                ")]
+                )
+              ])
+            ])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.pergunta[_vm.index]["tipo"] === "multiple-image"
+        ? _c("div", { staticClass: "respostas mt-5" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-6" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "respostas-btn respostas-btn-1",
+                    attrs: { id: "mi1" },
+                    on: {
+                      click: function($event) {
+                        return _vm.response("mi1")
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(" \n                    "),
+                    _c("img", {
+                      staticClass: "mx-auto",
+                      attrs: {
+                        src: "#",
+                        alt: "imagem da pergunta",
+                        height: "40%",
+                        width: "40%"
+                      }
+                    })
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "respostas-btn respostas-btn-2",
+                    attrs: { id: "mi2" },
+                    on: {
+                      click: function($event) {
+                        return _vm.response("mi2")
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(" \n                    "),
+                    _c("img", {
+                      staticClass: "mx-auto",
+                      attrs: {
+                        src: "#",
+                        alt: "imagem da pergunta",
+                        height: "40%",
+                        width: "40%"
+                      }
+                    })
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "respostas-btn respostas-btn-3 mt-4",
+                    attrs: { id: "mi3" },
+                    on: {
+                      click: function($event) {
+                        return _vm.response("mi3")
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(" \n                    "),
+                    _c("img", {
+                      staticClass: "mx-auto",
+                      attrs: {
+                        src: "#",
+                        alt: "imagem da pergunta",
+                        height: "40%",
+                        width: "40%"
+                      }
+                    })
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "respostas-btn respostas-btn-4 mt-4",
+                    attrs: { id: "mi4" },
+                    on: {
+                      click: function($event) {
+                        return _vm.response("mi4")
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(" \n                    "),
+                    _c("img", {
+                      staticClass: "mx-auto",
+                      attrs: {
+                        src: "#",
+                        alt: "imagem da pergunta",
+                        height: "40%",
+                        width: "40%"
+                      }
+                    })
+                  ]
                 )
               ])
             ])

@@ -702,7 +702,8 @@
 
                         for (let i = 1; i < 5; i++) {
                             if (document.getElementById("ri" + i + top).files.length > 0) {
-                                array.push(document.getElementById("ri" + i + top).files[0])
+
+                                form.append('files[' + i + ']', document.getElementById("ri" + i + top).files[0]);
                                 index++;
                             }
 
@@ -716,8 +717,7 @@
                         } else if (!flag) {
                             $('#RError' + top).text("Indique a resposta certa").css('color', 'red').css('opacity', '1');
                         } else {
-                            console.log(array)
-                            form.append('array', JSON.stringify(array));
+
                             form.append('resposta', document.getElementById(corret).value)
                             this.send(form, top)
                         }
@@ -731,7 +731,11 @@
             send(form, top) {
 
                 $('#submit' + top).prop('disabled', true);
-                axios.post('/insertQuestion', form
+                axios.post('/insertQuestion', form,{
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }
                 ).then(function (response) {
                     if (response.data.message === "erro") {
 

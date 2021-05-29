@@ -103,6 +103,34 @@
 
         </div>
 
+        <div class="respostas mt-5" v-if="pergunta[index]['tipo']==='multiple-image'">
+            <div class="row">
+                <div class="col-md-6">
+                    <button class="respostas-btn respostas-btn-1" id="mi1" @click="response('mi1')">&nbsp;
+                        <img src="#"  alt="imagem da pergunta" height="40%"
+                             width="40%" class="mx-auto"></button>
+                </div>
+                <div class="col-md-6">
+                    <button class="respostas-btn respostas-btn-2" id="mi2" @click="response('mi2')">&nbsp;
+                        <img src="#" alt="imagem da pergunta" height="40%"
+                             width="40%" class="mx-auto"></button>
+                </div>
+
+                <div class="col-md-6">
+                    <button class="respostas-btn respostas-btn-3 mt-4" id="mi3" @click="response('mi3')">&nbsp;
+                        <img src="#" alt="imagem da pergunta" height="40%"
+                             width="40%" class="mx-auto"></button>
+                </div>
+                <div class="col-md-6">
+                    <button class="respostas-btn respostas-btn-4 mt-4" id="mi4" @click="response('mi4')">&nbsp;
+                        <img src="#" alt="imagem da pergunta" height="40%"
+                             width="40%" class="mx-auto"></button>
+                </div>
+            </div>
+
+
+        </div>
+
 
     </div>
 </template>
@@ -324,6 +352,24 @@
                             for (i =respostas.length ; i < 4; i++){
                                 let k = i + 1
                                 $('#m' + k).hide()
+                            }
+                        }else if (this.pergunta[this.index]['tipo'] === 'multiple-image') {
+                            let i;
+                            for (i = 0; i < respostas.length; i++) {
+                                let k = i + 1
+                                if (respostas[i]['resposta'] === " ") {
+                                    $('#mi' + k).hide()
+                                } else {
+                                    if (respostas[i]['resultado'] === 1)
+                                        this.resposta = respostas[i]['resposta']
+                                    $('#mi' + k).show()
+                                    $('#mi' + k).prop('src','/images/Pergunta/Multimedia/'.respostas[i]['resposta']);
+                                    //$('#mi' + k).val(respostas[i]['resposta']);
+                                }
+                            }
+                            for (i =respostas.length ; i < 4; i++){
+                                let k = i + 1
+                                $('#mi' + k).hide()
                             }
                         }
                         if ($cookies.get('quizz')!=null){

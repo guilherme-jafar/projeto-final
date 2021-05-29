@@ -820,6 +820,8 @@
                                             $('.btn-loading span').removeClass('d-none');
                                             $('.btn-loading div').addClass('d-none');
                                         }
+                                    }else{
+                                        numberAvaliacoes=0;
                                     }
                                 }
                             }
