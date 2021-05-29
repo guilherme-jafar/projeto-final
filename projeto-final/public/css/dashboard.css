@@ -1054,6 +1054,19 @@ section {
   padding: 2rem;
   border-radius: 5px;
 }
+.card-disciplina .section-mensagem .box-imagem {
+  width: 25rem;
+  height: 15rem;
+}
+.card-disciplina .section-mensagem .nova-mensagem input {
+  font-size: 2rem;
+}
+.card-disciplina .section-mensagem .nova-mensagem input:active {
+  border: 2px solid #FF7829;
+}
+.card-disciplina .section-mensagem .nova-mensagem .btn {
+  border-radius: 0.2rem;
+}
 
 .fazerTeste {
   background-color: white;

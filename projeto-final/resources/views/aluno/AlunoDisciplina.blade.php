@@ -30,6 +30,7 @@
                             <div id="app2" class="mt-4">
                                 <button type="button" class="btn btn-secondary ms-2" id="btn-chg-1" onclick="chg(2)">Quizz</button>
                                 <button type="button" class="btn btn-third ms-5" id="btn-chg-2" onclick="chg(1)">Historico</button>
+                                <button type="button" class="btn btn-third ms-5" id="btn-chg-3" onclick="chg(3)">Fórum</button>
                             </div>
 
                         </div>
@@ -48,6 +49,10 @@
 
                         <div id="quizz" >
                             <alunos-quizz :quizz_prop="'{{json_encode($quizz, TRUE)}}'" ></alunos-quizz>
+
+                        </div>
+                        <div id="forum" >
+                            <forum-show  :tipo_props="'{{json_encode(session('utilizador')['tipo'], TRUE)}}'"></forum-show>
 
                         </div>
                     </div>
@@ -73,6 +78,9 @@
     <script >
         $( document ).ready(function() {
 
+            $('#quizz').hide();
+
+            $('#forum').show()
         });
 
         function chg(index){

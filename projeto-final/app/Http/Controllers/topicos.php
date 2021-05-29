@@ -23,10 +23,10 @@ class topicos extends Controller
         $disciplina = $request->id;
 
         $insert_Topicos = DB::insert('insert into topicos (id, nome,descricao,disciplina_id) values (?,?,?,?)'
-            , [$id, $nome_topico, $descricao, $disciplina]);
+            , [$id, $nome_topico, $descricao, session('disciplina')['id']]);
 
 
-        DB::statement('call deleteTopico(?)', [$request->id]);
+//        DB::statement('call deleteTopico(?)', [$request->id]);
         $topicos = DB::table('topicos')->where('disciplina_id', '=', ['id' => session('disciplina')['id']])
             ->paginate(4);
 
