@@ -114,6 +114,33 @@
 
 
             </div>
+            <div class="respostas mt-5" v-if="pergunta['tipo']==='multiple-image'">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button class="respostas-btn respostas-btn-1" :id="'mi'+multipleQuestion[0]" v-show="multipleQuestion[0] !== null" @click="response('multiple-image','0')">&nbsp;
+                            <img :src="'/images/Pergunta/Multimedia/'+multipleQuestion[0]" v-show="multipleQuestion[0] !== null" alt="imagem da pergunta" :id="'mimg'+multipleQuestion[0]" height="40%"
+                                 width="40%" class="mx-auto"></button>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="respostas-btn respostas-btn-2" :id="'mi'+multipleQuestion[1]" v-show="multipleQuestion[1] !== null" @click="response('multiple-image','1')">&nbsp;
+                            <img :src="'/images/Pergunta/Multimedia/'+multipleQuestion[1]" v-show="multipleQuestion[1] !== null" alt="imagem da pergunta" :id="'mimg'+multipleQuestion[1]" height="40%"
+                                 width="40%" class="mx-auto"></button>
+                    </div>
+
+                    <div class="col-md-6">
+                        <button class="respostas-btn respostas-btn-3 mt-4" :id="'mi'+multipleQuestion[2]" v-show="multipleQuestion[3] !== null" @click="response('multiple-image','2')">&nbsp;
+                            <img :src="'/images/Pergunta/Multimedia/'+multipleQuestion[2]" v-show="multipleQuestion[2] !== null"  alt="imagem da pergunta" :id="'mimg'+multipleQuestion[2]" height="40%"
+                                 width="40%" class="mx-auto"></button>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="respostas-btn respostas-btn-4 mt-4" :id="'mi'+multipleQuestion[3]" v-show="multipleQuestion[3] !== null" @click="response('multiple-image','3')">&nbsp;
+                            <img :src="'/images/Pergunta/Multimedia/'+multipleQuestion[3]" v-show="multipleQuestion[3] !== null" alt="imagem da pergunta" :id="'mimg'+multipleQuestion[3]" height="40%"
+                                 width="40%" class="mx-auto"></button>
+                    </div>
+                </div>
+
+
+            </div>
 
 
         </div>
@@ -407,7 +434,7 @@ export default {
              let tempo = this.countDown;
             let tempoTotal = this.pergunta['tempo']
             let valorTotal = this.pergunta['valor']
-            if (type==='multiple'){
+            if (type==='multiple' || type==='multiple-image'){
             resposta = this.multipleQuestion[id];}
             else{
             resposta=id;}
@@ -438,7 +465,7 @@ export default {
                 $('.wrapper-wright').hide();
 
             }
-            this.resultado += this.res;
+            this.resultado += parseInt(this.res);
             // clearTimeout(this.timer)
             this.countDown = 0;
             let form = new FormData();
@@ -490,8 +517,6 @@ export default {
                 }
 
             } else if (this.pergunta['tipo'] === 'multiple-select') {
-
-
                 this.first = 0;
                 this.respostasMultiplas = [];
                 let i;
@@ -510,6 +535,27 @@ export default {
                 for (i =respostas.length ; i < 4; i++){
                     this.multipleQuestion[i]=null;
                 }
+            }else if (this.pergunta['tipo'] === 'multiple-image') {
+
+                let i;
+                for (i = 0; i < respostas.length; i++) {
+                    console.log(respostas[i]['resposta'])
+                    if (respostas[i]['resposta'] === " " ) {
+                        this.multipleQuestion[i]=null;
+
+                    } else {
+                        if (respostas[i]['resultado'] === 1) {
+                            this.resposta = respostas[i]['resposta']
+                        }
+
+                        this.multipleQuestion[i]=respostas[i]['resposta'];
+
+                    }
+                }
+                for (i =respostas.length ; i < 4; i++){
+                    this.multipleQuestion[i]=null;
+                }
+
             }
             $('#tabela').hide();
             this.startQuestion();

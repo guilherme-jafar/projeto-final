@@ -37,7 +37,7 @@
                                     <div class="pt-4 pb-5">
                                         <div class="row text-center">
                                             <div class="col-md-6">
-                                                <button type="button" class="btn btn-primary" >
+                                                <button type="button" class="btn btn-primary" @click="EnterQuizz(quizz['id'])">
                                                     criar uma sesssão
                                                 </button>
                                             </div>
@@ -145,7 +145,11 @@ name: "quizzAluno",
         }
     },
     methods: {
+        EnterQuizz(quizz) {
 
+            window.location.replace('/WaitRoom/' + quizz);
+
+        },
         teste(quizz) {
 
 

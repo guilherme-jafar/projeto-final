@@ -12,7 +12,14 @@
 <div id="gameMode">
     <p>Numero de perguntas {{index}}/{{Questions}}</p>
     <div id="tabela" v-for="item in usersId" :key="item.users">
-            <p>{{users[usersId.indexOf(item)]}} {{points[usersId.indexOf(item)]}} {{resposta[usersId.indexOf(item)]}}</p>
+           <p>{{users[usersId.indexOf(item)]}} {{points[usersId.indexOf(item)]}}</p>
+        <div v-if="image==='true'">
+            <img :src="'/images/Pergunta/Multimedia/'+resposta[usersId.indexOf(item)]" alt="resposta" height="40%"
+                 width="40%">
+    </div>
+        <div v-else>
+            {{resposta[usersId.indexOf(item)]}}
+        </div>
     </div>
     <button id="stop" @click="stopQuestion()">Parar Pergunta</button>
     <button id="next" @click="nextQuestion('next')">Proxima Pergunta</button>
@@ -21,7 +28,7 @@
 
         <div id="EndGame">
             <div id="tabelaFim" v-for="item in usersId" :key="item.users">
-                <p>{{users[usersId.indexOf(item)]}} {{points[usersId.indexOf(item)]}} {{resposta[usersId.indexOf(item)]}}</p>
+                <p>{{users[usersId.indexOf(item)]}} {{points[usersId.indexOf(item)]}}</p>
             </div>
             <button @click="endQuizz">Sair e Gravar</button>
         </div>
@@ -48,6 +55,7 @@ export default {
                 points: [],
                 questionPoints:[],
                 resposta:[],
+                image:'false',
 
 
             students: 0,
@@ -166,6 +174,11 @@ export default {
                         else if(e.type==='NextQuestion'){
                             this.points[this.usersId.indexOf(e.userId)]+=parseInt(e.points);
                             this.resposta[this.usersId.indexOf(e.userId)]=e.answer;
+                            if(e.tipo==='multiple-image'){
+                                this.image='true'
+                            }else{
+                                this.image='false'
+                            }
                             localStorage.setItem('pontos',JSON.stringify(this.points));
                             $('#tabela').show();
 

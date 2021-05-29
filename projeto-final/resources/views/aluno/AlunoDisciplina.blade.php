@@ -90,10 +90,14 @@
 
                     break;
                 case 2:
+                    $('#quizz').show();
 
+                    $('#forum').hide();
                     break;
                 case 3:
+                    $('#quizz').hide();
 
+                    $('#forum').show()
                     break;
             }
 

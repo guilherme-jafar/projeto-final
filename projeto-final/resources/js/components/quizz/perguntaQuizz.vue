@@ -107,23 +107,23 @@
             <div class="row">
                 <div class="col-md-6">
                     <button class="respostas-btn respostas-btn-1" id="mi1" @click="response('mi1')">&nbsp;
-                        <img src="#"  alt="imagem da pergunta" height="40%"
+                        <img src="#"  alt="imagem da pergunta" id="mimg1"height="40%"
                              width="40%" class="mx-auto"></button>
                 </div>
                 <div class="col-md-6">
                     <button class="respostas-btn respostas-btn-2" id="mi2" @click="response('mi2')">&nbsp;
-                        <img src="#" alt="imagem da pergunta" height="40%"
+                        <img src="#" alt="imagem da pergunta" id="mimg2" height="40%"
                              width="40%" class="mx-auto"></button>
                 </div>
 
                 <div class="col-md-6">
                     <button class="respostas-btn respostas-btn-3 mt-4" id="mi3" @click="response('mi3')">&nbsp;
-                        <img src="#" alt="imagem da pergunta" height="40%"
+                        <img src="#" alt="imagem da pergunta" id="mimg3" height="40%"
                              width="40%" class="mx-auto"></button>
                 </div>
                 <div class="col-md-6">
                     <button class="respostas-btn respostas-btn-4 mt-4" id="mi4" @click="response('mi4')">&nbsp;
-                        <img src="#" alt="imagem da pergunta" height="40%"
+                        <img src="#" alt="imagem da pergunta" id="mimg4" height="40%"
                              width="40%" class="mx-auto"></button>
                 </div>
             </div>
@@ -285,7 +285,7 @@
                     $('.wrapper-wrong').show();
 
                 }
-                this.resultado += this.res;
+                this.resultado += parseInt(this.res);
                 clearTimeout(this.timer)
                 this.countDown = 0;
                 let form = new FormData();
@@ -356,14 +356,18 @@
                         }else if (this.pergunta[this.index]['tipo'] === 'multiple-image') {
                             let i;
                             for (i = 0; i < respostas.length; i++) {
+
                                 let k = i + 1
+                                console.log(respostas[i]['resposta'])
                                 if (respostas[i]['resposta'] === " ") {
                                     $('#mi' + k).hide()
                                 } else {
                                     if (respostas[i]['resultado'] === 1)
                                         this.resposta = respostas[i]['resposta']
                                     $('#mi' + k).show()
-                                    $('#mi' + k).prop('src','/images/Pergunta/Multimedia/'.respostas[i]['resposta']);
+                                    $('#mi' + k).val(respostas[i]['resposta'])
+                                    $('#m' + k).html(" ");
+                                    $('#mimg' + k).attr('src','/images/Pergunta/Multimedia/'+respostas[i]['resposta']);
                                     //$('#mi' + k).val(respostas[i]['resposta']);
                                 }
                             }

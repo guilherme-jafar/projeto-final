@@ -21,12 +21,13 @@ class AnswerQuestionStudent implements ShouldBroadcast
     public $userId;
     public $points;
     public $answer;
+    public $tipo;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($aName,$aMainSession,$aType,$aUserId,$aPoints,$aAnswer)
+    public function __construct($aName,$aMainSession,$aType,$aUserId,$aPoints,$aAnswer,$aTipo)
     {
         $this->name=$aName;
         $this->Mainsession=$aMainSession;
@@ -34,6 +35,7 @@ class AnswerQuestionStudent implements ShouldBroadcast
         $this->userId=$aUserId;
         $this->points=$aPoints;
         $this->answer=$aAnswer;
+        $this->tipo=$aTipo;
     }
 
     /**

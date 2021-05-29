@@ -4284,6 +4284,54 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -4585,19 +4633,28 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     var id = "trueFalse" + pergunta['id'];
     var id2 = "multiple" + pergunta['id'];
     var id3 = "multiple-select" + pergunta['id'];
+    var id4 = "multiple-image" + pergunta['id'];
 
     if (pergunta['tipo'] === 'multiple-select') {
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).hide();
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).hide();
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).show();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id4).hide();
     } else if (pergunta['tipo'] === 'multiple') {
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).hide();
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).show();
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).hide();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id4).hide();
     } else if (pergunta['tipo'] === 'true/false') {
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).show();
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).hide();
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).hide();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id4).hide();
+    } else if (pergunta['tipo'] === 'multiple-image') {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).hide();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).hide();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).hide();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id4).show();
     }
 
     this.toastEditarPergunta = new bootstrap.Toast(document.getElementById('toastEditarPergunta'), {
@@ -6026,6 +6083,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    EnterQuizz: function EnterQuizz(quizz) {
+      window.location.replace('/WaitRoom/' + quizz);
+    },
     teste: function teste(quizz) {
       var session = '_' + Math.random().toString(36).substr(2, 9);
       window.location.replace('/quizzTeste/' + quizz + '/' + session);
@@ -7280,6 +7340,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -7537,7 +7624,7 @@ __webpack_require__.r(__webpack_exports__);
       var tempoTotal = this.pergunta['tempo'];
       var valorTotal = this.pergunta['valor'];
 
-      if (type === 'multiple') {
+      if (type === 'multiple' || type === 'multiple-image') {
         resposta = this.multipleQuestion[id];
       } else {
         resposta = id;
@@ -7567,7 +7654,7 @@ __webpack_require__.r(__webpack_exports__);
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').hide();
       }
 
-      this.resultado += this.res; // clearTimeout(this.timer)
+      this.resultado += parseInt(this.res); // clearTimeout(this.timer)
 
       this.countDown = 0;
       var form = new FormData();
@@ -7632,6 +7719,26 @@ __webpack_require__.r(__webpack_exports__);
 
         for (_i = respostas.length; _i < 4; _i++) {
           this.multipleQuestion[_i] = null;
+        }
+      } else if (this.pergunta['tipo'] === 'multiple-image') {
+        var _i2;
+
+        for (_i2 = 0; _i2 < respostas.length; _i2++) {
+          console.log(respostas[_i2]['resposta']);
+
+          if (respostas[_i2]['resposta'] === " ") {
+            this.multipleQuestion[_i2] = null;
+          } else {
+            if (respostas[_i2]['resultado'] === 1) {
+              this.resposta = respostas[_i2]['resposta'];
+            }
+
+            this.multipleQuestion[_i2] = respostas[_i2]['resposta'];
+          }
+        }
+
+        for (_i2 = respostas.length; _i2 < 4; _i2++) {
+          this.multipleQuestion[_i2] = null;
         }
       }
 
@@ -8004,7 +8111,7 @@ __webpack_require__.r(__webpack_exports__);
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('.wrapper-wrong').show();
       }
 
-      this.resultado += this.res;
+      this.resultado += parseInt(this.res);
       clearTimeout(this.timer);
       this.countDown = 0;
       var form = new FormData();
@@ -8088,12 +8195,16 @@ __webpack_require__.r(__webpack_exports__);
             for (_i2 = 0; _i2 < respostas.length; _i2++) {
               var _k4 = _i2 + 1;
 
+              console.log(respostas[_i2]['resposta']);
+
               if (respostas[_i2]['resposta'] === " ") {
                 jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mi' + _k4).hide();
               } else {
                 if (respostas[_i2]['resultado'] === 1) this.resposta = respostas[_i2]['resposta'];
                 jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mi' + _k4).show();
-                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mi' + _k4).prop('src', '/images/Pergunta/Multimedia/'.respostas[_i2]['resposta']); //$('#mi' + k).val(respostas[i]['resposta']);
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mi' + _k4).val(respostas[_i2]['resposta']);
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#m' + _k4).html(" ");
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mimg' + _k4).attr('src', '/images/Pergunta/Multimedia/' + respostas[_i2]['resposta']); //$('#mi' + k).val(respostas[i]['resposta']);
               }
             }
 
@@ -8252,6 +8363,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -8265,6 +8383,7 @@ __webpack_require__.r(__webpack_exports__);
       points: [],
       questionPoints: [],
       resposta: [],
+      image: 'false',
       students: 0,
       couter: 0,
       index: 1,
@@ -8377,6 +8496,13 @@ __webpack_require__.r(__webpack_exports__);
           } else if (e.type === 'NextQuestion') {
             _this.points[_this.usersId.indexOf(e.userId)] += parseInt(e.points);
             _this.resposta[_this.usersId.indexOf(e.userId)] = e.answer;
+
+            if (e.tipo === 'multiple-image') {
+              _this.image = 'true';
+            } else {
+              _this.image = 'false';
+            }
+
             localStorage.setItem('pontos', JSON.stringify(_this.points));
             $('#tabela').show();
             _this.couter++;
@@ -49305,6 +49431,138 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
+          _c("div", { staticClass: "col-md-12 " }, [
+            _c(
+              "div",
+              {
+                staticStyle: { "margin-top": "20px" },
+                attrs: { id: "multiple-image" + _vm.pergunta["id"] }
+              },
+              [
+                !_vm.isFetching
+                  ? _c(
+                      "div",
+                      [
+                        _vm._l(_vm.respostas, function(resposta, index) {
+                          return _c("div", [
+                            _c(
+                              "div",
+                              { staticClass: "input-group mb-3 insertAnsewr" },
+                              [
+                                _c("input", {
+                                  staticClass: " form-control",
+                                  staticStyle: { border: "none" },
+                                  attrs: {
+                                    type: "text",
+                                    id: "re" + (index + 1) + _vm.pergunta["id"],
+                                    "aria-label":
+                                      "Text input with radio button",
+                                    placeholder: "Opção" + (index + 1)
+                                  },
+                                  domProps: {
+                                    value:
+                                      _vm.pergunta["tipo"] === "multiple"
+                                        ? resposta["resposta"]
+                                        : ""
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "input-group-text" }, [
+                                  _c("input", {
+                                    staticClass: "form-check-input",
+                                    attrs: {
+                                      type: "radio",
+                                      name: "corret" + _vm.pergunta["id"]
+                                    },
+                                    domProps: {
+                                      value:
+                                        "re" + (index + 1) + _vm.pergunta["id"],
+                                      checked: resposta["resultado"] === 1
+                                    }
+                                  })
+                                ])
+                              ]
+                            )
+                          ])
+                        }),
+                        _vm._v(" "),
+                        _vm.respostas.length < 4
+                          ? _c(
+                              "div",
+                              _vm._l(4 - _vm.respostas.length, function(
+                                resposta,
+                                index
+                              ) {
+                                return _c("div", [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "input-group mb-3 insertAnsewr"
+                                    },
+                                    [
+                                      _c("input", {
+                                        staticClass: " form-control",
+                                        staticStyle: { border: "none" },
+                                        attrs: {
+                                          type: "text",
+                                          id:
+                                            "re" +
+                                            (index + _vm.respostas.length + 1) +
+                                            _vm.pergunta["id"],
+                                          "aria-label":
+                                            "Text input with radio button",
+                                          placeholder:
+                                            "Opção" +
+                                            (index + _vm.respostas.length + 1)
+                                        },
+                                        domProps: {
+                                          value:
+                                            _vm.pergunta["tipo"] === "multiple"
+                                              ? resposta["resposta"]
+                                              : ""
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        { staticClass: "input-group-text" },
+                                        [
+                                          _c("input", {
+                                            staticClass: "form-check-input",
+                                            attrs: {
+                                              type: "radio",
+                                              name:
+                                                "corret" + _vm.pergunta["id"]
+                                            },
+                                            domProps: {
+                                              value:
+                                                "re" +
+                                                (index +
+                                                  _vm.respostas.length +
+                                                  1) +
+                                                _vm.pergunta["id"],
+                                              checked:
+                                                resposta["resultado"] === 1
+                                            }
+                                          })
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ])
+                              }),
+                              0
+                            )
+                          : _vm._e()
+                      ],
+                      2
+                    )
+                  : _vm._e()
+              ]
+            )
+          ]),
+          _vm._v(" "),
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { attrs: { id: "trueFalse" + _vm.pergunta["id"] } }, [
               !_vm.isFetching
@@ -52068,7 +52326,32 @@ var render = function() {
                                         "div",
                                         { staticClass: "row text-center" },
                                         [
-                                          _vm._m(1, true),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-6" },
+                                            [
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass:
+                                                    "btn btn-primary",
+                                                  attrs: { type: "button" },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.EnterQuizz(
+                                                        quizz["id"]
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                                 criar uma sesssão\n                                             "
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          ),
                                           _vm._v(" "),
                                           _c(
                                             "div",
@@ -52128,7 +52411,7 @@ var render = function() {
                               },
                               [
                                 _c("div", { staticClass: "modal-content" }, [
-                                  _vm._m(2, true),
+                                  _vm._m(1, true),
                                   _vm._v(" "),
                                   _c("div", { staticClass: "modal-body" }, [
                                     _c("div", { staticClass: "col-md-12" }, [
@@ -52230,7 +52513,7 @@ var render = function() {
                               },
                               [
                                 _c("div", { staticClass: "modal-content" }, [
-                                  _vm._m(3, true),
+                                  _vm._m(2, true),
                                   _vm._v(" "),
                                   _c("div", { staticClass: "modal-body" }, [
                                     _vm._v(
@@ -52302,22 +52585,6 @@ var staticRenderFns = [
           "aria-label": "Close"
         }
       })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-primary", attrs: { type: "button" } },
-        [
-          _vm._v(
-            "\n                                                 criar uma sesssão\n                                             "
-          )
-        ]
-      )
     ])
   },
   function() {
@@ -54457,6 +54724,198 @@ var render = function() {
                           ])
                         ])
                       ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.pergunta["tipo"] === "multiple-image"
+                    ? _c("div", { staticClass: "respostas mt-5" }, [
+                        _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "col-md-6" }, [
+                            _c(
+                              "button",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.multipleQuestion[0] !== null,
+                                    expression: "multipleQuestion[0] !== null"
+                                  }
+                                ],
+                                staticClass: "respostas-btn respostas-btn-1",
+                                attrs: { id: "mi" + _vm.multipleQuestion[0] },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.response("multiple-image", "0")
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(" \n                            "),
+                                _c("img", {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.multipleQuestion[0] !== null,
+                                      expression: "multipleQuestion[0] !== null"
+                                    }
+                                  ],
+                                  staticClass: "mx-auto",
+                                  attrs: {
+                                    src:
+                                      "/images/Pergunta/Multimedia/" +
+                                      _vm.multipleQuestion[0],
+                                    alt: "imagem da pergunta",
+                                    id: "mimg" + _vm.multipleQuestion[0],
+                                    height: "40%",
+                                    width: "40%"
+                                  }
+                                })
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-6" }, [
+                            _c(
+                              "button",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.multipleQuestion[1] !== null,
+                                    expression: "multipleQuestion[1] !== null"
+                                  }
+                                ],
+                                staticClass: "respostas-btn respostas-btn-2",
+                                attrs: { id: "mi" + _vm.multipleQuestion[1] },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.response("multiple-image", "1")
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(" \n                            "),
+                                _c("img", {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.multipleQuestion[1] !== null,
+                                      expression: "multipleQuestion[1] !== null"
+                                    }
+                                  ],
+                                  staticClass: "mx-auto",
+                                  attrs: {
+                                    src:
+                                      "/images/Pergunta/Multimedia/" +
+                                      _vm.multipleQuestion[1],
+                                    alt: "imagem da pergunta",
+                                    id: "mimg" + _vm.multipleQuestion[1],
+                                    height: "40%",
+                                    width: "40%"
+                                  }
+                                })
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-6" }, [
+                            _c(
+                              "button",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.multipleQuestion[3] !== null,
+                                    expression: "multipleQuestion[3] !== null"
+                                  }
+                                ],
+                                staticClass:
+                                  "respostas-btn respostas-btn-3 mt-4",
+                                attrs: { id: "mi" + _vm.multipleQuestion[2] },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.response("multiple-image", "2")
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(" \n                            "),
+                                _c("img", {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.multipleQuestion[2] !== null,
+                                      expression: "multipleQuestion[2] !== null"
+                                    }
+                                  ],
+                                  staticClass: "mx-auto",
+                                  attrs: {
+                                    src:
+                                      "/images/Pergunta/Multimedia/" +
+                                      _vm.multipleQuestion[2],
+                                    alt: "imagem da pergunta",
+                                    id: "mimg" + _vm.multipleQuestion[2],
+                                    height: "40%",
+                                    width: "40%"
+                                  }
+                                })
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-6" }, [
+                            _c(
+                              "button",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.multipleQuestion[3] !== null,
+                                    expression: "multipleQuestion[3] !== null"
+                                  }
+                                ],
+                                staticClass:
+                                  "respostas-btn respostas-btn-4 mt-4",
+                                attrs: { id: "mi" + _vm.multipleQuestion[3] },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.response("multiple-image", "3")
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(" \n                            "),
+                                _c("img", {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.multipleQuestion[3] !== null,
+                                      expression: "multipleQuestion[3] !== null"
+                                    }
+                                  ],
+                                  staticClass: "mx-auto",
+                                  attrs: {
+                                    src:
+                                      "/images/Pergunta/Multimedia/" +
+                                      _vm.multipleQuestion[3],
+                                    alt: "imagem da pergunta",
+                                    id: "mimg" + _vm.multipleQuestion[3],
+                                    height: "40%",
+                                    width: "40%"
+                                  }
+                                })
+                              ]
+                            )
+                          ])
+                        ])
+                      ])
                     : _vm._e()
                 ]
               )
@@ -54812,6 +55271,7 @@ var render = function() {
                       attrs: {
                         src: "#",
                         alt: "imagem da pergunta",
+                        id: "mimg1",
                         height: "40%",
                         width: "40%"
                       }
@@ -54839,6 +55299,7 @@ var render = function() {
                       attrs: {
                         src: "#",
                         alt: "imagem da pergunta",
+                        id: "mimg2",
                         height: "40%",
                         width: "40%"
                       }
@@ -54866,6 +55327,7 @@ var render = function() {
                       attrs: {
                         src: "#",
                         alt: "imagem da pergunta",
+                        id: "mimg3",
                         height: "40%",
                         width: "40%"
                       }
@@ -54893,6 +55355,7 @@ var render = function() {
                       attrs: {
                         src: "#",
                         alt: "imagem da pergunta",
+                        id: "mimg4",
                         height: "40%",
                         width: "40%"
                       }
@@ -54982,11 +55445,30 @@ var render = function() {
               _vm._v(
                 _vm._s(_vm.users[_vm.usersId.indexOf(item)]) +
                   " " +
-                  _vm._s(_vm.points[_vm.usersId.indexOf(item)]) +
-                  " " +
-                  _vm._s(_vm.resposta[_vm.usersId.indexOf(item)])
+                  _vm._s(_vm.points[_vm.usersId.indexOf(item)])
               )
-            ])
+            ]),
+            _vm._v(" "),
+            _vm.image === "true"
+              ? _c("div", [
+                  _c("img", {
+                    attrs: {
+                      src:
+                        "/images/Pergunta/Multimedia/" +
+                        _vm.resposta[_vm.usersId.indexOf(item)],
+                      alt: "resposta",
+                      height: "40%",
+                      width: "40%"
+                    }
+                  })
+                ])
+              : _c("div", [
+                  _vm._v(
+                    "\n            " +
+                      _vm._s(_vm.resposta[_vm.usersId.indexOf(item)]) +
+                      "\n        "
+                  )
+                ])
           ])
         }),
         _vm._v(" "),
@@ -55029,9 +55511,7 @@ var render = function() {
               _vm._v(
                 _vm._s(_vm.users[_vm.usersId.indexOf(item)]) +
                   " " +
-                  _vm._s(_vm.points[_vm.usersId.indexOf(item)]) +
-                  " " +
-                  _vm._s(_vm.resposta[_vm.usersId.indexOf(item)])
+                  _vm._s(_vm.points[_vm.usersId.indexOf(item)])
               )
             ])
           ])

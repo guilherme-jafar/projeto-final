@@ -331,6 +331,54 @@
 
                         </div>
                     </div>
+
+
+                    <div class="col-md-12 ">
+                        <div :id="'multiple-image'+pergunta['id']" style="margin-top: 20px">
+
+                            <div v-if="!isFetching">
+                                <div v-for="(resposta, index) in respostas">
+                                    <div class="input-group mb-3 insertAnsewr">
+
+                                        <input type='text' :id="'re' +( index +1) +pergunta['id']" class=" form-control"
+                                               style="border: none;"
+                                               aria-label="Text input with radio button"
+                                               :placeholder="'Opção' + ( index +1)"
+                                               :value="(pergunta['tipo'] === 'multiple'? resposta['resposta'] : '')">
+                                        <div class="input-group-text">
+                                            <input type="radio" :name="'corret'+pergunta['id']"
+                                                   :value="'re' + ( index +1) +pergunta['id']"
+                                                   v-bind:checked="resposta['resultado']===1"
+                                                   class="form-check-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-if="respostas.length < 4">
+
+                                    <div v-for="(resposta, index) in  4 - respostas.length ">
+                                        <div class="input-group mb-3 insertAnsewr">
+
+                                            <input type='text' :id="'re' +(index + respostas.length +1) +pergunta['id']"
+                                                   class=" form-control"
+                                                   style="border: none;"
+                                                   aria-label="Text input with radio button"
+                                                   :placeholder="'Opção' + ( index + respostas.length +1)"
+                                                   :value="(pergunta['tipo'] === 'multiple'? resposta['resposta'] : '')">
+                                            <div class="input-group-text">
+                                                <input type="radio" :name="'corret'+pergunta['id']"
+                                                       :value="'re' + ( index + respostas.length +1) +pergunta['id']"
+                                                       v-bind:checked="resposta['resultado']===1"
+                                                       class="form-check-input">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
                     <div class="col-md-12">
                         <div :id="'trueFalse'+pergunta['id']">
 
@@ -525,7 +573,7 @@
 
 
     </div>
-    </div>
+
 </template>
 
 
@@ -858,19 +906,28 @@
             let id = "trueFalse" + pergunta['id'];
             let id2 = "multiple" + pergunta['id'];
             let id3 = "multiple-select" + pergunta['id'];
+            let id4 = "multiple-image" + pergunta['id'];
             if (pergunta['tipo'] === 'multiple-select') {
 
                 $('#' + id).hide();
                 $('#' + id2).hide();
                 $('#' + id3).show();
+                $('#' + id4).hide();
             } else if (pergunta['tipo'] === 'multiple') {
                 $('#' + id).hide();
                 $('#' + id2).show();
                 $('#' + id3).hide();
+                $('#' + id4).hide();
             } else if (pergunta['tipo'] === 'true/false') {
                 $('#' + id).show();
                 $('#' + id2).hide();
                 $('#' + id3).hide();
+                $('#' + id4).hide();
+            } else if (pergunta['tipo'] === 'multiple-image') {
+                $('#' + id).hide();
+                $('#' + id2).hide();
+                $('#' + id3).hide();
+                $('#' + id4).show();
             }
             this.toastEditarPergunta = new bootstrap.Toast(document.getElementById('toastEditarPergunta'), {delay: 10000})
             this.toastEditarPergunta.hide()

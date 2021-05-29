@@ -309,13 +309,12 @@ class Quizz extends Controller
     function EndQuizz(Request $request)
     {
 
-        $query = DB::select('SELECT q.nome AS "nome" , SUM(rq.resultado) AS "res" ,q.id
-FROM sessao s ,respostas_quizz rq ,utilizador u,quizz q
+        $query = DB::select('SELECT SUM(rq.resultado) AS "res" ,s.nomequizz AS "nome" , s.quizz_id AS "id"
+FROM sessao s ,respostas_quizz rq ,utilizador u
 WHERE s.id= :sessionId
-AND  q.id= s.quizz_id
 AND s.id=rq.sessao_id
 AND  u.id= :id
-GROUP BY s.nomequizz', ['id' => session('utilizador')['id'], 'sessionId' => $request->sessionId]);
+GROUP BY s.quizz_id ,s.nomequizz', ['id' => session('utilizador')['id'], 'sessionId' => $request->sessionId]);
 
         DB::insert('insert into historico (id, disciplina,quizz,nota,idquizz,tipo,disciplina_id,sessaoId) values(?,?,?,?,?,?,?,?)'
             , [uniqid(),session('disciplina')['nome'],$query[0]->nome,$query[0]->res,
@@ -480,7 +479,7 @@ GROUP BY s.nomequizz', ['id' => session('utilizador')['id'], 'sessionId' => $req
             , [uniqid(), $request->resposta, $request->resultado, $request->tipo, $request->sessioId, session('utilizador')['id'], $request->id]);
 
 
-        broadcast(new AnswerQuestionStudent(session('utilizador')['nome'], session('sessao')['master'], 'NextQuestion', session('utilizador')['id'],$request->resultado ,$request->resposta))->toOthers();
+        broadcast(new AnswerQuestionStudent(session('utilizador')['nome'], session('sessao')['master'], 'NextQuestion', session('utilizador')['id'],$request->resultado ,$request->resposta,$request->tipo))->toOthers();
 
     }
 
