@@ -373,7 +373,7 @@ GROUP BY s.quizz_id ,s.nomequizz', ['id' => session('utilizador')['id'], 'sessio
         $quizz = [];
         $Cheek = [];
 
-        $quizz = DB::select('SELECT p.id ,p.enunciado ,p.tempo ,p.valor , p.tipo ,q.numeroperguntas, q.nome ,q.tipo AS "quizzTipo", m.link
+        $quizz = DB::select('SELECT p.id ,p.enunciado ,p.tempo ,p.valor , p.tipo ,q.numeroperguntas, q.nome ,q.tipo AS "quizzTipo", m.link,tentativas
                                    FROM quizz q, pergunta_quizz pq, perguntas p,multimedia m
                                    WHERE q.id = pq.quizz_id
                                    AND p.id = pq.id_pergunta
@@ -390,7 +390,7 @@ GROUP BY s.quizz_id ,s.nomequizz', ['id' => session('utilizador')['id'], 'sessio
         if (!empty($quizz) && !empty($Cheek) && !isset(session('sessao')['check'])) {
 
             $users=DB::select('select id from sessao where sessaoMaster=:id  and quizz_id=:idQuizz', ['id' => $id, 'idQuizz' => $quizzId]);
-            session()->put('sessao', ["id" => $session,"nomeQuizz"=>$quizz[0]->nome, "check" => 'yes', 'users' => count($users), 'master' => $id, "quizz" => $quizzId, 'type' => 'student']);
+            session()->put('sessao', ["id" => $session,"nomeQuizz"=>$quizz[0]->nome, "check" => 'yes', 'users' => count($users), 'master' => $id, "quizz" => $quizzId, 'type' => 'student','tentativas' =>$quizz[0]->tentativas]);
 
             DB::insert('insert into sessao (id, nomequizz ,tipo,quizz_id,iduser,tipoUser,sessaoMaster) values (?,?,?,?,?,?,?)'
                 , [$session, $quizz[0]->nome, $quizz[0]->quizzTipo, $quizzId, session('utilizador')['id'], session('utilizador')['tipo'], $id]);
@@ -528,7 +528,7 @@ GROUP BY s.quizz_id ,s.nomequizz', ['id' => session('utilizador')['id'], 'sessio
         $points=$request->points;
         $users=explode( ',', $users );
         $points=explode( ',', $points);
-        $quizz=Cache::get('quizz');
+
         $newArray=[];
         if (count($users)>5){
             $users=array_chunk($users, 5);
@@ -541,9 +541,13 @@ GROUP BY s.quizz_id ,s.nomequizz', ['id' => session('utilizador')['id'], 'sessio
         }
         asort($newArray);
         $newArray=array_reverse($newArray);
-       broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'EndQuizz', session('utilizador')['id'], [],[],$newArray))->toOthers();
 
-}
+        if (session('utilizador')['tipo']=='prof') {
+            broadcast(new QuizzQuestion(session('utilizador')['tipo'], session('sessao')['id'], 'EndQuizz', session('utilizador')['id'], [], [], $newArray))->toOthers();
+        }else{
+            broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'EndQuizzAluno', session('utilizador')['id'], [], [], $newArray))->toOthers();
+        }
+    }
 
 function CloseQuizzProf(){
 
@@ -556,13 +560,42 @@ function CloseQuizzProf(){
 }
     function CloseQuizzAluno(Request $request){
 
+        if ($request->tipo=="aluno") {
 
-        DB::insert('insert into historico (id, disciplina,quizz,nota,idquizz,tipo,disciplina_id,sessaoId) values(?,?,?,?,?,?,?,?)'
-            , [uniqid(),session('disciplina')['nome'],session('sessao')['nomeQuizz'],$request->nota,
-                session('sessao')['quizz'],session('utilizador')['tipo'],session('disciplina')['id'],session('sessao')['id']]);
+            DB::insert('insert into historico (id, disciplina,quizz,nota,idquizz,tipo,disciplina_id,sessaoId,tipoAvaliação) values(?,?,?,?,?,?,?,?,?)'
+                , [uniqid(), session('disciplina')['nome'], session('sessao')['nomeQuizz'], $request->nota,
+                    session('sessao')['quizz'], session('utilizador')['tipo'], session('disciplina')['id'], session('sessao')['id'],"normal"]);
 
-        DB::table('disciplina_aluno')->where('aluno_utilizador_id', '=', ['id'=>session('utilizador')['id']])->increment('pontos',$request->nota);
+        }
+        else{
 
+            $count=DB::select('SELECT COUNT(*) AS "count"
+                                FROM historico h,quizz q ,aluno a, disciplina d,disciplina_aluno da
+                                WHERE q.id=h.idquizz
+                                AND da.aluno_utilizador_id=a.utilizador_id
+                                AND d.id=da.disciplina_id
+                                AND d.id=h.disciplina_id
+                                AND q.id=?
+                                AND a.utilizador_id=?
+                                AND d.id=?
+                                AND h.`tipoAvaliação`=\'avaliacao\'',[session('sessao')['quizz'],session('utilizador')['id'],session('disciplina')['id']] );
+
+
+            if (session('sessao')['tentativas']<=$count[0]->count){
+                DB::insert('insert into historico (id, disciplina,quizz,nota,idquizz,tipo,disciplina_id,sessaoId,tipoAvaliação) values(?,?,?,?,?,?,?,?,?)'
+                    , [uniqid(), session('disciplina')['nome'], session('sessao')['nomeQuizz'], $request->nota,
+                        session('sessao')['quizz'], session('utilizador')['tipo'], session('disciplina')['id'], session('sessao')['id'],"normal"]);
+
+            }else{
+                DB::insert('insert into historico (id, disciplina,quizz,nota,idquizz,tipo,disciplina_id,sessaoId,tipoAvaliação) values(?,?,?,?,?,?,?,?,?)'
+                    , [uniqid(), session('disciplina')['nome'], session('sessao')['nomeQuizz'], $request->nota,
+                        session('sessao')['quizz'], session('utilizador')['tipo'], session('disciplina')['id'], session('sessao')['id'],"avaliacao"]);
+
+                DB::table('disciplina_aluno')->where('aluno_utilizador_id', '=', ['id' => session('utilizador')['id']])->increment('pontos', $request->nota);
+
+            }
+
+        }
         session()->forget('sessao');
     }
 

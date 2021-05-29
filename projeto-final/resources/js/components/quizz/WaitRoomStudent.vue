@@ -151,8 +151,8 @@
         <p>{{index}} {{item}} </p>
     </div>
     <div id="resultado">
-        {{resultado}}
-        <button @click="endQuizz">Sair e Gravar</button>
+        <p>{{resultado}}</p>
+        <button @click="endQuizz()">Sair e Gravar</button>
     </div>
 
 
@@ -195,6 +195,7 @@ export default {
             botaoEscolhido: [],
             multipleQuestion:[],
             respondeu:'',
+            endQuizzType:''
 
         }
     },
@@ -211,6 +212,7 @@ export default {
             window.Echo.leave('room.'+this.sessao);
             let form=new FormData;
             form.append('nota',this.resultado)
+            form.append('tipo',localStorage.getItem('tipo'))
             axios.post('/EndRealTimeQuizzAluno',form);
             window.location.replace('/')
         },
@@ -410,6 +412,15 @@ export default {
                             $('.wrapper').hide();
                             $('#game').hide();
                             $('#resultado').show();
+                            this.endQuizz='prof'
+                            localStorage.setItem('tipo','prof')
+                        }
+                        else if(e.type==='EndQuizzAluno'){
+                            localStorage.setItem('status','end');
+                            $('.wrapper').hide();
+                            $('#game').hide();
+                            $('#resultado').show();
+                            localStorage.setItem('tipo','aluno')
                         }
 
 

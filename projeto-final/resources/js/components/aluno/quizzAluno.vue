@@ -147,7 +147,7 @@ name: "quizzAluno",
     methods: {
         EnterQuizz(quizz) {
 
-            window.location.replace('/WaitRoom/' + quizz);
+            window.location.replace('/WaitRoomAluno/' + quizz);
 
         },
         teste(quizz) {

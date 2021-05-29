@@ -121,7 +121,7 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (
 //conta Aluno
 Route::group(['middleware' =>['check.auth', 'tipo.utilizador:aluno']], function () {
     Route::get('/aluno/dashboard', [App\Http\Controllers\Disciplina::class, 'indexAluno']);
-    Route::get('/WaitRoom/{id}',[App\Http\Controllers\Quizz::class,'CreateWaitRoom']);
+    Route::get('/WaitRoomAluno/{id}',[App\Http\Controllers\Quizz::class,'CreateWaitRoom']);
     Route::post('/aluno/disciplina/addDisciplina',[App\Http\Controllers\Disciplina::class, 'addDisciplina']);
     Route::get('/loading', function () {return view('/loading');});
     Route::get('/aluno/AlunoDisciplina/{token}', [App\Http\Controllers\Disciplina::class, 'EnterDiscAluno']);

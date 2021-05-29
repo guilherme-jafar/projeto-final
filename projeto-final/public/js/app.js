@@ -6084,7 +6084,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     EnterQuizz: function EnterQuizz(quizz) {
-      window.location.replace('/WaitRoom/' + quizz);
+      window.location.replace('/WaitRoomAluno/' + quizz);
     },
     teste: function teste(quizz) {
       var session = '_' + Math.random().toString(36).substr(2, 9);
@@ -7399,7 +7399,8 @@ __webpack_require__.r(__webpack_exports__);
       respostasEscolhidas: [],
       botaoEscolhido: [],
       multipleQuestion: [],
-      respondeu: ''
+      respondeu: '',
+      endQuizzType: ''
     };
   },
   watch: {
@@ -7413,6 +7414,7 @@ __webpack_require__.r(__webpack_exports__);
       window.Echo.leave('room.' + this.sessao);
       var form = new FormData();
       form.append('nota', this.resultado);
+      form.append('tipo', localStorage.getItem('tipo'));
       axios__WEBPACK_IMPORTED_MODULE_2___default().post('/EndRealTimeQuizzAluno', form);
       window.location.replace('/');
     },
@@ -7606,6 +7608,14 @@ __webpack_require__.r(__webpack_exports__);
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').hide();
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').hide();
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#resultado').show();
+            _this2.endQuizz = 'prof';
+            localStorage.setItem('tipo', 'prof');
+          } else if (e.type === 'EndQuizzAluno') {
+            localStorage.setItem('status', 'end');
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').hide();
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').hide();
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#resultado').show();
+            localStorage.setItem('tipo', 'aluno');
           }
         }
       });
@@ -54943,8 +54953,19 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("div", { attrs: { id: "resultado" } }, [
-        _vm._v("\n        " + _vm._s(_vm.resultado) + "\n        "),
-        _c("button", { on: { click: _vm.endQuizz } }, [_vm._v("Sair e Gravar")])
+        _c("p", [_vm._v(_vm._s(_vm.resultado))]),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            on: {
+              click: function($event) {
+                return _vm.endQuizz()
+              }
+            }
+          },
+          [_vm._v("Sair e Gravar")]
+        )
       ])
     ],
     2
