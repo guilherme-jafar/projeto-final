@@ -8,7 +8,31 @@
                         <strong><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp;
                             <span>Mensagem enviada com sucesso!!</span> </strong>
                     </div>
-                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
+                </div>
+            </div>
+            <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toastResposta" role="alert"
+                 aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <strong><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp;
+                            <span>Resposta enviada com sucesso!!</span> </strong>
+                    </div>
+                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
+                </div>
+            </div>
+
+            <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toastPontos" role="alert"
+                 aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <strong><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp;
+                            <span>Pontos atribuidos com sucesso!!</span> </strong>
+                    </div>
+                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
                 </div>
             </div>
             <div v-if="isFetching">
@@ -38,26 +62,13 @@
                     <ul>
                         <li class="card-box mb-5 mt-5" v-for="mensagem in filter" :key="mensagem['id']">
                             <div class="card-box-text">
-<!--                                <div class="box-imagem" >-->
-<!--                                    <img v-if="mensagem['foto_perfil'] != null" :src="'/images/'+ mensagem['foto_perfil']"-->
-<!--                                         alt="imagem da pergunta"  class="img-fluid mx-auto mb-4" id="imagem">-->
-<!--                                    <img v-else :src="'/images/imgDefault.jpg'"-->
-<!--                                         alt="imagem da pergunta" height="60%"-->
-<!--                                         width="95%"  class="img-fluid mx-auto mb-4" id="imagem">-->
-<!--                                </div>-->
-                                <div class="ms-3">
-                                    <div class="d-flex">
-                                        <h2>
-                                            {{mensagem['nome']}}
-                                        </h2>
-                                        <p class="fs-4 ms-auto">
-                                            {{mensagem['data']}}
-                                        </p>
-                                    </div>
-                                    <p>{{mensagem['mensagem']}}</p>
-
-                                </div>
-                                <div v-if="tipoUtilizador === 'prof'" class="dropdown ms-auto">
+                                <h2>
+                                    {{mensagem['nome']}}
+                                </h2>
+                                <p class="fs-4 mt-2 ms-auto">
+                                    {{mensagem['data']}}
+                                </p>
+                                <div v-if="tipoUtilizador === 'prof'" class="dropdown">
                                     <button class="" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
                                             aria-expanded="false">
                                         <i class="bi bi-three-dots-vertical"></i>
@@ -66,43 +77,38 @@
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                         <li>
                                             <button type="button" class="dropdown-item" data-bs-toggle="modal"
-                                                    :data-bs-target="'#editarQuizz' + mensagem['id']"
-                                                    @click="listTopicosQuizz(mensagem['id'])">Editar
+                                                    :data-bs-target="'#eliminarMensagem' + mensagem['id']">Eliminar
                                             </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <span data-bs-toggle="collapse" :data-bs-target="'#collapseMensagem'+mensagem['id']"
+                                      aria-expanded="false"
+                                      :aria-controls="'collapseQuizz'+mensagem['id']" class="material-icons"
+                                      @click="changeButton(mensagem['id'])" style="cursor: pointer">
+                                         <img :id="'img'+mensagem['id']" src="/assets/expand_more_black_24dp.svg">
+                                 </span>
+                            </div>
+                            <div class="collapse mt-2" :id="'collapseMensagem'+mensagem['id']">
+                                <p>{{mensagem['mensagem']}}</p>
 
-                                        </li>
-                                        <li>
-                                            <button type="button" class="dropdown-item" data-bs-toggle="modal"
-                                                    :data-bs-target="'#eliminarQuizz' + mensagem['id']">Eliminar
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <respostas ref="respostas" :tipo_props="mensagem['tipo']" :id_props="mensagem['id']"></respostas>
                             </div>
-                            <div class="text-end d-flex">
-                                <div class="dropdown-pontos ms-auto">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Pontos
-                                    </button>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                        <li><a class="dropdown-item" href="#">500</a></li>
-                                        <li><a class="dropdown-item" href="#">1000</a></li>
-                                    </ul>
-                                </div>
-                                <button class="ms-3 btn btn-primary">Responder</button>
-                            </div>
+
 
                         </li>
                     </ul>
 
 
-
                 </div>
-                <div id="nova-mensagem" class="nova-mensagem d-none ">
-                    <div class="d-flex">
-                        <input class=" form-control form-control-lg" id="textoMensagem" type="text"
-                               placeholder="Escreva a mensagem...">
-                        <!--                    <i class="bi bi-search"></i>-->
+                <div v-if="mandarMensagem" id="nova-mensagem" class="nova-mensagem">
+
+                    <textarea class="form-control form-control-lg" id="textoMensagem"
+                              placeholder="Escreva a mensagem..."></textarea>
+                    <p class="error " id="mensagemError"></p>
+                    <div class="mt-3 text-end">
+                        <button type="button" class="ms-3 btn btn-primary btn-submit" @click="buttonAdicionar">Cancelar
+                        </button>
                         <button type="button" id="submit" class="ms-3 btn btn-secondary btn-submit btn-loading"
                                 @click="send()"><span
                             class="">Enviar &nbsp;</span>
@@ -111,14 +117,16 @@
                             </div>
                         </button>
                     </div>
-                    <p class="error " id="mensagemError"></p>
-
 
                 </div>
 
-                <button type="button" class="btn btn-primary" @click="buttonAdicionar" >
-                    Adicionar Mensagem
-                </button>
+                <div v-if="!mandarMensagem" class="text-end">
+                    <button  type="button" class="btn btn-primary" @click="buttonAdicionar">
+                        Adicionar Mensagem
+                    </button>
+                </div>
+
+
 
             </div>
 
@@ -132,8 +140,11 @@
     import forum from "./forum";
     import $ from "jquery";
     import axios from "axios";
+    import Respostas from "./respostas";
+
     export default {
         name: "mensagem",
+        components: {Respostas},
         data() {
             return {
                 componentInicial: forum,
@@ -142,11 +153,22 @@
                 mensagens: '',
                 search: '',
                 isFetching: true,
-                toastMensagem: ''
+                toastMensagem: '',
+                toastResposta: '',
+                mandarMensagem: false,
+                toastPontos: ''
             }
         },
         methods: {
-            send(){
+            changeButton(id) {
+                if ($('#img' + id).attr('src') === '/assets/expand_more_black_24dp.svg') {
+                    $('#img' + id).attr('src', '/assets/expand_less_black_24dp.svg')
+                  //  this.$refs.respostas.listRespostas(id)
+                } else if ($('#img' + id).attr('src') === '/assets/expand_less_black_24dp.svg') {
+                    $('#img' + id).attr('src', '/assets/expand_more_black_24dp.svg')
+                }
+            },
+            send() {
 
                 $('#submit span').addClass('d-none');
                 $('#submit div').removeClass('d-none');
@@ -168,7 +190,7 @@
                     formData.append('textoMensagem', $("#textoMensagem").val());
                     formData.append('idForum', this.forumId);
                     formData.append('mensagem', 'true');
-                    axios.post('/mensagem/create', formData
+                    axios.post('/mensagens/create', formData
                     ).then(function (response) {
 
 
@@ -190,7 +212,7 @@
                 }
             },
             listMensagem(id) {
-                axios.get('/getMensagens/' + id + '?page=1'
+                axios.get('/mensagens/' + id + '?page=1'
                 ).then(function (response) {
 
                     this.mensagens = response.data.message;
@@ -200,10 +222,18 @@
                 }.bind(this));
 
             },
-            buttonAdicionar(){
-                $('#mensagem-adicionar').hide()
+            buttonAdicionar() {
 
-                $('#nova-mensagem').removeClass('d-none')
+                this.mandarMensagem = !this.mandarMensagem
+
+            },
+            toastRespostaShow(){
+                this.toastResposta.show();
+                $('#toastResposta').removeClass('d-none');
+            },
+            toastPontosShow(){
+                this.toastPontos.show();
+                $('#toastPontos').removeClass('d-none');
             }
         },
         computed: {
@@ -217,6 +247,11 @@
             this.listMensagem(this.forumId)
             this.toastMensagem = new bootstrap.Toast(document.getElementById('toastMensagem'), {delay: 10000})
             this.toastMensagem.hide();
+            this.toastResposta = new bootstrap.Toast(document.getElementById('toastResposta'), {delay: 10000})
+            this.toastResposta.hide();
+
+            this.toastPontos = new bootstrap.Toast(document.getElementById('toastPontos'), {delay: 10000})
+            this.toastPontos.hide();
         }
     }
 </script>

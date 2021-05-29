@@ -663,15 +663,42 @@
         }
     }
 
+    .forumShow{
+
+        .breadcrumb{
+            font-size: 1.7rem;
+        }
+        .breadcrumb-button{
+            cursor: pointer;
+            color: #0d6efd;
+            border: none;
+            background: transparent;
+        }
+    }
+
     .section-mensagem{
+
+        .ul-list{
+            width: 100%;
+        }
 
         .box-imagem{
           width: 25rem;
             height: 15rem;
         }
-        .nova-mensagem{
 
-            input{
+        .dropdown-pontos{
+            font-size: 1.5rem;
+
+            .dropdown-menu{
+                .dropdown-item{
+                    font-size: 1.7rem;
+                }
+            }
+        }
+        .nova-mensagem, .nova-resposta{
+
+            input, textarea{
                 font-size: 2rem;
 
                 &:active{
@@ -680,12 +707,17 @@
             }
 
             .btn{
-                border-radius: 0.2rem;
+                //border-radius: 0.2rem;
+                span{
+                    color: white;
+                }
 
 
             }
 
         }
+
+
     }
 
 }

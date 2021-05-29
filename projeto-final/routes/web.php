@@ -139,11 +139,20 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:aluno']], function 
 
 Route::group(['middleware' =>['check.auth']], function () {
 
-    Route::get('/getForum', [App\Http\Controllers\forum::class, 'index']);
+    Route::get('/forum', [App\Http\Controllers\forum::class, 'index']);
     Route::post('/forum/create', [App\Http\Controllers\forum::class, 'create']);
-    Route::post('/mensagem/create', [App\Http\Controllers\forum::class, 'createMensagem']);
+    Route::delete('/forum/delete', [App\Http\Controllers\forum::class, 'destroy']);
+    Route::post('/forum/editar/{id}', [App\Http\Controllers\forum::class, 'editar']);
 
-    Route::get('/getMensagens/{id}', [App\Http\Controllers\forum::class, 'indexMensagens']);
+
+    Route::get('/mensagens/{id}', [App\Http\Controllers\forum::class, 'indexMensagens']);
+    Route::post('/mensagens/create', [App\Http\Controllers\forum::class, 'createMensagem']);
+    Route::post('/mensagens/pontos/{id}', [App\Http\Controllers\forum::class, 'pontos']);
+    Route::delete('/mensagens/eliminar', [App\Http\Controllers\forum::class, 'destroy']);
+
+
+    Route::get('/respostasMensagem/{idforum}/{idmensagem}', [App\Http\Controllers\forum::class, 'indexRespostas']);
+    Route::post('/respostasMensagem/create', [App\Http\Controllers\forum::class, 'createResposta']);
 
 
 });

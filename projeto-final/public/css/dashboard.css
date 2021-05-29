@@ -1054,18 +1054,36 @@ section {
   padding: 2rem;
   border-radius: 5px;
 }
+.card-disciplina .forumShow .breadcrumb {
+  font-size: 1.7rem;
+}
+.card-disciplina .forumShow .breadcrumb-button {
+  cursor: pointer;
+  color: #0d6efd;
+  border: none;
+  background: transparent;
+}
+.card-disciplina .section-mensagem .ul-list {
+  width: 100%;
+}
 .card-disciplina .section-mensagem .box-imagem {
   width: 25rem;
   height: 15rem;
 }
-.card-disciplina .section-mensagem .nova-mensagem input {
+.card-disciplina .section-mensagem .dropdown-pontos {
+  font-size: 1.5rem;
+}
+.card-disciplina .section-mensagem .dropdown-pontos .dropdown-menu .dropdown-item {
+  font-size: 1.7rem;
+}
+.card-disciplina .section-mensagem .nova-mensagem input, .card-disciplina .section-mensagem .nova-mensagem textarea, .card-disciplina .section-mensagem .nova-resposta input, .card-disciplina .section-mensagem .nova-resposta textarea {
   font-size: 2rem;
 }
-.card-disciplina .section-mensagem .nova-mensagem input:active {
+.card-disciplina .section-mensagem .nova-mensagem input:active, .card-disciplina .section-mensagem .nova-mensagem textarea:active, .card-disciplina .section-mensagem .nova-resposta input:active, .card-disciplina .section-mensagem .nova-resposta textarea:active {
   border: 2px solid #FF7829;
 }
-.card-disciplina .section-mensagem .nova-mensagem .btn {
-  border-radius: 0.2rem;
+.card-disciplina .section-mensagem .nova-mensagem .btn span, .card-disciplina .section-mensagem .nova-resposta .btn span {
+  color: white;
 }
 
 .fazerTeste {

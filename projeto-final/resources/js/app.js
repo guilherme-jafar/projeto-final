@@ -2,8 +2,8 @@
 require('./bootstrap');
 
 Window.Vue=require('vue');
-Vue.config.devtools = true
-Pusher.log = function (message) { window.console.log(message); }
+Vue.config.devtools = true //TODO: quando for para meter no ar tem que se comentar essa linha
+Pusher.log = function (message) { window.console.log(message); } //TODO: quando for para meter no ar tem que se comentar essa linha
 Vue.component('pagination-2', require('laravel-vue-pagination'));
 
 Vue.component('registos',require('./components/registos.vue').default);
@@ -32,6 +32,7 @@ Vue.component('waitRoomAluno',require('./components/quizz/WaitRoomStudent').defa
 Vue.component('forum',require('./components/forum/forum').default)
 Vue.component('mensagem',require('./components/forum/mensagem').default)
 Vue.component('forumShow',require('./components/forum/forumShow').default)
+Vue.component('respostas',require('./components/forum/respostas').default)
 
 
 

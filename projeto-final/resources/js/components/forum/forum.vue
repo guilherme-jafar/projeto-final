@@ -40,9 +40,9 @@
                 </div>
                 <h1>Fóruns</h1>
                 <ul>
-                    <li class="card-box mb-5 mt-5" v-for="forum in filter" :key="forum['id']" role="button">
+                    <li class="card-box mb-5 mt-5"  @click="entrarForum(forum['id'])" v-for="forum in filter" :key="forum['id']" role="button">
                         <div class="card-box-text">
-                            <h2 @click="entrarForum(forum['id'])"> {{forum['topico']}}</h2>
+                            <h2 > {{forum['topico']}}</h2>
                             <div v-if="tipoUtilizador === 'prof'" class="dropdown ms-auto">
                                 <button class="" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
                                         aria-expanded="false">
@@ -145,7 +145,7 @@
             },
             listForum() {
 
-                axios.get('/getForum?page=1'
+                axios.get('/forum?page=1'
                 ).then(function (response) {
 
                     this.forum = response.data.message;
