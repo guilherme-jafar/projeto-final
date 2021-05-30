@@ -2396,6 +2396,44 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2410,7 +2448,8 @@ __webpack_require__.r(__webpack_exports__);
       toastEditartopico: '',
       modalEditarTopico: '',
       toastEliminarPergunta: '',
-      toastEliminarPerguntaErro: ''
+      toastEliminarPerguntaErro: '',
+      toastEliminarTopicoErro: ''
     };
   },
   methods: {
@@ -2450,6 +2489,12 @@ __webpack_require__.r(__webpack_exports__);
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('#toastEliminarTopico').removeClass('d-none');
           this.topicos = response.data.message;
           this.modalDeleteTopico.hide();
+        } else {
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn span').removeClass('d-none');
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('.eliminar-btn div').addClass('d-none');
+          this.modalDeleteTopico.hide();
+          this.toastEliminarTopicoErro.show();
+          jquery__WEBPACK_IMPORTED_MODULE_0___default()('#toastEliminarTopicoErro').removeClass('d-none');
         }
       }.bind(this));
     },
@@ -2553,6 +2598,10 @@ __webpack_require__.r(__webpack_exports__);
       delay: 10000
     });
     this.toastPergunta.hide();
+    this.toastEliminarTopicoErro = new bootstrap.Toast(document.getElementById('toastEliminarTopicoErro'), {
+      delay: 10000
+    });
+    this.toastEliminarTopicoErro.hide();
     this.$root.$on('ShowToastPergunta', this.showToastPergunta);
   }
 });
@@ -6785,6 +6834,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -8377,6 +8431,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
+//
+//
 //
 //
 //
@@ -46148,13 +46204,15 @@ var render = function() {
       _vm._v(" "),
       _vm._m(5),
       _vm._v(" "),
+      _vm._m(6),
+      _vm._v(" "),
       _vm.topicos.data.length === 0
         ? _c("div", { staticClass: "mx-auto" }, [
             _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
               _vm._v("Ainda não tem nenhum Topico")
             ]),
             _vm._v(" "),
-            _vm._m(6)
+            _vm._m(7)
           ])
         : _c("div", { staticClass: "section-disciplinas-items " }, [
             _c("div", { staticClass: "box-search mb-5" }, [
@@ -46196,7 +46254,7 @@ var render = function() {
                       _c("h2", [_vm._v(_vm._s(topico["nome"]))]),
                       _vm._v(" "),
                       _c("div", { staticClass: "dropdown ms-auto" }, [
-                        _vm._m(7, true),
+                        _vm._m(8, true),
                         _vm._v(" "),
                         _c(
                           "ul",
@@ -46217,7 +46275,11 @@ var render = function() {
                                       "#editarTopico" + topico["id"]
                                   }
                                 },
-                                [_vm._v("Editar")]
+                                [
+                                  _vm._v(
+                                    "Editar\n                                "
+                                  )
+                                ]
                               )
                             ]),
                             _vm._v(" "),
@@ -46233,7 +46295,11 @@ var render = function() {
                                       "#eliminarTopico" + topico["id"]
                                   }
                                 },
-                                [_vm._v("Eliminar")]
+                                [
+                                  _vm._v(
+                                    "Eliminar\n                                "
+                                  )
+                                ]
                               )
                             ])
                           ]
@@ -46327,7 +46393,11 @@ var render = function() {
                                       "data-bs-dismiss": "modal"
                                     }
                                   },
-                                  [_vm._v("Cancelar")]
+                                  [
+                                    _vm._v(
+                                      "Cancelar\n                                "
+                                    )
+                                  ]
                                 ),
                                 _vm._v(" "),
                                 _c(
@@ -46375,7 +46445,7 @@ var render = function() {
                       [
                         _c("div", { staticClass: "modal-dialog" }, [
                           _c("div", { staticClass: "modal-content" }, [
-                            _vm._m(8, true),
+                            _vm._m(9, true),
                             _vm._v(" "),
                             _c("div", { staticClass: "modal-body pt-5 pb-5" }, [
                               _c("form", { staticClass: "row mx-auto" }, [
@@ -46444,7 +46514,11 @@ var render = function() {
                                     "data-bs-dismiss": "modal"
                                   }
                                 },
-                                [_vm._v("Cancelar")]
+                                [
+                                  _vm._v(
+                                    "Cancelar\n                                "
+                                  )
+                                ]
                               ),
                               _vm._v(" "),
                               _c(
@@ -46506,9 +46580,9 @@ var render = function() {
         [
           _c("div", { staticClass: "modal-dialog" }, [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(9),
-              _vm._v(" "),
               _vm._m(10),
+              _vm._v(" "),
+              _vm._m(11),
               _vm._v(" "),
               _c("div", { staticClass: "modal-footer" }, [
                 _c(
@@ -46649,7 +46723,7 @@ var staticRenderFns = [
           _c("div", { staticClass: "toast-body" }, [
             _c("strong", [
               _c("i", { staticClass: "bi bi-check-circle-fill" }),
-              _vm._v("    "),
+              _vm._v("   \n                    "),
               _c("span", [_vm._v("Tópico eliminado com sucesso!!")])
             ])
           ]),
@@ -46765,6 +46839,47 @@ var staticRenderFns = [
               _c("span", { staticClass: "text-danger" }, [
                 _vm._v(
                   "Não foi possivel eliminar a pergunta porque está inserida em um Quizz!!"
+                )
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("button", {
+            staticClass: "btn-close me-2 m-auto",
+            attrs: {
+              type: "button",
+              "data-bs-dismiss": "toast",
+              "aria-label": "Close"
+            }
+          })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "toast toast-primary align-items-center mb-5 mtn-5 d-none",
+        attrs: {
+          id: "toastEliminarTopicoErro",
+          role: "alert",
+          "aria-live": "assertive",
+          "aria-atomic": "true"
+        }
+      },
+      [
+        _c("div", { staticClass: "d-flex" }, [
+          _c("div", { staticClass: "toast-body" }, [
+            _c("strong", { staticClass: "toast-error text-danger" }, [
+              _c("i", { staticClass: "bi bi-check-circle-fill" }),
+              _vm._v("   \n                    "),
+              _c("span", { staticClass: "text-danger" }, [
+                _vm._v(
+                  "Não foi possivel eliminar o tópico porque está inserido em um Quizz!!"
                 )
               ])
             ])
@@ -53578,7 +53693,7 @@ var render = function() {
                         },
                         [
                           _c("i", { staticClass: "bi bi-plus-circle" }),
-                          _vm._v("    Adicionar Mensagem\n                ")
+                          _vm._v("    Adicionar Mensagem\n                    ")
                         ]
                       )
                     ]
@@ -53623,23 +53738,23 @@ var render = function() {
                           "li",
                           {
                             key: mensagem["id"],
-                            staticClass: "card-box mb-5 mt-5"
+                            staticClass: "card-box card-overflow mb-5 mt-5"
                           },
                           [
                             _c("div", { staticClass: "card-box-text" }, [
                               _c("h2", [
                                 _vm._v(
-                                  "\n                                " +
+                                  "\n                                    " +
                                     _vm._s(mensagem["nome"]) +
-                                    "\n                            "
+                                    "\n                                "
                                 )
                               ]),
                               _vm._v(" "),
                               _c("p", { staticClass: "fs-4 mt-2 ms-auto" }, [
                                 _vm._v(
-                                  "\n                                " +
+                                  "\n                                    " +
                                     _vm._s(mensagem["data"]) +
-                                    "\n                            "
+                                    "\n                                "
                                 )
                               ]),
                               _vm._v(" "),
@@ -53672,7 +53787,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "Eliminar\n                                        "
+                                                "Eliminar\n                                            "
                                               )
                                             ]
                                           )
@@ -53680,46 +53795,12 @@ var render = function() {
                                       ]
                                     )
                                   ])
-                                : _vm._e(),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                {
-                                  staticClass: "material-icons",
-                                  staticStyle: { cursor: "pointer" },
-                                  attrs: {
-                                    "data-bs-toggle": "collapse",
-                                    "data-bs-target":
-                                      "#collapseMensagem" + mensagem["id"],
-                                    "aria-expanded": "false",
-                                    "aria-controls":
-                                      "collapseQuizz" + mensagem["id"]
-                                  },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.changeButton(mensagem["id"])
-                                    }
-                                  }
-                                },
-                                [
-                                  _c("img", {
-                                    attrs: {
-                                      id: "img" + mensagem["id"],
-                                      src: "/assets/expand_more_black_24dp.svg"
-                                    }
-                                  })
-                                ]
-                              )
+                                : _vm._e()
                             ]),
                             _vm._v(" "),
                             _c(
                               "div",
-                              {
-                                staticClass: "collapse mt-2",
-                                attrs: {
-                                  id: "collapseMensagem" + mensagem["id"]
-                                }
-                              },
+                              { staticClass: " mt-2" },
                               [
                                 _c("p", [_vm._v(_vm._s(mensagem["mensagem"]))]),
                                 _vm._v(" "),
@@ -53770,7 +53851,7 @@ var render = function() {
                             attrs: { type: "button" },
                             on: { click: _vm.buttonAdicionar }
                           },
-                          [_vm._v("Cancelar\n                    ")]
+                          [_vm._v("Cancelar\n                        ")]
                         ),
                         _vm._v(" "),
                         _c(
@@ -53810,7 +53891,7 @@ var render = function() {
                       },
                       [
                         _vm._v(
-                          "\n                    Adicionar Mensagem\n                "
+                          "\n                        Adicionar Mensagem\n                    "
                         )
                       ]
                     )
@@ -53849,7 +53930,7 @@ var staticRenderFns = [
           _c("div", { staticClass: "toast-body" }, [
             _c("strong", [
               _c("i", { staticClass: "bi bi-check-circle-fill" }),
-              _vm._v("   \n                        "),
+              _vm._v("   \n                            "),
               _c("span", [_vm._v("Mensagem enviada com sucesso!!")])
             ])
           ]),
@@ -53886,7 +53967,7 @@ var staticRenderFns = [
           _c("div", { staticClass: "toast-body" }, [
             _c("strong", [
               _c("i", { staticClass: "bi bi-check-circle-fill" }),
-              _vm._v("   \n                        "),
+              _vm._v("   \n                            "),
               _c("span", [_vm._v("Resposta enviada com sucesso!!")])
             ])
           ]),
@@ -53923,7 +54004,7 @@ var staticRenderFns = [
           _c("div", { staticClass: "toast-body" }, [
             _c("strong", [
               _c("i", { staticClass: "bi bi-check-circle-fill" }),
-              _vm._v("   \n                        "),
+              _vm._v("   \n                            "),
               _c("span", [_vm._v("Pontos atribuidos com sucesso!!")])
             ])
           ]),

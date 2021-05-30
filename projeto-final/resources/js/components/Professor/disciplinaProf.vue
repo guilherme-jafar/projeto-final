@@ -24,16 +24,19 @@
             </div>
         </div>
 
-        <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toastEliminarTopico" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toastEliminarTopico" role="alert"
+             aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body">
-                    <strong><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp; <span>Tópico eliminado com sucesso!!</span> </strong>
+                    <strong><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp;
+                        <span>Tópico eliminado com sucesso!!</span> </strong>
                 </div>
                 <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
 
-        <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" style="width: 60%" id="toast-pergunta" role="alert"
+        <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" style="width: 60%" id="toast-pergunta"
+             role="alert"
              aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body">
@@ -55,12 +58,27 @@
             </div>
         </div>
 
-        <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toastEliminarPerguntaErro" role="alert"
+        <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toastEliminarPerguntaErro"
+             role="alert"
              aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body">
                     <strong class="toast-error text-danger"><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp;
-                        <span class="text-danger">Não foi possivel eliminar a pergunta porque está inserida em um Quizz!!</span> </strong>
+                        <span class="text-danger">Não foi possivel eliminar a pergunta porque está inserida em um Quizz!!</span>
+                    </strong>
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+
+        <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toastEliminarTopicoErro" role="alert"
+             aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <strong class="toast-error text-danger"><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp;
+                        <span
+                            class="text-danger">Não foi possivel eliminar o tópico porque está inserido em um Quizz!!</span>
+                    </strong>
                 </div>
                 <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
@@ -88,39 +106,50 @@
                     <div class="card-box-text">
                         <h2>{{topico['nome']}}</h2>
                         <div class="dropdown ms-auto">
-                            <button class="" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button class="" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
                                 <i class="bi bi-three-dots-vertical"></i>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                 <li>
-                                    <button type="button" class="dropdown-item" data-bs-toggle="modal" :data-bs-target="'#editarTopico' + topico['id']"  >Editar</button>
+                                    <button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                            :data-bs-target="'#editarTopico' + topico['id']">Editar
+                                    </button>
 
                                 </li>
                                 <li>
-                                    <button type="button" class="dropdown-item" data-bs-toggle="modal" :data-bs-target="'#eliminarTopico' + topico['id']" >Eliminar</button>
+                                    <button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                            :data-bs-target="'#eliminarTopico' + topico['id']">Eliminar
+                                    </button>
                                 </li>
                             </ul>
                         </div>
                         <span data-bs-toggle="collapse" :data-bs-target="'#collapse'+topico['id']" aria-expanded="false"
-                        :aria-controls="'collapse'+topico['id']" class="material-icons" @click="changeButton(topico['id'])" style="cursor: pointer">
+                              :aria-controls="'collapse'+topico['id']" class="material-icons"
+                              @click="changeButton(topico['id'])" style="cursor: pointer">
                             <img :id="'img'+topico['id']" src="/assets/expand_more_black_24dp.svg">
                         </span>
                     </div>
 
                     <!-- Modal -->
-                    <div class="modal fade" :id="'eliminarTopico' + topico['id']" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" :id="'eliminarTopico' + topico['id']" tabindex="-1"
+                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" :id="'tituloEliminar' + topico['id']">Eliminar Tópico</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <h2>Tem certeza que deseja eliminar o tópico {{topico['nome']}}?</h2>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="button" class="btn btn-primary eliminar-btn" :id="'eliminarUtilizadorBtn' + topico['id']" @click="eliminarTopico(topico)" >
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar
+                                    </button>
+                                    <button type="button" class="btn btn-primary eliminar-btn"
+                                            :id="'eliminarUtilizadorBtn' + topico['id']"
+                                            @click="eliminarTopico(topico)">
                                         <span class="">Sim</span>
                                         <div class="spinner-border text-light d-none" role="status">
 
@@ -133,18 +162,21 @@
                     </div>
 
                     <!-- Modal -->
-                    <div class="modal fade" :id="'editarTopico' + topico['id']" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" :id="'editarTopico' + topico['id']" tabindex="-1"
+                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" >Editar Tópico</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <h5 class="modal-title">Editar Tópico</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body pt-5 pb-5">
-                                    <form class="row mx-auto" >
+                                    <form class="row mx-auto">
                                         <div class="col-12">
                                             <label class="label" :for="'editarTopicoNome' + topico['id']">Topico</label>
-                                            <input name="disciplina" class="form-control mt-2 mb-3 " type="text" :id="'editarTopicoNome' + topico['id']" :value="topico['nome']">
+                                            <input name="disciplina" class="form-control mt-2 mb-3 " type="text"
+                                                   :id="'editarTopicoNome' + topico['id']" :value="topico['nome']">
 
                                         </div>
                                         <div class="col-12 ">
@@ -152,7 +184,9 @@
                                         </div>
                                         <div class="col-12 mt-2">
                                             <label class="label" :for="'descricao' + topico['id']">Descrição</label>
-                                            <textarea class="form-control" name="descricao" :id="'descricao' + topico['id']" rows="2" :value="topico['descricao']"></textarea>
+                                            <textarea class="form-control" name="descricao"
+                                                      :id="'descricao' + topico['id']" rows="2"
+                                                      :value="topico['descricao']"></textarea>
 
                                         </div>
 
@@ -160,8 +194,11 @@
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="button" id="submitEdit" class="btn btn-secondary btn-submit btn-loading" @click="editarTopico(topico)"><span
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar
+                                    </button>
+                                    <button type="button" id="submitEdit"
+                                            class="btn btn-secondary btn-submit btn-loading"
+                                            @click="editarTopico(topico)"><span
                                         class="">Adicionar &nbsp;</span>
                                         <div class="spinner-border text-light d-none" role="status">
 
@@ -211,7 +248,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" id="submit" class="btn btn-secondary btn-submit btn-loading" @click="submit()"><span
+                        <button type="button" id="submit" class="btn btn-secondary btn-submit btn-loading"
+                                @click="submit()"><span
                             class="">Adicionar &nbsp;</span>
                             <div class="spinner-border text-light d-none" role="status">
 
@@ -246,27 +284,27 @@
                 toastEditartopico: '',
                 modalEditarTopico: '',
                 toastEliminarPergunta: '',
-                toastEliminarPerguntaErro: ''
+                toastEliminarPerguntaErro: '',
+                toastEliminarTopicoErro: ''
             }
         }, methods: {
-            editarTopico(topico){
+            editarTopico(topico) {
                 $('.btn-loading span').addClass('d-none');
                 $('.btn-loading div').removeClass('d-none');
 
                 this.modalEditarTopico = bootstrap.Modal.getInstance(document.getElementById('editarTopico' + topico['id']), {});
 
-                if ($('#editarTopicoNome' + topico['id']).val().length === 0){
-                    $( '#disciplinaError' + topico['id'] ).text("Introduza o nome do Tópico").css('color', 'red').css('opacity', '1');
+                if ($('#editarTopicoNome' + topico['id']).val().length === 0) {
+                    $('#disciplinaError' + topico['id']).text("Introduza o nome do Tópico").css('color', 'red').css('opacity', '1');
                     $('.btn-loading span').removeClass('d-none');
                     $('.btn-loading div').addClass('d-none');
-                }else{
+                } else {
                     let formData = new FormData();
-                    formData.append( 'topico',$( '#editarTopicoNome' + topico['id'] ).val());
-                    formData.append( 'descricao',$( "#descricao" + topico['id'] ).val());
-                    formData.append( 'id',topico['id']);
-                    axios.post('/prof/topico/'+ topico['id']+'/editar', formData).then(
+                    formData.append('topico', $('#editarTopicoNome' + topico['id']).val());
+                    formData.append('descricao', $("#descricao" + topico['id']).val());
+                    formData.append('id', topico['id']);
+                    axios.post('/prof/topico/' + topico['id'] + '/editar', formData).then(
                         function (response) {
-
 
 
                             $('.btn-loading span').removeClass('d-none');
@@ -277,14 +315,13 @@
                             this.topicos = response.data.message;
 
 
-
                             this.modalEditarTopico.hide();
 
                         }.bind(this));
                 }
 
             },
-            eliminarTopico(topico){
+            eliminarTopico(topico) {
 
                 $('.eliminar-btn span').addClass('d-none');
                 $('.eliminar-btn div').removeClass('d-none');
@@ -294,7 +331,7 @@
                 axios.delete('/prof/topico/delete/' + topico['id']).then(
                     function (response) {
 
-                        if (response.data.message !== "erro"){
+                        if (response.data.message !== "erro") {
                             $('.eliminar-btn span').removeClass('d-none');
                             $('.eliminar-btn div').addClass('d-none');
                             this.toastEliminarTopico.show();
@@ -304,6 +341,12 @@
 
                             this.modalDeleteTopico.hide();
 
+                        }else{
+                            $('.eliminar-btn span').removeClass('d-none');
+                            $('.eliminar-btn div').addClass('d-none');
+                            this.modalDeleteTopico.hide();
+                            this.toastEliminarTopicoErro.show();
+                            $('#toastEliminarTopicoErro').removeClass('d-none');
                         }
                     }.bind(this));
 
@@ -367,15 +410,15 @@
                         this.topicos = response.data.message;
                     });
             },
-            showToastPergunta(apagou){
+            showToastPergunta(apagou) {
 
-                if (apagou === 1){
+                if (apagou === 1) {
                     this.toastEliminarPergunta.show();
                     $('#toastEliminarPergunta').removeClass('d-none');
-                }else if(apagou === 2) {
+                } else if (apagou === 2) {
                     this.toastEliminarPerguntaErro.show();
                     $('#toastEliminarPerguntaErro').removeClass('d-none');
-                }else if(apagou === 3){
+                } else if (apagou === 3) {
                     this.toastPergunta.show();
                     $('#toast-pergunta').removeClass('d-none');
                 }
@@ -394,9 +437,9 @@
             this.myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {})
             this.toast = new bootstrap.Toast(document.getElementById('toast'), {delay: 10000})
             this.toast.hide();
-            this.toastEliminarTopico = new  bootstrap.Toast(document.getElementById('toastEliminarTopico'), {delay: 10000})
+            this.toastEliminarTopico = new bootstrap.Toast(document.getElementById('toastEliminarTopico'), {delay: 10000})
             this.toastEliminarTopico.hide()
-            this.toastEditartopico = new  bootstrap.Toast(document.getElementById('toastEditarTopico'), {delay: 10000})
+            this.toastEditartopico = new bootstrap.Toast(document.getElementById('toastEditarTopico'), {delay: 10000})
             this.toastEditartopico.hide()
             this.toastEliminarPergunta = new bootstrap.Toast(document.getElementById('toastEliminarPergunta'), {delay: 10000})
             this.toastEliminarPergunta.hide()
@@ -404,6 +447,8 @@
             this.toastEliminarPerguntaErro.hide()
             this.toastPergunta = new bootstrap.Toast(document.getElementById('toast-pergunta'), {delay: 10000})
             this.toastPergunta.hide()
+            this.toastEliminarTopicoErro = new bootstrap.Toast(document.getElementById('toastEliminarTopicoErro'), {delay: 10000})
+            this.toastEliminarTopicoErro.hide()
             this.$root.$on('ShowToastPergunta', this.showToastPergunta);
 
         }

@@ -1085,6 +1085,10 @@ section {
 .card-disciplina .section-mensagem .nova-mensagem .btn span, .card-disciplina .section-mensagem .nova-resposta .btn span {
   color: white;
 }
+.card-disciplina .section-mensagem .card-overflow {
+  max-height: 40rem;
+  overflow-y: auto;
+}
 
 .real-time-test-prof .wait-room .box-sessao h2 {
   font-size: 2.5rem;

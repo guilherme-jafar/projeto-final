@@ -28,7 +28,7 @@ class topicos extends Controller
 
 //        DB::statement('call deleteTopico(?)', [$request->id]);
         $topicos = DB::table('topicos')->where('disciplina_id', '=', ['id' => session('disciplina')['id']])
-            ->paginate(4);
+            ->paginate(5);
 
 
         if ($insert_Topicos) {
@@ -241,14 +241,24 @@ class topicos extends Controller
     function destroy(Request $request){
 
 
-        DB::statement('call deleteTopico(?)', [$request->id]);
-        $topicos = DB::table('topicos')->where('disciplina_id', '=', ['id' => session('disciplina')['id']])
-            ->paginate(4);
+        try {
+
+            DB::statement('call deleteTopico(?)', [$request->id]);
+            $topicos = DB::table('topicos')->where('disciplina_id', '=', ['id' => session('disciplina')['id']])
+                ->paginate(5);
 
 
-        return response()->json([
-            'message' => $topicos,
-        ]);
+            return response()->json([
+                'message' => $topicos,
+            ]);
+
+        }catch (\Illuminate\Database\QueryException $ex){
+            return response()->json([
+                'message' => 'erro',
+            ]);
+        }
+
+
 
 
     }
@@ -274,7 +284,7 @@ class topicos extends Controller
 
 
         $topico = DB::table('topicos')->where('disciplina_id', '=', ['id' => session('disciplina')['id']])
-            ->paginate(4);
+            ->paginate(5);
 
         if (!empty($topico)) {
             return response()->json([

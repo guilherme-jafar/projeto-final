@@ -85,10 +85,7 @@
                 </div>
 
                 <div id="app">
-                    <div id="forum">
 
-                        <forum-show  :tipo_props="'{{json_encode(session('utilizador')['tipo'], TRUE)}}'"></forum-show>
-                    </div>
                     <div id="editarDisciplina">
                         <editar-disciplina
                             :disciplina_prop="'{{json_encode(session('disciplina'), TRUE)}}'"></editar-disciplina>
@@ -98,18 +95,23 @@
                         <disciplina-prof :topico_prop="'{{json_encode($topico, TRUE)}}'"></disciplina-prof>
 
                     </div>
+                    <div id="quizz">
+                        <quizz-prof :topico_prop="'{{json_encode($topico, TRUE)}}'"></quizz-prof>
+                    </div>
                     <div id="alunos">
 
                         <disciplina-alunos></disciplina-alunos>
 
                     </div>
-                    <div id="quizz">
-                        <quizz-prof :topico_prop="'{{json_encode($topico, TRUE)}}'"></quizz-prof>
-                    </div>
+
 
                     <div id="historico">
                         {{--                        <quizz-prof :topico_prop="'{{json_encode($topico, TRUE)}}'" ></quizz-prof>--}}
 
+                    </div>
+                    <div id="forum">
+
+                        <forum-show  :tipo_props="'{{json_encode(session('utilizador')['tipo'], TRUE)}}'"></forum-show>
                     </div>
 
 

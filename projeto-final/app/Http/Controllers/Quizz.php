@@ -23,10 +23,7 @@ class Quizz extends Controller
         $Quizz = DB::table('quizz')
             ->where('disciplina_id', '=', session('disciplina')['id'])
             ->paginate(5);
-       // dd($Quizz[0]);
-
-
-
+        // dd($Quizz[0]);
 
 
         if (!empty($Quizz)) {
@@ -42,12 +39,15 @@ class Quizz extends Controller
         }
     }
 
-    function listQuizzTopico(Request $request){
+    function listQuizzTopico(Request $request)
+    {
 
         $topicoQuizz = DB::select('SELECT t.id FROM topicos t, topicos_quizz tq
                                 WHERE t.id = tq.topicos_id
-                                AND tq.quizz_id =:id' ,['id' => $request->id]);
+                                AND tq.quizz_id =:id', ['id' => $request->id]);
 
+
+//        dd($topicoQuizz);
 
         if (!empty($topicoQuizz)) {
             return response()->json([
@@ -62,9 +62,10 @@ class Quizz extends Controller
         }
     }
 
-    function editar(Request $request){
+    function editar(Request $request)
+    {
 
-       // dd($request);
+        // dd($request);
         $topicos = json_decode($request->array);
         $numQuestion = $request->nPerguntas;
         $comand = "";
@@ -76,44 +77,42 @@ class Quizz extends Controller
 
             DB::table('quizz')
                 ->where('id', '=', $id)
-                ->update(['nome' => $request->titulo, 'tipo' => $request->realtime, 'numeroperguntas' => $numQuestion, 'Descricao' => $request->descricao, 'visivel' =>  $request->visible, 'vale_pontos' => $request->pontos]);
+                ->update(['nome' => $request->titulo, 'tipo' => $request->realtime, 'numeroperguntas' => $numQuestion, 'Descricao' => $request->descricao, 'visivel' => $request->visible, 'vale_pontos' => $request->pontos]);
 
 
             $topicoQuizz = DB::select('SELECT t.id FROM topicos t, topicos_quizz tq
                                 WHERE t.id = tq.topicos_id
-                                AND tq.quizz_id =:id' ,['id' => $id]);
+                                AND tq.quizz_id =:id', ['id' => $id]);
 
 
-
-            if(count($topicos) == count($topicoQuizz)){
+            if (count($topicos) == count($topicoQuizz)) {
                 $mesmoTopico = 0;
-                for ($i = 0; $i < count($topicos); $i++){
+                for ($i = 0; $i < count($topicos); $i++) {
 
-                    if (in_array($topicoQuizz[$i]->id, $topicos)){
+                    if (in_array($topicoQuizz[$i]->id, $topicos)) {
                         $mesmoTopico++;
                     }
                 }
 
-                if ($mesmoTopico != count($topicoQuizz)){
+                if ($mesmoTopico != count($topicoQuizz)) {
 
                     $editarPerguntas = true;
 
-                }elseif ($numQuestionAntigas != $numQuestion){
+                } elseif ($numQuestionAntigas != $numQuestion) {
 
                     $editarPerguntas = true;
 
-                }else{
+                } else {
                     return response()->json([
                         'message' => "sucesso"
                     ]);
                 }
-            }elseif (count($topicos) != count($topicoQuizz)){
+            } elseif (count($topicos) != count($topicoQuizz)) {
                 $editarPerguntas = true;
             }
 
 
-
-            if ($editarPerguntas){
+            if ($editarPerguntas) {
                 for ($i = 0; $i < count($topicos); $i++) {
 
                     if ($i == 0) {
@@ -160,13 +159,12 @@ class Quizz extends Controller
             }
 
 
-        }catch (Exception $e) {
+        } catch (Exception $e) {
 
             return response()->json([
                 'message' => "erro"
             ]);
         }
-
 
 
     }
@@ -194,7 +192,7 @@ class Quizz extends Controller
 
             if (count($res) >= $numQuestion) {
                 DB::insert('insert into quizz (id, nome ,tipo,numeroperguntas,disciplina_id,Descricao,visivel, vale_pontos,tentativas) values (?,?,?,?,?,?,?,?,?)'
-                    , [$id, $request->titulo, $request->realtime, $numQuestion, $request->id, $request->descricao, $request->visible, $request->pontos,$request->numeroAvaliaçoes]);
+                    , [$id, $request->titulo, $request->realtime, $numQuestion, $request->id, $request->descricao, $request->visible, $request->pontos, $request->numeroAvaliaçoes]);
 
                 for ($i = 0; $i < $numQuestion; $i++) {
                     while (true) {
@@ -317,10 +315,10 @@ AND  u.id= :id
 GROUP BY s.quizz_id ,s.nomequizz', ['id' => session('utilizador')['id'], 'sessionId' => $request->sessionId]);
 
         DB::insert('insert into historico (id, disciplina,quizz,nota,idquizz,tipo,disciplina_id,sessaoId) values(?,?,?,?,?,?,?,?)'
-            , [uniqid(),session('disciplina')['nome'],$query[0]->nome,$query[0]->res,
-                $query[0]->id   ,session('utilizador')['tipo'],session('disciplina')['id'],$request->sessionId]);
+            , [uniqid(), session('disciplina')['nome'], $query[0]->nome, $query[0]->res,
+                $query[0]->id, session('utilizador')['tipo'], session('disciplina')['id'], $request->sessionId]);
 
-        DB::table('disciplina_aluno')->where('aluno_utilizador_id', '=', ['id'=>session('utilizador')['id']])->increment('pontos',$query[0]->res);
+        DB::table('disciplina_aluno')->where('aluno_utilizador_id', '=', ['id' => session('utilizador')['id']])->increment('pontos', $query[0]->res);
 
         return view('/quizz/EndQuizz', ['res' => $query[0]->res, 'nome' => $query[0]->nome]);
 
@@ -344,7 +342,7 @@ GROUP BY s.quizz_id ,s.nomequizz', ['id' => session('utilizador')['id'], 'sessio
         if (!empty($quizz)) {
 
             if (empty(session()->get('sessao'))) {
-                session()->put('sessao', ["id" => $session,"nomeQuizz"=>$quizz[0]->nome, 'idQuizz' => $id, 'type' => 'master']);
+                session()->put('sessao', ["id" => $session, "nomeQuizz" => $quizz[0]->nome, 'idQuizz' => $id, 'type' => 'master']);
                 DB::insert('insert into sessao (id, nomequizz ,tipo,quizz_id,iduser,tipoUser, masterActive) values (?,?,?,?,?,?,?)'
                     , [$session, $quizz[0]->nome, $quizz[0]->quizzTipo, $id, session('utilizador')['id'], session('utilizador')['tipo'], 1]);
 
@@ -389,8 +387,8 @@ GROUP BY s.quizz_id ,s.nomequizz', ['id' => session('utilizador')['id'], 'sessio
 
         if (!empty($quizz) && !empty($Cheek) && !isset(session('sessao')['check'])) {
 
-            $users=DB::select('select id from sessao where sessaoMaster=:id  and quizz_id=:idQuizz', ['id' => $id, 'idQuizz' => $quizzId]);
-            session()->put('sessao', ["id" => $session,"nomeQuizz"=>$quizz[0]->nome, "check" => 'yes', 'users' => count($users), 'master' => $id, "quizz" => $quizzId, 'type' => 'student','tentativas' =>$quizz[0]->tentativas]);
+            $users = DB::select('select id from sessao where sessaoMaster=:id  and quizz_id=:idQuizz', ['id' => $id, 'idQuizz' => $quizzId]);
+            session()->put('sessao', ["id" => $session, "nomeQuizz" => $quizz[0]->nome, "check" => 'yes', 'users' => count($users), 'master' => $id, "quizz" => $quizzId, 'type' => 'student', 'tentativas' => $quizz[0]->tentativas]);
 
             DB::insert('insert into sessao (id, nomequizz ,tipo,quizz_id,iduser,tipoUser,sessaoMaster) values (?,?,?,?,?,?,?)'
                 , [$session, $quizz[0]->nome, $quizz[0]->quizzTipo, $quizzId, session('utilizador')['id'], session('utilizador')['tipo'], $id]);
@@ -399,8 +397,8 @@ GROUP BY s.quizz_id ,s.nomequizz', ['id' => session('utilizador')['id'], 'sessio
             return redirect('WaitRoomStudent/' . $session . '/' . $id);
 
         } else if (!empty($quizz) && !empty($Cheek)) {
-            $users=DB::select('select id from sessao where sessaoMaster=:id  and quizz_id=:idQuizz', ['id' => $id, 'idQuizz' => $quizzId]);
-            session('sessao')['users']=count($users);
+            $users = DB::select('select id from sessao where sessaoMaster=:id  and quizz_id=:idQuizz', ['id' => $id, 'idQuizz' => $quizzId]);
+            session('sessao')['users'] = count($users);
             event(new WaitRoom(session('utilizador')['nome'], $id, 'student', session('utilizador')['id']));
             return redirect('WaitRoomStudent/' . $session . '/' . $id);
         } else {
@@ -425,7 +423,7 @@ GROUP BY s.quizz_id ,s.nomequizz', ['id' => session('utilizador')['id'], 'sessio
             }
             if (session('sessao')['type'] == "student") {
 
-                DB::table('sessao')->where('id', '=', ['id' =>  session('sessao')['id']])->delete();
+                DB::table('sessao')->where('id', '=', ['id' => session('sessao')['id']])->delete();
                 broadcast(new WaitRoom(session('utilizador')['nome'], session('sessao')['master'], 'leavestudent', session('utilizador')['id']))->toOthers();
             }
 
@@ -458,13 +456,13 @@ GROUP BY s.quizz_id ,s.nomequizz', ['id' => session('utilizador')['id'], 'sessio
 
         Cache::put('quizz', $quizz);
 
-        broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'startQuizz', session('utilizador')['id'], $quizz[0], $res,[]))->toOthers();
+        broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'startQuizz', session('utilizador')['id'], $quizz[0], $res, []))->toOthers();
 
         return response()->json([
             'message' => count($quizz),
 
         ]);
-}
+    }
 
     function setRespostaQuizz(Request $request)
     {
@@ -477,97 +475,103 @@ GROUP BY s.quizz_id ,s.nomequizz', ['id' => session('utilizador')['id'], 'sessio
             , [uniqid(), $request->resposta, $request->resultado, $request->tipo, $request->sessioId, session('utilizador')['id'], $request->id]);
 
 
-        broadcast(new AnswerQuestionStudent(session('utilizador')['nome'], session('sessao')['master'], 'NextQuestion', session('utilizador')['id'],$request->resultado ,$request->resposta,$request->tipo))->toOthers();
+        broadcast(new AnswerQuestionStudent(session('utilizador')['nome'], session('sessao')['master'], 'NextQuestion', session('utilizador')['id'], $request->resultado, $request->resposta, $request->tipo))->toOthers();
 
     }
 
-    function nextQuestionQuizz(Request $request){
+    function nextQuestionQuizz(Request $request)
+    {
 
-        $index=$request->index;
-        $users=$request->users;
-        $points=$request->points;
-        $users=explode( ',', $users );
-        $points=explode( ',', $points);
-        $quizz=Cache::get('quizz');
-        $newArray=[];
-        if (count($users)>5){
-            $users=array_chunk($users, 5);
-            $points=array_chunk($points, 5);
+        $index = $request->index;
+        $users = $request->users;
+        $points = $request->points;
+        $users = explode(',', $users);
+        $points = explode(',', $points);
+        $quizz = Cache::get('quizz');
+        $newArray = [];
+        if (count($users) > 5) {
+            $users = array_chunk($users, 5);
+            $points = array_chunk($points, 5);
         }
 
-        for ($i=0;$i<count($users);$i++){
-            $newArray+=[$users[$i]=>$points[$i]];
+        for ($i = 0; $i < count($users); $i++) {
+            $newArray += [$users[$i] => $points[$i]];
 
         }
         asort($newArray);
-        $newArray=array_reverse($newArray);
-        foreach ( $quizz as $value){
+        $newArray = array_reverse($newArray);
+        foreach ($quizz as $value) {
 
-            if ($value->PergIndex==$index){
+            if ($value->PergIndex == $index) {
                 $res = DB::select('select *
                                  from respostas r
                                  where r.perguntas_id=:id', ['id' => $value->pId]);
 
-                broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'NewQuestion', session('utilizador')['id'], $value, $res,$newArray))->toOthers();
+                broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'NewQuestion', session('utilizador')['id'], $value, $res, $newArray))->toOthers();
 
 
             }
         }
 
-}
-    function stopQuestionQuizz(Request $request){
-        broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'stop', session('utilizador')['id'], [],[],[]))->toOthers();
+    }
+
+    function stopQuestionQuizz(Request $request)
+    {
+        broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'stop', session('utilizador')['id'], [], [], []))->toOthers();
 
 
     }
 
-    function EndQuizzRealTime(Request $request){
-        $users=$request->users;
-        $points=$request->points;
-        $users=explode( ',', $users );
-        $points=explode( ',', $points);
+    function EndQuizzRealTime(Request $request)
+    {
+        $users = $request->users;
+        $points = $request->points;
+        $users = explode(',', $users);
+        $points = explode(',', $points);
 
-        $newArray=[];
-        if (count($users)>5){
-            $users=array_chunk($users, 5);
-            $points=array_chunk($points, 5);
+        $newArray = [];
+        if (count($users) > 5) {
+            $users = array_chunk($users, 5);
+            $points = array_chunk($points, 5);
         }
 
-        for ($i=0;$i<count($users);$i++){
-            $newArray+=[$users[$i]=>$points[$i]];
+        for ($i = 0; $i < count($users); $i++) {
+            $newArray += [$users[$i] => $points[$i]];
 
         }
         asort($newArray);
-        $newArray=array_reverse($newArray);
+        $newArray = array_reverse($newArray);
 
-        if (session('utilizador')['tipo']=='prof') {
+        if (session('utilizador')['tipo'] == 'prof') {
             broadcast(new QuizzQuestion(session('utilizador')['tipo'], session('sessao')['id'], 'EndQuizz', session('utilizador')['id'], [], [], $newArray))->toOthers();
-        }else{
+        } else {
             broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'EndQuizzAluno', session('utilizador')['id'], [], [], $newArray))->toOthers();
         }
     }
 
-function CloseQuizzProf(){
+    function CloseQuizzProf()
+    {
 
-    DB::insert('insert into historico (id, disciplina,quizz,idquizz,tipo,disciplina_id,sessaoId) values(?,?,?,?,?,?,?)'
-        , [uniqid(),session('disciplina')['nome'],session('sessao')['nomeQuizz'],
-            session('sessao')['idQuizz'],session('utilizador')['tipo'],session('disciplina')['id'],session('sessao')['id']]);
+        DB::insert('insert into historico (id, disciplina,quizz,idquizz,tipo,disciplina_id,sessaoId) values(?,?,?,?,?,?,?)'
+            , [uniqid(), session('disciplina')['nome'], session('sessao')['nomeQuizz'],
+                session('sessao')['idQuizz'], session('utilizador')['tipo'], session('disciplina')['id'], session('sessao')['id']]);
 
 
-    session()->forget('sessao');
-}
-    function CloseQuizzAluno(Request $request){
+        session()->forget('sessao');
+    }
 
-        if ($request->tipo=="aluno") {
+    function CloseQuizzAluno(Request $request)
+    {
+
+        if ($request->tipo == "aluno") {
 
             DB::insert('insert into historico (id, disciplina,quizz,nota,idquizz,tipo,disciplina_id,sessaoId,tipoAvaliação) values(?,?,?,?,?,?,?,?,?)'
                 , [uniqid(), session('disciplina')['nome'], session('sessao')['nomeQuizz'], $request->nota,
-                    session('sessao')['quizz'], session('utilizador')['tipo'], session('disciplina')['id'], session('sessao')['id'],"normal"]);
+                    session('sessao')['quizz'], session('utilizador')['tipo'], session('disciplina')['id'], session('sessao')['id'], "normal"]);
 
-        }
-        else{
+        } else {
 
-            $count=DB::select('SELECT COUNT(*) AS "count"
+            $count = DB::select('SELECT COUNT(*) AS "count"
                                 FROM historico h,quizz q ,aluno a, disciplina d,disciplina_aluno da
                                 WHERE q.id=h.idquizz
                                 AND da.aluno_utilizador_id=a.utilizador_id
@@ -576,18 +580,18 @@ function CloseQuizzProf(){
                                 AND q.id=?
                                 AND a.utilizador_id=?
                                 AND d.id=?
-                                AND h.`tipoAvaliação`=\'avaliacao\'',[session('sessao')['quizz'],session('utilizador')['id'],session('disciplina')['id']] );
+                                AND h.`tipoAvaliação`=\'avaliacao\'', [session('sessao')['quizz'], session('utilizador')['id'], session('disciplina')['id']]);
 
 
-            if (session('sessao')['tentativas']<=$count[0]->count){
+            if (session('sessao')['tentativas'] <= $count[0]->count) {
                 DB::insert('insert into historico (id, disciplina,quizz,nota,idquizz,tipo,disciplina_id,sessaoId,tipoAvaliação) values(?,?,?,?,?,?,?,?,?)'
                     , [uniqid(), session('disciplina')['nome'], session('sessao')['nomeQuizz'], $request->nota,
-                        session('sessao')['quizz'], session('utilizador')['tipo'], session('disciplina')['id'], session('sessao')['id'],"normal"]);
+                        session('sessao')['quizz'], session('utilizador')['tipo'], session('disciplina')['id'], session('sessao')['id'], "normal"]);
 
-            }else{
+            } else {
                 DB::insert('insert into historico (id, disciplina,quizz,nota,idquizz,tipo,disciplina_id,sessaoId,tipoAvaliação) values(?,?,?,?,?,?,?,?,?)'
                     , [uniqid(), session('disciplina')['nome'], session('sessao')['nomeQuizz'], $request->nota,
-                        session('sessao')['quizz'], session('utilizador')['tipo'], session('disciplina')['id'], session('sessao')['id'],"avaliacao"]);
+                        session('sessao')['quizz'], session('utilizador')['tipo'], session('disciplina')['id'], session('sessao')['id'], "avaliacao"]);
 
                 DB::table('disciplina_aluno')->where('aluno_utilizador_id', '=', ['id' => session('utilizador')['id']])->increment('pontos', $request->nota);
 
@@ -598,48 +602,42 @@ function CloseQuizzProf(){
     }
 
 
-
-
-
-
     ////////////////////////////////////////////////////////editar//////////////////////////////////////
 
 
-    function ocultarQuizz(Request $request){
+    function ocultarQuizz(Request $request)
+    {
         try {
 
-            DB::table('quizz')->where('id', '=', ['id'=>$request->id])->update(['visivel' => 'false']);
+            DB::table('quizz')->where('id', '=', ['id' => $request->id])->update(['visivel' => 'false']);
 
-            $quizz = DB::select('select visivel, id from quizz where id = ?',[$request->id] );
+            $quizz = DB::select('select visivel, id from quizz where id = ?', [$request->id]);
 
             return response()->json([
                 'message' => $quizz
             ]);
 
-        }catch (\Illuminate\Database\QueryException $ex){
+        } catch (\Illuminate\Database\QueryException $ex) {
             return response()->json([
                 'message' => 'erro'
             ]);
         }
     }
 
-    function tornarVisivel(Request $request){
-
-
-
-
+    function tornarVisivel(Request $request)
+    {
 
         try {
 
-              DB::table('quizz')->where('id', '=', ['id'=>$request->id])->update(['visivel' => 'true']);
+            DB::table('quizz')->where('id', '=', ['id' => $request->id])->update(['visivel' => 'true']);
 
-           $quizz = DB::select('select visivel, id from quizz where id = ?',[$request->id] );
+            $quizz = DB::select('select visivel, id from quizz where id = ?', [$request->id]);
 
             return response()->json([
                 'message' => $quizz
             ]);
 
-        }catch (\Illuminate\Database\QueryException $ex){
+        } catch (\Illuminate\Database\QueryException $ex) {
             return response()->json([
                 'message' => 'erro'
             ]);
@@ -648,9 +646,10 @@ function CloseQuizzProf(){
 
     }
 
-    function destroy(Request $request){
-        try {
+    function destroy(Request $request)
+    {
 
+        try {
 
             DB::statement('call deleteQuizz(?)', [$request->id]);
 
@@ -662,7 +661,7 @@ function CloseQuizzProf(){
                 'message' => $quizz
             ]);
 
-        }catch (\Illuminate\Database\QueryException $ex){
+        } catch (\Illuminate\Database\QueryException $ex) {
             return response()->json([
                 'message' => 'erro'
             ]);

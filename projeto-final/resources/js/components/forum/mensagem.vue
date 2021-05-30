@@ -60,7 +60,7 @@
                     </div>
                     <h1>Mensagens</h1>
                     <ul>
-                        <li class="card-box mb-5 mt-5" v-for="mensagem in filter" :key="mensagem['id']">
+                        <li class="card-box card-overflow mb-5 mt-5" v-for="mensagem in filter" :key="mensagem['id']">
                             <div class="card-box-text">
                                 <h2>
                                     {{mensagem['nome']}}
@@ -82,14 +82,19 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <span data-bs-toggle="collapse" :data-bs-target="'#collapseMensagem'+mensagem['id']"
-                                      aria-expanded="false"
-                                      :aria-controls="'collapseQuizz'+mensagem['id']" class="material-icons"
-                                      @click="changeButton(mensagem['id'])" style="cursor: pointer">
-                                         <img :id="'img'+mensagem['id']" src="/assets/expand_more_black_24dp.svg">
-                                 </span>
+<!--                                <span data-bs-toggle="collapse" :data-bs-target="'#collapseMensagem'+mensagem['id']"-->
+<!--                                      aria-expanded="false"-->
+<!--                                      :aria-controls="'collapseQuizz'+mensagem['id']" class="material-icons"-->
+<!--                                      @click="changeButton(mensagem['id'])" style="cursor: pointer">-->
+<!--                                         <img :id="'img'+mensagem['id']" src="/assets/expand_more_black_24dp.svg">-->
+<!--                                 </span>-->
                             </div>
-                            <div class="collapse mt-2" :id="'collapseMensagem'+mensagem['id']">
+<!--                            <div class="collapse mt-2" :id="'collapseMensagem'+mensagem['id']">-->
+<!--                                <p>{{mensagem['mensagem']}}</p>-->
+
+<!--                                <respostas ref="respostas" :tipo_props="mensagem['tipo']" :id_props="mensagem['id']"></respostas>-->
+<!--                            </div>-->
+                            <div class=" mt-2">
                                 <p>{{mensagem['mensagem']}}</p>
 
                                 <respostas ref="respostas" :tipo_props="mensagem['tipo']" :id_props="mensagem['id']"></respostas>

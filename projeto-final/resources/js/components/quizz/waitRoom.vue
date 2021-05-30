@@ -57,6 +57,7 @@
             </div>
 
             <div id="tabela" v-for="item in usersId" :key="item.users">
+
                 <p class="name-user">{{users[usersId.indexOf(item)]}} {{points[usersId.indexOf(item)]}}</p>
                 <div v-if="image==='true'">
                     <img :src="'/images/Pergunta/Multimedia/'+resposta[usersId.indexOf(item)]" alt="resposta"
@@ -76,6 +77,7 @@
         </div>
 
         <div class="endGame text-center" id="EndGame">
+
             <div id="tabelaFim" v-for="item in usersId" :key="item.users">
                 <p>{{users[usersId.indexOf(item)]}} {{points[usersId.indexOf(item)]}}</p>
             </div>
@@ -314,8 +316,7 @@
             if (this.users.length !== 0) {
                 $('#Inciar').show();
             }
-
-
+            
             this.connect()
 
 
