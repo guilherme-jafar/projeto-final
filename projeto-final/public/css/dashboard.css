@@ -1086,6 +1086,79 @@ section {
   color: white;
 }
 
+.real-time-test-prof .wait-room .box-sessao h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #7FBA27;
+}
+.real-time-test-prof .wait-room .box-sessao p {
+  font-size: 3rem;
+  color: #FF7829;
+  padding: 0.5rem;
+  font-weight: bold;
+}
+.real-time-test-prof .wait-room .players {
+  color: #F9B000;
+}
+.real-time-test-prof .wait-room .players .name-user {
+  color: #FF7829;
+  font-weight: bold;
+}
+.real-time-test-prof .wait-room .footer {
+  position: absolute;
+  bottom: 5%;
+  width: 90vw;
+}
+.real-time-test-prof .wait-room .footer div {
+  position: relative;
+}
+.real-time-test-prof .wait-room .footer div button {
+  position: relative;
+}
+.real-time-test-prof .gameMode {
+  background-color: white;
+  box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
+  padding: 2rem;
+  border-radius: 1rem;
+}
+.real-time-test-prof .gameMode .name-user {
+  color: #40C0F0;
+}
+.real-time-test-prof .gameMode .number {
+  color: #FF7829;
+}
+.real-time-test-prof .endGame {
+  background-color: white;
+  box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
+  padding: 2rem;
+  border-radius: 1rem;
+}
+
+.real-time-test-aluno .wait-room-alunos h2 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #7FBA27;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.real-time-test-aluno .wait-room-alunos p {
+  color: #FF7829;
+}
+.real-time-test-aluno .resultado {
+  background-color: white;
+  box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
+  padding: 2rem;
+  border-radius: 1rem;
+}
+.real-time-test-aluno .resultado p:first-child {
+  color: #FF7829;
+}
+.real-time-test-aluno .resultado p:nth-child(2) {
+  color: #FF7829;
+}
+
 .fazerTeste {
   background-color: white;
   box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);

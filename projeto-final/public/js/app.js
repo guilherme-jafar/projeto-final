@@ -7367,6 +7367,42 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -8380,6 +8416,55 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -8578,6 +8663,10 @@ __webpack_require__.r(__webpack_exports__);
     } else {
       $('#gameMode').hide();
       $('#waitRoom').show();
+    }
+
+    if (this.users.length !== 0) {
+      $('#Inciar').show();
     }
 
     this.connect();
@@ -54335,23 +54424,31 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticClass: "real-time-test-aluno" },
     [
       _c("div", { attrs: { id: "game" } }, [
         _vm.pergunta.length === 0
-          ? _c("div", [
-              _c("p", [_vm._v(_vm._s(_vm.students))]),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  on: {
-                    click: function($event) {
-                      return _vm.sair()
+          ? _c("div", { staticClass: "wait-room-alunos" }, [
+              _c("div", { staticClass: "d-flex" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    on: {
+                      click: function($event) {
+                        return _vm.sair()
+                      }
                     }
-                  }
-                },
-                [_vm._v("cancel")]
-              )
+                  },
+                  [_vm._v("Sair")]
+                ),
+                _vm._v(" "),
+                _c("p", { staticClass: "ms-auto" }, [
+                  _vm._v("Número de Alunos: " + _vm._s(_vm.students))
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._m(0)
             ])
           : _vm.pergunta.length !== 0
           ? _c("div", [
@@ -54471,7 +54568,13 @@ var render = function() {
                                   }
                                 }
                               },
-                              [_vm._v(" " + _vm._s(_vm.multipleQuestion[0]))]
+                              [
+                                _vm._v(
+                                  " " +
+                                    _vm._s(_vm.multipleQuestion[0]) +
+                                    "\n                            "
+                                )
+                              ]
                             )
                           ]),
                           _vm._v(" "),
@@ -54495,7 +54598,13 @@ var render = function() {
                                   }
                                 }
                               },
-                              [_vm._v(" " + _vm._s(_vm.multipleQuestion[1]))]
+                              [
+                                _vm._v(
+                                  " " +
+                                    _vm._s(_vm.multipleQuestion[1]) +
+                                    "\n                            "
+                                )
+                              ]
                             )
                           ]),
                           _vm._v(" "),
@@ -54520,7 +54629,13 @@ var render = function() {
                                   }
                                 }
                               },
-                              [_vm._v(" " + _vm._s(_vm.multipleQuestion[2]))]
+                              [
+                                _vm._v(
+                                  " " +
+                                    _vm._s(_vm.multipleQuestion[2]) +
+                                    "\n                            "
+                                )
+                              ]
                             )
                           ]),
                           _vm._v(" "),
@@ -54545,7 +54660,13 @@ var render = function() {
                                   }
                                 }
                               },
-                              [_vm._v(" " + _vm._s(_vm.multipleQuestion[3]))]
+                              [
+                                _vm._v(
+                                  " " +
+                                    _vm._s(_vm.multipleQuestion[3]) +
+                                    "\n                            "
+                                )
+                              ]
                             )
                           ])
                         ])
@@ -54565,7 +54686,7 @@ var render = function() {
                                   }
                                 }
                               },
-                              [_vm._v("True\n                        ")]
+                              [_vm._v("True\n                            ")]
                             )
                           ]),
                           _vm._v(" "),
@@ -54581,7 +54702,7 @@ var render = function() {
                                   }
                                 }
                               },
-                              [_vm._v("False\n                        ")]
+                              [_vm._v("False\n                            ")]
                             )
                           ])
                         ])
@@ -54595,9 +54716,7 @@ var render = function() {
                                   "span",
                                   { staticClass: "selecao-mul mx-auto" },
                                   [
-                                    _vm._v(
-                                      "\n                         Respostas"
-                                    ),
+                                    _vm._v("\n                     Respostas"),
                                     _c("span", [
                                       _vm._v(
                                         " " + _vm._s(_vm.botaoEscolhido.length)
@@ -54606,7 +54725,7 @@ var render = function() {
                                     _vm._v(
                                       "  / " +
                                         _vm._s(_vm.respostasMultiplas.length) +
-                                        "\n            "
+                                        "\n        "
                                     )
                                   ]
                                 )
@@ -54637,7 +54756,7 @@ var render = function() {
                                 _vm._v(
                                   " " +
                                     _vm._s(_vm.multipleQuestion[0]) +
-                                    "\n                        "
+                                    "\n                            "
                                 )
                               ]
                             )
@@ -54667,7 +54786,7 @@ var render = function() {
                                 _vm._v(
                                   " " +
                                     _vm._s(_vm.multipleQuestion[1]) +
-                                    "\n                        "
+                                    "\n                            "
                                 )
                               ]
                             )
@@ -54696,8 +54815,9 @@ var render = function() {
                               },
                               [
                                 _vm._v(
-                                  _vm._s(_vm.multipleQuestion[2]) +
-                                    "\n                             \n                        "
+                                  "\n                                " +
+                                    _vm._s(_vm.multipleQuestion[2]) +
+                                    "\n                                 \n                            "
                                 )
                               ]
                             )
@@ -54726,8 +54846,9 @@ var render = function() {
                               },
                               [
                                 _vm._v(
-                                  _vm._s(_vm.multipleQuestion[3]) +
-                                    "\n                             \n                        "
+                                  "\n                                " +
+                                    _vm._s(_vm.multipleQuestion[3]) +
+                                    "\n                                 \n                            "
                                 )
                               ]
                             )
@@ -54760,7 +54881,9 @@ var render = function() {
                                 }
                               },
                               [
-                                _vm._v(" \n                            "),
+                                _vm._v(
+                                  "\n                                 \n                                "
+                                ),
                                 _c("img", {
                                   directives: [
                                     {
@@ -54806,7 +54929,9 @@ var render = function() {
                                 }
                               },
                               [
-                                _vm._v(" \n                            "),
+                                _vm._v(
+                                  "\n                                 \n                                "
+                                ),
                                 _c("img", {
                                   directives: [
                                     {
@@ -54853,7 +54978,9 @@ var render = function() {
                                 }
                               },
                               [
-                                _vm._v(" \n                            "),
+                                _vm._v(
+                                  "\n                                 \n                                "
+                                ),
                                 _c("img", {
                                   directives: [
                                     {
@@ -54900,7 +55027,9 @@ var render = function() {
                                 }
                               },
                               [
-                                _vm._v(" \n                            "),
+                                _vm._v(
+                                  "\n                                 \n                                "
+                                ),
                                 _c("img", {
                                   directives: [
                                     {
@@ -54952,26 +55081,42 @@ var render = function() {
         )
       }),
       _vm._v(" "),
-      _c("div", { attrs: { id: "resultado" } }, [
-        _c("p", [_vm._v(_vm._s(_vm.resultado))]),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            on: {
-              click: function($event) {
-                return _vm.endQuizz()
+      _c(
+        "div",
+        { staticClass: "text-center resultado", attrs: { id: "resultado" } },
+        [
+          _c("p", [_vm._v("Fim do Jogo!!")]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Pontos: " + _vm._s(_vm.resultado))]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary",
+              on: {
+                click: function($event) {
+                  return _vm.endQuizz()
+                }
               }
-            }
-          },
-          [_vm._v("Sair e Gravar")]
-        )
-      ])
+            },
+            [_vm._v("Sair e Gravar")]
+          )
+        ]
+      )
     ],
     2
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "text-center" }, [
+      _c("h2", [_vm._v("A espera que o jogo começe...")])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -55413,56 +55558,145 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { attrs: { id: "waitRoom" } }, [
-      _c("p", [_vm._v(_vm._s(_vm.students))]),
-      _vm._v(" "),
-      _c("p", [_vm._v(_vm._s(_vm.sessao))]),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          on: {
-            click: function($event) {
-              return _vm.sair()
-            }
-          }
-        },
-        [_vm._v("cancel")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          attrs: { id: "Inciar" },
-          on: {
-            click: function($event) {
-              return _vm.start()
-            }
-          }
-        },
-        [_vm._v("Iniciar Quizz")]
-      ),
-      _vm._v(" "),
-      _c("p", [_vm._v(_vm._s(_vm.users))])
-    ]),
+  return _c("div", { staticClass: "real-time-test-prof" }, [
+    _c(
+      "div",
+      { staticClass: "wait-room text-center", attrs: { id: "waitRoom" } },
+      [
+        _c("div", { staticClass: "box-sessao" }, [
+          _c("h2", [_vm._v("Código da Sessão:")]),
+          _vm._v(" "),
+          _c("p", [_vm._v(_vm._s(_vm.sessao))])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "players" }, [
+          _c("p", [_vm._v("Jogadores: " + _vm._s(_vm.students))]),
+          _vm._v(" "),
+          _vm.users.length !== 0
+            ? _c("div", [
+                _c("div", { staticClass: " text-center" }, [
+                  _vm.users.length === 1
+                    ? _c(
+                        "div",
+                        { staticClass: "row" },
+                        _vm._l(_vm.users, function(user) {
+                          return _c("div", { staticClass: "col-md-12" }, [
+                            _c("span", { staticClass: "name-user" }, [
+                              _vm._v(_vm._s(user))
+                            ])
+                          ])
+                        }),
+                        0
+                      )
+                    : _vm.users.length === 2
+                    ? _c(
+                        "div",
+                        { staticClass: "row" },
+                        _vm._l(_vm.users, function(user) {
+                          return _c("div", { staticClass: "col-md-6" }, [
+                            _c("span", { staticClass: "name-user" }, [
+                              _vm._v(_vm._s(user))
+                            ])
+                          ])
+                        }),
+                        0
+                      )
+                    : _c(
+                        "div",
+                        { staticClass: "row" },
+                        _vm._l(_vm.users, function(user) {
+                          return _c("div", { staticClass: "col-md-4" }, [
+                            _c("span", { staticClass: "name-user" }, [
+                              _vm._v(_vm._s(user))
+                            ])
+                          ])
+                        }),
+                        0
+                      )
+                ])
+              ])
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "footer" }, [
+          _c("div", { staticClass: "d-flex" }, [
+            _c(
+              "button",
+              {
+                staticClass: "me-auto btn btn-primary",
+                on: {
+                  click: function($event) {
+                    return _vm.sair()
+                  }
+                }
+              },
+              [_vm._v("Sair")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "ms-auto btn btn-secondary",
+                attrs: { id: "Inciar" },
+                on: {
+                  click: function($event) {
+                    return _vm.start()
+                  }
+                }
+              },
+              [_vm._v("Iniciar Quizz")]
+            )
+          ])
+        ])
+      ]
+    ),
     _vm._v(" "),
     _c(
       "div",
-      { attrs: { id: "gameMode" } },
+      { staticClass: "gameMode", attrs: { id: "gameMode" } },
       [
-        _c("p", [
-          _vm._v(
-            "Numero de perguntas " +
-              _vm._s(_vm.index) +
-              "/" +
-              _vm._s(_vm.Questions)
+        _c("div", { staticClass: "d-flex" }, [
+          _c("p", { staticClass: "number" }, [
+            _vm._v(
+              "Numero de perguntas " +
+                _vm._s(_vm.index - 1) +
+                "/" +
+                _vm._s(_vm.Questions)
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-secondary ms-auto",
+              attrs: { id: "next" },
+              on: {
+                click: function($event) {
+                  return _vm.nextQuestion("next")
+                }
+              }
+            },
+            [_vm._v("Proxima Pergunta")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary ms-auto",
+              attrs: { id: "stop" },
+              on: {
+                click: function($event) {
+                  return _vm.stopQuestion()
+                }
+              }
+            },
+            [_vm._v("Parar Pergunta")]
           )
         ]),
         _vm._v(" "),
         _vm._l(_vm.usersId, function(item) {
           return _c("div", { key: item.users, attrs: { id: "tabela" } }, [
-            _c("p", [
+            _c("p", { staticClass: "name-user" }, [
               _vm._v(
                 _vm._s(_vm.users[_vm.usersId.indexOf(item)]) +
                   " " +
@@ -55484,47 +55718,21 @@ var render = function() {
                   })
                 ])
               : _c("div", [
-                  _vm._v(
-                    "\n            " +
-                      _vm._s(_vm.resposta[_vm.usersId.indexOf(item)]) +
-                      "\n        "
-                  )
+                  _c("p", { staticClass: "respostas" }, [
+                    _vm._v(
+                      " " + _vm._s(_vm.resposta[_vm.usersId.indexOf(item)])
+                    )
+                  ])
                 ])
           ])
-        }),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            attrs: { id: "stop" },
-            on: {
-              click: function($event) {
-                return _vm.stopQuestion()
-              }
-            }
-          },
-          [_vm._v("Parar Pergunta")]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            attrs: { id: "next" },
-            on: {
-              click: function($event) {
-                return _vm.nextQuestion("next")
-              }
-            }
-          },
-          [_vm._v("Proxima Pergunta")]
-        )
+        })
       ],
       2
     ),
     _vm._v(" "),
     _c(
       "div",
-      { attrs: { id: "EndGame" } },
+      { staticClass: "endGame text-center", attrs: { id: "EndGame" } },
       [
         _vm._l(_vm.usersId, function(item) {
           return _c("div", { key: item.users, attrs: { id: "tabelaFim" } }, [
@@ -55538,7 +55746,11 @@ var render = function() {
           ])
         }),
         _vm._v(" "),
-        _c("button", { on: { click: _vm.endQuizz } }, [_vm._v("Sair e Gravar")])
+        _c(
+          "button",
+          { staticClass: "btn btn-primary", on: { click: _vm.endQuizz } },
+          [_vm._v("Sair e Gravar")]
+        )
       ],
       2
     )

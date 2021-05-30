@@ -722,6 +722,113 @@
 
 }
 
+.real-time-test-prof{
+    .wait-room{
+
+        .box-sessao{
+            h2{
+                font-size: 2.5rem;
+                font-weight: bold;
+                color: $cor-principal-3;
+            }
+
+            p{
+                font-size: 3rem;
+                color: $cor-principal-1;
+                padding: 0.5rem;
+                font-weight: bold;
+            }
+        }
+
+        .players{
+            color: $cor-principal-4;
+
+            .name-user{
+                color: $cor-principal-1;
+                font-weight: bold;
+            }
+        }
+
+        .footer{
+            position: absolute;
+            bottom: 5%;
+            width: 90vw;
+
+            div{
+                position: relative;
+
+                button{
+                    position: relative;
+                }
+
+            }
+
+        }
+    }
+
+    .gameMode{
+
+        background-color: white;
+        box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
+        padding: 2rem;
+        border-radius: 1rem;
+        .name-user{
+            color: $cor-principal-2;
+        }
+
+        .number{
+            color: $cor-principal-1;
+        }
+
+        .respostas{
+
+        }
+    }
+
+    .endGame{
+        background-color: white;
+        box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
+        padding: 2rem;
+        border-radius: 1rem;
+
+    }
+
+
+}
+.real-time-test-aluno{
+    .wait-room-alunos{
+        h2{
+            font-size: 3rem;
+            font-weight:bold;
+            color: $cor-principal-3;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        p{
+            color: $cor-principal-1;
+        }
+    }
+
+    .resultado{
+        background-color: white;
+        box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
+        padding: 2rem;
+        border-radius: 1rem;
+        p:first-child{
+            color: $cor-principal-1;
+
+        }
+        p:nth-child(2){
+            color: $cor-principal-1;
+        }
+    }
+
+}
+
+
 
 
 .fazerTeste{

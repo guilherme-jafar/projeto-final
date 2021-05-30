@@ -78,9 +78,9 @@
     <script >
         $( document ).ready(function() {
 
-            $('#quizz').hide();
+            $('#quizz').show();
 
-            $('#forum').show()
+            $('#forum').hide()
         });
 
         function chg(index){
