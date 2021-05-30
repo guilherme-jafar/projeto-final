@@ -410,7 +410,7 @@ GROUP BY s.quizz_id ,s.nomequizz', ['id' => session('utilizador')['id'], 'sessio
 
     }
 
-    function leave(Request $request)
+    function leave()
     {
         if (isset(session()->get('sessao')['id'])) {
 
@@ -425,9 +425,7 @@ GROUP BY s.quizz_id ,s.nomequizz', ['id' => session('utilizador')['id'], 'sessio
             }
             if (session('sessao')['type'] == "student") {
 
-
-                sessao::where('id', session('sessao')['id'])->delete();
-
+                DB::table('sessao')->where('id', '=', ['id' =>  session('sessao')['id']])->delete();
                 broadcast(new WaitRoom(session('utilizador')['nome'], session('sessao')['master'], 'leavestudent', session('utilizador')['id']))->toOthers();
             }
 
