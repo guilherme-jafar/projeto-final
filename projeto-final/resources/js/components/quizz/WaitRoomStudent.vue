@@ -188,7 +188,7 @@
         <div class="text-center resultado" id="resultado">
             <p>Fim do Jogo!!</p>
             <p>Pontos: {{resultado}}</p>
-            <button class="btn btn-primary" @click="endQuizz()">Sair e Gravar</button>
+            <button class="btn btn-primary" @click="submitQuizz">Sair e Gravar</button>
         </div>
 
 
@@ -243,15 +243,7 @@
         },
 
         methods: {
-            endQuizz() {
-                localStorage.clear();
-                window.Echo.leave('room.' + this.sessao);
-                let form = new FormData;
-                form.append('nota', this.resultado)
-                form.append('tipo', localStorage.getItem('tipo'))
-                axios.post('/EndRealTimeQuizzAluno', form);
-                window.location.replace('/')
-            },
+
             countDownTimer() {
                 if (this.countDown > 0) {
                     this.timer = setTimeout(() => {
@@ -268,6 +260,16 @@
                         this.response(this.pergunta['tipo'], 'erro')
                     }
                 }
+            },
+
+            submitQuizz(){
+                localStorage.clear();
+                window.Echo.leave('room.' + this.sessao);
+                let form = new FormData;
+                form.append('nota', this.resultado)
+                form.append('tipo', localStorage.getItem('tipo'))
+                axios.post('/EndRealTimeQuizzAluno', form);
+                window.location.replace('/')
             },
             sair() {
                 localStorage.clear();

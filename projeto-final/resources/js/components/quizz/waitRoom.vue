@@ -56,9 +56,12 @@
                 <button class="btn btn-primary ms-auto" id="stop" @click="stopQuestion()">Parar Pergunta</button>
             </div>
 
-            <div id="tabela" v-for="item in usersId" :key="item.users">
+            <div id="tabela" v-for="(item,inde) in usersId" :key="item.users">
+                <div v-if="inde <= 5"><!-- limitar para os cinco primeiros -->
 
                 <p class="name-user">{{users[usersId.indexOf(item)]}} {{points[usersId.indexOf(item)]}}</p>
+
+                </div>
                 <div v-if="image==='true'">
                     <img :src="'/images/Pergunta/Multimedia/'+resposta[usersId.indexOf(item)]" alt="resposta"
                          height="40%"
@@ -91,7 +94,8 @@
 <script>
 
     import axios from "axios";
-
+    // import sortId from "sort-ids";
+    // import reorder from "array-rearrange"
     import Echo from "laravel-echo"
 
     export default {
@@ -107,7 +111,6 @@
                 questionPoints: [],
                 resposta: [],
                 image: 'false',
-
 
                 students: 0,
                 couter: 0,
@@ -171,6 +174,8 @@
                 }
             },
             nextQuestion(tag) {
+
+
                 let form = new FormData();
                 form.append('index', this.index);
                 form.append('tag', tag);
@@ -225,6 +230,27 @@
                             } else if (e.type === 'NextQuestion') {
                                 this.points[this.usersId.indexOf(e.userId)] += parseInt(e.points);
                                 this.resposta[this.usersId.indexOf(e.userId)] = e.answer;
+                                var that=this;
+                                var list = [];
+                                for (var j = 0; j < this.usersId.length; j++)
+                                    list.push({'id':this.usersId[j],'name': this.users[j], 'points': this.points[j], 'resposta':this.resposta[j]});
+
+                                list.sort(function(a, b) {
+                                    return ((a.points < b.points) ? -1 : ((a.points === b.points) ? 0 : 1));
+                                });
+
+                                for (var k = 0; k < list.length; k++) {
+                                    this.users[k] = list[k].name;
+                                    this.usersId[k]=list[k].id;
+                                    this.points[k]=list[k].points;
+                                    this.resposta[k]=list[k].resposta;
+                                }
+                                this.users.reverse();
+                                this.usersId.reverse();
+                                this.points.reverse();
+                                this.resposta.reverse();
+
+
                                 if (e.tipo === 'multiple-image') {
                                     this.image = 'true'
                                 } else {
@@ -305,9 +331,10 @@
             } else if (localStorage.getItem('status') === 'end') {
                 this.Questions = localStorage.getItem('question')
                 $('#waitRoom').hide();
-                $('#gameMode').show();
+                $('#gameMode').hide();
                 $('#stop').hide();
                 $('#next').hide();
+                $('#EndGame').show();
             } else {
                 $('#gameMode').hide();
                 $('#waitRoom').show();
@@ -316,7 +343,7 @@
             if (this.users.length !== 0) {
                 $('#Inciar').show();
             }
-            
+
             this.connect()
 
 
