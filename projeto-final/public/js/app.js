@@ -3817,12 +3817,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4444,7 +4449,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       isFetchingM: true,
       i: 0,
       temImagem: false,
-      toastEditarPergunta: ''
+      toastEditarPergunta: '',
+      imagemAntiga: [true, true, true, true],
+      tipoPerguntaInicial: ''
     };
   },
   methods: {
@@ -4455,13 +4462,22 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         this.imagem = e.target.files[0];
       }
     },
+    showImage: function showImage(idFile, idImg, idSh, i) {
+      this.tipoPerguntaInicial = document.getElementById("tipo" + this.pergunta['id']).value;
+      var id = idFile + this.pergunta['id'];
+      var img = idImg + this.pergunta['id'];
+      var sh = idSh + this.pergunta['id'];
+      var myFile = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).prop('files');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + sh).prop('src', URL.createObjectURL(myFile[0]));
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + img).show();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).hide();
+      this.imagemAntiga[i] = false;
+    },
     removeImg: function removeImg(idFile, idImg, idSh) {
-      console.log(this.pergunta['id']);
       var id = idFile + this.pergunta['id'];
       var img = idImg + this.pergunta['id'];
       var sh = idSh + this.pergunta['id'];
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).val('');
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).removeClass('d-none');
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + sh).prop('src', '#');
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + img).hide();
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).show();
@@ -4649,23 +4665,58 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             }
           }
         }
+
+        if (document.getElementById("tipo" + perguntaId).value === "multiple-image") {
+          var radios = document.getElementsByName("corretImg" + perguntaId);
+
+          for (var _i4 = 1; _i4 < 5; _i4++) {
+            if (this.pergunta['tipo'] !== 'multiple-image') {
+              if (document.getElementById("rei" + _i4 + perguntaId).files.length > 0) {
+                array.push(document.getElementById("rei" + _i4 + perguntaId).files[0]);
+                form.append('files[' + _i4 + ']', document.getElementById("rei" + _i4 + perguntaId).files[0]);
+                index++;
+              }
+            } else {
+              if (this.imagemAntiga[_i4 - 1] === true) {
+                if (document.getElementById('img' + 1 + perguntaId).src !== '#') {
+                  form.append('files[' + _i4 + ']', document.getElementById('sh' + _i4 + perguntaId).src);
+                  array.push(document.getElementById('sh' + _i4 + perguntaId).src);
+                  index++;
+                }
+              } else {
+                if (document.getElementById("rei" + _i4 + perguntaId).files.length > 0) {
+                  array.push(document.getElementById("rei" + _i4 + perguntaId).files[0]);
+                  form.append('files[' + _i4 + ']', document.getElementById("rei" + _i4 + perguntaId).files[0]);
+                  index++;
+                }
+              }
+            }
+
+            if (radios[_i4 - 1].checked) {
+              flag = true;
+              corret = radios[_i4 - 1].value;
+            }
+          }
+
+          if (index < 2) {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + perguntaId).text("Uma pergunta tem de ter pelo menos 2 respostas").css('color', 'red').css('opacity', '1');
+          } else if (!flag) {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#RError' + perguntaId).text("Indique a resposta certa").css('color', 'red').css('opacity', '1');
+          } else {
+            form.append('resposta', corret);
+            form.append('imagemAntiga', JSON.stringify(this.imagemAntiga));
+            form.append('array', JSON.stringify(array));
+            form.append('numeroPerguntas', index);
+            console.table(this.imagemAntiga); // for (var pair of form.entries()) {
+            //     console.log(pair[0] + ', ' + pair[1]);
+            // }
+
+            this.send(form, perguntaId);
+          }
+        }
       }
     },
     send: function send(form, perguntaID) {
-      var _iterator = _createForOfIteratorHelper(form.entries()),
-          _step;
-
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var pair = _step.value;
-          console.log(pair[0] + ', ' + pair[1]);
-        }
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
-      }
-
       axios__WEBPACK_IMPORTED_MODULE_1___default().post('/prof/pergunta/' + perguntaID + '/editar', form).then(function (response) {
         if (response.data.message === "sucesso") {
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('#toastEditarPergunta').removeClass('d-none');
@@ -4702,6 +4753,19 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         _this.respostas = response.data.message;
         console.log(_this.respostas);
         _this.isFetching = false;
+
+        for (var i = 1; i <= _this.respostas.length; i++) {
+          if (_this.pergunta['tipo'] !== 'multiple-image') {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#rei' + i + _this.pergunta['id']).show();
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#img' + i + _this.pergunta['id']).hide();
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#sh' + i + _this.pergunta['id']).hide();
+          } else {
+            console.log('#rei' + i + _this.pergunta['id']);
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#rei' + i + _this.pergunta['id']).addClass('d-none');
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#img' + i + _this.pergunta['id']).show();
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()('#sh' + i + _this.pergunta['id']).show();
+          }
+        }
       });
     },
     getMultimedia: function getMultimedia(id) {
@@ -4716,23 +4780,33 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var id = "trueFalse" + this.pergunta['id'];
       var id2 = "multiple" + this.pergunta['id'];
       var id3 = "multiple-select" + this.pergunta['id'];
+      var id4 = "multiple-image" + this.pergunta['id'];
 
       if (document.getElementById("tipo" + this.pergunta['id']).value === "multiple") {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).hide();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).show();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).hide();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id4).hide();
       } else if (document.getElementById("tipo" + this.pergunta['id']).value === "true/false") {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).show();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).hide();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).hide();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id4).hide();
       } else if (document.getElementById("tipo" + this.pergunta['id']).value === "multiple-select") {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).hide();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).hide();
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).show();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id4).hide();
+      } else if (document.getElementById("tipo" + this.pergunta['id']).value === "multiple-image") {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).hide();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id2).hide();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id3).hide();
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id4).show();
       }
     }
   },
   mounted: function mounted() {
+    this.tipoPerguntaInicial = this.pergunta['tipo'];
     jquery__WEBPACK_IMPORTED_MODULE_0___default()('#inputLink').hide();
     this.getRespostas(this.pergunta['id']);
     this.getMultimedia(this.pergunta['id']);
@@ -4768,6 +4842,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       delay: 10000
     });
     this.toastEditarPergunta.hide();
+    this.tipoPerguntaInicial = pergunta['tipo'];
   }
 });
 
@@ -8640,6 +8715,8 @@ __webpack_require__.r(__webpack_exports__);
       this.couter = -1;
     },
     sair: function sair() {
+      $('#sair').hide();
+      $('#Inciar').hide();
       localStorage.clear();
       window.location.replace('/leaveRoom');
     },
@@ -8652,6 +8729,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     nextQuestion: function nextQuestion(tag) {
+      $('#next').hide();
       var form = new FormData();
       form.append('index', this.index);
       form.append('tag', tag);
@@ -49323,7 +49401,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n                                    Adicionar ficheiro\n                                "
+                        "\n                                Adicionar ficheiro\n                            "
                       )
                     ]
                   ),
@@ -49392,9 +49470,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 text-center" }, [
             _c("label", { attrs: { for: "tipo" + _vm.pergunta["id"] } }, [
-              _vm._v(
-                "\n                            Indique o tipo de pergunta"
-              ),
+              _vm._v("\n                        Indique o tipo de pergunta"),
               _c("br"),
               _vm._v(" "),
               _c(
@@ -49419,7 +49495,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "Seleção\n                                    Única\n                                "
+                        "Seleção\n                                Única\n                            "
                       )
                     ]
                   ),
@@ -49432,11 +49508,7 @@ var render = function() {
                         selected: _vm.pergunta["tipo"] === "multiple-select"
                       }
                     },
-                    [
-                      _vm._v(
-                        "Seleção Múltipla\n                                "
-                      )
-                    ]
+                    [_vm._v("Seleção Múltipla\n                            ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -49449,7 +49521,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n                                    Verdadeiro/Falso\n                                "
+                        "\n                                Verdadeiro/Falso\n                            "
                       )
                     ]
                   ),
@@ -49457,14 +49529,14 @@ var render = function() {
                   _c(
                     "option",
                     {
-                      attrs: { value: "true/false" },
+                      attrs: { value: "multiple-image" },
                       domProps: {
                         selected: _vm.pergunta["tipo"] === "multiple-image"
                       }
                     },
                     [
                       _vm._v(
-                        "\n                                    Pergunta com imagem\n                                "
+                        "\n                                Pergunta com imagem\n                            "
                       )
                     ]
                   )
@@ -49475,9 +49547,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 text-center" }, [
             _c("label", { attrs: { for: "tempo" + _vm.pergunta["id"] } }, [
-              _vm._v(
-                "\n                            Indique o tempo de pergunta"
-              ),
+              _vm._v("\n                        Indique o tempo de pergunta"),
               _c("br"),
               _vm._v(" "),
               _c(
@@ -49540,7 +49610,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "1 minuto e 30 segundos\n                                "
+                        "1 minuto e 30 segundos\n                            "
                       )
                     ]
                   ),
@@ -49569,7 +49639,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 text-center" }, [
             _c("label", { attrs: { for: "pontos" + _vm.pergunta["id"] } }, [
-              _vm._v("\n                            Indique a pontuação"),
+              _vm._v("\n                        Indique a pontuação"),
               _c("br"),
               _vm._v(" "),
               _c(
@@ -49596,7 +49666,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "Pontos\n                                    duplos\n                                "
+                        "Pontos\n                                duplos\n                            "
                       )
                     ]
                   ),
@@ -49607,7 +49677,7 @@ var render = function() {
                       attrs: { value: "Sem pontos" },
                       domProps: { selected: _vm.pergunta["valor"] === 0 }
                     },
-                    [_vm._v("Sem pontos\n                                ")]
+                    [_vm._v("Sem pontos\n                            ")]
                   )
                 ]
               )
@@ -49781,12 +49851,14 @@ var render = function() {
                               { staticClass: "input-group mb-3 insertAnsewr" },
                               [
                                 _c("input", {
-                                  staticClass: "d-none form-control",
+                                  class:
+                                    "form-control tipo-multiple-image-input",
                                   staticStyle: { border: "none" },
                                   attrs: {
                                     type: "file",
                                     id:
                                       "rei" + (index + 1) + _vm.pergunta["id"],
+                                    accept: "image/png,image/gif, image/jpeg",
                                     "aria-label":
                                       "Text input with radio button",
                                     placeholder: "Opção" + (index + 1)
@@ -49796,7 +49868,8 @@ var render = function() {
                                       _vm.showImage(
                                         "rei" + (index + 1),
                                         "img" + (index + 1),
-                                        "sh" + (index + 1)
+                                        "sh" + (index + 1),
+                                        index
                                       )
                                     }
                                   }
@@ -49805,6 +49878,7 @@ var render = function() {
                                 _c(
                                   "div",
                                   {
+                                    staticClass: "box-imagem",
                                     attrs: {
                                       id:
                                         "img" + (index + 1) + _vm.pergunta["id"]
@@ -49812,6 +49886,7 @@ var render = function() {
                                   },
                                   [
                                     _c("img", {
+                                      class: "tipo-multiple-image",
                                       attrs: {
                                         width: "260px",
                                         height: "200px",
@@ -49820,19 +49895,22 @@ var render = function() {
                                           (index + 1) +
                                           _vm.pergunta["id"],
                                         src:
-                                          "/images/Pergunta/Multimedia/" +
-                                          resposta["resposta"],
+                                          _vm.pergunta["tipo"] ===
+                                          "multiple-image"
+                                            ? "/images/Pergunta/Multimedia/" +
+                                              resposta["resposta"]
+                                            : "#",
                                         alt: "imagem" + index
                                       }
                                     }),
                                     _vm._v(" "),
                                     _c("button", {
-                                      staticClass: "btn-close",
+                                      class: "tipo-multiple-image btn-close",
                                       attrs: { type: "button" },
                                       on: {
                                         click: function($event) {
                                           _vm.removeImg(
-                                            "ri1",
+                                            "rei" + (index + 1),
                                             "img" + (index + 1),
                                             "sh" + (index + 1)
                                           )
@@ -49847,12 +49925,14 @@ var render = function() {
                                     staticClass: "form-check-input",
                                     attrs: {
                                       type: "radio",
-                                      name: "corret" + _vm.pergunta["id"]
+                                      name: "corretImg" + _vm.pergunta["id"]
                                     },
                                     domProps: {
                                       checked: resposta["resultado"] === 1,
                                       value:
-                                        "rei" + (index + 1) + _vm.pergunta["id"]
+                                        "resp" +
+                                        (index + 1) +
+                                        _vm.pergunta["id"]
                                     }
                                   })
                                 ])
@@ -49877,7 +49957,8 @@ var render = function() {
                                     },
                                     [
                                       _c("input", {
-                                        staticClass: " form-control d-none",
+                                        class:
+                                          "tipo-multiple-image-input form-control",
                                         staticStyle: { border: "none" },
                                         attrs: {
                                           type: "file",
@@ -49885,6 +49966,8 @@ var render = function() {
                                             "rei" +
                                             (index + _vm.respostas.length + 1) +
                                             _vm.pergunta["id"],
+                                          accept:
+                                            "image/png,image/gif, image/jpeg",
                                           "aria-label":
                                             "Text input with radio button",
                                           placeholder:
@@ -49896,53 +49979,62 @@ var render = function() {
                                             _vm.showImage(
                                               "rei" + (index + 1),
                                               "img" + (index + 1),
-                                              "sh" + (index + 1)
+                                              "sh" + (index + 1),
+                                              index
                                             )
                                           }
                                         }
                                       }),
                                       _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        {
-                                          attrs: {
-                                            id:
-                                              "img" +
-                                              (index + 1) +
-                                              _vm.pergunta["id"]
-                                          }
-                                        },
-                                        [
-                                          _c("img", {
-                                            attrs: {
-                                              width: "260px",
-                                              height: "200px",
-                                              id:
-                                                "sh" +
-                                                (index + 1) +
-                                                _vm.pergunta["id"],
-                                              src:
-                                                "/images/Pergunta/Multimedia/" +
-                                                resposta["resposta"],
-                                              alt: "imagem" + index
-                                            }
-                                          }),
-                                          _vm._v(" "),
-                                          _c("button", {
-                                            staticClass: "btn-close",
-                                            attrs: { type: "button" },
-                                            on: {
-                                              click: function($event) {
-                                                _vm.removeImg(
-                                                  "ri1",
-                                                  "img" + (index + 1),
-                                                  "sh" + (index + 1)
-                                                )
+                                      _vm.tipoPerguntaInicial ===
+                                      "multiple-image"
+                                        ? _c(
+                                            "div",
+                                            {
+                                              attrs: {
+                                                id:
+                                                  "img" +
+                                                  (index + 1) +
+                                                  _vm.pergunta["id"]
                                               }
-                                            }
-                                          })
-                                        ]
-                                      ),
+                                            },
+                                            [
+                                              _c("img", {
+                                                class: "tipo-multiple-image",
+                                                attrs: {
+                                                  width: "260px",
+                                                  height: "200px",
+                                                  id:
+                                                    "sh" +
+                                                    (index + 1) +
+                                                    _vm.pergunta["id"],
+                                                  src:
+                                                    _vm.pergunta["tipo"] ===
+                                                    "multiple-image"
+                                                      ? "/images/Pergunta/Multimedia/" +
+                                                        resposta["resposta"]
+                                                      : "#",
+                                                  alt: "imagem" + index
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c("button", {
+                                                class:
+                                                  "tipo-multiple-image btn-close",
+                                                attrs: { type: "button" },
+                                                on: {
+                                                  click: function($event) {
+                                                    _vm.removeImg(
+                                                      "rei" + (index + 1),
+                                                      "img" + (index + 1),
+                                                      "sh" + (index + 1)
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            ]
+                                          )
+                                        : _vm._e(),
                                       _vm._v(" "),
                                       _c(
                                         "div",
@@ -49953,7 +50045,7 @@ var render = function() {
                                             attrs: {
                                               type: "radio",
                                               name:
-                                                "corret" + _vm.pergunta["id"]
+                                                "corretImg" + _vm.pergunta["id"]
                                             },
                                             domProps: {
                                               value:
@@ -49990,7 +50082,7 @@ var render = function() {
                     _c("div", { staticClass: "mb-5 mt-5" }, [
                       _c("label", { staticClass: "label-tf" }, [
                         _vm._v(
-                          "Verdadeira\n                                        "
+                          "Verdadeira\n                                    "
                         ),
                         _c("input", {
                           attrs: {
@@ -50009,9 +50101,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", [
                       _c("label", { staticClass: "label-tf" }, [
-                        _vm._v(
-                          "Falsa\n                                        "
-                        ),
+                        _vm._v("Falsa\n                                    "),
                         _c("input", {
                           attrs: {
                             type: "radio",
@@ -50267,7 +50357,7 @@ var render = function() {
           staticClass: "btn btn-secondary",
           attrs: { type: "button", "data-bs-dismiss": "modal" }
         },
-        [_vm._v("Sair\n            ")]
+        [_vm._v("Sair\n        ")]
       ),
       _vm._v(" "),
       _c(
@@ -50314,7 +50404,7 @@ var staticRenderFns = [
           _c("div", { staticClass: "toast-body" }, [
             _c("strong", [
               _c("i", { staticClass: "bi bi-check-circle-fill" }),
-              _vm._v("   \n                                        "),
+              _vm._v("   \n                                    "),
               _c("span", [_vm._v("Pergunta editada com sucesso!!")])
             ])
           ]),
@@ -55906,6 +55996,7 @@ var render = function() {
               "button",
               {
                 staticClass: "me-auto btn btn-primary",
+                attrs: { id: "sair" },
                 on: {
                   click: function($event) {
                     return _vm.sair()

@@ -108,7 +108,7 @@
                                 <option value="true/false" v-bind:selected="pergunta['tipo'] === 'true/false'">
                                     Verdadeiro/Falso
                                 </option>
-                                <option value="true/false" v-bind:selected="pergunta['tipo'] === 'multiple-image'">
+                                <option value="multiple-image" v-bind:selected="pergunta['tipo'] === 'multiple-image'">
                                     Pergunta com imagem
                                 </option>
 
@@ -348,25 +348,31 @@
                                     <div class="input-group mb-3 insertAnsewr">
 
                                         <input type='file' :id="'rei' +( index +1) +pergunta['id']"
-                                               class="d-none form-control"
+                                               accept="image/png,image/gif, image/jpeg"
+
+                                               v-bind:class="'form-control tipo-multiple-image-input'"
                                                style="border: none;"
                                                aria-label="Text input with radio button"
                                                :placeholder="'Opção' + ( index +1)"
-                                               @change="showImage('rei'+( index +1),'img' +( index +1),'sh'+( index +1))" >
+                                               @change="showImage('rei'+( index +1),'img' +( index +1),'sh'+( index +1), index)">
                                         <!--                                               :value="(pergunta['tipo'] === 'multiple-image'? resposta['resposta'] : '')">-->
-                                        <div :id="'img'+(index +1) + pergunta['id']">
+                                        <!--                                               v-bind:class="tipoPerguntaInicial === 'multiple-image'? 'd-none': ''+ 'form-control'"-->
+                                        <div class="box-imagem" :id="'img'+(index +1) + pergunta['id']">
 
-                                            <img width="260px" height="200px" :id="'sh'+(index+1)+pergunta['id']" :src="'/images/Pergunta/Multimedia/'+ resposta['resposta']"
-                                                 :alt="'imagem'+index"/>
-                                            <button type="button" class="btn-close"
-                                                    @click="removeImg('ri1','img'+ (index +1),'sh'+ (index +1))"></button>
+                                            <img width="260px" height="200px" :id="'sh'+(index+1)+pergunta['id']"
+                                                 :src="pergunta['tipo'] === 'multiple-image'? '/images/Pergunta/Multimedia/'+ resposta['resposta'] : '#'"
+                                                 :alt="'imagem'+index"
+                                                 v-bind:class="'tipo-multiple-image'"
+                                            />
+                                            <button type="button" v-bind:class="'tipo-multiple-image btn-close'"
+                                                    @click="removeImg('rei'+( index +1),'img'+ (index +1),'sh'+ (index +1))"></button>
                                         </div>
 
                                         <div class="input-group-text">
-                                            <input type="radio" :name="'corret'+pergunta['id']"
+                                            <input type="radio" :name="'corretImg'+pergunta['id']"
                                                    v-bind:checked="resposta['resultado']===1"
                                                    class="form-check-input"
-                                                   :value="'rei' + ( index +1) +pergunta['id']">
+                                                   :value="'resp' + ( index +1) +pergunta['id']">
                                         </div>
                                     </div>
                                 </div>
@@ -377,22 +383,27 @@
 
                                             <input type='file'
                                                    :id="'rei' +(index + respostas.length +1) +pergunta['id']"
-                                                   class=" form-control d-none"
+                                                   accept="image/png,image/gif, image/jpeg"
+                                                   v-bind:class="'tipo-multiple-image-input form-control'"
                                                    style="border: none;"
                                                    aria-label="Text input with radio button"
                                                    :placeholder="'Opção' + ( index + respostas.length +1)"
-                                                   @change="showImage('rei'+( index +1),'img' +( index +1),'sh'+( index +1))" >
-                                            <div :id="'img'+(index +1) + pergunta['id']">
+                                                   @change="showImage('rei'+( index +1),'img' +( index +1),'sh'+( index +1), index)">
+                                            <div v-if="tipoPerguntaInicial === 'multiple-image'"
+                                                 :id="'img'+(index +1) + pergunta['id']">
 
-                                                <img width="260px" height="200px" :id="'sh'+(index+1)+pergunta['id']" :src="'/images/Pergunta/Multimedia/'+ resposta['resposta']"
-                                                     :alt="'imagem'+index"/>
-                                                <button type="button" class="btn-close"
-                                                        @click="removeImg('ri1','img'+ (index +1),'sh'+ (index +1))"></button>
+                                                <img width="260px" height="200px" :id="'sh'+(index+1)+pergunta['id']"
+                                                     :src="pergunta['tipo'] === 'multiple-image' ? '/images/Pergunta/Multimedia/'+ resposta['resposta'] : '#'"
+                                                     :alt="'imagem'+index"
+                                                     v-bind:class="'tipo-multiple-image'"
+                                                />
+                                                <button type="button" v-bind:class="'tipo-multiple-image btn-close'"
+                                                        @click="removeImg('rei'+( index +1),'img'+ (index +1),'sh'+ (index +1))"></button>
                                             </div>
-<!--                                                   :value="(pergunta['tipo'] === 'multiple'? resposta['resposta'] : '')">-->
+                                            <!--                                                   :value="(pergunta['tipo'] === 'multiple'? resposta['resposta'] : '')">-->
 
                                             <div class="input-group-text">
-                                                <input type="radio" :name="'corret'+pergunta['id']"
+                                                <input type="radio" :name="'corretImg'+pergunta['id']"
                                                        :value="'rei' + ( index + respostas.length +1) +pergunta['id']"
                                                        v-bind:checked="resposta['resultado']===1"
                                                        class="form-check-input">
@@ -623,7 +634,9 @@
                 isFetchingM: true,
                 i: 0,
                 temImagem: false,
-                toastEditarPergunta: ''
+                toastEditarPergunta: '',
+                imagemAntiga: [true, true, true, true],
+                tipoPerguntaInicial: ''
 
             }
         },
@@ -641,13 +654,22 @@
 
 
             },
+            showImage(idFile, idImg, idSh, i) {
+                this.tipoPerguntaInicial = document.getElementById("tipo" + this.pergunta['id']).value
+                let id = idFile + this.pergunta['id'];
+                let img = idImg + this.pergunta['id'];
+                let sh = idSh + this.pergunta['id'];
+                let myFile = $('#' + id).prop('files');
+                $('#' + sh).prop('src', URL.createObjectURL(myFile[0]));
+                $('#' + img).show();
+                $('#' + id).hide();
+                this.imagemAntiga[i] = false;
+            },
             removeImg(idFile, idImg, idSh) {
-                console.log(this.pergunta['id'])
                 let id = idFile + this.pergunta['id'];
                 let img = idImg + this.pergunta['id'];
                 let sh = idSh + this.pergunta['id'];
                 $('#' + id).val('')
-                $('#'+id).removeClass('d-none')
                 $('#' + sh).prop('src', '#');
                 $('#' + img).hide();
                 $('#' + id).show();
@@ -848,6 +870,66 @@
 
                     }
 
+                    if (document.getElementById("tipo" + perguntaId).value === "multiple-image") {
+                        var radios = document.getElementsByName("corretImg" + perguntaId);
+
+
+                        for (let i = 1; i < 5; i++) {
+
+                            if (this.pergunta['tipo'] !== 'multiple-image') {
+
+                                if (document.getElementById("rei" + i + perguntaId).files.length > 0) {
+                                    array.push(document.getElementById("rei" + i + perguntaId).files[0])
+                                    form.append('files[' + i + ']', document.getElementById("rei" + i + perguntaId).files[0]);
+                                    index++;
+                                }
+
+                            } else {
+
+                                if (this.imagemAntiga[i - 1] === true) {
+
+                                    if (document.getElementById('img' + 1 + perguntaId).src !== '#') {
+                                        form.append('files[' + i + ']', document.getElementById('sh' + i + perguntaId).src)
+                                        array.push(document.getElementById('sh' + i + perguntaId).src)
+                                        index++;
+                                    }
+                                } else {
+                                    if (document.getElementById("rei" + i + perguntaId).files.length > 0) {
+                                        array.push(document.getElementById("rei" + i + perguntaId).files[0])
+                                        form.append('files[' + i + ']', document.getElementById("rei" + i + perguntaId).files[0]);
+                                        index++;
+                                    }
+                                }
+
+                            }
+
+
+                            if (radios[i - 1].checked) {
+                                flag = true;
+                                corret = radios[i - 1].value;
+                            }
+                        }
+
+
+                        if (index < 2) {
+                            $('#RError' + perguntaId).text("Uma pergunta tem de ter pelo menos 2 respostas").css('color', 'red').css('opacity', '1');
+                        } else if (!flag) {
+                            $('#RError' + perguntaId).text("Indique a resposta certa").css('color', 'red').css('opacity', '1');
+                        } else {
+
+                            form.append('resposta', corret)
+                            form.append('imagemAntiga', JSON.stringify(this.imagemAntiga))
+                            form.append('array', JSON.stringify(array));
+                            form.append('numeroPerguntas', index)
+                            console.table(this.imagemAntiga)
+                            // for (var pair of form.entries()) {
+                            //     console.log(pair[0] + ', ' + pair[1]);
+                            // }
+                            this.send(form, perguntaId)
+                        }
+
+                    }
+
 
                 }
 
@@ -855,9 +937,6 @@
             },
             send(form, perguntaID) {
 
-                for (var pair of form.entries()) {
-                    console.log(pair[0] + ', ' + pair[1]);
-                }
                 axios.post('/prof/pergunta/' + perguntaID + '/editar', form
                 ).then(function (response) {
 
@@ -904,8 +983,28 @@
                     .then(response => {
                         this.respostas = response.data.message;
                         console.log(this.respostas)
+
                         this.isFetching = false;
+
+                        for (let i = 1; i <= this.respostas.length; i++) {
+                            if (this.pergunta['tipo'] !== 'multiple-image') {
+
+                                $('#rei' + i + this.pergunta['id']).show();
+                                $('#img' + i + this.pergunta['id']).hide();
+                                $('#sh' + i + this.pergunta['id']).hide();
+                            }else {
+                                console.log('#rei' + i + this.pergunta['id'])
+                                $('#rei' + i + this.pergunta['id']).addClass('d-none');
+                                $('#img' + i + this.pergunta['id']).show();
+                                $('#sh' + i + this.pergunta['id']).show();
+                            }
+                        }
                     });
+
+
+
+
+
             },
             getMultimedia(id) {
                 axios.get('/prof/getMultimedia/' + id)
@@ -918,24 +1017,35 @@
                 let id = "trueFalse" + this.pergunta['id'];
                 let id2 = "multiple" + this.pergunta['id'];
                 let id3 = "multiple-select" + this.pergunta['id'];
+                let id4 = "multiple-image" + this.pergunta['id'];
+
                 if (document.getElementById("tipo" + this.pergunta['id']).value === "multiple") {
 
                     $('#' + id).hide();
                     $('#' + id2).show();
                     $('#' + id3).hide();
+                    $('#' + id4).hide();
                 } else if (document.getElementById("tipo" + this.pergunta['id']).value === "true/false") {
 
                     $('#' + id).show();
                     $('#' + id2).hide();
                     $('#' + id3).hide();
+                    $('#' + id4).hide();
                 } else if (document.getElementById("tipo" + this.pergunta['id']).value === "multiple-select") {
                     $('#' + id).hide();
                     $('#' + id2).hide();
                     $('#' + id3).show();
+                    $('#' + id4).hide();
+                } else if (document.getElementById("tipo" + this.pergunta['id']).value === "multiple-image") {
+                    $('#' + id).hide();
+                    $('#' + id2).hide();
+                    $('#' + id3).hide();
+                    $('#' + id4).show();
                 }
             }
         },
         mounted() {
+            this.tipoPerguntaInicial = this.pergunta['tipo'];
             $('#inputLink').hide();
             this.getRespostas(this.pergunta['id']);
             this.getMultimedia(this.pergunta['id'])
@@ -951,16 +1061,19 @@
                 $('#' + id3).show();
                 $('#' + id4).hide();
             } else if (pergunta['tipo'] === 'multiple') {
+
                 $('#' + id).hide();
                 $('#' + id2).show();
                 $('#' + id3).hide();
                 $('#' + id4).hide();
             } else if (pergunta['tipo'] === 'true/false') {
+
                 $('#' + id).show();
                 $('#' + id2).hide();
                 $('#' + id3).hide();
                 $('#' + id4).hide();
             } else if (pergunta['tipo'] === 'multiple-image') {
+
                 $('#' + id).hide();
                 $('#' + id2).hide();
                 $('#' + id3).hide();
@@ -968,6 +1081,9 @@
             }
             this.toastEditarPergunta = new bootstrap.Toast(document.getElementById('toastEditarPergunta'), {delay: 10000})
             this.toastEditarPergunta.hide()
+            this.tipoPerguntaInicial = pergunta['tipo'];
+
+
         }
 
     }

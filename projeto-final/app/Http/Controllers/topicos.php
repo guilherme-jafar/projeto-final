@@ -121,7 +121,7 @@ class topicos extends Controller
                 }
 
 
-            }else if ($tipo == "multiple-image") {
+            } else if ($tipo == "multiple-image") {
 
                 $question = $request->files;
                 $resposta = $request->resposta;
@@ -132,22 +132,23 @@ class topicos extends Controller
 
                 foreach ($question as $q) {
                     foreach ($q as $res) {
-                    $idRes = time() . uniqid();
+                        $idRes = time() . uniqid();
 
-                    if ($res == $resposta) {
-                        $nomeFile = "resp".uniqid() . "." . $res->getClientOriginalExtension();
-                        $res->move(public_path('.\images\Pergunta\Multimedia'), $nomeFile);
-                        DB::insert('insert into respostas (id,resposta,resultado,perguntas_id) values (?,?,?,?)'
-                            , [$idRes,$nomeFile , 1, $id]);
+                        if ($res == $resposta) {
+                            $nomeFile = "resp" . uniqid() . "." . $res->getClientOriginalExtension();
+                            $res->move(public_path('.\images\Pergunta\Multimedia'), $nomeFile);
+                            DB::insert('insert into respostas (id,resposta,resultado,perguntas_id) values (?,?,?,?)'
+                                , [$idRes, $nomeFile, 1, $id]);
 
-                    } else {
-                        $nomeFile = "resp".uniqid() . "." . $res->getClientOriginalExtension();
-                        $res->move(public_path('.\images\Pergunta\Multimedia'), $nomeFile);
-                        DB::insert('insert into respostas (id,resposta,resultado,perguntas_id) values (?,?,?,?)'
-                            , [$idRes, $nomeFile, 0, $id]);
+                        } else {
+                            $nomeFile = "resp" . uniqid() . "." . $res->getClientOriginalExtension();
+                            $res->move(public_path('.\images\Pergunta\Multimedia'), $nomeFile);
+                            DB::insert('insert into respostas (id,resposta,resultado,perguntas_id) values (?,?,?,?)'
+                                , [$idRes, $nomeFile, 0, $id]);
+                        }
+
                     }
-
-                }}
+                }
             }
 
 
@@ -186,7 +187,7 @@ class topicos extends Controller
             WHERE t.id=p.topicos_id
             AND t.id=:id', ['id' => $request->id]);
 
-     //  $res = (DB::select('SELECT * FROM respostas WHERE perguntas_id =:id', ['id' => $pergunta['id']]));
+        //  $res = (DB::select('SELECT * FROM respostas WHERE perguntas_id =:id', ['id' => $pergunta['id']]));
 
 
         if (!empty($res)) {
@@ -238,7 +239,8 @@ class topicos extends Controller
 
     }
 
-    function destroy(Request $request){
+    function destroy(Request $request)
+    {
 
 
         try {
@@ -252,22 +254,21 @@ class topicos extends Controller
                 'message' => $topicos,
             ]);
 
-        }catch (\Illuminate\Database\QueryException $ex){
+        } catch (\Illuminate\Database\QueryException $ex) {
             return response()->json([
                 'message' => 'erro',
             ]);
         }
 
 
-
-
     }
 
-    function editar(Request $request){
+    function editar(Request $request)
+    {
 
 
         DB::table('topicos')
-            ->where('id','=',$request->input('id'))
+            ->where('id', '=', $request->input('id'))
             ->update(['nome' => $request->input('topico'), 'descricao' => $request->input('descricao')]);
 
 

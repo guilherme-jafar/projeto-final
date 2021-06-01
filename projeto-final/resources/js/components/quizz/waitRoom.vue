@@ -36,7 +36,7 @@
             <div class="footer">
                 <div class="d-flex">
 
-                        <button class="me-auto btn btn-primary" @click="sair()">Sair</button>
+                        <button class="me-auto btn btn-primary" @click="sair()" id="sair">Sair</button>
 
 
                         <button class="ms-auto btn btn-secondary" @click="start()" id="Inciar">Iniciar Quizz</button>
@@ -162,7 +162,8 @@
                 this.couter = -1;
             },
             sair() {
-
+                $('#sair').hide();
+                $('#Inciar').hide()
                 localStorage.clear();
                 window.location.replace('/leaveRoom')
             },
@@ -175,7 +176,7 @@
             },
             nextQuestion(tag) {
 
-
+                $('#next').hide();
                 let form = new FormData();
                 form.append('index', this.index);
                 form.append('tag', tag);
