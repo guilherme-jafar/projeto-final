@@ -7557,15 +7557,6 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    endQuizz: function endQuizz() {
-      localStorage.clear();
-      window.Echo.leave('room.' + this.sessao);
-      var form = new FormData();
-      form.append('nota', this.resultado);
-      form.append('tipo', localStorage.getItem('tipo'));
-      axios__WEBPACK_IMPORTED_MODULE_2___default().post('/EndRealTimeQuizzAluno', form);
-      window.location.replace('/');
-    },
     countDownTimer: function countDownTimer() {
       var _this = this;
 
@@ -7585,6 +7576,15 @@ __webpack_require__.r(__webpack_exports__);
           this.response(this.pergunta['tipo'], 'erro');
         }
       }
+    },
+    submitQuizz: function submitQuizz() {
+      localStorage.clear();
+      window.Echo.leave('room.' + this.sessao);
+      var form = new FormData();
+      form.append('nota', this.resultado);
+      form.append('tipo', localStorage.getItem('tipo'));
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post('/EndRealTimeQuizzAluno', form);
+      window.location.replace('/');
     },
     sair: function sair() {
       localStorage.clear();
@@ -8579,6 +8579,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+ // import sortId from "sort-ids";
+// import reorder from "array-rearrange"
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -8705,6 +8710,36 @@ __webpack_require__.r(__webpack_exports__);
           } else if (e.type === 'NextQuestion') {
             _this.points[_this.usersId.indexOf(e.userId)] += parseInt(e.points);
             _this.resposta[_this.usersId.indexOf(e.userId)] = e.answer;
+            var that = _this;
+            var list = [];
+
+            for (var j = 0; j < _this.usersId.length; j++) {
+              list.push({
+                'id': _this.usersId[j],
+                'name': _this.users[j],
+                'points': _this.points[j],
+                'resposta': _this.resposta[j]
+              });
+            }
+
+            list.sort(function (a, b) {
+              return a.points < b.points ? -1 : a.points === b.points ? 0 : 1;
+            });
+
+            for (var k = 0; k < list.length; k++) {
+              _this.users[k] = list[k].name;
+              _this.usersId[k] = list[k].id;
+              _this.points[k] = list[k].points;
+              _this.resposta[k] = list[k].resposta;
+            }
+
+            _this.users.reverse();
+
+            _this.usersId.reverse();
+
+            _this.points.reverse();
+
+            _this.resposta.reverse();
 
             if (e.tipo === 'multiple-image') {
               _this.image = 'true';
@@ -8771,9 +8806,10 @@ __webpack_require__.r(__webpack_exports__);
     } else if (localStorage.getItem('status') === 'end') {
       this.Questions = localStorage.getItem('question');
       $('#waitRoom').hide();
-      $('#gameMode').show();
+      $('#gameMode').hide();
       $('#stop').hide();
       $('#next').hide();
+      $('#EndGame').show();
     } else {
       $('#gameMode').hide();
       $('#waitRoom').show();
@@ -55344,14 +55380,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "button",
-            {
-              staticClass: "btn btn-primary",
-              on: {
-                click: function($event) {
-                  return _vm.endQuizz()
-                }
-              }
-            },
+            { staticClass: "btn btn-primary", on: { click: _vm.submitQuizz } },
             [_vm._v("Sair e Gravar")]
           )
         ]
@@ -55947,15 +55976,19 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _vm._l(_vm.usersId, function(item) {
+        _vm._l(_vm.usersId, function(item, inde) {
           return _c("div", { key: item.users, attrs: { id: "tabela" } }, [
-            _c("p", { staticClass: "name-user" }, [
-              _vm._v(
-                _vm._s(_vm.users[_vm.usersId.indexOf(item)]) +
-                  " " +
-                  _vm._s(_vm.points[_vm.usersId.indexOf(item)])
-              )
-            ]),
+            inde <= 5
+              ? _c("div", [
+                  _c("p", { staticClass: "name-user" }, [
+                    _vm._v(
+                      _vm._s(_vm.users[_vm.usersId.indexOf(item)]) +
+                        " " +
+                        _vm._s(_vm.points[_vm.usersId.indexOf(item)])
+                    )
+                  ])
+                ])
+              : _vm._e(),
             _vm._v(" "),
             _vm.image === "true"
               ? _c("div", [
