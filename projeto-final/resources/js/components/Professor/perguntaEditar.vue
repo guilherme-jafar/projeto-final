@@ -5,14 +5,16 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toastEditarPergunta" role="alert"
+                        <div class="toast toast-primary align-items-center mb-5 mtn-5 d-none" id="toastEditarPergunta"
+                             role="alert"
                              aria-live="assertive" aria-atomic="true">
                             <div class="d-flex">
                                 <div class="toast-body">
                                     <strong><i class="bi bi-check-circle-fill"></i> &nbsp;&nbsp;
                                         <span>Pergunta editada com sucesso!!</span> </strong>
                                 </div>
-                                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                                        aria-label="Close"></button>
                             </div>
                         </div>
                         <input type="text" class="form-control form-control-pergunta"
@@ -94,6 +96,7 @@
                     <div class="col-md-4 text-center">
                         <label :for="'tipo'+pergunta['id']">
                             Indique o tipo de pergunta<br>
+
                             <select name="tipo" class="form-select" :id="'tipo'+pergunta['id']"
                                     @change="alter()">
                                 <option value="multiple" v-bind:selected="pergunta['tipo'] === 'multiple'">Seleção
@@ -104,6 +107,9 @@
                                 </option>
                                 <option value="true/false" v-bind:selected="pergunta['tipo'] === 'true/false'">
                                     Verdadeiro/Falso
+                                </option>
+                                <option value="true/false" v-bind:selected="pergunta['tipo'] === 'multiple-image'">
+                                    Pergunta com imagem
                                 </option>
 
 
@@ -334,22 +340,33 @@
 
 
                     <div class="col-md-12 ">
+
                         <div :id="'multiple-image'+pergunta['id']" style="margin-top: 20px">
 
                             <div v-if="!isFetching">
                                 <div v-for="(resposta, index) in respostas">
                                     <div class="input-group mb-3 insertAnsewr">
 
-                                        <input type='text' :id="'re' +( index +1) +pergunta['id']" class=" form-control"
+                                        <input type='file' :id="'rei' +( index +1) +pergunta['id']"
+                                               class="d-none form-control"
                                                style="border: none;"
                                                aria-label="Text input with radio button"
                                                :placeholder="'Opção' + ( index +1)"
-                                               :value="(pergunta['tipo'] === 'multiple'? resposta['resposta'] : '')">
+                                               @change="showImage('rei'+( index +1),'img' +( index +1),'sh'+( index +1))" >
+                                        <!--                                               :value="(pergunta['tipo'] === 'multiple-image'? resposta['resposta'] : '')">-->
+                                        <div :id="'img'+(index +1) + pergunta['id']">
+
+                                            <img width="260px" height="200px" :id="'sh'+(index+1)+pergunta['id']" :src="'/images/Pergunta/Multimedia/'+ resposta['resposta']"
+                                                 :alt="'imagem'+index"/>
+                                            <button type="button" class="btn-close"
+                                                    @click="removeImg('ri1','img'+ (index +1),'sh'+ (index +1))"></button>
+                                        </div>
+
                                         <div class="input-group-text">
                                             <input type="radio" :name="'corret'+pergunta['id']"
-                                                   :value="'re' + ( index +1) +pergunta['id']"
                                                    v-bind:checked="resposta['resultado']===1"
-                                                   class="form-check-input">
+                                                   class="form-check-input"
+                                                   :value="'rei' + ( index +1) +pergunta['id']">
                                         </div>
                                     </div>
                                 </div>
@@ -358,15 +375,25 @@
                                     <div v-for="(resposta, index) in  4 - respostas.length ">
                                         <div class="input-group mb-3 insertAnsewr">
 
-                                            <input type='text' :id="'re' +(index + respostas.length +1) +pergunta['id']"
-                                                   class=" form-control"
+                                            <input type='file'
+                                                   :id="'rei' +(index + respostas.length +1) +pergunta['id']"
+                                                   class=" form-control d-none"
                                                    style="border: none;"
                                                    aria-label="Text input with radio button"
                                                    :placeholder="'Opção' + ( index + respostas.length +1)"
-                                                   :value="(pergunta['tipo'] === 'multiple'? resposta['resposta'] : '')">
+                                                   @change="showImage('rei'+( index +1),'img' +( index +1),'sh'+( index +1))" >
+                                            <div :id="'img'+(index +1) + pergunta['id']">
+
+                                                <img width="260px" height="200px" :id="'sh'+(index+1)+pergunta['id']" :src="'/images/Pergunta/Multimedia/'+ resposta['resposta']"
+                                                     :alt="'imagem'+index"/>
+                                                <button type="button" class="btn-close"
+                                                        @click="removeImg('ri1','img'+ (index +1),'sh'+ (index +1))"></button>
+                                            </div>
+<!--                                                   :value="(pergunta['tipo'] === 'multiple'? resposta['resposta'] : '')">-->
+
                                             <div class="input-group-text">
                                                 <input type="radio" :name="'corret'+pergunta['id']"
-                                                       :value="'re' + ( index + respostas.length +1) +pergunta['id']"
+                                                       :value="'rei' + ( index + respostas.length +1) +pergunta['id']"
                                                        v-bind:checked="resposta['resultado']===1"
                                                        class="form-check-input">
                                             </div>
@@ -614,6 +641,17 @@
 
 
             },
+            removeImg(idFile, idImg, idSh) {
+                console.log(this.pergunta['id'])
+                let id = idFile + this.pergunta['id'];
+                let img = idImg + this.pergunta['id'];
+                let sh = idSh + this.pergunta['id'];
+                $('#' + id).val('')
+                $('#'+id).removeClass('d-none')
+                $('#' + sh).prop('src', '#');
+                $('#' + img).hide();
+                $('#' + id).show();
+            },
             fileCheck() {
                 if (this.multimedia[0]['link'] === null) {
                     return 0;
@@ -829,7 +867,7 @@
                         $('.btn-loading span').removeClass('d-none');
                         $('.btn-loading div').addClass('d-none');
                         this.toastEditarPergunta.show();
-                    } else if (response.data.message === "erro"){
+                    } else if (response.data.message === "erro") {
 
                         alert("Erro a editar a pergunta");
 
@@ -873,7 +911,6 @@
                 axios.get('/prof/getMultimedia/' + id)
                     .then(response => {
                         this.multimedia = response.data.message;
-                        console.log(this.multimedia[0])
                         this.isFetchingM = false;
                     });
             },

@@ -13,7 +13,7 @@
 
                         <div class=" card ">
                             <div class="d-flex">
-                                <a :href="'/prof/pergunta/'+ pergunta['id']"> <h3>{{pergunta['enunciado']}}</h3></a>
+                                <a :href="'/prof/pergunta/'+ pergunta['id']"><h3>{{pergunta['enunciado']}}</h3></a>
 
                                 <div class="dropdown ms-auto">
                                     <button class="" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
@@ -24,7 +24,7 @@
                                         <li>
                                             <a :href="'/prof/pergunta/'+ pergunta['id']" class="dropdown-item"
 
-                                              >Editar
+                                            >Editar
                                             </a>
 
                                         </li>
@@ -35,36 +35,36 @@
                                         </li>
                                     </ul>
                                 </div>
-<!--                                <span data-bs-toggle="collapse" :data-bs-target="'#collapsePergunta'+pergunta['id']"-->
-<!--                                      aria-expanded="false"-->
-<!--                                      :aria-controls="'collapsePergunta'+pergunta['id']" class="material-icons"-->
-<!--                                      @click="changeButton(pergunta['id'])" style="cursor: pointer">-->
-<!--                                         <img :id="'img'+pergunta['id']" src="/assets/expand_more_black_24dp.svg">-->
-<!--                                 </span>-->
+                                <!--                                <span data-bs-toggle="collapse" :data-bs-target="'#collapsePergunta'+pergunta['id']"-->
+                                <!--                                      aria-expanded="false"-->
+                                <!--                                      :aria-controls="'collapsePergunta'+pergunta['id']" class="material-icons"-->
+                                <!--                                      @click="changeButton(pergunta['id'])" style="cursor: pointer">-->
+                                <!--                                         <img :id="'img'+pergunta['id']" src="/assets/expand_more_black_24dp.svg">-->
+                                <!--                                 </span>-->
                             </div>
 
 
-<!--                            <div class="mt-2">-->
-<!--                                <div class="collapse mt-2" :id="'collapsePergunta'+pergunta['id']">-->
-<!--                                    fdgdfgdf-->
-<!--                                    <p>Tipo:-->
-<!--                                        <span v-if="quizz['tipo'] === 'false'">Teste </span>-->
-<!--                                        <span v-else>Quizz </span>-->
-<!--                                    </p>-->
-<!--                                    <p>Número de perguntas: {{quizz['numeroperguntas']}}</p>-->
-<!--                                    <p>Visivel:-->
-<!--                                        <span v-if="quizz['visivel'] === 'false'">Não </span>-->
-<!--                                        <span v-else>Sim </span>-->
-<!--                                    </p>-->
-<!--                                    <p>Vale Pontos:-->
-<!--                                        <span v-if="quizz['vale_pontos'] === 'false'">Não </span>-->
-<!--                                        <span v-else>Sim </span>-->
-<!--                                    </p>-->
+                            <!--                            <div class="mt-2">-->
+                            <!--                                <div class="collapse mt-2" :id="'collapsePergunta'+pergunta['id']">-->
+                            <!--                                    fdgdfgdf-->
+                            <!--                                    <p>Tipo:-->
+                            <!--                                        <span v-if="quizz['tipo'] === 'false'">Teste </span>-->
+                            <!--                                        <span v-else>Quizz </span>-->
+                            <!--                                    </p>-->
+                            <!--                                    <p>Número de perguntas: {{quizz['numeroperguntas']}}</p>-->
+                            <!--                                    <p>Visivel:-->
+                            <!--                                        <span v-if="quizz['visivel'] === 'false'">Não </span>-->
+                            <!--                                        <span v-else>Sim </span>-->
+                            <!--                                    </p>-->
+                            <!--                                    <p>Vale Pontos:-->
+                            <!--                                        <span v-if="quizz['vale_pontos'] === 'false'">Não </span>-->
+                            <!--                                        <span v-else>Sim </span>-->
+                            <!--                                    </p>-->
 
 
-<!--                                </div>-->
+                            <!--                                </div>-->
 
-<!--                            </div>-->
+                            <!--                            </div>-->
                         </div>
 
                         <!-- Modal -->
@@ -73,7 +73,8 @@
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" :id="'tituloEliminar' + pergunta['id']">Eliminar Pergunta</h5>
+                                        <h5 class="modal-title" :id="'tituloEliminar' + pergunta['id']">Eliminar
+                                            Pergunta</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                     </div>
@@ -380,17 +381,22 @@
                                         <div :id="'multiple-image'+topicos" style="margin-top: 20px">
                                             <div class="input-group mb-3 insertAnsewr">
 
-                                                <input type='file' accept="image/png,image/gif, image/jpeg" :id="'ri1'+topicos" class=" form-control"
+                                                <input type='file' accept="image/png,image/gif, image/jpeg"
+                                                       :id="'ri1'+topicos" class=" form-control"
                                                        style="border: none;"
-                                                       aria-label="Text input with radio button" placeholder="Opção 1" @change="showImage('ri1','img1','sh1')">
+                                                       aria-label="Text input with radio button" placeholder="Opção 1"
+                                                       @change="showImage('ri1','img1','sh1')">
 
-                                                <div :id="'img1'+topicos" >
+                                                <div :id="'img1'+topicos">
 
-                                                <img width="260px" height="200px" :id="'sh1'+topicos" src="#" alt="imagem1" />
-                                                    <button type="button" class="btn-close" @click="removeImg('ri1','img1','sh1')"></button>
+                                                    <img width="260px" height="200px" :id="'sh1'+topicos" src="#"
+                                                         alt="imagem1"/>
+                                                    <button type="button" class="btn-close"
+                                                            @click="removeImg('ri1','img1','sh1')"></button>
                                                 </div>
-                                                    <div class="input-group-text">
-                                                    <input type="radio" :name="'corretImage'+topicos" :value="'ri1'+topicos"
+                                                <div class="input-group-text">
+                                                    <input type="radio" :name="'corretImage'+topicos"
+                                                           :value="'ri1'+topicos"
                                                            class="form-check-input">
                                                 </div>
                                             </div>
@@ -398,32 +404,42 @@
 
                                             <div class="input-group mb-3 insertAnsewr">
 
-                                                <input type='file' accept="image/png,image/gif, image/jpeg" :id="'ri2'+topicos" class=" form-control"
+                                                <input type='file' accept="image/png,image/gif, image/jpeg"
+                                                       :id="'ri2'+topicos" class=" form-control"
                                                        style="border: none"
-                                                       aria-label="Text input with radio button" placeholder="Opção 2" @change="showImage('ri2','img2','sh2')">
-                                                <div :id="'img2'+topicos" >
+                                                       aria-label="Text input with radio button" placeholder="Opção 2"
+                                                       @change="showImage('ri2','img2','sh2')">
+                                                <div :id="'img2'+topicos">
 
-                                                    <img width="260px" height="200px" :id="'sh2'+topicos" src="#" alt="imagem2" />
-                                                    <button type="button" class="btn-close" @click="removeImg('ri2','img2','sh2')"></button>
+                                                    <img width="260px" height="200px" :id="'sh2'+topicos" src="#"
+                                                         alt="imagem2"/>
+                                                    <button type="button" class="btn-close"
+                                                            @click="removeImg('ri2','img2','sh2')"></button>
                                                 </div>
                                                 <div class="input-group-text">
-                                                    <input type="radio" :name="'corretImage'+topicos" :value="'ri2'+topicos"
+                                                    <input type="radio" :name="'corretImage'+topicos"
+                                                           :value="'ri2'+topicos"
                                                            class="form-check-input">
                                                 </div>
                                             </div>
 
                                             <div class="input-group mb-3 insertAnsewr">
 
-                                                <input type='file' accept="image/png,image/gif, image/jpeg" :id="'ri3'+topicos" class=" form-control"
+                                                <input type='file' accept="image/png,image/gif, image/jpeg"
+                                                       :id="'ri3'+topicos" class=" form-control"
                                                        style="border: none; "
-                                                       aria-label="Text input with radio button" placeholder="Opção 3" @change="showImage('ri3','img3','sh3')">
-                                                <div :id="'img3'+topicos" >
+                                                       aria-label="Text input with radio button" placeholder="Opção 3"
+                                                       @change="showImage('ri3','img3','sh3')">
+                                                <div :id="'img3'+topicos">
 
-                                                    <img width="260px" height="200px" :id="'sh3'+topicos" src="#" alt="imagem3" />
-                                                    <button type="button" class="btn-close" @click="removeImg('ri3','img3','sh3')"></button>
+                                                    <img width="260px" height="200px" :id="'sh3'+topicos" src="#"
+                                                         alt="imagem3"/>
+                                                    <button type="button" class="btn-close"
+                                                            @click="removeImg('ri3','img3','sh3')"></button>
                                                 </div>
                                                 <div class="input-group-text">
-                                                    <input type="radio" :name="'corretImage'+topicos" :value="'ri3'+topicos"
+                                                    <input type="radio" :name="'corretImage'+topicos"
+                                                           :value="'ri3'+topicos"
                                                            class="form-check-input">
                                                 </div>
                                             </div>
@@ -431,16 +447,21 @@
 
                                             <div class="input-group mb-3 insertAnsewr">
 
-                                                <input type='file' accept="image/png,image/gif, image/jpeg" :id="'ri4'+topicos" class=" form-control"
+                                                <input type='file' accept="image/png,image/gif, image/jpeg"
+                                                       :id="'ri4'+topicos" class=" form-control"
                                                        style="border: none; "
-                                                       aria-label="Text input with radio button" placeholder="Opção 4" @change="showImage('ri4','img4','sh4')">
-                                                <div :id="'img4'+topicos" >
+                                                       aria-label="Text input with radio button" placeholder="Opção 4"
+                                                       @change="showImage('ri4','img4','sh4')">
+                                                <div :id="'img4'+topicos">
 
-                                                    <img width="260px" height="200px" :id="'sh4'+topicos" src="#" alt="imagem4" />
-                                                    <button type="button" class="btn-close" @click="removeImg('ri4','img4','sh4')"></button>
+                                                    <img width="260px" height="200px" :id="'sh4'+topicos" src="#"
+                                                         alt="imagem4"/>
+                                                    <button type="button" class="btn-close"
+                                                            @click="removeImg('ri4','img4','sh4')"></button>
                                                 </div>
                                                 <div class="input-group-text">
-                                                    <input type="radio" :name="'corretImage'+topicos" :value="'ri4'+topicos"
+                                                    <input type="radio" :name="'corretImage'+topicos"
+                                                           :value="'ri4'+topicos"
                                                            class="form-check-input">
                                                 </div>
                                             </div>
@@ -495,23 +516,23 @@
             }
         },
         methods: {
-            removeImg(idFile,idImg,idSh){
-                let id=idFile+this.topicos;
-                let img=idImg+this.topicos;
-                let sh=idSh+this.topicos;
-                $('#'+id).val('')
-                $('#'+sh).prop('src','#');
-                $('#'+img).hide();
-                $('#'+id).show();
+            removeImg(idFile, idImg, idSh) {
+                let id = idFile + this.topicos;
+                let img = idImg + this.topicos;
+                let sh = idSh + this.topicos;
+                $('#' + id).val('')
+                $('#' + sh).prop('src', '#');
+                $('#' + img).hide();
+                $('#' + id).show();
             },
-            showImage(idFile,idImg,idSh){
-                let id=idFile+this.topicos;
-                let img=idImg+this.topicos;
-                let sh=idSh+this.topicos;
-                let myFile = $('#'+id).prop('files');
-                $('#'+sh).prop('src',URL.createObjectURL(myFile[0]));
-                $('#'+img).show();
-                $('#'+id).hide();
+            showImage(idFile, idImg, idSh) {
+                let id = idFile + this.topicos;
+                let img = idImg + this.topicos;
+                let sh = idSh + this.topicos;
+                let myFile = $('#' + id).prop('files');
+                $('#' + sh).prop('src', URL.createObjectURL(myFile[0]));
+                $('#' + img).show();
+                $('#' + id).hide();
             },
             eliminarPergunta(pergunta, topidoId) {
 
@@ -524,7 +545,6 @@
                     function (response) {
 
 
-
                         if (response.data.message === "erro") {
 
                             $('.eliminar-btn span').removeClass('d-none');
@@ -532,7 +552,7 @@
                             this.modalDeleteQuizz.hide();
                             this.$root.$emit('ShowToastPergunta', 2);
 
-                        }else {
+                        } else {
                             $('.eliminar-btn span').removeClass('d-none');
                             $('.eliminar-btn div').addClass('d-none');
                             this.modalDeleteQuizz.hide();
@@ -696,7 +716,8 @@
                         }
 
 
-                    } if (document.getElementById("tipo" + top).value === "multiple-image") {
+                    }
+                    if (document.getElementById("tipo" + top).value === "multiple-image") {
                         var radios = document.getElementsByName("corretImage" + top);
 
 
@@ -731,7 +752,7 @@
             send(form, top) {
 
                 $('#submit' + top).prop('disabled', true);
-                axios.post('/insertQuestion', form,{
+                axios.post('/insertQuestion', form, {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
@@ -778,7 +799,7 @@
 
                         }
 
-                    }else if (document.getElementById("tipo" + top).value === "multiple-image") {
+                    } else if (document.getElementById("tipo" + top).value === "multiple-image") {
                         var radios = document.getElementsByName("corretImage" + top);
                         for (let i = 1; i < 5; i++) {
                             document.getElementById("re" + i + top).value = ""
@@ -891,7 +912,7 @@
             let id2 = "multiple" + this.topicos;
             let id3 = "multiple-select" + this.topicos;
             let id4 = "multiple-image" + this.topicos;
-            let img1= "img1" + this.topicos;
+            let img1 = "img1" + this.topicos;
             let img2 = "img2" + this.topicos;
             let img3 = "img3" + this.topicos;
             let img4 = "img4" + this.topicos;
@@ -900,10 +921,10 @@
             $('#' + id2).show();
             $('#' + id3).hide();
             $('#' + id4).hide();
-            $('#'+img1).hide();
-            $('#'+img2).hide();
-            $('#'+img3).hide();
-            $('#'+img4).hide();
+            $('#' + img1).hide();
+            $('#' + img2).hide();
+            $('#' + img3).hide();
+            $('#' + img4).hide();
 
             // this.toastPergunta = new bootstrap.Toast(document.getElementById('toast-pergunta'), {delay: 10000})
             // this.toastPergunta.hide();

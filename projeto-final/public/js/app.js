@@ -3400,6 +3400,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -4381,6 +4402,33 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -4406,6 +4454,17 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         imagem.src = URL.createObjectURL(e.target.files[0]);
         this.imagem = e.target.files[0];
       }
+    },
+    removeImg: function removeImg(idFile, idImg, idSh) {
+      console.log(this.pergunta['id']);
+      var id = idFile + this.pergunta['id'];
+      var img = idImg + this.pergunta['id'];
+      var sh = idSh + this.pergunta['id'];
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).val('');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).removeClass('d-none');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + sh).prop('src', '#');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + img).hide();
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).show();
     },
     fileCheck: function fileCheck() {
       if (this.multimedia[0]['link'] === null) {
@@ -4650,7 +4709,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
       axios__WEBPACK_IMPORTED_MODULE_1___default().get('/prof/getMultimedia/' + id).then(function (response) {
         _this2.multimedia = response.data.message;
-        console.log(_this2.multimedia[0]);
         _this2.isFetchingM = false;
       });
     },
@@ -47707,7 +47765,7 @@ var render = function() {
                                   },
                                   [
                                     _vm._v(
-                                      "Editar\n                                            "
+                                      "Editar\n                                        "
                                     )
                                   ]
                                 )
@@ -47727,7 +47785,7 @@ var render = function() {
                                   },
                                   [
                                     _vm._v(
-                                      "Eliminar\n                                            "
+                                      "Eliminar\n                                        "
                                     )
                                   ]
                                 )
@@ -47764,7 +47822,11 @@ var render = function() {
                                       id: "tituloEliminar" + pergunta["id"]
                                     }
                                   },
-                                  [_vm._v("Eliminar Pergunta")]
+                                  [
+                                    _vm._v(
+                                      "Eliminar\n                                        Pergunta"
+                                    )
+                                  ]
                                 ),
                                 _vm._v(" "),
                                 _c("button", {
@@ -47791,7 +47853,7 @@ var render = function() {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                            Cancelar\n                                        "
+                                      "\n                                        Cancelar\n                                    "
                                     )
                                   ]
                                 ),
@@ -47848,11 +47910,7 @@ var render = function() {
                 "data-bs-target": "#p" + _vm.topicos
               }
             },
-            [
-              _vm._v(
-                "\n                    Adicionar pergunta\n                "
-              )
-            ]
+            [_vm._v("\n                Adicionar pergunta\n            ")]
           )
         ]),
         _vm._v(" "),
@@ -47889,7 +47947,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                                            Adicionar pergunta\n                                        "
+                              "\n                                        Adicionar pergunta\n                                    "
                             )
                           ]
                         )
@@ -47909,7 +47967,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                                            Importar perguntas\n                                        "
+                              "\n                                        Importar perguntas\n                                    "
                             )
                           ]
                         )
@@ -47984,7 +48042,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Inserir\n                            ")]
+                    [_vm._v("Inserir\n                        ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -48069,7 +48127,7 @@ var render = function() {
                               { attrs: { for: "tipo" + _vm.topicos } },
                               [
                                 _vm._v(
-                                  "\n                                            Indique o tipo de pergunta"
+                                  "\n                                        Indique o tipo de pergunta"
                                 ),
                                 _c("br"),
                                 _vm._v(" "),
@@ -48123,7 +48181,7 @@ var render = function() {
                               { attrs: { for: "tempo" + _vm.topicos } },
                               [
                                 _vm._v(
-                                  "\n                                            Indique o tempo de pergunta"
+                                  "\n                                        Indique o tempo de pergunta"
                                 ),
                                 _c("br"),
                                 _vm._v(" "),
@@ -48180,7 +48238,7 @@ var render = function() {
                               { attrs: { for: "pontos" + _vm.topicos } },
                               [
                                 _vm._v(
-                                  "\n                                            Indique a pontuação"
+                                  "\n                                        Indique a pontuação"
                                 ),
                                 _c("br"),
                                 _vm._v(" "),
@@ -48384,7 +48442,7 @@ var render = function() {
                                 _c("div", { staticClass: "mb-5 mt-5" }, [
                                   _c("label", { staticClass: "label-tf" }, [
                                     _vm._v(
-                                      "Verdadeira\n                                                    "
+                                      "Verdadeira\n                                                "
                                     ),
                                     _c("input", {
                                       attrs: {
@@ -48401,7 +48459,7 @@ var render = function() {
                                 _c("div", [
                                   _c("label", { staticClass: "label-tf" }, [
                                     _vm._v(
-                                      "Falsa\n                                                    "
+                                      "Falsa\n                                                "
                                     ),
                                     _c("input", {
                                       attrs: {
@@ -48920,7 +48978,7 @@ var render = function() {
                               "data-bs-dismiss": "modal"
                             }
                           },
-                          [_vm._v("Cancelar\n                                ")]
+                          [_vm._v("Cancelar\n                            ")]
                         ),
                         _vm._v(" "),
                         _c(
@@ -48937,7 +48995,7 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("inserir\n                                ")]
+                          [_vm._v("inserir\n                            ")]
                         )
                       ])
                     ]
@@ -49229,7 +49287,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n                                Adicionar ficheiro\n                            "
+                        "\n                                    Adicionar ficheiro\n                                "
                       )
                     ]
                   ),
@@ -49298,7 +49356,9 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 text-center" }, [
             _c("label", { attrs: { for: "tipo" + _vm.pergunta["id"] } }, [
-              _vm._v("\n                        Indique o tipo de pergunta"),
+              _vm._v(
+                "\n                            Indique o tipo de pergunta"
+              ),
               _c("br"),
               _vm._v(" "),
               _c(
@@ -49323,7 +49383,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "Seleção\n                                Única\n                            "
+                        "Seleção\n                                    Única\n                                "
                       )
                     ]
                   ),
@@ -49336,7 +49396,11 @@ var render = function() {
                         selected: _vm.pergunta["tipo"] === "multiple-select"
                       }
                     },
-                    [_vm._v("Seleção Múltipla\n                            ")]
+                    [
+                      _vm._v(
+                        "Seleção Múltipla\n                                "
+                      )
+                    ]
                   ),
                   _vm._v(" "),
                   _c(
@@ -49349,7 +49413,22 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n                                Verdadeiro/Falso\n                            "
+                        "\n                                    Verdadeiro/Falso\n                                "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "option",
+                    {
+                      attrs: { value: "true/false" },
+                      domProps: {
+                        selected: _vm.pergunta["tipo"] === "multiple-image"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                    Pergunta com imagem\n                                "
                       )
                     ]
                   )
@@ -49360,7 +49439,9 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 text-center" }, [
             _c("label", { attrs: { for: "tempo" + _vm.pergunta["id"] } }, [
-              _vm._v("\n                        Indique o tempo de pergunta"),
+              _vm._v(
+                "\n                            Indique o tempo de pergunta"
+              ),
               _c("br"),
               _vm._v(" "),
               _c(
@@ -49423,7 +49504,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "1 minuto e 30 segundos\n                            "
+                        "1 minuto e 30 segundos\n                                "
                       )
                     ]
                   ),
@@ -49452,7 +49533,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4 text-center" }, [
             _c("label", { attrs: { for: "pontos" + _vm.pergunta["id"] } }, [
-              _vm._v("\n                        Indique a pontuação"),
+              _vm._v("\n                            Indique a pontuação"),
               _c("br"),
               _vm._v(" "),
               _c(
@@ -49479,7 +49560,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "Pontos\n                                duplos\n                            "
+                        "Pontos\n                                    duplos\n                                "
                       )
                     ]
                   ),
@@ -49490,7 +49571,7 @@ var render = function() {
                       attrs: { value: "Sem pontos" },
                       domProps: { selected: _vm.pergunta["valor"] === 0 }
                     },
-                    [_vm._v("Sem pontos\n                            ")]
+                    [_vm._v("Sem pontos\n                                ")]
                   )
                 ]
               )
@@ -49664,22 +49745,66 @@ var render = function() {
                               { staticClass: "input-group mb-3 insertAnsewr" },
                               [
                                 _c("input", {
-                                  staticClass: " form-control",
+                                  staticClass: "d-none form-control",
                                   staticStyle: { border: "none" },
                                   attrs: {
-                                    type: "text",
-                                    id: "re" + (index + 1) + _vm.pergunta["id"],
+                                    type: "file",
+                                    id:
+                                      "rei" + (index + 1) + _vm.pergunta["id"],
                                     "aria-label":
                                       "Text input with radio button",
                                     placeholder: "Opção" + (index + 1)
                                   },
-                                  domProps: {
-                                    value:
-                                      _vm.pergunta["tipo"] === "multiple"
-                                        ? resposta["resposta"]
-                                        : ""
+                                  on: {
+                                    change: function($event) {
+                                      _vm.showImage(
+                                        "rei" + (index + 1),
+                                        "img" + (index + 1),
+                                        "sh" + (index + 1)
+                                      )
+                                    }
                                   }
                                 }),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    attrs: {
+                                      id:
+                                        "img" + (index + 1) + _vm.pergunta["id"]
+                                    }
+                                  },
+                                  [
+                                    _c("img", {
+                                      attrs: {
+                                        width: "260px",
+                                        height: "200px",
+                                        id:
+                                          "sh" +
+                                          (index + 1) +
+                                          _vm.pergunta["id"],
+                                        src:
+                                          "/images/Pergunta/Multimedia/" +
+                                          resposta["resposta"],
+                                        alt: "imagem" + index
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("button", {
+                                      staticClass: "btn-close",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.removeImg(
+                                            "ri1",
+                                            "img" + (index + 1),
+                                            "sh" + (index + 1)
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ]
+                                ),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "input-group-text" }, [
                                   _c("input", {
@@ -49689,9 +49814,9 @@ var render = function() {
                                       name: "corret" + _vm.pergunta["id"]
                                     },
                                     domProps: {
+                                      checked: resposta["resultado"] === 1,
                                       value:
-                                        "re" + (index + 1) + _vm.pergunta["id"],
-                                      checked: resposta["resultado"] === 1
+                                        "rei" + (index + 1) + _vm.pergunta["id"]
                                     }
                                   })
                                 ])
@@ -49716,12 +49841,12 @@ var render = function() {
                                     },
                                     [
                                       _c("input", {
-                                        staticClass: " form-control",
+                                        staticClass: " form-control d-none",
                                         staticStyle: { border: "none" },
                                         attrs: {
-                                          type: "text",
+                                          type: "file",
                                           id:
-                                            "re" +
+                                            "rei" +
                                             (index + _vm.respostas.length + 1) +
                                             _vm.pergunta["id"],
                                           "aria-label":
@@ -49730,13 +49855,58 @@ var render = function() {
                                             "Opção" +
                                             (index + _vm.respostas.length + 1)
                                         },
-                                        domProps: {
-                                          value:
-                                            _vm.pergunta["tipo"] === "multiple"
-                                              ? resposta["resposta"]
-                                              : ""
+                                        on: {
+                                          change: function($event) {
+                                            _vm.showImage(
+                                              "rei" + (index + 1),
+                                              "img" + (index + 1),
+                                              "sh" + (index + 1)
+                                            )
+                                          }
                                         }
                                       }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        {
+                                          attrs: {
+                                            id:
+                                              "img" +
+                                              (index + 1) +
+                                              _vm.pergunta["id"]
+                                          }
+                                        },
+                                        [
+                                          _c("img", {
+                                            attrs: {
+                                              width: "260px",
+                                              height: "200px",
+                                              id:
+                                                "sh" +
+                                                (index + 1) +
+                                                _vm.pergunta["id"],
+                                              src:
+                                                "/images/Pergunta/Multimedia/" +
+                                                resposta["resposta"],
+                                              alt: "imagem" + index
+                                            }
+                                          }),
+                                          _vm._v(" "),
+                                          _c("button", {
+                                            staticClass: "btn-close",
+                                            attrs: { type: "button" },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.removeImg(
+                                                  "ri1",
+                                                  "img" + (index + 1),
+                                                  "sh" + (index + 1)
+                                                )
+                                              }
+                                            }
+                                          })
+                                        ]
+                                      ),
                                       _vm._v(" "),
                                       _c(
                                         "div",
@@ -49751,7 +49921,7 @@ var render = function() {
                                             },
                                             domProps: {
                                               value:
-                                                "re" +
+                                                "rei" +
                                                 (index +
                                                   _vm.respostas.length +
                                                   1) +
@@ -49784,7 +49954,7 @@ var render = function() {
                     _c("div", { staticClass: "mb-5 mt-5" }, [
                       _c("label", { staticClass: "label-tf" }, [
                         _vm._v(
-                          "Verdadeira\n                                    "
+                          "Verdadeira\n                                        "
                         ),
                         _c("input", {
                           attrs: {
@@ -49803,7 +49973,9 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", [
                       _c("label", { staticClass: "label-tf" }, [
-                        _vm._v("Falsa\n                                    "),
+                        _vm._v(
+                          "Falsa\n                                        "
+                        ),
                         _c("input", {
                           attrs: {
                             type: "radio",
@@ -50059,7 +50231,7 @@ var render = function() {
           staticClass: "btn btn-secondary",
           attrs: { type: "button", "data-bs-dismiss": "modal" }
         },
-        [_vm._v("Sair\n        ")]
+        [_vm._v("Sair\n            ")]
       ),
       _vm._v(" "),
       _c(
@@ -50106,7 +50278,7 @@ var staticRenderFns = [
           _c("div", { staticClass: "toast-body" }, [
             _c("strong", [
               _c("i", { staticClass: "bi bi-check-circle-fill" }),
-              _vm._v("   \n                                    "),
+              _vm._v("   \n                                        "),
               _c("span", [_vm._v("Pergunta editada com sucesso!!")])
             ])
           ]),
