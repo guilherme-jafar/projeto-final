@@ -34,6 +34,7 @@ class forum extends Controller
             ->join('utilizador as u', 'm.id_utilizador', '=', 'u.id' )
             ->where('forum_id', '=', $request->id)
             ->where('m.tipo', '=', 'true')
+            ->orderBy('data','asc')
             ->paginate(5);
 
 
@@ -59,6 +60,7 @@ class forum extends Controller
             ->where('forum_id', '=', $request->idforum)
             ->where('m.tipo', '=', 'false')
             ->where('m.id_mensagem', '=', $request->idmensagem)
+            ->orderBy('data','asc')
             ->paginate(5);
 
 
@@ -131,6 +133,7 @@ class forum extends Controller
                 ->join('utilizador as u', 'm.id_utilizador', '=', 'u.id' )
                 ->where('forum_id', '=', $forumId)
                 ->where('m.tipo', '=', 'true')
+                ->orderBy('data','asc')
                 ->paginate(5);
 
 
@@ -171,6 +174,7 @@ class forum extends Controller
                 ->where('forum_id', '=', $forumId)
                 ->where('m.tipo', '=', 'false')
                 ->where('m.id_mensagem', '=', $mensagemId)
+                ->orderBy('data','asc')
                 ->paginate(5);
 
 
