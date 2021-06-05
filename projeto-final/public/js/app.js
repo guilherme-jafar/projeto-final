@@ -8006,7 +8006,7 @@ __webpack_require__.r(__webpack_exports__);
           this.countDown = 0;
           this.respondeu = localStorage.getItem('questionStatus');
           this.res = localStorage.getItem('points');
-          this.resultado = localStorage.getItem('resultado');
+          this.resultado = parseInt(localStorage.getItem('resultado'));
           jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').show();
           jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').hide();
 
@@ -8564,6 +8564,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_2__);
 //
 //
 //
@@ -8657,8 +8659,175 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
- // import sortId from "sort-ids";
-// import reorder from "array-rearrange"
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -8673,11 +8842,19 @@ __webpack_require__.r(__webpack_exports__);
       questionPoints: [],
       resposta: [],
       image: 'false',
+      enunciado: '',
+      tipo: '',
       students: 0,
       couter: 0,
       index: 1,
       Questions: 0,
-      sessao: JSON.parse(this.sessao_prop)
+      pergunta: [],
+      multipleQuestion: [],
+      percentagem: [0, 0, 0, 0],
+      solucoes: [0, 0, 0, 0],
+      respostaQuizz: [],
+      sessao: JSON.parse(this.sessao_prop),
+      color: ['darkred', 'darkred', 'darkred', 'darkred']
     };
   },
   watch: {
@@ -8686,6 +8863,115 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    getResposta: function getResposta(Ans) {
+      var respostas = Ans;
+
+      if (this.pergunta['tipo'] === 'true/false') {
+        this.respostaQuizz = respostas[0]['resposta'];
+      } else if (this.pergunta['tipo'] === 'multiple') {
+        var i;
+
+        for (i = 0; i < respostas.length; i++) {
+          if (respostas[i]['resposta'] === " ") {
+            this.multipleQuestion[i] = null;
+          } else {
+            if (respostas[i]['resultado'] === 1) {
+              this.respostaQuizz = respostas[i]['resposta'];
+            }
+
+            this.multipleQuestion[i] = respostas[i]['resposta'];
+          }
+        }
+
+        for (i = respostas.length; i < 4; i++) {
+          this.multipleQuestion[i] = null;
+        }
+      } else if (this.pergunta['tipo'] === 'multiple-select') {
+        this.first = 0;
+        this.respostasMultiplas = [];
+
+        var _i;
+
+        for (_i = 0; _i < respostas.length; _i++) {
+          var k = _i + 1;
+
+          if (respostas[_i]['resposta'] === " ") {
+            this.respostasMultiplas[_i] = null;
+          } else {
+            if (respostas[_i]['resultado'] === 1) {
+              this.respostasMultiplas.push(respostas[_i]['resposta']);
+            }
+          }
+
+          this.respostasCertas = 0;
+          this.multipleQuestion[_i] = respostas[_i]['resposta'];
+        }
+
+        for (_i = respostas.length; _i < 4; _i++) {
+          this.multipleQuestion[_i] = null;
+        }
+      } else if (this.pergunta['tipo'] === 'multiple-image') {
+        var _i2;
+
+        for (_i2 = 0; _i2 < respostas.length; _i2++) {
+          if (respostas[_i2]['resposta'] === " ") {
+            this.multipleQuestion[_i2] = null;
+          } else {
+            if (respostas[_i2]['resultado'] === 1) {
+              this.respostaQuizz = respostas[_i2]['resposta'];
+            }
+
+            this.multipleQuestion[_i2] = respostas[_i2]['resposta'];
+          }
+        }
+
+        for (_i2 = respostas.length; _i2 < 4; _i2++) {
+          this.multipleQuestion[_i2] = null;
+        }
+      }
+    },
+    fileCheck: function fileCheck() {
+      if (this.pergunta['link'] === null) {
+        return 0;
+      } else {
+        var ext = this.getExtension(this.pergunta['link']);
+
+        switch (ext.toLowerCase()) {
+          case 'jpeg':
+          case 'gif':
+          case 'bmp':
+          case 'png':
+          case 'jpg':
+            //etc
+            return 1;
+        }
+
+        switch (ext.toLowerCase()) {
+          case 'm4v':
+          case 'avi':
+          case 'mpg':
+          case 'mp4':
+            // etc
+            jquery__WEBPACK_IMPORTED_MODULE_2___default()('#questionMulti').attr("type", 'video/' + ext);
+            return 2;
+        }
+
+        switch (ext.toLowerCase()) {
+          case 'ogg':
+          case 'mpeg':
+          case 'mp3':
+            // etc
+            jquery__WEBPACK_IMPORTED_MODULE_2___default()('#questionMultiAudio').attr("src", 'audio/' + ext);
+            return 3;
+        }
+      }
+
+      return 0;
+    },
+    getExtension: function getExtension(filename) {
+      var parts = filename.split('.');
+      return parts[parts.length - 1];
+    },
     endQuizz: function endQuizz() {
       localStorage.clear();
       window.Echo.leave('room.' + this.sessao);
@@ -8695,28 +8981,43 @@ __webpack_require__.r(__webpack_exports__);
     start: function start() {
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/startQuizz').then(function (response) {
         this.Questions = response.data.message;
+        this.enunciado = response.data.quizz.enunciado;
+        this.pergunta = response.data.quizz;
+
+        for (var i = 0; i < 4; i++) {
+          this.solucoes[i] = 0;
+          this.percentagem[i] = 0;
+        }
+
+        this.changeColor('darkred');
+        localStorage.setItem('percentagem', JSON.stringify(this.percentagem));
+        localStorage.setItem('solucoes', JSON.stringify(this.solucoes));
+        this.getResposta(response.data.res);
         localStorage.setItem('status', 'game');
-        localStorage.setItem('question', response.data.message);
-        $('#waitRoom').hide();
-        $('#gameMode').show();
-        $('#stop').show();
-        $('#next').hide();
+        localStorage.setItem('questions', JSON.stringify(response.data.quizz));
+        localStorage.setItem('nQuestion', this.Questions);
+        localStorage.setItem('ansers', JSON.stringify(response.data.res));
+        jquery__WEBPACK_IMPORTED_MODULE_2___default()('#waitRoom').hide();
+        jquery__WEBPACK_IMPORTED_MODULE_2___default()('#gameMode').show();
+        jquery__WEBPACK_IMPORTED_MODULE_2___default()('#stop').show();
+        jquery__WEBPACK_IMPORTED_MODULE_2___default()('#next').hide();
+        jquery__WEBPACK_IMPORTED_MODULE_2___default()('#submitLast').hide();
       }.bind(this));
     },
     stopQuestion: function stopQuestion() {
       this.index++;
       localStorage.setItem('index', this.index);
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/StopQuestionQuizz').then(function (response) {
-        $('#waitRoom').hide();
-        $('#gameMode').show();
-        $('#stop').hide();
-        $('#next').show();
+        jquery__WEBPACK_IMPORTED_MODULE_2___default()('#waitRoom').hide();
+        jquery__WEBPACK_IMPORTED_MODULE_2___default()('#gameMode').show();
+        jquery__WEBPACK_IMPORTED_MODULE_2___default()('#stop').hide();
+        jquery__WEBPACK_IMPORTED_MODULE_2___default()('#next').show();
       });
       this.couter = -1;
     },
     sair: function sair() {
-      $('#sair').hide();
-      $('#Inciar').hide();
+      jquery__WEBPACK_IMPORTED_MODULE_2___default()('#sair').hide();
+      jquery__WEBPACK_IMPORTED_MODULE_2___default()('#Inciar').hide();
       localStorage.clear();
       window.location.replace('/leaveRoom');
     },
@@ -8729,7 +9030,8 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     nextQuestion: function nextQuestion(tag) {
-      $('#next').hide();
+      localStorage.setItem('state', 'true');
+      jquery__WEBPACK_IMPORTED_MODULE_2___default()('#next').hide();
       var form = new FormData();
       form.append('index', this.index);
       form.append('tag', tag);
@@ -8738,11 +9040,45 @@ __webpack_require__.r(__webpack_exports__);
       this.sleep(2000);
       this.couter = 0;
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/NextQuestionQuizz', form).then(function (response) {
-        $('#waitRoom').hide();
-        $('#gameMode').show();
-        $('#stop').show();
-        $('#next').hide();
+        jquery__WEBPACK_IMPORTED_MODULE_2___default()('#waitRoom').hide();
+        jquery__WEBPACK_IMPORTED_MODULE_2___default()('#gameMode').show();
+        jquery__WEBPACK_IMPORTED_MODULE_2___default()('#stop').show();
+        jquery__WEBPACK_IMPORTED_MODULE_2___default()('#next').hide();
       });
+    },
+    changeColor: function changeColor(color) {
+      var options = JSON.parse(localStorage.getItem('ansers'));
+
+      if (options !== null) {
+        if (this.pergunta['tipo'] !== "true/false") {
+          for (var i = 0; i < options.length; i++) {
+            console.log(options[i]['resultado']);
+
+            if (options[i]['resultado'] === 1) {
+              this.color[i] = color;
+            } else {
+              this.color[i] = 'darkred';
+            }
+          }
+        } else {
+          if (options[0]['resposta'] === "false") {
+            this.color[2] = color;
+            this.color[1] = 'darkred';
+          } else {
+            this.color[2] = 'darkred';
+            this.color[1] = color;
+          }
+        }
+      }
+    },
+    submitLast: function submitLast() {
+      var form = new FormData();
+      form.append('users', this.users);
+      form.append('points', this.points);
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/EndQuizz', form).then(function (response) {}.bind(this));
+      jquery__WEBPACK_IMPORTED_MODULE_2___default()('#gameMode').hide();
+      jquery__WEBPACK_IMPORTED_MODULE_2___default()('#EndGame').show();
+      localStorage.setItem('status', 'end');
     },
     connect: function connect() {
       var _this = this;
@@ -8761,7 +9097,7 @@ __webpack_require__.r(__webpack_exports__);
             _this.students++;
 
             if (_this.students > 0) {
-              $('#Inciar').show();
+              jquery__WEBPACK_IMPORTED_MODULE_2___default()('#Inciar').show();
             }
 
             localStorage.setItem('user', JSON.stringify(_this.users));
@@ -8783,11 +9119,32 @@ __webpack_require__.r(__webpack_exports__);
             localStorage.setItem('user', JSON.stringify(_this.users));
 
             if (_this.students === 0) {
-              $('#Inciar').hide();
+              jquery__WEBPACK_IMPORTED_MODULE_2___default()('#Inciar').hide();
             }
           } else if (e.type === 'NextQuestion') {
             _this.points[_this.usersId.indexOf(e.userId)] += parseInt(e.points);
             _this.resposta[_this.usersId.indexOf(e.userId)] = e.answer;
+
+            if (_this.pergunta['tipo'] !== "true/false") {
+              for (var i = 0; i < 4; i++) {
+                if (_this.multipleQuestion[i] === e.answer) {
+                  _this.solucoes[i]++;
+                  _this.percentagem[i] = _this.solucoes[i] / _this.students * 100;
+                }
+              }
+
+              _this.changeColor('#7FBA27');
+            } else {
+              for (var _i3 = 1; _i3 < 3; _i3++) {
+                if (jquery__WEBPACK_IMPORTED_MODULE_2___default()('#tf' + _i3).val() === e.answer) {
+                  _this.solucoes[_i3]++;
+                  _this.percentagem[_i3] = _this.solucoes[_i3] / _this.students * 100;
+                }
+              }
+
+              _this.changeColor('#7FBA27');
+            }
+
             var that = _this;
             var list = [];
 
@@ -8826,37 +9183,53 @@ __webpack_require__.r(__webpack_exports__);
             }
 
             localStorage.setItem('pontos', JSON.stringify(_this.points));
-            $('#tabela').show();
+            localStorage.setItem('percentagem', JSON.stringify(_this.percentagem));
+            localStorage.setItem('solucoes', JSON.stringify(_this.solucoes));
+            jquery__WEBPACK_IMPORTED_MODULE_2___default()('#tabela').show();
             _this.couter++;
 
             if (_this.students === _this.couter) {
               _this.index++;
               localStorage.setItem('index', _this.index);
+              localStorage.setItem('state', 'false');
 
               if (_this.Questions < _this.index) {
-                $('#stop').hide();
-                $('#next').hide();
-                var form = new FormData();
-                form.append('users', _this.users);
-                form.append('points', _this.points);
-                axios__WEBPACK_IMPORTED_MODULE_0___default().post('/EndQuizz', form).then(function (response) {}.bind(_this));
-                $('#gameMode').hide();
-                $('#EndGame').show();
-                localStorage.setItem('status', 'end');
+                jquery__WEBPACK_IMPORTED_MODULE_2___default()('#stop').hide();
+                jquery__WEBPACK_IMPORTED_MODULE_2___default()('#next').hide();
+                jquery__WEBPACK_IMPORTED_MODULE_2___default()('#submitLast').show();
+                localStorage.setItem('state', 'submit');
               } else {
-                $('#stop').hide();
-                $('#next').show();
+                jquery__WEBPACK_IMPORTED_MODULE_2___default()('#stop').hide();
+                jquery__WEBPACK_IMPORTED_MODULE_2___default()('#next').show();
+                jquery__WEBPACK_IMPORTED_MODULE_2___default()('#submitLast').hide();
               }
             }
+          } else if (e.type === 'NewQuestion') {
+            _this.pergunta = e.quizzArray;
+            _this.enunciado = _this.pergunta["enunciado"];
+            localStorage.setItem('questions', JSON.stringify(e.quizzArray));
+            localStorage.setItem('ansers', JSON.stringify(e.Ans));
+
+            for (var _i4 = 0; _i4 < 4; _i4++) {
+              _this.solucoes[_i4] = 0;
+              _this.percentagem[_i4] = 0;
+            }
+
+            _this.changeColor('darkred');
+
+            localStorage.setItem('percentagem', JSON.stringify(_this.percentagem));
+            localStorage.setItem('solucoes', JSON.stringify(_this.solucoes));
+
+            _this.getResposta(e.Ans);
           }
         }
       });
     }
   },
   mounted: function mounted() {
-    $('#EndGame').hide();
-    $('#gameMode').hide();
-    $('#Inciar').hide();
+    jquery__WEBPACK_IMPORTED_MODULE_2___default()('#EndGame').hide();
+    jquery__WEBPACK_IMPORTED_MODULE_2___default()('#gameMode').hide();
+    jquery__WEBPACK_IMPORTED_MODULE_2___default()('#Inciar').hide();
     var l = window.location.href.split('/');
     this.sessionId = l[l.length - 1];
     this.couter = 0;
@@ -8875,26 +9248,54 @@ __webpack_require__.r(__webpack_exports__);
     }
 
     if (localStorage.getItem('status') === 'game') {
-      this.Questions = localStorage.getItem('question');
+      this.Questions = localStorage.getItem('nQuestion');
       this.index = localStorage.getItem('index');
-      $('#waitRoom').hide();
-      $('#gameMode').show();
-      $('#stop').hide();
-      $('#next').show();
+      this.pergunta = JSON.parse(localStorage.getItem('questions'));
+
+      if (this.pergunta != null) {
+        this.enunciado = this.pergunta["enunciado"];
+        this.percentagem = JSON.parse(localStorage.getItem('percentagem'));
+        this.solucoes = JSON.parse(localStorage.getItem('solucoes'));
+        this.changeColor('#7FBA27');
+        this.getResposta(JSON.parse(localStorage.getItem('ansers')));
+        var check = JSON.parse(localStorage.getItem('state'));
+        console.log(localStorage.getItem('state') === 'true');
+
+        if (localStorage.getItem('state') === 'true') {
+          jquery__WEBPACK_IMPORTED_MODULE_2___default()('#waitRoom').hide();
+          jquery__WEBPACK_IMPORTED_MODULE_2___default()('#gameMode').show();
+          jquery__WEBPACK_IMPORTED_MODULE_2___default()('#stop').show();
+          jquery__WEBPACK_IMPORTED_MODULE_2___default()('#next').hide();
+          jquery__WEBPACK_IMPORTED_MODULE_2___default()('#submitLast').hide();
+          this.changeColor('darkred');
+        } else if (localStorage.getItem('state') === 'submit') {
+          jquery__WEBPACK_IMPORTED_MODULE_2___default()('#waitRoom').hide();
+          jquery__WEBPACK_IMPORTED_MODULE_2___default()('#gameMode').show();
+          jquery__WEBPACK_IMPORTED_MODULE_2___default()('#stop').hide();
+          jquery__WEBPACK_IMPORTED_MODULE_2___default()('#next').hide();
+          jquery__WEBPACK_IMPORTED_MODULE_2___default()('#submitLast').show();
+        } else {
+          jquery__WEBPACK_IMPORTED_MODULE_2___default()('#waitRoom').hide();
+          jquery__WEBPACK_IMPORTED_MODULE_2___default()('#gameMode').show();
+          jquery__WEBPACK_IMPORTED_MODULE_2___default()('#stop').hide();
+          jquery__WEBPACK_IMPORTED_MODULE_2___default()('#next').show();
+          jquery__WEBPACK_IMPORTED_MODULE_2___default()('#submitLast').hide();
+        }
+      }
     } else if (localStorage.getItem('status') === 'end') {
-      this.Questions = localStorage.getItem('question');
-      $('#waitRoom').hide();
-      $('#gameMode').hide();
-      $('#stop').hide();
-      $('#next').hide();
-      $('#EndGame').show();
+      this.Questions = localStorage.getItem('nQuestion');
+      jquery__WEBPACK_IMPORTED_MODULE_2___default()('#waitRoom').hide();
+      jquery__WEBPACK_IMPORTED_MODULE_2___default()('#gameMode').hide();
+      jquery__WEBPACK_IMPORTED_MODULE_2___default()('#stop').hide();
+      jquery__WEBPACK_IMPORTED_MODULE_2___default()('#next').hide();
+      jquery__WEBPACK_IMPORTED_MODULE_2___default()('#EndGame').show();
     } else {
-      $('#gameMode').hide();
-      $('#waitRoom').show();
+      jquery__WEBPACK_IMPORTED_MODULE_2___default()('#gameMode').hide();
+      jquery__WEBPACK_IMPORTED_MODULE_2___default()('#waitRoom').show();
     }
 
     if (this.users.length !== 0) {
-      $('#Inciar').show();
+      jquery__WEBPACK_IMPORTED_MODULE_2___default()('#Inciar').show();
     }
 
     this.connect();
@@ -55454,6 +55855,7 @@ var render = function() {
               }
             ],
             key: item,
+            staticClass: "text-center resultado",
             attrs: { id: "tabela" }
           },
           [_c("p", [_vm._v(_vm._s(index) + " " + _vm._s(item) + " ")])]
@@ -56024,88 +56426,635 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "gameMode", attrs: { id: "gameMode" } },
-      [
-        _c("div", { staticClass: "d-flex" }, [
-          _c("p", { staticClass: "number" }, [
-            _vm._v(
-              "Numero de perguntas " +
-                _vm._s(_vm.index - 1) +
-                "/" +
-                _vm._s(_vm.Questions)
+    _c("div", { attrs: { id: "gameMode" } }, [
+      _c(
+        "div",
+        { staticClass: "gameMode" },
+        [
+          _c("div", { staticClass: "d-flex" }, [
+            _c("p", { staticClass: "number" }, [
+              _vm._v(
+                "Numero de perguntas " +
+                  _vm._s(_vm.index - 1) +
+                  "/" +
+                  _vm._s(_vm.Questions)
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-secondary ms-auto",
+                attrs: { id: "next" },
+                on: {
+                  click: function($event) {
+                    return _vm.nextQuestion("next")
+                  }
+                }
+              },
+              [_vm._v("Proxima Pergunta")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary ms-auto",
+                attrs: { id: "stop" },
+                on: {
+                  click: function($event) {
+                    return _vm.stopQuestion()
+                  }
+                }
+              },
+              [_vm._v("Parar Pergunta")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-third ms-auto",
+                attrs: { id: "submitLast" },
+                on: {
+                  click: function($event) {
+                    return _vm.submitLast()
+                  }
+                }
+              },
+              [_vm._v("terminar quizz")]
             )
           ]),
           _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-secondary ms-auto",
-              attrs: { id: "next" },
-              on: {
-                click: function($event) {
-                  return _vm.nextQuestion("next")
-                }
-              }
-            },
-            [_vm._v("Proxima Pergunta")]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-primary ms-auto",
-              attrs: { id: "stop" },
-              on: {
-                click: function($event) {
-                  return _vm.stopQuestion()
-                }
-              }
-            },
-            [_vm._v("Parar Pergunta")]
-          )
-        ]),
-        _vm._v(" "),
-        _vm._l(_vm.usersId, function(item, inde) {
-          return _c("div", { key: item.users, attrs: { id: "tabela" } }, [
-            inde <= 5
-              ? _c("div", [
-                  _c("p", { staticClass: "name-user" }, [
-                    _vm._v(
-                      _vm._s(_vm.users[_vm.usersId.indexOf(item)]) +
-                        " " +
-                        _vm._s(_vm.points[_vm.usersId.indexOf(item)])
-                    )
+          _vm._l(_vm.usersId, function(item, inde) {
+            return _c("div", { key: item.users, attrs: { id: "tabela" } }, [
+              inde <= 5
+                ? _c("div", [
+                    _c("p", { staticClass: "name-user" }, [
+                      _vm._v(
+                        _vm._s(_vm.users[_vm.usersId.indexOf(item)]) +
+                          " " +
+                          _vm._s(_vm.points[_vm.usersId.indexOf(item)])
+                      )
+                    ])
                   ])
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.image === "true"
-              ? _c("div", [
-                  _c("img", {
-                    attrs: {
-                      src:
-                        "/images/Pergunta/Multimedia/" +
-                        _vm.resposta[_vm.usersId.indexOf(item)],
-                      alt: "resposta",
-                      height: "40%",
-                      width: "40%"
-                    }
-                  })
-                ])
-              : _c("div", [
-                  _c("p", { staticClass: "respostas" }, [
-                    _vm._v(
-                      " " + _vm._s(_vm.resposta[_vm.usersId.indexOf(item)])
+                : _vm._e()
+            ])
+          })
+        ],
+        2
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "fazerTeste mx-auto", attrs: { id: "container" } },
+        [
+          _vm.pergunta.length !== 0
+            ? _c("div", [
+                _c("div", { staticClass: "pergunta text-start" }, [
+                  _c("p", [_vm._v(_vm._s(_vm.enunciado))])
+                ]),
+                _vm._v(" "),
+                _vm.fileCheck() === 1
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "text-center",
+                        staticStyle: { "min-height": "30rem" }
+                      },
+                      [
+                        _c("img", {
+                          staticClass: "mx-auto",
+                          attrs: {
+                            src:
+                              "/images/Pergunta/Multimedia/" +
+                              _vm.pergunta["link"],
+                            alt: "imagem da pergunta",
+                            height: "40%",
+                            width: "40%"
+                          }
+                        })
+                      ]
                     )
-                  ])
-                ])
-          ])
-        })
-      ],
-      2
-    ),
+                  : _vm.fileCheck() === 2
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "text-center",
+                        staticStyle: { "min-height": "30rem" }
+                      },
+                      [
+                        _c(
+                          "video",
+                          {
+                            staticClass: "mx-auto",
+                            attrs: { width: "320", height: "240", controls: "" }
+                          },
+                          [
+                            _c("source", {
+                              attrs: {
+                                id: "questionMulti",
+                                src:
+                                  "/images/Pergunta/Multimedia/" +
+                                  _vm.pergunta["link"],
+                                type: ""
+                              }
+                            })
+                          ]
+                        )
+                      ]
+                    )
+                  : _vm.fileCheck() === 3
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "text-center",
+                        staticStyle: { "min-height": "30rem" }
+                      },
+                      [
+                        _c("audio", { attrs: { controls: "" } }, [
+                          _c("source", {
+                            attrs: {
+                              id: "questionMultiAudio",
+                              src:
+                                "/images/Pergunta/Multimedia/" +
+                                _vm.pergunta["link"],
+                              type: ""
+                            }
+                          })
+                        ])
+                      ]
+                    )
+                  : _vm.fileCheck() === 0
+                  ? _c("div", { staticStyle: { "min-height": "30rem" } })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.pergunta["tipo"] === "multiple"
+                  ? _c("div", { staticClass: "respostas mt-5" }, [
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c(
+                            "button",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.multipleQuestion[0] !== null,
+                                  expression: "multipleQuestion[0] !== null"
+                                }
+                              ],
+                              ref: "m0",
+                              staticClass: "respostas-btn respostas-btn-1",
+                              style: "background-color:" + _vm.color[0],
+                              attrs: { id: "m0", disabled: "" }
+                            },
+                            [
+                              _vm._v(
+                                " " +
+                                  _vm._s(_vm.multipleQuestion[0]) +
+                                  _vm._s(_vm.percentagem[0]) +
+                                  "%\n                        "
+                              )
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c(
+                            "button",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.multipleQuestion[1] !== null,
+                                  expression: "multipleQuestion[1] !== null"
+                                }
+                              ],
+                              ref: "m1",
+                              staticClass: "respostas-btn respostas-btn-1",
+                              style: "background-color:" + _vm.color[1],
+                              attrs: { id: "m1", disabled: "" }
+                            },
+                            [
+                              _vm._v(
+                                " " +
+                                  _vm._s(_vm.multipleQuestion[1]) +
+                                  _vm._s(_vm.percentagem[1]) +
+                                  "%\n                        "
+                              )
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c(
+                            "button",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.multipleQuestion[2] !== null,
+                                  expression: "multipleQuestion[2] !== null"
+                                }
+                              ],
+                              ref: "m2",
+                              staticClass: "respostas-btn respostas-btn-1",
+                              style: "background-color:" + _vm.color[2],
+                              attrs: { id: "m2", disabled: "" }
+                            },
+                            [
+                              _vm._v(
+                                " " +
+                                  _vm._s(_vm.multipleQuestion[2]) +
+                                  " " +
+                                  _vm._s(_vm.percentagem[2]) +
+                                  "%\n                        "
+                              )
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c(
+                            "button",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.multipleQuestion[3] !== null,
+                                  expression: "multipleQuestion[3] !== null"
+                                }
+                              ],
+                              ref: "m3",
+                              staticClass: "respostas-btn respostas-btn-1 ",
+                              style: "background-color:" + _vm.color[3],
+                              attrs: { id: "m3", disabled: "" }
+                            },
+                            [
+                              _vm._v(
+                                " " +
+                                  _vm._s(_vm.multipleQuestion[3]) +
+                                  "  " +
+                                  _vm._s(_vm.percentagem[3]) +
+                                  "%\n                        "
+                              )
+                            ]
+                          )
+                        ])
+                      ])
+                    ])
+                  : _vm.pergunta["tipo"] === "true/false"
+                  ? _c("div", { staticClass: "respostas mt-5" }, [
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "respostas-btn respostas-btn-1",
+                              style: "background-color:" + _vm.color[1],
+                              attrs: { id: "tf1", value: "true", disabled: "" }
+                            },
+                            [
+                              _vm._v(
+                                "True " +
+                                  _vm._s(_vm.percentagem[1]) +
+                                  "%\n                        "
+                              )
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "respostas-btn respostas-btn-1",
+                              style: "background-color:" + _vm.color[2],
+                              attrs: { id: "tf2", value: "false", disabled: "" }
+                            },
+                            [
+                              _vm._v(
+                                "False " +
+                                  _vm._s(_vm.percentagem[2]) +
+                                  "%\n                        "
+                              )
+                            ]
+                          )
+                        ])
+                      ])
+                    ])
+                  : _vm.pergunta["tipo"] === "multiple-select"
+                  ? _c("div", { staticClass: "respostas mt-5" }, [
+                      _c("div", { staticClass: "row" }, [
+                        _c("p", { staticClass: "text-center" }, [
+                          _vm.pergunta["tipo"] === "multiple-select"
+                            ? _c("span", { staticClass: "selecao-mul mx-auto" })
+                            : _vm._e()
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c(
+                            "button",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.multipleQuestion[0] !== null,
+                                  expression: "multipleQuestion[0] !== null"
+                                }
+                              ],
+                              staticClass: "respostas-btn respostas-btn-1",
+                              style: "background-color:" + _vm.color[0],
+                              attrs: { id: "Qm0", disabled: "" }
+                            },
+                            [
+                              _vm._v(
+                                " " +
+                                  _vm._s(_vm.multipleQuestion[0]) +
+                                  _vm._s(_vm.percentagem[0]) +
+                                  "%\n                        "
+                              )
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c(
+                            "button",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.multipleQuestion[1] !== null,
+                                  expression: "multipleQuestion[1] !== null"
+                                }
+                              ],
+                              staticClass: "respostas-btn respostas-btn-1",
+                              style: "background-color:" + _vm.color[1],
+                              attrs: { id: "Qm1", disabled: "" }
+                            },
+                            [
+                              _vm._v(
+                                " " +
+                                  _vm._s(_vm.multipleQuestion[1]) +
+                                  _vm._s(_vm.percentagem[1]) +
+                                  "%\n                        "
+                              )
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c(
+                            "button",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.multipleQuestion[2] !== null,
+                                  expression: "multipleQuestion[2] !== null"
+                                }
+                              ],
+                              staticClass: "respostas-btn respostas-btn-1",
+                              style: "background-color:" + _vm.color[2],
+                              attrs: { id: "Qm2", disabled: "" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(_vm.multipleQuestion[2]) +
+                                  _vm._s(_vm.percentagem[2]) +
+                                  "%\n                             \n                        "
+                              )
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c(
+                            "button",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.multipleQuestion[3] !== null,
+                                  expression: "multipleQuestion[3] !== null"
+                                }
+                              ],
+                              staticClass: "respostas-btn respostas-btn-1",
+                              style: "background-color:" + _vm.color[3],
+                              attrs: { id: "Qm3", disabled: "" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(_vm.multipleQuestion[3]) +
+                                  _vm._s(_vm.percentagem[3]) +
+                                  "%\n                             \n                        "
+                              )
+                            ]
+                          )
+                        ])
+                      ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.pergunta["tipo"] === "multiple-image"
+                  ? _c("div", { staticClass: "respostas mt-5" }, [
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c(
+                            "button",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.multipleQuestion[0] !== null,
+                                  expression: "multipleQuestion[0] !== null"
+                                }
+                              ],
+                              staticClass: "respostas-btn respostas-btn-1",
+                              style: "background-color:" + _vm.color[0],
+                              attrs: { id: "mi0", disabled: "" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                             \n                            "
+                              ),
+                              _c("img", {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.multipleQuestion[0] !== null,
+                                    expression: "multipleQuestion[0] !== null"
+                                  }
+                                ],
+                                staticClass: "mx-auto",
+                                attrs: {
+                                  src:
+                                    "/images/Pergunta/Multimedia/" +
+                                    _vm.multipleQuestion[0],
+                                  alt: "imagem da pergunta",
+                                  id: "mimg" + _vm.multipleQuestion[0],
+                                  height: "40%",
+                                  width: "40%"
+                                }
+                              }),
+                              _vm._v(_vm._s(_vm.percentagem[0]) + "%")
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c(
+                            "button",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.multipleQuestion[1] !== null,
+                                  expression: "multipleQuestion[1] !== null"
+                                }
+                              ],
+                              staticClass: "respostas-btn respostas-btn-1",
+                              style: "background-color:" + _vm.color[1],
+                              attrs: { id: "mi1", disabled: "" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                             \n                            "
+                              ),
+                              _c("img", {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.multipleQuestion[1] !== null,
+                                    expression: "multipleQuestion[1] !== null"
+                                  }
+                                ],
+                                staticClass: "mx-auto",
+                                attrs: {
+                                  src:
+                                    "/images/Pergunta/Multimedia/" +
+                                    _vm.multipleQuestion[1],
+                                  alt: "imagem da pergunta",
+                                  id: "mimg" + _vm.multipleQuestion[1],
+                                  height: "40%",
+                                  width: "40%"
+                                }
+                              }),
+                              _vm._v(_vm._s(_vm.percentagem[1]) + "%")
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c(
+                            "button",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.multipleQuestion[3] !== null,
+                                  expression: "multipleQuestion[3] !== null"
+                                }
+                              ],
+                              staticClass: "respostas-btn respostas-btn-1",
+                              style: "background-color:" + _vm.color[2],
+                              attrs: { id: "mi2", disabled: "" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                             \n                            "
+                              ),
+                              _c("img", {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.multipleQuestion[2] !== null,
+                                    expression: "multipleQuestion[2] !== null"
+                                  }
+                                ],
+                                staticClass: "mx-auto",
+                                attrs: {
+                                  src:
+                                    "/images/Pergunta/Multimedia/" +
+                                    _vm.multipleQuestion[2],
+                                  alt: "imagem da pergunta",
+                                  id: "mimg" + _vm.multipleQuestion[2],
+                                  height: "40%",
+                                  width: "40%"
+                                }
+                              }),
+                              _vm._v(_vm._s(_vm.percentagem[2]) + "%")
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c(
+                            "button",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.multipleQuestion[3] !== null,
+                                  expression: "multipleQuestion[3] !== null"
+                                }
+                              ],
+                              staticClass: "respostas-btn respostas-btn-1",
+                              style: "background-color:" + _vm.color[3],
+                              attrs: { id: "mi3", disabled: "" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                             \n                            "
+                              ),
+                              _c("img", {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.multipleQuestion[3] !== null,
+                                    expression: "multipleQuestion[3] !== null"
+                                  }
+                                ],
+                                staticClass: "mx-auto",
+                                attrs: {
+                                  src:
+                                    "/images/Pergunta/Multimedia/" +
+                                    _vm.multipleQuestion[3],
+                                  alt: "imagem da pergunta",
+                                  id: "mimg" + _vm.multipleQuestion[3],
+                                  height: "40%",
+                                  width: "40%"
+                                }
+                              }),
+                              _vm._v("  " + _vm._s(_vm.percentagem[3]) + "%")
+                            ]
+                          )
+                        ])
+                      ])
+                    ])
+                  : _vm._e()
+              ])
+            : _vm._e()
+        ]
+      )
+    ]),
     _vm._v(" "),
     _c(
       "div",

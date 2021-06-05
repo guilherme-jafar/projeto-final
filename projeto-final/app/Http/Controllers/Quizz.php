@@ -460,6 +460,8 @@ GROUP BY s.quizz_id ,s.nomequizz', ['id' => session('utilizador')['id'], 'sessio
 
         return response()->json([
             'message' => count($quizz),
+            'quizz'=>$quizz[0],
+            'res'=>$res
 
         ]);
     }
@@ -485,6 +487,7 @@ GROUP BY s.quizz_id ,s.nomequizz', ['id' => session('utilizador')['id'], 'sessio
         $index = $request->index;
         $users = $request->users;
         $points = $request->points;
+
         $users = explode(',', $users);
         $points = explode(',', $points);
         $quizz = Cache::get('quizz');
@@ -507,10 +510,14 @@ GROUP BY s.quizz_id ,s.nomequizz', ['id' => session('utilizador')['id'], 'sessio
                                  from respostas r
                                  where r.perguntas_id=:id', ['id' => $value->pId]);
 
-                broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'NewQuestion', session('utilizador')['id'], $value, $res, $newArray))->toOthers();
+
+
+                broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'NewQuestion', session('utilizador')['id'], $value, $res, $newArray));
 
 
             }
+
+
         }
 
     }

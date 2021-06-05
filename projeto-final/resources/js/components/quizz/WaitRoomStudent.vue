@@ -182,7 +182,7 @@
             </div>
         </div>
 
-        <div  id="tabela" v-show="tabela==='true'" v-for="(item,index) in student" :key="item">
+        <div  id="tabela" class="text-center resultado" v-show="tabela==='true'" v-for="(item,index) in student" :key="item">
             <p>{{index}} {{item}} </p>
         </div>
         <div class="text-center resultado" id="resultado">
@@ -261,7 +261,6 @@
                     }
                 }
             },
-
             submitQuizz(){
                 localStorage.clear();
                 window.Echo.leave('room.' + this.sessao);
@@ -636,7 +635,7 @@
                         this.countDown = 0;
                         this.respondeu = localStorage.getItem('questionStatus');
                         this.res = localStorage.getItem('points')
-                        this.resultado = localStorage.getItem('resultado')
+                        this.resultado = parseInt(localStorage.getItem('resultado'))
 
                         $('.wrapper').show();
                         $('#game').hide();
