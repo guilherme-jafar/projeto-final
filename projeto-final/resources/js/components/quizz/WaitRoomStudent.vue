@@ -182,9 +182,28 @@
             </div>
         </div>
 
-        <div  id="tabela" class="text-center resultado" v-show="tabela==='true'" v-for="(item,index) in student" :key="item">
-            <p>{{index}} {{item}} </p>
-        </div>
+<!--        <div  id="tabela" class="text-center resultado" v-show="tabela==='true'" v-for="(item,index) in student" :key="item">-->
+<!--            -->
+<!--            -->
+<!--            <p>{{index}} {{item}} </p>-->
+<!--        </div>-->
+
+                <div  id="tabela" class="resultado" v-show="tabela==='true'" >
+
+
+                    <table>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Pontos</th>
+                        </tr>
+                        <tr v-for="(item,index) in student" :key="item">
+                            <td ><!-- limitar para os cinco primeiros -->
+                                {{index}}
+                            </td>
+                            <td >{{item}}</td>
+                        </tr>
+                    </table>
+                </div>
         <div class="text-center resultado" id="resultado">
             <p>Fim do Jogo!!</p>
             <p>Pontos: {{resultado}}</p>

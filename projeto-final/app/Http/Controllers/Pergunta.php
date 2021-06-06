@@ -14,7 +14,8 @@ class Pergunta extends Controller
 //        return view('/prof/Disciplina', ['topico' => $topico]);
 
         $pergunta = \App\Models\pergunta::find($request->id);
-
+        $pergunta['disciplinaId'] =  session('disciplina')['id'];
+//        dd($pergunta['disciplina'] , session('disciplina')['id']);
 
         if (!empty($pergunta)) {
             return view('/prof/pergunta', ['pergunta' => $pergunta]);
@@ -73,7 +74,7 @@ class Pergunta extends Controller
         $multimedia = json_decode($request->multimedia);
         $youtubeLink = $request->file;
 
-        try {
+//        try {
 
             switch ($pontos) {
                 case "Normal":
@@ -91,7 +92,7 @@ class Pergunta extends Controller
             if ($tipoInicial !== $tipo) {
 
 
-                //DB::delete('delete from respostas where perguntas_id=:id', ['id' => $request->id]);
+                DB::delete('delete from respostas where perguntas_id=:id', ['id' => $request->id]);
 
                 $id = $request->id;
                 if ($tipo == "multiple") {
@@ -148,12 +149,12 @@ class Pergunta extends Controller
                     $resposta = $request->resposta;
 
 
-
+                    $index = 0;
                     foreach ($question as $q) {
                         foreach ($q as $res) {
                             $idRes = time() . uniqid();
 
-                            if ($res == $resposta) {
+                            if (substr($resposta, 0, 5) == 'resp' . ($index + 1)) {
                                 $nomeFile = "resp" . uniqid() . "." . $res->getClientOriginalExtension();
                                 $res->move(public_path('.\images\Pergunta\Multimedia'), $nomeFile);
                                 DB::insert('insert into respostas (id,resposta,resultado,perguntas_id) values (?,?,?,?)'
@@ -165,8 +166,10 @@ class Pergunta extends Controller
                                 DB::insert('insert into respostas (id,resposta,resultado,perguntas_id) values (?,?,?,?)'
                                     , [$idRes, $nomeFile, 0, $id]);
                             }
+                            $index+=1;
 
                         }
+
                     }
 
                 }
@@ -351,7 +354,7 @@ class Pergunta extends Controller
                     $imagemAntiga = json_decode($request->imagemAntiga);
                     $numPerguntas = $request->numeroPerguntas;
 
-                    //  dd($request);
+
                     if (count($respostasId) == $numPerguntas) {
 
 
@@ -362,6 +365,10 @@ class Pergunta extends Controller
                                     DB::table('respostas')
                                         ->where('id', '=', $respostasId[$i]->id)
                                         ->update(['resultado' => 1]);
+                                }else{
+                                    DB::table('respostas')
+                                        ->where('id', '=', $respostasId[$i]->id)
+                                        ->update(['resultado' => 0]);
                                 }
                             } else {
 
@@ -399,6 +406,10 @@ class Pergunta extends Controller
                                     DB::table('respostas')
                                         ->where('id', '=', $respostasId[$i]->id)
                                         ->update(['resultado' => 1]);
+                                }else{
+                                    DB::table('respostas')
+                                        ->where('id', '=', $respostasId[$i]->id)
+                                        ->update(['resultado' => 0]);
                                 }
                             } else {
 
@@ -441,6 +452,10 @@ class Pergunta extends Controller
                                         DB::table('respostas')
                                             ->where('id', '=', $respostasId[$i]->id)
                                             ->update(['resultado' => 1]);
+                                    }else{
+                                        DB::table('respostas')
+                                            ->where('id', '=', $respostasId[$i]->id)
+                                            ->update(['resultado' => 0]);
                                     }
                                 } else {
 
@@ -502,7 +517,6 @@ class Pergunta extends Controller
 
             if ($request->hasFile('file') != null) {
                 $nomeFile = uniqid() . "." . $request->file->getClientOriginalExtension();
-                $idMulti = uniqid() . time();
                 $request->file->move(public_path('.\images\Pergunta\Multimedia'), $nomeFile);
 
                 DB::table('multimedia')
@@ -529,11 +543,11 @@ class Pergunta extends Controller
             ]);
 
 
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'erro'
-            ]);
-        }
+//        } catch (\Exception $e) {
+//            return response()->json([
+//                'message' => 'erro'
+//            ]);
+//        }
 
     }
 

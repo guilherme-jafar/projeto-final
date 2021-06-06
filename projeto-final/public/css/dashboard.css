@@ -1121,9 +1121,8 @@ section {
 }
 .real-time-test-prof .gameMode {
   background-color: white;
-  box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
   padding: 2rem;
-  border-radius: 1rem;
+  border-radius: 1rem 1rem 0 0;
 }
 .real-time-test-prof .gameMode .name-user {
   color: #40C0F0;
@@ -1131,11 +1130,25 @@ section {
 .real-time-test-prof .gameMode .number {
   color: #FF7829;
 }
+.real-time-test-prof .gameMode table {
+  width: 100%;
+  font-size: 2rem;
+}
+.real-time-test-prof .gameMode table tr:nth-child(even) {
+  background-color: #dddddd;
+}
 .real-time-test-prof .endGame {
   background-color: white;
   box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
   padding: 2rem;
   border-radius: 1rem;
+}
+.real-time-test-prof .endGame table {
+  width: 100%;
+  font-size: 2rem;
+}
+.real-time-test-prof .endGame table tr:nth-child(even) {
+  background-color: #dddddd;
 }
 
 .real-time-test-aluno .wait-room-alunos h2 {
@@ -1162,12 +1175,18 @@ section {
 .real-time-test-aluno .resultado p:nth-child(2) {
   color: #FF7829;
 }
+.real-time-test-aluno .resultado table {
+  width: 100%;
+  font-size: 2rem;
+}
+.real-time-test-aluno .resultado table tr:nth-child(even) {
+  background-color: #dddddd;
+}
 
 .fazerTeste {
   background-color: white;
-  box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
   padding: 2rem;
-  border-radius: 5px;
+  border-radius: 0 0 1rem 1rem;
 }
 .fazerTeste .counter span {
   font-size: 5rem;

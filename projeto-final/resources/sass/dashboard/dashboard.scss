@@ -773,9 +773,9 @@
     .gameMode{
 
         background-color: white;
-        box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
+        //box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
         padding: 2rem;
-        border-radius: 1rem;
+        border-radius: 1rem 1rem 0 0;
         .name-user{
             color: $cor-principal-2;
         }
@@ -787,6 +787,17 @@
         .respostas{
 
         }
+
+        table{
+           width: 100%;
+            font-size: 2rem;
+
+            tr:nth-child(even){
+                background-color: #dddddd;
+
+            }
+
+        }
     }
 
     .endGame{
@@ -794,6 +805,17 @@
         box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
         padding: 2rem;
         border-radius: 1rem;
+
+        table{
+            width: 100%;
+            font-size: 2rem;
+
+            tr:nth-child(even){
+                background-color: #dddddd;
+
+            }
+
+        }
 
     }
 
@@ -828,6 +850,17 @@
         p:nth-child(2){
             color: $cor-principal-1;
         }
+
+        table{
+            width: 100%;
+            font-size: 2rem;
+
+            tr:nth-child(even){
+                background-color: #dddddd;
+
+            }
+
+        }
     }
 
 }
@@ -837,9 +870,9 @@
 
 .fazerTeste{
     background-color: white;
-    box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
+    //box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
     padding: 2rem;
-    border-radius: 5px;
+    border-radius: 0 0 1rem 1rem;
 
     .counter{
         span{

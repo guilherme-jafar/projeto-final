@@ -3,8 +3,6 @@
         <div class="wait-room text-center" id="waitRoom">
 
 
-
-
             <div class="box-sessao">
                 <h2>Código da Sessão:</h2>
                 <p>{{sessao}}</p>
@@ -18,14 +16,14 @@
                 <div v-if="users.length !==0">
                     <div class=" text-center">
                         <div class="row" v-if="users.length === 1">
-                            <div  v-for="user in users" class="col-md-12"><span class="name-user">{{user}}</span></div>
+                            <div v-for="user in users" class="col-md-12"><span class="name-user">{{user}}</span></div>
                         </div>
                         <div class="row" v-else-if="users.length === 2">
-                            <div  v-for="user in users" class="col-md-6"><span class="name-user">{{user}}</span></div>
+                            <div v-for="user in users" class="col-md-6"><span class="name-user">{{user}}</span></div>
 
                         </div>
                         <div class="row" v-else>
-                            <div  v-for="user in users" class="col-md-4"><span class="name-user">{{user}}</span></div>
+                            <div v-for="user in users" class="col-md-4"><span class="name-user">{{user}}</span></div>
                         </div>
 
 
@@ -36,11 +34,10 @@
             <div class="footer">
                 <div class="d-flex">
 
-                        <button class="me-auto btn btn-primary" @click="sair()" id="sair">Sair</button>
+                    <button class="me-auto btn btn-primary" @click="sair()" id="sair">Sair</button>
 
 
-                        <button class="ms-auto btn btn-secondary" @click="start()" id="Inciar">Iniciar Quizz</button>
-
+                    <button class="ms-auto btn btn-secondary" @click="start()" id="Inciar">Iniciar Quizz</button>
 
 
                 </div>
@@ -51,208 +48,243 @@
 
 
         <div id="gameMode">
-        <div class="gameMode" >
-            <div class="d-flex">
-                <p class="number">Numero de perguntas {{index -1 }}/{{Questions}}</p>
-                <button class="btn btn-secondary ms-auto" id="next" @click="nextQuestion('next')">Proxima Pergunta</button>
-                <button class="btn btn-primary ms-auto" id="stop" @click="stopQuestion()">Parar Pergunta</button>
-                <button class="btn btn-third ms-auto" id="submitLast" @click="submitLast()">terminar quizz</button>
-
-            </div>
-
-            <div id="tabela" v-for="(item,inde) in usersId" :key="item.users">
-                <div v-if="inde <= 5"><!-- limitar para os cinco primeiros -->
-
-                <p class="name-user">{{users[usersId.indexOf(item)]}} {{points[usersId.indexOf(item)]}}</p>
+            <div class="gameMode">
+                <div class="d-flex">
+                    <p class="number">Numero de perguntas {{index -1 }}/{{Questions}}</p>
+                    <button class="btn btn-secondary ms-auto" id="next" @click="nextQuestion('next')">Proxima Pergunta
+                    </button>
+                    <button class="btn btn-primary ms-auto" id="stop" @click="stopQuestion()">Parar Pergunta</button>
+                    <button class="btn btn-third ms-auto" id="submitLast" @click="submitLast()">terminar quizz</button>
 
                 </div>
+
+                <div>
+                    <div>
+                        <table>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Pontos</th>
+                            </tr>
+                            <tr id="tabela" v-for="(item,inde) in usersId" :key="item.users">
+                                <td v-if="inde <= 5"><!-- limitar para os cinco primeiros -->
+                                    {{users[usersId.indexOf(item)]}}
+                                </td>
+                                <td v-if="inde <= 5">{{points[usersId.indexOf(item)]}}</td>
+                            </tr>
+                        </table>
+                        <!--                <p class="name-user"> </p>-->
+
+                    </div>
+                </div>
+
+
             </div>
-
-
-
-        </div>
 
             <div id="container" class="fazerTeste mx-auto">
 
                 <div v-if="pergunta.length!==0">
-                <div class="pergunta text-start">
-                    <p>{{ enunciado }}</p>
+                    <div class="pergunta text-start">
+                        <p>{{ enunciado }}</p>
 
-                </div>
+                    </div>
 
 
-                <div v-if="fileCheck()===1" style="min-height: 30rem" class="text-center">
+                    <div v-if="fileCheck()===1" class="text-center">
 
-                    <img :src="'/images/Pergunta/Multimedia/'+pergunta['link']" alt="imagem da pergunta"
-                         height="40%"
-                         width="40%" class="mx-auto">
-                </div>
-                <div v-else-if="fileCheck()===2" style="min-height: 30rem" class="text-center">
+                        <img :src="'/images/Pergunta/Multimedia/'+pergunta['link']" alt="imagem da pergunta"
+                             height="40%"
+                             width="40%" class="mx-auto">
+                    </div>
+                    <div v-else-if="fileCheck()===2" class="text-center">
 
-                    <video width="320" height="240" controls class="mx-auto">
-                        <source id="questionMulti" :src="'/images/Pergunta/Multimedia/'+pergunta['link']" type="">
-                    </video>
-                </div>
-                <div v-else-if="fileCheck()===3" style="min-height: 30rem" class="text-center">
+                        <video width="320" height="240" controls class="mx-auto">
+                            <source id="questionMulti" :src="'/images/Pergunta/Multimedia/'+pergunta['link']" type="">
+                        </video>
+                    </div>
+                    <div v-else-if="fileCheck()===3" class="text-center">
 
-                    <audio controls>
-                        <source id="questionMultiAudio" :src="'/images/Pergunta/Multimedia/'+pergunta['link']"
-                                type="">
-                    </audio>
-                </div>
-                <div v-else-if="fileCheck()===0" style="min-height: 30rem">
+                        <audio controls>
+                            <source id="questionMultiAudio" :src="'/images/Pergunta/Multimedia/'+pergunta['link']"
+                                    type="">
+                        </audio>
+                    </div>
+                    <div v-else-if="fileCheck()===0">
 
-                </div>
+                    </div>
 
-                <div class="respostas mt-5" v-if="pergunta['tipo']==='multiple'">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <button class="respostas-btn respostas-btn-1" :style="'background-color:'+color[0]" ref="m0" id="m0" disabled
-                                    v-show="multipleQuestion[0] !== null">&nbsp;{{multipleQuestion[0]}}{{ percentagem[0]}}%
-                            </button>
+                    <div class="respostas mt-5" v-if="pergunta['tipo']==='multiple'">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button class="respostas-btn respostas-btn-1 mb-4" :style="'background-color:'+color[0]"
+                                        ref="m0" id="m0" disabled
+                                        v-show="multipleQuestion[0] !== null">&nbsp;{{multipleQuestion[0]}} {{
+                                    percentagem[0]}}%
+                                </button>
+                            </div>
+                            <div class="col-md-12">
+                                <button class="respostas-btn respostas-btn-1 mb-4" :style="'background-color:'+color[1]"
+                                        ref="m1" id="m1" disabled
+                                        v-show="multipleQuestion[1] !== null">&nbsp;{{multipleQuestion[1]}} {{
+                                    percentagem[1]}}%
+                                </button>
+                            </div>
+
+                            <div class="col-md-12">
+                                <button class="respostas-btn respostas-btn-1 mb-4" :style="'background-color:'+color[2]"
+                                        ref="m2" id="m2" disabled
+                                        v-show="multipleQuestion[2] !== null">&nbsp;{{multipleQuestion[2]}} {{
+                                    percentagem[2]}}%
+                                </button>
+                            </div>
+                            <div class="col-md-12">
+                                <button class="respostas-btn respostas-btn-1 mb-4" :style="'background-color:'+color[3]"
+                                        ref="m3" id="m3" disabled
+                                        v-show="multipleQuestion[3] !== null">&nbsp;{{multipleQuestion[3]}} {{
+                                    percentagem[3]}}%
+                                </button>
+                            </div>
                         </div>
-                        <div class="col-md-12">
-                            <button class="respostas-btn respostas-btn-1" :style="'background-color:'+color[1]"  ref="m1" id="m1" disabled
-                                    v-show="multipleQuestion[1] !== null">&nbsp;{{multipleQuestion[1]}}{{ percentagem[1]}}%
-                            </button>
+
+
+                    </div>
+
+                    <div class="respostas mt-5" v-else-if="pergunta['tipo']==='true/false'">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button class="respostas-btn respostas-btn-1  mb-4"
+                                        :style="'background-color:'+color[1]" id="tf1" value="true" disabled
+                                >True {{ percentagem[1]}}%
+                                </button>
+                            </div>
+                            <div class="col-md-12">
+                                <button class="respostas-btn respostas-btn-1" :style="'background-color:'+color[2]"
+                                        id="tf2" value="false" disabled
+                                >False {{ percentagem[2]}}%
+                                </button>
+                            </div>
                         </div>
 
-                        <div class="col-md-12">
-                            <button class="respostas-btn respostas-btn-1" :style="'background-color:'+color[2]"  ref="m2" id="m2" disabled
-                                    v-show="multipleQuestion[2] !== null" >&nbsp;{{multipleQuestion[2]}} {{ percentagem[2]}}%
-                            </button>
+
+                    </div>
+
+                    <div class="respostas mt-5" v-else-if="pergunta['tipo']==='multiple-select'">
+
+                        <div class="row">
+                            <p class="text-center">
+                                <span class="selecao-mul mx-auto" v-if="pergunta['tipo']==='multiple-select'"></span>
+                            </p>
+                            <div class="col-md-12">
+                                <button class="respostas-btn respostas-btn-1  mb-4" :style="'background-color:'+color[0]"
+                                        id="Qm0" disabled
+                                        v-show="multipleQuestion[0] !== null">&nbsp;{{multipleQuestion[0]}}{{
+                                    percentagem[0]}}%
+                                </button>
+                            </div>
+                            <div class="col-md-12">
+                                <button class="respostas-btn respostas-btn-1 mb-4" :style="'background-color:'+color[1]"
+                                        id="Qm1" disabled
+                                        v-show="multipleQuestion[1] !== null">&nbsp;{{multipleQuestion[1]}}{{
+                                    percentagem[1]}}%
+                                </button>
+                            </div>
+
+                            <div class="col-md-12">
+                                <button class="respostas-btn respostas-btn-1 mb-4" :style="'background-color:'+color[2]"
+                                        id="Qm2" disabled
+                                        v-show="multipleQuestion[2] !== null">
+                                    {{multipleQuestion[2]}}{{ percentagem[2]}}%
+                                    &nbsp;
+                                </button>
+                            </div>
+                            <div class="col-md-12">
+                                <button class="respostas-btn respostas-btn-1" :style="'background-color:'+color[3]"
+                                        id="Qm3" disabled
+                                        v-show="multipleQuestion[3] !== null">
+                                    {{multipleQuestion[3]}}{{ percentagem[3]}}%
+                                    &nbsp;
+                                </button>
+                            </div>
                         </div>
-                        <div class="col-md-12">
-                            <button class="respostas-btn respostas-btn-1 " :style="'background-color:'+color[3]" ref="m3" id="m3" disabled
-                                    v-show="multipleQuestion[3] !== null">&nbsp;{{multipleQuestion[3]}}  {{ percentagem[3]}}%
-                            </button>
+
+
+                    </div>
+                    <div class="respostas mt-5" v-if="pergunta['tipo']==='multiple-image'">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button class="respostas-btn respostas-btn-1 mb-4" :style="'background-color:'+color[0]"
+                                        id="mi0" disabled
+                                        v-show="multipleQuestion[0] !== null">
+                                    &nbsp;
+                                    <img :src="'/images/Pergunta/Multimedia/'+multipleQuestion[0]"
+                                         v-show="multipleQuestion[0] !== null" alt="imagem da pergunta"
+                                         :id="'mimg'+multipleQuestion[0]" height="40%"
+                                         width="40%" class="mx-auto">{{ percentagem[0]}}%
+                                </button>
+                            </div>
+                            <div class="col-md-12">
+                                <button class="respostas-btn respostas-btn-1 mb-4" :style="'background-color:'+color[1]"
+                                        id="mi1" disabled
+                                        v-show="multipleQuestion[1] !== null">
+                                    &nbsp;
+                                    <img :src="'/images/Pergunta/Multimedia/'+multipleQuestion[1]"
+                                         v-show="multipleQuestion[1] !== null" alt="imagem da pergunta"
+                                         :id="'mimg'+multipleQuestion[1]" height="40%"
+                                         width="40%" class="mx-auto">{{ percentagem[1]}}%
+                                </button>
+                            </div>
+
+                            <div class="col-md-12">
+                                <button class="respostas-btn respostas-btn-1 mb-4" :style="'background-color:'+color[2]"
+                                        id="mi2" disabled
+                                        v-show="multipleQuestion[3] !== null">
+                                    &nbsp;
+                                    <img :src="'/images/Pergunta/Multimedia/'+multipleQuestion[2]"
+                                         v-show="multipleQuestion[2] !== null" alt="imagem da pergunta"
+                                         :id="'mimg'+multipleQuestion[2]" height="40%"
+                                         width="40%" class="mx-auto">{{ percentagem[2]}}%
+                                </button>
+                            </div>
+                            <div class="col-md-12">
+                                <button class="respostas-btn respostas-btn-1 mb-4" :style="'background-color:'+color[3]"
+                                        id="mi3" disabled
+                                        v-show="multipleQuestion[3] !== null">
+                                    &nbsp;
+                                    <img :src="'/images/Pergunta/Multimedia/'+multipleQuestion[3]"
+                                         v-show="multipleQuestion[3] !== null" alt="imagem da pergunta"
+                                         :id="'mimg'+multipleQuestion[3]" height="40%"
+                                         width="40%" class="mx-auto"> {{ percentagem[3]}}%
+                                </button>
+                            </div>
                         </div>
+
+
                     </div>
 
 
                 </div>
-
-                <div class="respostas mt-5" v-else-if="pergunta['tipo']==='true/false'">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <button class="respostas-btn respostas-btn-1" :style="'background-color:'+color[1]"  id="tf1" value="true" disabled
-                                    >True {{ percentagem[1]}}%
-                            </button>
-                        </div>
-                        <div class="col-md-12">
-                            <button class="respostas-btn respostas-btn-1" :style="'background-color:'+color[2]"  id="tf2" value="false" disabled
-                                    >False {{ percentagem[2]}}%
-                            </button>
-                        </div>
-                    </div>
-
-
-                </div>
-
-                <div class="respostas mt-5" v-else-if="pergunta['tipo']==='multiple-select'">
-
-                    <div class="row">
-                        <p class="text-center">
-                      <span class="selecao-mul mx-auto" v-if="pergunta['tipo']==='multiple-select'">
-
-            </span>
-                        </p>
-                        <div class="col-md-12">
-                            <button class="respostas-btn respostas-btn-1" :style="'background-color:'+color[0]" id="Qm0" disabled
-                                    v-show="multipleQuestion[0] !== null" >&nbsp;{{multipleQuestion[0]}}{{ percentagem[0]}}%
-                            </button>
-                        </div>
-                        <div class="col-md-12">
-                            <button class="respostas-btn respostas-btn-1" :style="'background-color:'+color[1]"  id="Qm1" disabled
-                                    v-show="multipleQuestion[1] !== null" >&nbsp;{{multipleQuestion[1]}}{{ percentagem[1]}}%
-                            </button>
-                        </div>
-
-                        <div class="col-md-12">
-                            <button class="respostas-btn respostas-btn-1" :style="'background-color:'+color[2]"  id="Qm2" disabled
-                                    v-show="multipleQuestion[2] !== null" >
-                                {{multipleQuestion[2]}}{{ percentagem[2]}}%
-                                &nbsp;
-                            </button>
-                        </div>
-                        <div class="col-md-12">
-                            <button class="respostas-btn respostas-btn-1" :style="'background-color:'+color[3]"  id="Qm3" disabled
-                                    v-show="multipleQuestion[3] !== null" >
-                                {{multipleQuestion[3]}}{{ percentagem[3]}}%
-                                &nbsp;
-                            </button>
-                        </div>
-                    </div>
-
-
-                </div>
-                <div class="respostas mt-5" v-if="pergunta['tipo']==='multiple-image'">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <button class="respostas-btn respostas-btn-1"  :style="'background-color:'+color[0]"  id="mi0" disabled
-                                    v-show="multipleQuestion[0] !== null" >
-                                &nbsp;
-                                <img :src="'/images/Pergunta/Multimedia/'+multipleQuestion[0]"
-                                     v-show="multipleQuestion[0] !== null" alt="imagem da pergunta"
-                                     :id="'mimg'+multipleQuestion[0]" height="40%"
-                                     width="40%" class="mx-auto">{{ percentagem[0]}}%</button>
-                        </div>
-                        <div class="col-md-12">
-                            <button class="respostas-btn respostas-btn-1" :style="'background-color:'+color[1]"  id="mi1" disabled
-                                    v-show="multipleQuestion[1] !== null">
-                                &nbsp;
-                                <img :src="'/images/Pergunta/Multimedia/'+multipleQuestion[1]"
-                                     v-show="multipleQuestion[1] !== null" alt="imagem da pergunta"
-                                     :id="'mimg'+multipleQuestion[1]" height="40%"
-                                     width="40%" class="mx-auto">{{ percentagem[1]}}%</button>
-                        </div>
-
-                        <div class="col-md-12">
-                            <button class="respostas-btn respostas-btn-1" :style="'background-color:'+color[2]"  id="mi2" disabled
-                                    v-show="multipleQuestion[3] !== null" >
-                                &nbsp;
-                                <img :src="'/images/Pergunta/Multimedia/'+multipleQuestion[2]"
-                                     v-show="multipleQuestion[2] !== null" alt="imagem da pergunta"
-                                     :id="'mimg'+multipleQuestion[2]" height="40%"
-                                     width="40%" class="mx-auto">{{ percentagem[2]}}%</button>
-                        </div>
-                        <div class="col-md-12">
-                            <button class="respostas-btn respostas-btn-1" :style="'background-color:'+color[3]"  id="mi3" disabled
-                                    v-show="multipleQuestion[3] !== null" >
-                                &nbsp;
-                                <img :src="'/images/Pergunta/Multimedia/'+multipleQuestion[3]"
-                                     v-show="multipleQuestion[3] !== null" alt="imagem da pergunta"
-                                     :id="'mimg'+multipleQuestion[3]" height="40%"
-                                     width="40%" class="mx-auto">  {{ percentagem[3]}}%</button>
-                        </div>
-                    </div>
-
-
-                </div>
-
-
             </div>
         </div>
-        </div>
 
 
+        <div class="endGame" id="EndGame">
 
+            <table>
+                <tr>
+                    <th>Nome</th>
+                    <th>Pontos</th>
+                </tr>
+                <tr id="tabelaFim" v-for="(item,inde) in usersId" :key="item.users">
+                    <td v-if="inde <= 5"><!-- limitar para os cinco primeiros -->
+                        {{users[usersId.indexOf(item)]}}
+                    </td>
+                    <td v-if="inde <= 5">{{points[usersId.indexOf(item)]}}</td>
+                </tr>
+            </table>
 
-
-
-
-
-
-
-
-
-
-        <div class="endGame text-center" id="EndGame">
-
-            <div id="tabelaFim" v-for="item in usersId" :key="item.users">
-                <p>{{users[usersId.indexOf(item)]}} {{points[usersId.indexOf(item)]}}</p>
-            </div>
-            <button class="btn btn-primary" @click="endQuizz">Sair e Gravar</button>
+<!--            <div id="tabelaFim" v-for="item in usersId" :key="item.users">-->
+<!--                <p>{{users[usersId.indexOf(item)]}} {{points[usersId.indexOf(item)]}}</p>-->
+<!--            </div>-->
+            <button class="btn btn-primary mt-5" @click="endQuizz">Sair e Gravar</button>
         </div>
 
 
@@ -279,19 +311,19 @@
                 questionPoints: [],
                 resposta: [],
                 image: 'false',
-                enunciado:'',
-                tipo:'',
+                enunciado: '',
+                tipo: '',
                 students: 0,
                 couter: 0,
                 index: 1,
                 Questions: 0,
                 pergunta: [],
                 multipleQuestion: [],
-                percentagem:[0,0,0,0],
-                solucoes:[0,0,0,0],
-                respostaQuizz:[],
+                percentagem: [0, 0, 0, 0],
+                solucoes: [0, 0, 0, 0],
+                respostaQuizz: [],
                 sessao: JSON.parse(this.sessao_prop),
-                color:['darkred','darkred','darkred','darkred']
+                color: ['#dddddd', '#dddddd', '#dddddd', '#dddddd']
 
 
             }
@@ -303,7 +335,7 @@
         },
 
         methods: {
-            getResposta( Ans) {
+            getResposta(Ans) {
 
                 var respostas = Ans;
 
@@ -428,19 +460,19 @@
                 axios.post('/startQuizz').then(function (response) {
 
                     this.Questions = response.data.message
-                    this.enunciado=response.data.quizz.enunciado
-                    this.pergunta=response.data.quizz;
-                    for(let i=0;i<4;i++){
-                        this.solucoes[i]=0;
-                        this.percentagem[i]=0;
+                    this.enunciado = response.data.quizz.enunciado
+                    this.pergunta = response.data.quizz;
+                    for (let i = 0; i < 4; i++) {
+                        this.solucoes[i] = 0;
+                        this.percentagem[i] = 0;
                     }
                     this.changeColor('darkred');
-                    localStorage.setItem('percentagem',JSON.stringify(this.percentagem));
-                    localStorage.setItem('solucoes',JSON.stringify(this.solucoes));
+                    localStorage.setItem('percentagem', JSON.stringify(this.percentagem));
+                    localStorage.setItem('solucoes', JSON.stringify(this.solucoes));
                     this.getResposta(response.data.res)
                     localStorage.setItem('status', 'game')
                     localStorage.setItem('questions', JSON.stringify(response.data.quizz));
-                    localStorage.setItem('nQuestion',this.Questions)
+                    localStorage.setItem('nQuestion', this.Questions)
                     localStorage.setItem('ansers', JSON.stringify(response.data.res));
                     $('#waitRoom').hide();
                     $('#gameMode').show();
@@ -475,7 +507,7 @@
                 }
             },
             nextQuestion(tag) {
-                localStorage.setItem('state','true');
+                localStorage.setItem('state', 'true');
                 $('#next').hide();
                 let form = new FormData();
                 form.append('index', this.index);
@@ -496,39 +528,40 @@
 
                 });
             },
-            changeColor(color){
-                var options=JSON.parse(localStorage.getItem('ansers'))
+            changeColor(color) {
+                var options = JSON.parse(localStorage.getItem('ansers'))
 
-             if (options!==null){
-                 if (this.pergunta['tipo']!=="true/false"){
-                for(let i=0;i<options.length;i++){
-                        console.log(options[i]['resultado'])
-                    if (options[i]['resultado']===1){
-                        this.color[i]=color
+                if (options !== null) {
+                    if (this.pergunta['tipo'] !== "true/false") {
+                        for (let i = 0; i < options.length; i++) {
+                            console.log(options[i]['resultado'])
+                            if (options[i]['resultado'] === 1) {
+                                this.color[i] = color
 
-                    }else{
-                        this.color[i]='darkred'
+                            } else {
+                                this.color[i] = 'darkred'
+                            }
+
+                        }
+                    } else {
+
+                        if (options[0]['resposta'] === "false") {
+                            this.color[2] = color
+                            this.color[1] = 'darkred'
+
+
+                        } else {
+                            this.color[2] = 'darkred'
+                            this.color[1] = color
+                        }
+
+
                     }
-
-                }}else{
-
-                         if (options[0]['resposta']==="false"){
-                             this.color[2]=color
-                             this.color[1]='darkred'
-
-
-                         }else{
-                             this.color[2]='darkred'
-                             this.color[1]=color
-                         }
-
-
-
-                 }}
+                }
 
 
             },
-            submitLast(){
+            submitLast() {
                 let form = new FormData();
                 form.append('users', this.users);
                 form.append('points', this.points);
@@ -561,8 +594,7 @@
                                 localStorage.setItem('userId', JSON.stringify(this.usersId));
                                 localStorage.setItem('pontos', JSON.stringify((this.points)));
                                 localStorage.setItem('students', this.students);
-                            }
-                            else if (e.type === 'leavestudent') {
+                            } else if (e.type === 'leavestudent') {
                                 this.students--
                                 this.usersId.splice(this.usersId.indexOf(e.userId), 1);
                                 this.users.splice(this.users.indexOf(e.name), 1);
@@ -575,45 +607,49 @@
                                     $('#Inciar').hide();
                                 }
 
-                            }
-                            else if (e.type === 'NextQuestion') {
+                            } else if (e.type === 'NextQuestion') {
                                 this.points[this.usersId.indexOf(e.userId)] += parseInt(e.points);
                                 this.resposta[this.usersId.indexOf(e.userId)] = e.answer;
-                                if(this.pergunta['tipo']!=="true/false"){
-                                for(let i=0;i<4;i++){
-                                    if(this.multipleQuestion[i]===e.answer){
-                                        this.solucoes[i]++;
-
-                                        this.percentagem[i]=(this.solucoes[i]/this.students)*100;
-                                    }
-
-                                } this.changeColor('#7FBA27');
-                                }
-                                else {
-                                    for(let i=1;i<3;i++){
-                                        if($('#tf'+i).val()===e.answer){
+                                if (this.pergunta['tipo'] !== "true/false") {
+                                    for (let i = 0; i < 4; i++) {
+                                        if (this.multipleQuestion[i] === e.answer) {
                                             this.solucoes[i]++;
-                                            this.percentagem[i]=(this.solucoes[i]/this.students)*100;
+
+                                            this.percentagem[i] = (this.solucoes[i] / this.students) * 100;
+                                        }
+
+                                    }
+                                    this.changeColor('#7FBA27');
+                                } else {
+                                    for (let i = 1; i < 3; i++) {
+                                        if ($('#tf' + i).val() === e.answer) {
+                                            this.solucoes[i]++;
+                                            this.percentagem[i] = (this.solucoes[i] / this.students) * 100;
                                         }
 
                                     }
                                     this.changeColor('#7FBA27');
 
                                 }
-                                var that=this;
+                                var that = this;
                                 var list = [];
                                 for (var j = 0; j < this.usersId.length; j++)
-                                    list.push({'id':this.usersId[j],'name': this.users[j], 'points': this.points[j], 'resposta':this.resposta[j]});
+                                    list.push({
+                                        'id': this.usersId[j],
+                                        'name': this.users[j],
+                                        'points': this.points[j],
+                                        'resposta': this.resposta[j]
+                                    });
 
-                                list.sort(function(a, b) {
+                                list.sort(function (a, b) {
                                     return ((a.points < b.points) ? -1 : ((a.points === b.points) ? 0 : 1));
                                 });
 
                                 for (var k = 0; k < list.length; k++) {
                                     this.users[k] = list[k].name;
-                                    this.usersId[k]=list[k].id;
-                                    this.points[k]=list[k].points;
-                                    this.resposta[k]=list[k].resposta;
+                                    this.usersId[k] = list[k].id;
+                                    this.points[k] = list[k].points;
+                                    this.resposta[k] = list[k].resposta;
                                 }
                                 this.users.reverse();
                                 this.usersId.reverse();
@@ -627,20 +663,20 @@
                                     this.image = 'false'
                                 }
                                 localStorage.setItem('pontos', JSON.stringify(this.points));
-                                localStorage.setItem('percentagem',JSON.stringify(this.percentagem));
-                                localStorage.setItem('solucoes',JSON.stringify(this.solucoes));
+                                localStorage.setItem('percentagem', JSON.stringify(this.percentagem));
+                                localStorage.setItem('solucoes', JSON.stringify(this.solucoes));
                                 $('#tabela').show();
 
                                 this.couter++
                                 if (this.students === this.couter) {
                                     this.index++;
                                     localStorage.setItem('index', this.index);
-                                    localStorage.setItem('state','false');
+                                    localStorage.setItem('state', 'false');
                                     if (this.Questions < this.index) {
                                         $('#stop').hide();
                                         $('#next').hide();
                                         $('#submitLast').show();
-                                        localStorage.setItem('state','submit')
+                                        localStorage.setItem('state', 'submit')
 
                                     } else {
                                         $('#stop').hide();
@@ -651,19 +687,19 @@
 
                                 }
 
-                            }else if (e.type === 'NewQuestion') {
+                            } else if (e.type === 'NewQuestion') {
 
-                                this.pergunta=e.quizzArray;
-                                this.enunciado=this.pergunta["enunciado"];
+                                this.pergunta = e.quizzArray;
+                                this.enunciado = this.pergunta["enunciado"];
                                 localStorage.setItem('questions', JSON.stringify(e.quizzArray));
                                 localStorage.setItem('ansers', JSON.stringify(e.Ans));
-                                for(let i=0;i<4;i++){
-                                    this.solucoes[i]=0;
-                                    this.percentagem[i]=0;
+                                for (let i = 0; i < 4; i++) {
+                                    this.solucoes[i] = 0;
+                                    this.percentagem[i] = 0;
                                 }
                                 this.changeColor('darkred');
-                                localStorage.setItem('percentagem',JSON.stringify(this.percentagem));
-                                localStorage.setItem('solucoes',JSON.stringify(this.solucoes));
+                                localStorage.setItem('percentagem', JSON.stringify(this.percentagem));
+                                localStorage.setItem('solucoes', JSON.stringify(this.solucoes));
                                 this.getResposta(e.Ans)
                             }
                         }
@@ -705,18 +741,18 @@
                 this.Questions = localStorage.getItem('nQuestion')
                 this.index = localStorage.getItem('index');
 
-                this.pergunta= JSON.parse(localStorage.getItem('questions'));
+                this.pergunta = JSON.parse(localStorage.getItem('questions'));
 
-                if(this.pergunta!=null) {
+                if (this.pergunta != null) {
                     this.enunciado = this.pergunta["enunciado"]
-                    this.percentagem=JSON.parse(localStorage.getItem('percentagem'));
-                    this.solucoes=JSON.parse(localStorage.getItem('solucoes'));
+                    this.percentagem = JSON.parse(localStorage.getItem('percentagem'));
+                    this.solucoes = JSON.parse(localStorage.getItem('solucoes'));
                     this.changeColor('#7FBA27');
                     this.getResposta(JSON.parse(localStorage.getItem('ansers')));
 
 
-                    var check=JSON.parse(localStorage.getItem('state'));
-                console.log(localStorage.getItem('state') === 'true')
+                    var check = JSON.parse(localStorage.getItem('state'));
+                    console.log(localStorage.getItem('state') === 'true')
 
                     if (localStorage.getItem('state') === 'true') {
                         $('#waitRoom').hide();
@@ -725,13 +761,13 @@
                         $('#next').hide();
                         $('#submitLast').hide();
                         this.changeColor('darkred')
-                    }else if(localStorage.getItem('state')  === 'submit') {
+                    } else if (localStorage.getItem('state') === 'submit') {
                         $('#waitRoom').hide();
                         $('#gameMode').show();
                         $('#stop').hide();
                         $('#next').hide();
                         $('#submitLast').show();
-                    }else {
+                    } else {
                         $('#waitRoom').hide();
                         $('#gameMode').show();
                         $('#stop').hide();
