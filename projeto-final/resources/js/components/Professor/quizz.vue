@@ -149,13 +149,14 @@
                                                             teste?</p>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn  btn-secondary"
-                                                                data-bs-dismiss="modal"
-                                                                @click="EnterQuizz(quizz['id'])">Sim
-                                                        </button>
+
                                                         <button type="button" class="btn btn-primary"
                                                                 data-bs-dismiss="modal">
                                                             Não
+                                                        </button>
+                                                        <button type="button" class="btn  btn-secondary"
+                                                                data-bs-dismiss="modal"
+                                                                @click="EnterQuizz(quizz['id'])">Sim
                                                         </button>
 
                                                     </div>

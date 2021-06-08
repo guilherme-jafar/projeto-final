@@ -69,18 +69,18 @@
                                     {{mensagem['data']}}
                                 </p>
                                 <div v-if="tipoUtilizador === 'prof'" class="dropdown">
-                                    <button class="" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                            aria-expanded="false">
-                                        <i class="bi bi-three-dots-vertical"></i>
-                                    </button>
+<!--                                    <button class="" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"-->
+<!--                                            aria-expanded="false">-->
+<!--                                        <i class="bi bi-three-dots-vertical"></i>-->
+<!--                                    </button>-->
 
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li>
-                                            <button type="button" class="dropdown-item" data-bs-toggle="modal"
-                                                    :data-bs-target="'#eliminarMensagem' + mensagem['id']">Eliminar
-                                            </button>
-                                        </li>
-                                    </ul>
+<!--                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">-->
+<!--                                        <li>-->
+<!--                                            <button type="button" class="dropdown-item" data-bs-toggle="modal"-->
+<!--                                                    :data-bs-target="'#eliminarMensagem' + mensagem['id']">Eliminar-->
+<!--                                            </button>-->
+<!--                                        </li>-->
+<!--                                    </ul>-->
                                 </div>
 <!--                                <span data-bs-toggle="collapse" :data-bs-target="'#collapseMensagem'+mensagem['id']"-->
 <!--                                      aria-expanded="false"-->

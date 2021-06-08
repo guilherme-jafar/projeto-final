@@ -8,7 +8,7 @@
                         <div class="d-flex">
                             <h2 >{{resposta['nome']}}</h2>
                             <p class="ms-auto fs-4" >{{resposta['data']}}</p>
-                            <div class="dropdown">
+                            <div v-if="tipoUtilizador === 'prof'" class="dropdown">
                                 <button class="" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
                                         aria-expanded="false">
                                     <i class="bi bi-three-dots-vertical"></i>
@@ -23,11 +23,11 @@
                                         <button type="button" class="dropdown-item"  @click="pontos(750)">750
                                         </button>
                                     </li>
-                                    <li>
-                                        <button type="button" class="dropdown-item" data-bs-toggle="modal"
-                                                :data-bs-target="'#eliminarResposta' + resposta['id']">Eliminar
-                                        </button>
-                                    </li>
+<!--                                    <li>-->
+<!--                                        <button type="button" class="dropdown-item" data-bs-toggle="modal"-->
+<!--                                                :data-bs-target="'#eliminarResposta' + resposta['id']">Eliminar-->
+<!--                                        </button>-->
+<!--                                    </li>-->
                                 </ul>
                             </div>
 

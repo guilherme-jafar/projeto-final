@@ -2,7 +2,7 @@
     <div class="real-time-test-prof">
 
 
-        <button @click="sond()"><img id="sond" src="assets/volume_off_black_24dp.svg"></button>
+
         <audio id="music" loop>
             <source  src="assets/song.mp3" >
         </audio>
@@ -11,6 +11,7 @@
 
 
             <div class="box-sessao">
+
                 <h2>Código da Sessão:</h2>
                 <p>{{sessao}}</p>
             </div>
@@ -21,6 +22,7 @@
 
 
                 <div v-if="users.length !==0">
+
                     <div class=" text-center">
                         <div class="row" v-if="users.length === 1">
                             <div v-for="user in users" class="col-md-12"><span class="name-user">{{user}}</span></div>
@@ -41,9 +43,8 @@
             <div class="footer">
                 <div class="d-flex">
 
-                    <button class="me-auto btn btn-primary" @click="sair()" id="sair">Sair</button>
-
-
+                    <button class="btn btn-primary" @click="sair()" id="sair">Sair</button>
+                    <button class="ms-3 btn btn-primary" @click="sound('sound-2')"><i id="sound-2" class="bi bi-volume-mute"></i></button>
                     <button class="ms-auto btn btn-secondary" @click="start()" id="Inciar">Iniciar Quizz</button>
 
 
@@ -58,14 +59,17 @@
             <div class="gameMode">
                 <div class="d-flex">
                     <p class="number">Numero de perguntas {{index -1 }}/{{Questions}}</p>
-                    <button class="btn btn-secondary ms-auto" id="next" @click="nextQuestion('next')">Proxima Pergunta
+                    <button class="ms-auto btn btn-primary" @click="sound('sound')"><i id="sound" class="bi bi-volume-mute"></i></button>
+                    <button class="btn btn-primary ms-3" id="esconderRespostas" @click="esconderRespostas()">Esconder Respostas
                     </button>
-                    <button class="btn btn-primary ms-auto" id="stop" @click="stopQuestion()">Parar Pergunta</button>
-                    <button class="btn btn-third ms-auto" id="submitLast" @click="submitLast()">terminar quizz</button>
+                    <button class="btn btn-secondary ms-3" id="next" @click="nextQuestion('next')">Proxima Pergunta
+                    </button>
+                    <button class="btn btn-primary ms-3" id="stop" @click="stopQuestion()">Parar Pergunta</button>
+                    <button class="btn btn-third ms-3" id="submitLast" @click="submitLast()">Terminar Quizz</button>
 
                 </div>
 
-                <div>
+                <div class="mt-5">
                     <div>
                         <table>
                             <tr>
@@ -125,14 +129,14 @@
                                 <button class="respostas-btn respostas-btn-1 mb-4" :style="'background-color:'+color[0]"
                                         ref="m0" id="m0" disabled
                                         v-show="multipleQuestion[0] !== null">&nbsp;{{multipleQuestion[0]}} {{
-                                    percentagem[0]}}%
+                                    Math.trunc(percentagem[0])}}%
                                 </button>
                             </div>
                             <div class="col-md-12">
                                 <button class="respostas-btn respostas-btn-1 mb-4" :style="'background-color:'+color[1]"
                                         ref="m1" id="m1" disabled
                                         v-show="multipleQuestion[1] !== null">&nbsp;{{multipleQuestion[1]}} {{
-                                    percentagem[1]}}%
+                                    Math.trunc(percentagem[1])}}%
                                 </button>
                             </div>
 
@@ -140,14 +144,14 @@
                                 <button class="respostas-btn respostas-btn-1 mb-4" :style="'background-color:'+color[2]"
                                         ref="m2" id="m2" disabled
                                         v-show="multipleQuestion[2] !== null">&nbsp;{{multipleQuestion[2]}} {{
-                                    percentagem[2]}}%
+                                    Math.trunc(percentagem[2])}}%
                                 </button>
                             </div>
                             <div class="col-md-12">
                                 <button class="respostas-btn respostas-btn-1 mb-4" :style="'background-color:'+color[3]"
                                         ref="m3" id="m3" disabled
                                         v-show="multipleQuestion[3] !== null">&nbsp;{{multipleQuestion[3]}} {{
-                                    percentagem[3]}}%
+                                    Math.trunc(percentagem[3])}}%
                                 </button>
                             </div>
                         </div>
@@ -160,13 +164,13 @@
                             <div class="col-md-12">
                                 <button class="respostas-btn respostas-btn-1  mb-4"
                                         :style="'background-color:'+color[1]" id="tf1" value="true" disabled
-                                >True {{ percentagem[1]}}%
+                                >True {{ Math.trunc(percentagem[1])}}%
                                 </button>
                             </div>
                             <div class="col-md-12">
                                 <button class="respostas-btn respostas-btn-1" :style="'background-color:'+color[2]"
                                         id="tf2" value="false" disabled
-                                >False {{ percentagem[2]}}%
+                                >False {{ Math.trunc(percentagem[2])}}%
                                 </button>
                             </div>
                         </div>
@@ -184,14 +188,14 @@
                                 <button class="respostas-btn respostas-btn-1  mb-4" :style="'background-color:'+color[0]"
                                         id="Qm0" disabled
                                         v-show="multipleQuestion[0] !== null">&nbsp;{{multipleQuestion[0]}} {{
-                                    percentagem[0]}}%
+                                    Math.trunc(percentagem[0])}}%
                                 </button>
                             </div>
                             <div class="col-md-12">
                                 <button class="respostas-btn respostas-btn-1 mb-4" :style="'background-color:'+color[1]"
                                         id="Qm1" disabled
                                         v-show="multipleQuestion[1] !== null">&nbsp;{{multipleQuestion[1]}} {{
-                                    percentagem[1]}}%
+                                    Math.trunc(percentagem[1])}}%
                                 </button>
                             </div>
 
@@ -199,7 +203,7 @@
                                 <button class="respostas-btn respostas-btn-1 mb-4" :style="'background-color:'+color[2]"
                                         id="Qm2" disabled
                                         v-show="multipleQuestion[2] !== null">
-                                    {{multipleQuestion[2]}} {{ percentagem[2]}}%
+                                    {{multipleQuestion[2]}} {{ Math.trunc(percentagem[2])}}%
                                     &nbsp;
                                 </button>
                             </div>
@@ -207,7 +211,7 @@
                                 <button class="respostas-btn respostas-btn-1" :style="'background-color:'+color[3]"
                                         id="Qm3" disabled
                                         v-show="multipleQuestion[3] !== null">
-                                    {{multipleQuestion[3]}} {{ percentagem[3]}}%
+                                    {{multipleQuestion[3]}} {{ Math.trunc(percentagem[3])}}%
                                     &nbsp;
                                 </button>
                             </div>
@@ -225,7 +229,7 @@
                                     <img :src="'/images/Pergunta/Multimedia/'+multipleQuestion[0]"
                                          v-show="multipleQuestion[0] !== null" alt="imagem da pergunta"
                                          :id="'mimg'+multipleQuestion[0]" height="40%"
-                                         width="40%" class="mx-auto"> {{ percentagem[0]}}%
+                                         width="40%" class="mx-auto"> {{ Math.trunc(percentagem[0])}}%
                                 </button>
                             </div>
                             <div class="col-md-12">
@@ -236,7 +240,7 @@
                                     <img :src="'/images/Pergunta/Multimedia/'+multipleQuestion[1]"
                                          v-show="multipleQuestion[1] !== null" alt="imagem da pergunta"
                                          :id="'mimg'+multipleQuestion[1]" height="40%"
-                                         width="40%" class="mx-auto"> {{ percentagem[1]}}%
+                                         width="40%" class="mx-auto"> {{ Math.trunc(percentagem[1])}}%
                                 </button>
                             </div>
 
@@ -248,7 +252,7 @@
                                     <img :src="'/images/Pergunta/Multimedia/'+multipleQuestion[2]"
                                          v-show="multipleQuestion[2] !== null" alt="imagem da pergunta"
                                          :id="'mimg'+multipleQuestion[2]" height="40%"
-                                         width="40%" class="mx-auto"> {{ percentagem[2]}}%
+                                         width="40%" class="mx-auto"> {{ Math.trunc(percentagem[2])}}%
                                 </button>
                             </div>
                             <div class="col-md-12">
@@ -259,7 +263,7 @@
                                     <img :src="'/images/Pergunta/Multimedia/'+multipleQuestion[3]"
                                          v-show="multipleQuestion[3] !== null" alt="imagem da pergunta"
                                          :id="'mimg'+multipleQuestion[3]" height="40%"
-                                         width="40%" class="mx-auto"> {{ percentagem[3]}}%
+                                         width="40%" class="mx-auto"> {{ Math.trunc(percentagem[3])}}%
                                 </button>
                             </div>
                         </div>
@@ -343,13 +347,27 @@
         },
 
         methods: {
-            sond(){
+            esconderRespostas(){
 
-                if($('#sond').attr('src')==="assets/volume_off_black_24dp.svg"){
-                    $('#sond').attr('src',"assets/volume_up_black_24dp.svg");
+                if ($('#container').hasClass('d-none')){
+                    $('#container').removeClass('d-none')
+                    $('#esconderRespostas').text('Esconder Respostas')
+                }else {
+                    $('#esconderRespostas').text('Mostrar Respostas')
+                    $('#container').addClass('d-none')
+                }
+
+
+            },
+            sound(id){
+
+                if($('#' +id).hasClass('bi-volume-mute')){
+                    $('#sound').addClass('bi-volume-up').removeClass('bi-volume-mute')
+                    $('#sound-2').addClass('bi-volume-up').removeClass('bi-volume-mute')
                     $('#music')[0].play();
                 }else{
-                    $('#sond').attr('src',"assets/volume_off_black_24dp.svg");
+                    $('#sound').removeClass('bi-volume-up').addClass('bi-volume-mute')
+                    $('#sound-2').removeClass('bi-volume-up').addClass('bi-volume-mute')
                     $('#music')[0].pause();
                 }
             },

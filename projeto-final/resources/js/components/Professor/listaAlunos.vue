@@ -11,7 +11,7 @@
 
         <div v-if="!isFetchingA">
             <div v-if="alunos.length === 0" class="mx-auto" id="alunos-adicionar">
-                <h1 class="heanding-1 mx-auto mt-5">Ainda não tem nenhum alunos inscrito</h1>
+                <h1 class="heanding-1 mx-auto mt-5">Ainda não tem nenhum aluno inscrito!!</h1>
 
             </div>
             <div v-else class="section-disciplinas-items mt-5 me-md-5 ms-md-5" id="lista-alunos">

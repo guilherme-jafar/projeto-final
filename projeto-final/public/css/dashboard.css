@@ -1276,12 +1276,13 @@ section {
 }
 
 .wrapper {
-  height: 115vh;
+  height: 100%;
   width: 100%;
   background-color: white;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
+  bottom: 0;
   color: white;
 }
 .wrapper .bi {

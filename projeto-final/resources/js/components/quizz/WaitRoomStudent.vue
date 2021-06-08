@@ -189,8 +189,6 @@
 <!--        </div>-->
 
                 <div  id="tabela" class="resultado" v-show="tabela==='true'" >
-
-
                     <table>
                         <tr>
                             <th>Nome</th>

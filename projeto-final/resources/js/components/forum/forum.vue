@@ -25,12 +25,17 @@
 
         <div v-if="!isFetching">
             <div v-if="forum.data.length === 0" class="mx-auto" id="forum-adicionar">
-                <h1 class="heanding-1 mx-auto mt-5">Não há nenhum fórum de discussões!!</h1>
-                <!-- Button trigger modal -->
-                <button type="button" class=" btn btn-new mt-5 mx-auto" data-bs-toggle="modal"
-                        data-bs-target="#modalAdicionarForum">
-                    <i class="bi bi-plus-circle"></i> &nbsp;&nbsp; Adicionar Fórum
-                </button>
+
+                    <h1 class="heanding-1 mx-auto mt-5">Não há nenhum fórum de discussões!!</h1>
+                    <!-- Button trigger modal -->
+                <div v-if="this.$parent.tipoUtilizador === 'prof'">
+                    <button  type="button" class=" btn btn-new mt-5 mx-auto" data-bs-toggle="modal"
+                             data-bs-target="#modalAdicionarForum">
+                        <i class="bi bi-plus-circle"></i> &nbsp;&nbsp; Adicionar Fórum
+                    </button>
+                </div>
+
+
             </div>
             <div v-else class="section-disciplinas-items">
                 <div class="box-search mb-5">
@@ -50,13 +55,6 @@
                                 </button>
 
                                 <ul  class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li>
-                                        <button type="button" class="dropdown-item" data-bs-toggle="modal"
-                                                :data-bs-target="'#editarQuizz' + forum['id']"
-                                                @click="listTopicosQuizz(forum['id'])">Editar
-                                        </button>
-
-                                    </li>
                                     <li>
                                         <button type="button" class="dropdown-item" data-bs-toggle="modal"
                                                 :data-bs-target="'#eliminarQuizz' + forum['id']">Eliminar
@@ -136,7 +134,7 @@
                 modalforum: '',
                 toastForum: '',
                 search: '',
-                tipoUtilizador: this.tipo_prop,
+                tipoUtilizador:  this.tipo_prop
             }
         },
         methods: {
