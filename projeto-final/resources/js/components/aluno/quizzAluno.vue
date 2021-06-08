@@ -146,7 +146,7 @@ name: "quizzAluno",
     },
     methods: {
         EnterQuizz(quizz) {
-
+            localStorage.clear();
             window.location.replace('/WaitRoomAluno/' + quizz);
 
         },

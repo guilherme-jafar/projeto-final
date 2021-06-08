@@ -156,7 +156,7 @@
 
                             <div class="col-md-6">
                                 <button class="respostas-btn respostas-btn-3 mt-4" :id="'mi'+multipleQuestion[2]"
-                                        v-show="multipleQuestion[3] !== null" @click="response('multiple-image','2')">
+                                        v-show="multipleQuestion[2] !== null" @click="response('multiple-image','2')">
                                     &nbsp;
                                     <img :src="'/images/Pergunta/Multimedia/'+multipleQuestion[2]"
                                          v-show="multipleQuestion[2] !== null" alt="imagem da pergunta"

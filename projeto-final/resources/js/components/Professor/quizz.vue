@@ -743,7 +743,7 @@
                 }
             },
             EnterQuizz(quizz) {
-
+                localStorage.clear();
                 window.location.replace('/WaitRoom/' + quizz);
 
             },

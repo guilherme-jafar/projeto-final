@@ -5605,6 +5605,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }
     },
     EnterQuizz: function EnterQuizz(quizz) {
+      localStorage.clear();
       window.location.replace('/WaitRoom/' + quizz);
     },
     getResultsQuizz: function getResultsQuizz() {
@@ -6287,6 +6288,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     EnterQuizz: function EnterQuizz(quizz) {
+      localStorage.clear();
       window.location.replace('/WaitRoomAluno/' + quizz);
     },
     teste: function teste(quizz) {
@@ -8899,6 +8901,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -8935,6 +8945,15 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    sond: function sond() {
+      if (jquery__WEBPACK_IMPORTED_MODULE_2___default()('#sond').attr('src') === "assets/volume_off_black_24dp.svg") {
+        jquery__WEBPACK_IMPORTED_MODULE_2___default()('#sond').attr('src', "assets/volume_up_black_24dp.svg");
+        jquery__WEBPACK_IMPORTED_MODULE_2___default()('#music')[0].play();
+      } else {
+        jquery__WEBPACK_IMPORTED_MODULE_2___default()('#sond').attr('src', "assets/volume_off_black_24dp.svg");
+        jquery__WEBPACK_IMPORTED_MODULE_2___default()('#music')[0].pause();
+      }
+    },
     getResposta: function getResposta(Ans) {
       var respostas = Ans;
 
@@ -55853,8 +55872,8 @@ var render = function() {
                                 {
                                   name: "show",
                                   rawName: "v-show",
-                                  value: _vm.multipleQuestion[3] !== null,
-                                  expression: "multipleQuestion[3] !== null"
+                                  value: _vm.multipleQuestion[2] !== null,
+                                  expression: "multipleQuestion[2] !== null"
                                 }
                               ],
                               staticClass: "respostas-btn respostas-btn-3 mt-4",
@@ -56468,6 +56487,24 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "real-time-test-prof" }, [
     _c(
+      "button",
+      {
+        on: {
+          click: function($event) {
+            return _vm.sond()
+          }
+        }
+      },
+      [
+        _c("img", {
+          attrs: { id: "sond", src: "assets/volume_off_black_24dp.svg" }
+        })
+      ]
+    ),
+    _vm._v(" "),
+    _vm._m(0),
+    _vm._v(" "),
+    _c(
       "div",
       { staticClass: "wait-room text-center", attrs: { id: "waitRoom" } },
       [
@@ -56620,14 +56657,14 @@ var render = function() {
             _c(
               "table",
               [
-                _vm._m(0),
+                _vm._m(1),
                 _vm._v(" "),
                 _vm._l(_vm.usersId, function(item, inde) {
                   return _c(
                     "tr",
                     { key: item.users, attrs: { id: "tabela" } },
                     [
-                      inde <= 5
+                      inde < 5
                         ? _c("td", [
                             _vm._v(
                               "\n                                    " +
@@ -56637,7 +56674,7 @@ var render = function() {
                           ])
                         : _vm._e(),
                       _vm._v(" "),
-                      inde <= 5
+                      inde < 5
                         ? _c("td", [
                             _vm._v(
                               _vm._s(_vm.points[_vm.usersId.indexOf(item)])
@@ -56908,6 +56945,7 @@ var render = function() {
                               _vm._v(
                                 " " +
                                   _vm._s(_vm.multipleQuestion[0]) +
+                                  " " +
                                   _vm._s(_vm.percentagem[0]) +
                                   "%\n                                "
                               )
@@ -56935,6 +56973,7 @@ var render = function() {
                               _vm._v(
                                 " " +
                                   _vm._s(_vm.multipleQuestion[1]) +
+                                  " " +
                                   _vm._s(_vm.percentagem[1]) +
                                   "%\n                                "
                               )
@@ -56962,6 +57001,7 @@ var render = function() {
                               _vm._v(
                                 "\n                                    " +
                                   _vm._s(_vm.multipleQuestion[2]) +
+                                  " " +
                                   _vm._s(_vm.percentagem[2]) +
                                   "%\n                                     \n                                "
                               )
@@ -56989,6 +57029,7 @@ var render = function() {
                               _vm._v(
                                 "\n                                    " +
                                   _vm._s(_vm.multipleQuestion[3]) +
+                                  " " +
                                   _vm._s(_vm.percentagem[3]) +
                                   "%\n                                     \n                                "
                               )
@@ -57043,7 +57084,8 @@ var render = function() {
                                 }
                               }),
                               _vm._v(
-                                _vm._s(_vm.percentagem[0]) +
+                                " " +
+                                  _vm._s(_vm.percentagem[0]) +
                                   "%\n                                "
                               )
                             ]
@@ -57091,7 +57133,8 @@ var render = function() {
                                 }
                               }),
                               _vm._v(
-                                _vm._s(_vm.percentagem[1]) +
+                                " " +
+                                  _vm._s(_vm.percentagem[1]) +
                                   "%\n                                "
                               )
                             ]
@@ -57106,8 +57149,8 @@ var render = function() {
                                 {
                                   name: "show",
                                   rawName: "v-show",
-                                  value: _vm.multipleQuestion[3] !== null,
-                                  expression: "multipleQuestion[3] !== null"
+                                  value: _vm.multipleQuestion[2] !== null,
+                                  expression: "multipleQuestion[2] !== null"
                                 }
                               ],
                               staticClass: "respostas-btn respostas-btn-1 mb-4",
@@ -57139,7 +57182,8 @@ var render = function() {
                                 }
                               }),
                               _vm._v(
-                                _vm._s(_vm.percentagem[2]) +
+                                " " +
+                                  _vm._s(_vm.percentagem[2]) +
                                   "%\n                                "
                               )
                             ]
@@ -57207,7 +57251,7 @@ var render = function() {
       _c(
         "table",
         [
-          _vm._m(1),
+          _vm._m(2),
           _vm._v(" "),
           _vm._l(_vm.usersId, function(item, inde) {
             return _c("tr", { key: item.users, attrs: { id: "tabelaFim" } }, [
@@ -57241,6 +57285,14 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("audio", { attrs: { id: "music", loop: "" } }, [
+      _c("source", { attrs: { src: "assets/song.mp3" } })
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

@@ -62,10 +62,6 @@ Route::get('/editarperfil', function (){
 Route::post('alterarInformacao', [App\Http\Controllers\ContaController::class, 'editarPerfil']);
 Route::get('/sucesso', [App\Http\Controllers\ContaController::class, 'sucesso']);
 
-
-
-
-
 //MAILE
 Route::get('/mail1', function () {
     return new \App\Mail\ConfirmMail(123);

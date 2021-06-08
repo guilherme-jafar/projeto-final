@@ -491,14 +491,14 @@ GROUP BY s.quizz_id ,s.nomequizz', ['id' => session('utilizador')['id'], 'sessio
         $users = explode(',', $users);
         $points = explode(',', $points);
         $quizz = Cache::get('quizz');
-        $newArray = [];
+        $newArray = array();
         if (count($users) > 5) {
             $users = array_chunk($users, 5);
             $points = array_chunk($points, 5);
         }
 
         for ($i = 0; $i < count($users); $i++) {
-            $newArray += [$users[$i] => $points[$i]];
+            $newArray [$users[0][$i]]= $points[0][$i];
 
         }
         asort($newArray);
@@ -543,7 +543,7 @@ GROUP BY s.quizz_id ,s.nomequizz', ['id' => session('utilizador')['id'], 'sessio
         }
 
         for ($i = 0; $i < count($users); $i++) {
-            $newArray += [$users[$i] => $points[$i]];
+            $newArray [$users[0][$i]]= $points[0][$i];
 
         }
         asort($newArray);

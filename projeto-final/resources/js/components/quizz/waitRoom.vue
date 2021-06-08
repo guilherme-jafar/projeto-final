@@ -1,5 +1,12 @@
 <template>
     <div class="real-time-test-prof">
+
+
+        <button @click="sond()"><img id="sond" src="assets/volume_off_black_24dp.svg"></button>
+        <audio id="music" loop>
+            <source  src="assets/song.mp3" >
+        </audio>
+
         <div class="wait-room text-center" id="waitRoom">
 
 
@@ -66,10 +73,10 @@
                                 <th>Pontos</th>
                             </tr>
                             <tr id="tabela" v-for="(item,inde) in usersId" :key="item.users">
-                                <td v-if="inde <= 5"><!-- limitar para os cinco primeiros -->
+                                <td v-if="inde < 5"><!-- limitar para os cinco primeiros -->
                                     {{users[usersId.indexOf(item)]}}
                                 </td>
-                                <td v-if="inde <= 5">{{points[usersId.indexOf(item)]}}</td>
+                                <td v-if="inde < 5">{{points[usersId.indexOf(item)]}}</td>
                             </tr>
                         </table>
                         <!--                <p class="name-user"> </p>-->
@@ -176,14 +183,14 @@
                             <div class="col-md-12">
                                 <button class="respostas-btn respostas-btn-1  mb-4" :style="'background-color:'+color[0]"
                                         id="Qm0" disabled
-                                        v-show="multipleQuestion[0] !== null">&nbsp;{{multipleQuestion[0]}}{{
+                                        v-show="multipleQuestion[0] !== null">&nbsp;{{multipleQuestion[0]}} {{
                                     percentagem[0]}}%
                                 </button>
                             </div>
                             <div class="col-md-12">
                                 <button class="respostas-btn respostas-btn-1 mb-4" :style="'background-color:'+color[1]"
                                         id="Qm1" disabled
-                                        v-show="multipleQuestion[1] !== null">&nbsp;{{multipleQuestion[1]}}{{
+                                        v-show="multipleQuestion[1] !== null">&nbsp;{{multipleQuestion[1]}} {{
                                     percentagem[1]}}%
                                 </button>
                             </div>
@@ -192,7 +199,7 @@
                                 <button class="respostas-btn respostas-btn-1 mb-4" :style="'background-color:'+color[2]"
                                         id="Qm2" disabled
                                         v-show="multipleQuestion[2] !== null">
-                                    {{multipleQuestion[2]}}{{ percentagem[2]}}%
+                                    {{multipleQuestion[2]}} {{ percentagem[2]}}%
                                     &nbsp;
                                 </button>
                             </div>
@@ -200,7 +207,7 @@
                                 <button class="respostas-btn respostas-btn-1" :style="'background-color:'+color[3]"
                                         id="Qm3" disabled
                                         v-show="multipleQuestion[3] !== null">
-                                    {{multipleQuestion[3]}}{{ percentagem[3]}}%
+                                    {{multipleQuestion[3]}} {{ percentagem[3]}}%
                                     &nbsp;
                                 </button>
                             </div>
@@ -218,7 +225,7 @@
                                     <img :src="'/images/Pergunta/Multimedia/'+multipleQuestion[0]"
                                          v-show="multipleQuestion[0] !== null" alt="imagem da pergunta"
                                          :id="'mimg'+multipleQuestion[0]" height="40%"
-                                         width="40%" class="mx-auto">{{ percentagem[0]}}%
+                                         width="40%" class="mx-auto"> {{ percentagem[0]}}%
                                 </button>
                             </div>
                             <div class="col-md-12">
@@ -229,19 +236,19 @@
                                     <img :src="'/images/Pergunta/Multimedia/'+multipleQuestion[1]"
                                          v-show="multipleQuestion[1] !== null" alt="imagem da pergunta"
                                          :id="'mimg'+multipleQuestion[1]" height="40%"
-                                         width="40%" class="mx-auto">{{ percentagem[1]}}%
+                                         width="40%" class="mx-auto"> {{ percentagem[1]}}%
                                 </button>
                             </div>
 
                             <div class="col-md-12">
                                 <button class="respostas-btn respostas-btn-1 mb-4" :style="'background-color:'+color[2]"
                                         id="mi2" disabled
-                                        v-show="multipleQuestion[3] !== null">
+                                        v-show="multipleQuestion[2] !== null">
                                     &nbsp;
                                     <img :src="'/images/Pergunta/Multimedia/'+multipleQuestion[2]"
                                          v-show="multipleQuestion[2] !== null" alt="imagem da pergunta"
                                          :id="'mimg'+multipleQuestion[2]" height="40%"
-                                         width="40%" class="mx-auto">{{ percentagem[2]}}%
+                                         width="40%" class="mx-auto"> {{ percentagem[2]}}%
                                 </button>
                             </div>
                             <div class="col-md-12">
@@ -286,6 +293,7 @@
 <!--            </div>-->
             <button class="btn btn-primary mt-5" @click="endQuizz">Sair e Gravar</button>
         </div>
+
 
 
     </div>
@@ -335,6 +343,16 @@
         },
 
         methods: {
+            sond(){
+
+                if($('#sond').attr('src')==="assets/volume_off_black_24dp.svg"){
+                    $('#sond').attr('src',"assets/volume_up_black_24dp.svg");
+                    $('#music')[0].play();
+                }else{
+                    $('#sond').attr('src',"assets/volume_off_black_24dp.svg");
+                    $('#music')[0].pause();
+                }
+            },
             getResposta(Ans) {
 
                 var respostas = Ans;
