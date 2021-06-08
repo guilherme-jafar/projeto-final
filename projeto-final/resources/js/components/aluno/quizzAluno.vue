@@ -163,6 +163,7 @@ name: "quizzAluno",
             let sId = $('#sessionId' + id).val()
             console.log(sId)
             if (sId.length > 0) {
+                localStorage.clear();
                 window.location.replace('/InsideRoomStudent/' + sId+'/'+id );
             } else {
                 $('#Error'+id).text("tem que inserir id ").css('color', 'red').css('opacity', '1');
@@ -170,7 +171,8 @@ name: "quizzAluno",
 
         },
         mounted() {
-
+            localStorage.clear();
+            Storage.clear();
             // this.disciplinas = JSON.parse(this.disciplinas)
 
 

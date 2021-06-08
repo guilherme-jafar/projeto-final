@@ -503,13 +503,21 @@
             stopQuestion() {
                 this.index++;
                 localStorage.setItem('index', this.index);
-                axios.post('/StopQuestionQuizz').then(function (response) {
-                    $('#waitRoom').hide();
-                    $('#gameMode').show();
+                if (this.Questions < this.index) {
                     $('#stop').hide();
-                    $('#next').show();
-                });
-                this.couter = -1;
+                    $('#next').hide();
+                    $('#submitLast').show();
+                    localStorage.setItem('state', 'submit')
+
+                }else {
+                    axios.post('/StopQuestionQuizz').then(function (response) {
+                        $('#waitRoom').hide();
+                        $('#gameMode').show();
+                        $('#stop').hide();
+                        $('#next').show();
+                    });
+                    this.couter = -1;
+                }
             },
             sair() {
                 $('#sair').hide();

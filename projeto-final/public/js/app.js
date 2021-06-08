@@ -6301,12 +6301,15 @@ __webpack_require__.r(__webpack_exports__);
       console.log(sId);
 
       if (sId.length > 0) {
+        localStorage.clear();
         window.location.replace('/InsideRoomStudent/' + sId + '/' + id);
       } else {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#Error' + id).text("tem que inserir id ").css('color', 'red').css('opacity', '1');
       }
     },
-    mounted: function mounted() {// this.disciplinas = JSON.parse(this.disciplinas)
+    mounted: function mounted() {
+      localStorage.clear();
+      Storage.clear(); // this.disciplinas = JSON.parse(this.disciplinas)
     }
   }
 });
@@ -9098,13 +9101,21 @@ __webpack_require__.r(__webpack_exports__);
     stopQuestion: function stopQuestion() {
       this.index++;
       localStorage.setItem('index', this.index);
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/StopQuestionQuizz').then(function (response) {
-        jquery__WEBPACK_IMPORTED_MODULE_2___default()('#waitRoom').hide();
-        jquery__WEBPACK_IMPORTED_MODULE_2___default()('#gameMode').show();
+
+      if (this.Questions < this.index) {
         jquery__WEBPACK_IMPORTED_MODULE_2___default()('#stop').hide();
-        jquery__WEBPACK_IMPORTED_MODULE_2___default()('#next').show();
-      });
-      this.couter = -1;
+        jquery__WEBPACK_IMPORTED_MODULE_2___default()('#next').hide();
+        jquery__WEBPACK_IMPORTED_MODULE_2___default()('#submitLast').show();
+        localStorage.setItem('state', 'submit');
+      } else {
+        axios__WEBPACK_IMPORTED_MODULE_0___default().post('/StopQuestionQuizz').then(function (response) {
+          jquery__WEBPACK_IMPORTED_MODULE_2___default()('#waitRoom').hide();
+          jquery__WEBPACK_IMPORTED_MODULE_2___default()('#gameMode').show();
+          jquery__WEBPACK_IMPORTED_MODULE_2___default()('#stop').hide();
+          jquery__WEBPACK_IMPORTED_MODULE_2___default()('#next').show();
+        });
+        this.couter = -1;
+      }
     },
     sair: function sair() {
       jquery__WEBPACK_IMPORTED_MODULE_2___default()('#sair').hide();
