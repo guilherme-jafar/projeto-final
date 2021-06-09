@@ -9,33 +9,7 @@
 
 
 
-    <div class="wrapper" >
 
-        <div class="wrapper-in wrapper-wright">
-            <div class="wrapper-in-2">
-                <div class="resposta">
-                    <span>Correta</span>
-                </div>
-                <div class="icon">
-                    <i class="bi bi-check2-circle"></i>
-                </div>
-                <span>+ </span><span id="couter-wright"></span><span> Pontos</span>
-            </div>
-        </div>
-
-        <div class="wrapper-in wrapper-wrong">
-            <div class="wrapper-in-2">
-                <div class="resposta">
-                    <span>Errada</span>
-                </div>
-                <div class="icon">
-                    <i class="bi bi-x-circle"></i>
-                </div>
-                <span>+ </span><span id="couter">0</span><span> Pontos</span>
-            </div>
-        </div>
-
-    </div>
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
     <script >

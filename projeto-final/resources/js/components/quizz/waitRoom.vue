@@ -346,6 +346,9 @@
             }
         },
 
+
+        // form.append('users', this.users);
+        // form.append('points', this.points);
         methods: {
             esconderRespostas(){
 
@@ -443,7 +446,6 @@
                 }
 
             },
-
             fileCheck() {
 
                 if (this.pergunta['link'] === null) {
@@ -521,18 +523,28 @@
             stopQuestion() {
                 this.index++;
                 localStorage.setItem('index', this.index);
+                localStorage.setItem('state','false');
                 axios.post('/StopQuestionQuizz').then(function (response) {
                     $('#waitRoom').hide();
                     $('#gameMode').show();
                     $('#stop').hide();
                     $('#next').show();
-                });
+                    let form =new FormData();
+                     form.append('users', this.users);
+                     form.append('points', this.points);
+                     axios.post('/GiveResults',form);
+                }.bind(this));
                 this.couter = -1;
                 if (this.Questions < this.index) {
                     $('#stop').hide();
                     $('#next').hide();
                     $('#submitLast').show();
+                    let form =new FormData();
+                    form.append('users', this.users);
+                    form.append('points', this.points);
+                    axios.post('/GiveResults',form);
                     localStorage.setItem('state', 'submit')
+                    $('#next').hide();
 
                 }else {
                     axios.post('/StopQuestionQuizz').then(function (response) {
@@ -540,7 +552,8 @@
                         $('#gameMode').show();
                         $('#stop').hide();
                         $('#next').show();
-                    });
+
+                    }.bind(this));
                     this.couter = -1;
                 }
             },
@@ -563,8 +576,6 @@
                 let form = new FormData();
                 form.append('index', this.index);
                 form.append('tag', tag);
-                form.append('users', this.users);
-                form.append('points', this.points);
                 this.sleep(2000);
                 this.couter = 0;
 
@@ -747,11 +758,20 @@
                                         $('#stop').hide();
                                         $('#next').hide();
                                         $('#submitLast').show();
+                                        let form =new FormData();
+                                        form.append('users', this.users);
+                                        form.append('points', this.points);
+                                        axios.post('/GiveResults',form);
                                         localStorage.setItem('state', 'submit')
+                                        $('#next').hide();
 
                                     } else {
                                         $('#stop').hide();
                                         $('#next').show();
+                                        let form =new FormData();
+                                        form.append('users', this.users);
+                                        form.append('points', this.points);
+                                        axios.post('/GiveResults',form);
                                         $('#submitLast').hide();
                                     }
 
@@ -822,8 +842,7 @@
                     this.getResposta(JSON.parse(localStorage.getItem('ansers')));
 
 
-                    var check = JSON.parse(localStorage.getItem('state'));
-                    console.log(localStorage.getItem('state') === 'true')
+
 
                     if (localStorage.getItem('state') === 'true') {
                         $('#waitRoom').hide();
@@ -838,11 +857,22 @@
                         $('#stop').hide();
                         $('#next').hide();
                         $('#submitLast').show();
+                        let form =new FormData();
+                        form.append('users', this.users);
+                        form.append('points', this.points);
+                        axios.post('/GiveResults',form);
+                        $('#next').hide();
                     } else {
                         $('#waitRoom').hide();
                         $('#gameMode').show();
                         $('#stop').hide();
                         $('#next').show();
+                        let form =new FormData();
+
+                        form.append('users', this.users);
+                        form.append('points', this.points);
+                        console.log(form)
+                        axios.post('/GiveResults',form);
                         $('#submitLast').hide();
                     }
                 }

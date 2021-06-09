@@ -485,12 +485,37 @@ GROUP BY s.quizz_id ,s.nomequizz', ['id' => session('utilizador')['id'], 'sessio
     {
 
         $index = $request->index;
+
+        $quizz = Cache::get('quizz');
+
+        foreach ($quizz as $value) {
+
+            if ($value->PergIndex == $index) {
+                $res = DB::select('select *
+                                 from respostas r
+                                 where r.perguntas_id=:id', ['id' => $value->pId]);
+
+
+
+                broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'NewQuestion', session('utilizador')['id'], $value, $res, []));
+
+
+            }
+
+
+        }
+
+    }
+
+    function GiveResults(Request $request){
+
         $users = $request->users;
         $points = $request->points;
 
         $users = explode(',', $users);
         $points = explode(',', $points);
-        $quizz = Cache::get('quizz');
+
+
         $newArray = array();
         if (count($users) > 5) {
             $users = array_slice($users, 0, 5);
@@ -503,24 +528,15 @@ GROUP BY s.quizz_id ,s.nomequizz', ['id' => session('utilizador')['id'], 'sessio
         }
         asort($newArray);
         $newArray = array_reverse($newArray);
-        foreach ($quizz as $value) {
-
-            if ($value->PergIndex == $index) {
-                $res = DB::select('select *
-                                 from respostas r
-                                 where r.perguntas_id=:id', ['id' => $value->pId]);
+        broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'Results', session('utilizador')['id'], [],[], $newArray));
 
 
-
-                broadcast(new QuizzQuestion(session('utilizador')['nome'], session('sessao')['id'], 'NewQuestion', session('utilizador')['id'], $value, $res, $newArray));
-
-
-            }
-
-
-        }
 
     }
+
+
+
+
 
     function stopQuestionQuizz(Request $request)
     {
@@ -538,12 +554,12 @@ GROUP BY s.quizz_id ,s.nomequizz', ['id' => session('utilizador')['id'], 'sessio
 
         $newArray = [];
         if (count($users) > 5) {
-            $users = array_chunk($users, 5);
-            $points = array_chunk($points, 5);
+            $users = array_slice($users, 0, 5);
+            $points = array_slice($points, 0, 5);
         }
 
         for ($i = 0; $i < count($users); $i++) {
-            $newArray [$users[0][$i]]= $points[0][$i];
+            $newArray [$users[$i]]= $points[$i];
 
         }
         asort($newArray);

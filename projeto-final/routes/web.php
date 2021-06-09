@@ -162,6 +162,7 @@ Route::group(['middleware' =>'quizz.session'], function () {
         return view('/quizz/WaitRoom',
             ['session' => session('sessao')['id']]);
     });
+    Route::post('/GiveResults',[\App\Http\Controllers\Quizz::class,'GiveResults']);
     Route::post('/NextQuestionQuizz',[\App\Http\Controllers\Quizz::class,'nextQuestionQuizz']);
     Route::post('/setRespostaQuizz',[App\Http\Controllers\Quizz::class,'setRespostaQuizz']);
     Route::post('/startQuizz',[\App\Http\Controllers\Quizz::class,'startQuizz']);

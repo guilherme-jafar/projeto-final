@@ -182,13 +182,48 @@
             </div>
         </div>
 
-<!--        <div  id="tabela" class="text-center resultado" v-show="tabela==='true'" v-for="(item,index) in student" :key="item">-->
-<!--            -->
-<!--            -->
-<!--            <p>{{index}} {{item}} </p>-->
-<!--        </div>-->
+
 
                 <div  id="tabela" class="resultado" v-show="tabela==='true'" >
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+
+
+        <div class="text-center resultado" id="resultado">
+            <p>Fim do Jogo!!</p>
+            <p>Pontos: {{resultado}}</p>
+            <table>
+                <tr>
+                    <th>Nome</th>
+                    <th>Pontos</th>
+                </tr>
+                <tr v-for="(item,index) in student" :key="item">
+                    <td ><!-- limitar para os cinco primeiros -->
+                        {{index}}
+                    </td>
+                    <td >{{item}}</td>
+                </tr>
+            </table>
+            <button class="btn btn-primary" @click="submitQuizz">Sair e Gravar</button>
+        </div>
+
+
+
+
+        <div class="wrapper" >
+
+            <div class="wrapper-in wrapper-wright">
+                <div class="wrapper-in-2">
+                    <div class="resposta">
+                        <span>Correta</span>
+                    </div>
+                    <div class="icon">
+                        <i class="bi bi-check2-circle"></i>
+                    </div>
+                    <span>+ </span><span id="couter-wright"></span><span> Pontos</span>
+
                     <table>
                         <tr>
                             <th>Nome</th>
@@ -202,10 +237,34 @@
                         </tr>
                     </table>
                 </div>
-        <div class="text-center resultado" id="resultado">
-            <p>Fim do Jogo!!</p>
-            <p>Pontos: {{resultado}}</p>
-            <button class="btn btn-primary" @click="submitQuizz">Sair e Gravar</button>
+            </div>
+
+            <div class="wrapper-in wrapper-wrong">
+                <div class="wrapper-in-2">
+                    <div class="resposta">
+                        <span>Errada</span>
+                    </div>
+                    <div class="icon">
+                        <i class="bi bi-x-circle"></i>
+                    </div>
+                    <span>+ </span><span id="couter">0</span><span> Pontos</span>
+
+
+                    <table>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Pontos</th>
+                        </tr>
+                        <tr v-for="(item,index) in student" :key="item">
+                            <td ><!-- limitar para os cinco primeiros -->
+                                {{index}}
+                            </td>
+                            <td >{{item}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
         </div>
 
 
@@ -315,18 +374,21 @@
                             } else {
                                 this.res = 0;
                             }
-                            $('.wrapper').show();
-                            if (this.res > 0) {
-                                $('.wrapper').css('background-color', '#66c036')
-                                $('#couter-wright').text(this.res)
-                                $('.wrapper-wright').show();
-                                $('.wrapper-wrong').hide();
-                            } else {
-                                $('.wrapper').css('background-color', '#f9403e')
-                                $('#couter').text(0)
-                                $('.wrapper-wrong').show();
-                                $('.wrapper-wright').hide();
-                            }
+                            this.tabela='true';
+                            $('#game').hide();
+
+                            // $('.wrapper').show();
+                            // if (this.res > 0) {
+                            //     $('.wrapper').css('background-color', '#66c036')
+                            //     $('#couter-wright').text(this.res)
+                            //     $('.wrapper-wright').show();
+                            //     $('.wrapper-wrong').hide();
+                            // } else {
+                            //     $('.wrapper').css('background-color', '#f9403e')
+                            //     $('#couter').text(0)
+                            //     $('.wrapper-wrong').show();
+                            //     $('.wrapper-wright').hide();
+                            // }
                             this.resultado += parseInt(this.res);
                             clearTimeout(this.timer)
                             this.countDown = 0;
@@ -449,9 +511,11 @@
 
                             } else if (e.type === 'NewQuestion') {
                                 $('#game').hide();
-                                this.student = e.usr;
+                                this.students = e.usr;
                                 this.tabela = 'true'
                                 this.respondeu = 'false'
+                                this.res=0;
+                                localStorage.setItem('points', 0);
                                 $('.wrapper').hide();
                                 $('.wrapper-wrong').hide();
                                 $('.wrapper-wright').hide();
@@ -459,14 +523,10 @@
                                 localStorage.setItem('ansers', JSON.stringify(e.Ans));
                                 localStorage.setItem('resultado', this.resultado)
                                 localStorage.setItem('questionStatus', this.respondeu);
+                                $('#game').show();
+                                this.getResposta(e.quizzArray, e.Ans)
+                                this.tabela = 'false'
 
-                                var that = this;
-                                setTimeout(function () {
-
-                                    $('#game').show();
-                                    that.getResposta(e.quizzArray, e.Ans)
-                                    that.tabela = 'false'
-                                }, 4000);
 
 
                             } else if (e.type === 'stop') {
@@ -476,6 +536,9 @@
                                     } else {
                                         this.response(this.pergunta['tipo'], 'erro')
                                     }
+                                    localStorage.setItem('points', 0);
+                                    this.res=0;
+                                    clearTimeout(this.timer);
                                     $('.wrapper').show();
                                     $('.wrapper').css('background-color', '#f9403e')
                                     $('#couter').text(0)
@@ -483,18 +546,45 @@
                                     $('.wrapper-wright').hide();
                                 }
                             } else if (e.type === 'EndQuizz') {
+                                this.student = e.usr;
                                 localStorage.setItem('status', 'end');
+                                localStorage.setItem('student', JSON.stringify(this.student));
                                 $('.wrapper').hide();
                                 $('#game').hide();
                                 $('#resultado').show();
+                                this.tabela='false';
                                 this.endQuizz = 'prof'
                                 localStorage.setItem('tipo', 'prof')
                             } else if (e.type === 'EndQuizzAluno') {
+                                this.student = e.usr;
                                 localStorage.setItem('status', 'end');
+                                localStorage.setItem('student', JSON.stringify(this.student));
                                 $('.wrapper').hide();
                                 $('#game').hide();
                                 $('#resultado').show();
+                                this.tabela='false';
                                 localStorage.setItem('tipo', 'aluno')
+                            }else if(e.type==='Results'){
+                                this.student = e.usr;
+                                localStorage.setItem('status', 'result');
+                                localStorage.setItem('student', JSON.stringify(this.student));
+                                localStorage.setItem('points', this.res);
+                                clearTimeout(this.timer);
+                                $('.wrapper').show();
+                                $('#game').hide();
+                                if (this.res > 0) {
+                                    $('.wrapper').css('background-color', '#66c036')
+                                    $('#couter-wright').text(this.res)
+                                    $('.wrapper-wright').show();
+                                    $('.wrapper-wrong').hide();
+                                } else {
+                                    $('.wrapper').css('background-color', '#f9403e')
+                                    $('#couter').text(0)
+                                    $('.wrapper-wrong').show();
+                                    $('.wrapper-wright').hide();
+
+                                }
+
                             }
 
 
@@ -535,21 +625,22 @@
                 } else {
                     this.res = 0;
                 }
-
-                $('.wrapper').show();
-
-                if (this.res > 0) {
-                    $('.wrapper').css('background-color', '#66c036')
-                    $('#couter-wright').text(this.res)
-                    $('.wrapper-wright').show();
-                    $('.wrapper-wrong').hide();
-                } else {
-                    $('.wrapper').css('background-color', '#f9403e')
-                    $('#couter').text(0)
-                    $('.wrapper-wrong').show();
-                    $('.wrapper-wright').hide();
-
-                }
+                this.tabela='true'
+                $('#game').hide();
+                // $('.wrapper').show();
+                //
+                // if (this.res > 0) {
+                //     $('.wrapper').css('background-color', '#66c036')
+                //     $('#couter-wright').text(this.res)
+                //     $('.wrapper-wright').show();
+                //     $('.wrapper-wrong').hide();
+                // } else {
+                //     $('.wrapper').css('background-color', '#f9403e')
+                //     $('#couter').text(0)
+                //     $('.wrapper-wrong').show();
+                //     $('.wrapper-wright').hide();
+                //
+                // }
                 this.resultado += parseInt(this.res);
                 // clearTimeout(this.timer)
                 this.countDown = 0;
@@ -678,21 +769,8 @@
                         this.respondeu = localStorage.getItem('questionStatus');
                         this.res = localStorage.getItem('points')
                         this.resultado = parseInt(localStorage.getItem('resultado'))
-
-                        $('.wrapper').show();
+                        this.tabela='true'
                         $('#game').hide();
-                        if (this.res > 0) {
-                            $('.wrapper').css('background-color', '#66c036')
-                            $('#couter-wright').text(this.res)
-                            $('.wrapper-wright').show();
-                            $('.wrapper-wrong').hide();
-                        } else {
-                            $('.wrapper').css('background-color', '#f9403e')
-                            $('#couter').text(0)
-                            $('.wrapper-wrong').show();
-                            $('.wrapper-wright').hide();
-
-                        }
 
                     } else {
                         this.resultado = localStorage.getItem('resultado')
@@ -703,11 +781,30 @@
                     }
 
                 } else if (localStorage.getItem('status') === 'end') {
-
+                    this.student = JSON.parse(localStorage.getItem('student'));
                     this.resultado = localStorage.getItem('resultado')
                     $('#resultado').show()
                     $('#game').hide();
                     $('.wrapper').hide();
+                    v
+                }else if(localStorage.getItem('status') === 'result'){
+                    this.res = localStorage.getItem('points')
+                    this.students = localStorage.getItem('students');
+                    this.student = JSON.parse(localStorage.getItem('student'));
+                    $('.wrapper').show();
+                    $('#game').hide();
+                    if (this.res > 0) {
+                        $('.wrapper').css('background-color', '#66c036')
+                        $('#couter-wright').text(this.res)
+                        $('.wrapper-wright').show();
+                        $('.wrapper-wrong').hide();
+                    } else {
+                        $('.wrapper').css('background-color', '#f9403e')
+                        $('#couter').text(0)
+                        $('.wrapper-wrong').show();
+                        $('.wrapper-wright').hide();
+
+                    }
                 }
 
 

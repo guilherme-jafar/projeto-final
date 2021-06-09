@@ -7650,6 +7650,65 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -7750,19 +7809,19 @@ __webpack_require__.r(__webpack_exports__);
               this.res = 0;
             }
 
-            jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').show();
-
-            if (this.res > 0) {
-              jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#66c036');
-              jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter-wright').text(this.res);
-              jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').show();
-              jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').hide();
-            } else {
-              jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#f9403e');
-              jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter').text(0);
-              jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').show();
-              jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').hide();
-            }
+            this.tabela = 'true';
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').hide(); // $('.wrapper').show();
+            // if (this.res > 0) {
+            //     $('.wrapper').css('background-color', '#66c036')
+            //     $('#couter-wright').text(this.res)
+            //     $('.wrapper-wright').show();
+            //     $('.wrapper-wrong').hide();
+            // } else {
+            //     $('.wrapper').css('background-color', '#f9403e')
+            //     $('#couter').text(0)
+            //     $('.wrapper-wrong').show();
+            //     $('.wrapper-wright').hide();
+            // }
 
             this.resultado += parseInt(this.res);
             clearTimeout(this.timer);
@@ -7896,9 +7955,11 @@ __webpack_require__.r(__webpack_exports__);
             _this2.getResposta(e.quizzArray, e.Ans);
           } else if (e.type === 'NewQuestion') {
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').hide();
-            _this2.student = e.usr;
+            _this2.students = e.usr;
             _this2.tabela = 'true';
             _this2.respondeu = 'false';
+            _this2.res = 0;
+            localStorage.setItem('points', 0);
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').hide();
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').hide();
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').hide();
@@ -7906,12 +7967,11 @@ __webpack_require__.r(__webpack_exports__);
             localStorage.setItem('ansers', JSON.stringify(e.Ans));
             localStorage.setItem('resultado', _this2.resultado);
             localStorage.setItem('questionStatus', _this2.respondeu);
-            var that = _this2;
-            setTimeout(function () {
-              jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').show();
-              that.getResposta(e.quizzArray, e.Ans);
-              that.tabela = 'false';
-            }, 4000);
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').show();
+
+            _this2.getResposta(e.quizzArray, e.Ans);
+
+            _this2.tabela = 'false';
           } else if (e.type === 'stop') {
             if (!_this2.respondeu) {
               if (_this2.pergunta['tipo'] === 'multiple-select') {
@@ -7920,6 +7980,9 @@ __webpack_require__.r(__webpack_exports__);
                 _this2.response(_this2.pergunta['tipo'], 'erro');
               }
 
+              localStorage.setItem('points', 0);
+              _this2.res = 0;
+              clearTimeout(_this2.timer);
               jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').show();
               jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#f9403e');
               jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter').text(0);
@@ -7927,18 +7990,44 @@ __webpack_require__.r(__webpack_exports__);
               jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').hide();
             }
           } else if (e.type === 'EndQuizz') {
+            _this2.student = e.usr;
             localStorage.setItem('status', 'end');
+            localStorage.setItem('student', JSON.stringify(_this2.student));
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').hide();
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').hide();
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#resultado').show();
+            _this2.tabela = 'false';
             _this2.endQuizz = 'prof';
             localStorage.setItem('tipo', 'prof');
           } else if (e.type === 'EndQuizzAluno') {
+            _this2.student = e.usr;
             localStorage.setItem('status', 'end');
+            localStorage.setItem('student', JSON.stringify(_this2.student));
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').hide();
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').hide();
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#resultado').show();
+            _this2.tabela = 'false';
             localStorage.setItem('tipo', 'aluno');
+          } else if (e.type === 'Results') {
+            _this2.student = e.usr;
+            localStorage.setItem('status', 'result');
+            localStorage.setItem('student', JSON.stringify(_this2.student));
+            localStorage.setItem('points', _this2.res);
+            clearTimeout(_this2.timer);
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').show();
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').hide();
+
+            if (_this2.res > 0) {
+              jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#66c036');
+              jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter-wright').text(_this2.res);
+              jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').show();
+              jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').hide();
+            } else {
+              jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#f9403e');
+              jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter').text(0);
+              jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').show();
+              jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').hide();
+            }
           }
         }
       });
@@ -7973,19 +8062,21 @@ __webpack_require__.r(__webpack_exports__);
         this.res = 0;
       }
 
-      jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').show();
-
-      if (this.res > 0) {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#66c036');
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter-wright').text(this.res);
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').show();
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').hide();
-      } else {
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#f9403e');
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter').text(0);
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').show();
-        jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').hide();
-      }
+      this.tabela = 'true';
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').hide(); // $('.wrapper').show();
+      //
+      // if (this.res > 0) {
+      //     $('.wrapper').css('background-color', '#66c036')
+      //     $('#couter-wright').text(this.res)
+      //     $('.wrapper-wright').show();
+      //     $('.wrapper-wrong').hide();
+      // } else {
+      //     $('.wrapper').css('background-color', '#f9403e')
+      //     $('#couter').text(0)
+      //     $('.wrapper-wrong').show();
+      //     $('.wrapper-wright').hide();
+      //
+      // }
 
       this.resultado += parseInt(this.res); // clearTimeout(this.timer)
 
@@ -8107,20 +8198,8 @@ __webpack_require__.r(__webpack_exports__);
           this.respondeu = localStorage.getItem('questionStatus');
           this.res = localStorage.getItem('points');
           this.resultado = parseInt(localStorage.getItem('resultado'));
-          jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').show();
+          this.tabela = 'true';
           jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').hide();
-
-          if (this.res > 0) {
-            jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#66c036');
-            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter-wright').text(this.res);
-            jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').show();
-            jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').hide();
-          } else {
-            jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#f9403e');
-            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter').text(0);
-            jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').show();
-            jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').hide();
-          }
         } else {
           this.resultado = localStorage.getItem('resultado');
           jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').hide();
@@ -8128,10 +8207,30 @@ __webpack_require__.r(__webpack_exports__);
           this.countDown = localStorage.getItem('timer');
         }
       } else if (localStorage.getItem('status') === 'end') {
+        this.student = JSON.parse(localStorage.getItem('student'));
         this.resultado = localStorage.getItem('resultado');
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#resultado').show();
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').hide();
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').hide();
+        v;
+      } else if (localStorage.getItem('status') === 'result') {
+        this.res = localStorage.getItem('points');
+        this.students = localStorage.getItem('students');
+        this.student = JSON.parse(localStorage.getItem('student'));
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').show();
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').hide();
+
+        if (this.res > 0) {
+          jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#66c036');
+          jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter-wright').text(this.res);
+          jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').show();
+          jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').hide();
+        } else {
+          jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#f9403e');
+          jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter').text(0);
+          jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').show();
+          jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').hide();
+        }
       }
     } else {
       localStorage.setItem('sessao', this.MasterSessao);
@@ -9006,6 +9105,8 @@ __webpack_require__.r(__webpack_exports__);
       this.connect();
     }
   },
+  // form.append('users', this.users);
+  // form.append('points', this.points);
   methods: {
     esconderRespostas: function esconderRespostas() {
       if (jquery__WEBPACK_IMPORTED_MODULE_2___default()('#container').hasClass('d-none')) {
@@ -9171,26 +9272,36 @@ __webpack_require__.r(__webpack_exports__);
     stopQuestion: function stopQuestion() {
       this.index++;
       localStorage.setItem('index', this.index);
+      localStorage.setItem('state', 'false');
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/StopQuestionQuizz').then(function (response) {
         jquery__WEBPACK_IMPORTED_MODULE_2___default()('#waitRoom').hide();
         jquery__WEBPACK_IMPORTED_MODULE_2___default()('#gameMode').show();
         jquery__WEBPACK_IMPORTED_MODULE_2___default()('#stop').hide();
         jquery__WEBPACK_IMPORTED_MODULE_2___default()('#next').show();
-      });
+        var form = new FormData();
+        form.append('users', this.users);
+        form.append('points', this.points);
+        axios__WEBPACK_IMPORTED_MODULE_0___default().post('/GiveResults', form);
+      }.bind(this));
       this.couter = -1;
 
       if (this.Questions < this.index) {
         jquery__WEBPACK_IMPORTED_MODULE_2___default()('#stop').hide();
         jquery__WEBPACK_IMPORTED_MODULE_2___default()('#next').hide();
         jquery__WEBPACK_IMPORTED_MODULE_2___default()('#submitLast').show();
+        var form = new FormData();
+        form.append('users', this.users);
+        form.append('points', this.points);
+        axios__WEBPACK_IMPORTED_MODULE_0___default().post('/GiveResults', form);
         localStorage.setItem('state', 'submit');
+        jquery__WEBPACK_IMPORTED_MODULE_2___default()('#next').hide();
       } else {
         axios__WEBPACK_IMPORTED_MODULE_0___default().post('/StopQuestionQuizz').then(function (response) {
           jquery__WEBPACK_IMPORTED_MODULE_2___default()('#waitRoom').hide();
           jquery__WEBPACK_IMPORTED_MODULE_2___default()('#gameMode').show();
           jquery__WEBPACK_IMPORTED_MODULE_2___default()('#stop').hide();
           jquery__WEBPACK_IMPORTED_MODULE_2___default()('#next').show();
-        });
+        }.bind(this));
         this.couter = -1;
       }
     },
@@ -9214,8 +9325,6 @@ __webpack_require__.r(__webpack_exports__);
       var form = new FormData();
       form.append('index', this.index);
       form.append('tag', tag);
-      form.append('users', this.users);
-      form.append('points', this.points);
       this.sleep(2000);
       this.couter = 0;
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/NextQuestionQuizz', form).then(function (response) {
@@ -9389,10 +9498,23 @@ __webpack_require__.r(__webpack_exports__);
                 jquery__WEBPACK_IMPORTED_MODULE_2___default()('#stop').hide();
                 jquery__WEBPACK_IMPORTED_MODULE_2___default()('#next').hide();
                 jquery__WEBPACK_IMPORTED_MODULE_2___default()('#submitLast').show();
+                var form = new FormData();
+                form.append('users', _this.users);
+                form.append('points', _this.points);
+                axios__WEBPACK_IMPORTED_MODULE_0___default().post('/GiveResults', form);
                 localStorage.setItem('state', 'submit');
+                jquery__WEBPACK_IMPORTED_MODULE_2___default()('#next').hide();
               } else {
                 jquery__WEBPACK_IMPORTED_MODULE_2___default()('#stop').hide();
                 jquery__WEBPACK_IMPORTED_MODULE_2___default()('#next').show();
+
+                var _form = new FormData();
+
+                _form.append('users', _this.users);
+
+                _form.append('points', _this.points);
+
+                axios__WEBPACK_IMPORTED_MODULE_0___default().post('/GiveResults', _form);
                 jquery__WEBPACK_IMPORTED_MODULE_2___default()('#submitLast').hide();
               }
             }
@@ -9450,8 +9572,6 @@ __webpack_require__.r(__webpack_exports__);
         this.solucoes = JSON.parse(localStorage.getItem('solucoes'));
         this.changeColor('#7FBA27');
         this.getResposta(JSON.parse(localStorage.getItem('ansers')));
-        var check = JSON.parse(localStorage.getItem('state'));
-        console.log(localStorage.getItem('state') === 'true');
 
         if (localStorage.getItem('state') === 'true') {
           jquery__WEBPACK_IMPORTED_MODULE_2___default()('#waitRoom').hide();
@@ -9466,11 +9586,25 @@ __webpack_require__.r(__webpack_exports__);
           jquery__WEBPACK_IMPORTED_MODULE_2___default()('#stop').hide();
           jquery__WEBPACK_IMPORTED_MODULE_2___default()('#next').hide();
           jquery__WEBPACK_IMPORTED_MODULE_2___default()('#submitLast').show();
+          var form = new FormData();
+          form.append('users', this.users);
+          form.append('points', this.points);
+          axios__WEBPACK_IMPORTED_MODULE_0___default().post('/GiveResults', form);
+          jquery__WEBPACK_IMPORTED_MODULE_2___default()('#next').hide();
         } else {
           jquery__WEBPACK_IMPORTED_MODULE_2___default()('#waitRoom').hide();
           jquery__WEBPACK_IMPORTED_MODULE_2___default()('#gameMode').show();
           jquery__WEBPACK_IMPORTED_MODULE_2___default()('#stop').hide();
           jquery__WEBPACK_IMPORTED_MODULE_2___default()('#next').show();
+
+          var _form2 = new FormData();
+
+          _form2.append('users', this.users);
+
+          _form2.append('points', this.points);
+
+          console.log(_form2);
+          axios__WEBPACK_IMPORTED_MODULE_0___default().post('/GiveResults', _form2);
           jquery__WEBPACK_IMPORTED_MODULE_2___default()('#submitLast').hide();
         }
       }
@@ -55510,7 +55644,7 @@ var render = function() {
                               _vm._v(
                                 " " +
                                   _vm._s(_vm.multipleQuestion[0]) +
-                                  "\n                                "
+                                  "\n                            "
                               )
                             ]
                           )
@@ -55540,7 +55674,7 @@ var render = function() {
                               _vm._v(
                                 " " +
                                   _vm._s(_vm.multipleQuestion[1]) +
-                                  "\n                                "
+                                  "\n                            "
                               )
                             ]
                           )
@@ -55570,7 +55704,7 @@ var render = function() {
                               _vm._v(
                                 " " +
                                   _vm._s(_vm.multipleQuestion[2]) +
-                                  "\n                                "
+                                  "\n                            "
                               )
                             ]
                           )
@@ -55600,7 +55734,7 @@ var render = function() {
                               _vm._v(
                                 " " +
                                   _vm._s(_vm.multipleQuestion[3]) +
-                                  "\n                                "
+                                  "\n                            "
                               )
                             ]
                           )
@@ -55622,7 +55756,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("True\n                                ")]
+                            [_vm._v("True\n                            ")]
                           )
                         ]),
                         _vm._v(" "),
@@ -55638,7 +55772,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("False\n                                ")]
+                            [_vm._v("False\n                            ")]
                           )
                         ])
                       ])
@@ -55652,9 +55786,7 @@ var render = function() {
                                 "span",
                                 { staticClass: "selecao-mul mx-auto" },
                                 [
-                                  _vm._v(
-                                    "\n                         Respostas"
-                                  ),
+                                  _vm._v("\n                     Respostas"),
                                   _c("span", [
                                     _vm._v(
                                       " " + _vm._s(_vm.botaoEscolhido.length)
@@ -55663,7 +55795,7 @@ var render = function() {
                                   _vm._v(
                                     "  / " +
                                       _vm._s(_vm.respostasMultiplas.length) +
-                                      "\n            "
+                                      "\n        "
                                   )
                                 ]
                               )
@@ -55694,7 +55826,7 @@ var render = function() {
                               _vm._v(
                                 " " +
                                   _vm._s(_vm.multipleQuestion[0]) +
-                                  "\n                                "
+                                  "\n                            "
                               )
                             ]
                           )
@@ -55724,7 +55856,7 @@ var render = function() {
                               _vm._v(
                                 " " +
                                   _vm._s(_vm.multipleQuestion[1]) +
-                                  "\n                                "
+                                  "\n                            "
                               )
                             ]
                           )
@@ -55752,9 +55884,9 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                                    " +
+                                "\n                                " +
                                   _vm._s(_vm.multipleQuestion[2]) +
-                                  "\n                                     \n                                "
+                                  "\n                                 \n                            "
                               )
                             ]
                           )
@@ -55782,9 +55914,9 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                                    " +
+                                "\n                                " +
                                   _vm._s(_vm.multipleQuestion[3]) +
-                                  "\n                                     \n                                "
+                                  "\n                                 \n                            "
                               )
                             ]
                           )
@@ -55818,7 +55950,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                                     \n                                    "
+                                "\n                                 \n                                "
                               ),
                               _c("img", {
                                 directives: [
@@ -55866,7 +55998,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                                     \n                                    "
+                                "\n                                 \n                                "
                               ),
                               _c("img", {
                                 directives: [
@@ -55914,7 +56046,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                                     \n                                    "
+                                "\n                                 \n                                "
                               ),
                               _c("img", {
                                 directives: [
@@ -55962,7 +56094,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                                     \n                                    "
+                                "\n                                 \n                                "
                               ),
                               _c("img", {
                                 directives: [
@@ -56010,29 +56142,7 @@ var render = function() {
         staticClass: "resultado",
         attrs: { id: "tabela" }
       },
-      [
-        _c(
-          "table",
-          [
-            _vm._m(1),
-            _vm._v(" "),
-            _vm._l(_vm.student, function(item, index) {
-              return _c("tr", { key: item }, [
-                _c("td", [
-                  _vm._v(
-                    "\n                                " +
-                      _vm._s(index) +
-                      "\n                            "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(item))])
-              ])
-            })
-          ],
-          2
-        )
-      ]
+      [_vm._m(1)]
     ),
     _vm._v(" "),
     _c(
@@ -56044,12 +56154,104 @@ var render = function() {
         _c("p", [_vm._v("Pontos: " + _vm._s(_vm.resultado))]),
         _vm._v(" "),
         _c(
+          "table",
+          [
+            _vm._m(2),
+            _vm._v(" "),
+            _vm._l(_vm.student, function(item, index) {
+              return _c("tr", { key: item }, [
+                _c("td", [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(index) +
+                      "\n                "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(item))])
+              ])
+            })
+          ],
+          2
+        ),
+        _vm._v(" "),
+        _c(
           "button",
           { staticClass: "btn btn-primary", on: { click: _vm.submitQuizz } },
           [_vm._v("Sair e Gravar")]
         )
       ]
-    )
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "wrapper" }, [
+      _c("div", { staticClass: "wrapper-in wrapper-wright" }, [
+        _c("div", { staticClass: "wrapper-in-2" }, [
+          _vm._m(3),
+          _vm._v(" "),
+          _vm._m(4),
+          _vm._v(" "),
+          _c("span", [_vm._v("+ ")]),
+          _c("span", { attrs: { id: "couter-wright" } }),
+          _c("span", [_vm._v(" Pontos")]),
+          _vm._v(" "),
+          _c(
+            "table",
+            [
+              _vm._m(5),
+              _vm._v(" "),
+              _vm._l(_vm.student, function(item, index) {
+                return _c("tr", { key: item }, [
+                  _c("td", [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(index) +
+                        "\n                        "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item))])
+                ])
+              })
+            ],
+            2
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "wrapper-in wrapper-wrong" }, [
+        _c("div", { staticClass: "wrapper-in-2" }, [
+          _vm._m(6),
+          _vm._v(" "),
+          _vm._m(7),
+          _vm._v(" "),
+          _c("span", [_vm._v("+ ")]),
+          _c("span", { attrs: { id: "couter" } }, [_vm._v("0")]),
+          _c("span", [_vm._v(" Pontos")]),
+          _vm._v(" "),
+          _c(
+            "table",
+            [
+              _vm._m(8),
+              _vm._v(" "),
+              _vm._l(_vm.student, function(item, index) {
+                return _c("tr", { key: item }, [
+                  _c("td", [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(index) +
+                        "\n                        "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(item))])
+                ])
+              })
+            ],
+            2
+          )
+        ])
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
@@ -56059,6 +56261,68 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "text-center" }, [
       _c("h2", [_vm._v("A espera que o jogo começe...")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "spinner-border", attrs: { role: "status" } },
+      [_c("span", { staticClass: "visually-hidden" }, [_vm._v("Loading...")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Nome")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Pontos")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "resposta" }, [
+      _c("span", [_vm._v("Correta")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "icon" }, [
+      _c("i", { staticClass: "bi bi-check2-circle" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Nome")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Pontos")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "resposta" }, [
+      _c("span", [_vm._v("Errada")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "icon" }, [
+      _c("i", { staticClass: "bi bi-x-circle" })
     ])
   },
   function() {
