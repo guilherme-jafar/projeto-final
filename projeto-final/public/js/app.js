@@ -6132,9 +6132,206 @@ __webpack_require__.r(__webpack_exports__);
 /*!***********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/aluno/quizzAluno.vue?vue&type=script&lang=js& ***!
   \***********************************************************************************************************************************************************************************************************************/
-/***/ (() => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: D:\\MAMP\\htdocs\\UNI\\projeto_final\\projeto-final\\resources\\js\\components\\aluno\\quizzAluno.vue: Unexpected token (170:0)\n\n\u001b[0m \u001b[90m 168 |\u001b[39m                 window\u001b[33m.\u001b[39mlocation\u001b[33m.\u001b[39mreplace(\u001b[32m'/WaitRoomAluno/'\u001b[39m \u001b[33m+\u001b[39m quizz)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 169 |\u001b[39m\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 170 |\u001b[39m \u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<\u001b[39m \u001b[33mHEAD\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m     |\u001b[39m \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 171 |\u001b[39m             }\u001b[33m,\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 172 |\u001b[39m             teste(quizz) {\u001b[0m\n\u001b[0m \u001b[90m 173 |\u001b[39m\u001b[0m\n    at Parser._raise (D:\\MAMP\\htdocs\\UNI\\projeto_final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:776:17)\n    at Parser.raiseWithData (D:\\MAMP\\htdocs\\UNI\\projeto_final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:769:17)\n    at Parser.raise (D:\\MAMP\\htdocs\\UNI\\projeto_final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:737:17)\n    at Parser.unexpected (D:\\MAMP\\htdocs\\UNI\\projeto_final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:9686:16)\n    at Parser.parseExprAtom (D:\\MAMP\\htdocs\\UNI\\projeto_final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:11078:20)\n    at Parser.parseExprSubscripts (D:\\MAMP\\htdocs\\UNI\\projeto_final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:10655:23)\n    at Parser.parseUpdate (D:\\MAMP\\htdocs\\UNI\\projeto_final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:10635:21)\n    at Parser.parseMaybeUnary (D:\\MAMP\\htdocs\\UNI\\projeto_final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:10613:23)\n    at Parser.parseExprOps (D:\\MAMP\\htdocs\\UNI\\projeto_final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:10474:23)\n    at Parser.parseMaybeConditional (D:\\MAMP\\htdocs\\UNI\\projeto_final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:10448:23)\n    at Parser.parseMaybeAssign (D:\\MAMP\\htdocs\\UNI\\projeto_final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:10411:21)\n    at Parser.parseExpressionBase (D:\\MAMP\\htdocs\\UNI\\projeto_final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:10356:23)\n    at D:\\MAMP\\htdocs\\UNI\\projeto_final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:10350:39\n    at Parser.allowInAnd (D:\\MAMP\\htdocs\\UNI\\projeto_final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:12045:16)\n    at Parser.parseExpression (D:\\MAMP\\htdocs\\UNI\\projeto_final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:10350:17)\n    at Parser.parseStatementContent (D:\\MAMP\\htdocs\\UNI\\projeto_final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:12333:23)");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "quizzAluno",
+  props: ['quizz_prop'],
+  data: function data() {
+    return {
+      myModal: '',
+      toast: '',
+      search: '',
+      quizz: JSON.parse(this.quizz_prop)
+    };
+  },
+  computed: {
+    filter: function filter() {
+      var _this = this;
+
+      return this.quizz.filter(function (quizz) {
+        return quizz['nome'].match(_this.search);
+      });
+    }
+  },
+  methods: {
+    EnterQuizz: function EnterQuizz(quizz) {
+      localStorage.clear();
+      window.location.replace('/WaitRoomAluno/' + quizz);
+    },
+    teste: function teste(quizz) {
+      var session = '_' + Math.random().toString(36).substr(2, 9);
+    },
+    JoinQuizz: function JoinQuizz(id) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#Error' + id).text(" ").css('color', 'red').css('opacity', '1');
+      var sId = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#sessionId' + id).val();
+      console.log(sId);
+
+      if (sId.length > 0) {
+        window.location.replace('/InsideRoomStudent/' + sId + '/' + id);
+      } else {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#Error' + id).text("tem que inserir id ").css('color', 'red').css('opacity', '1');
+      }
+    }
+  },
+  mounted: function mounted() {
+    localStorage.clear();
+    Storage.clear(); // this.disciplinas = JSON.parse(this.disciplinas)
+
+    window.location.replace('/quizzTeste/' + quizz + '/' + session);
+  }
+});
 
 /***/ }),
 

@@ -167,34 +167,12 @@
                 localStorage.clear();
                 window.location.replace('/WaitRoomAluno/' + quizz);
 
-<<<<<<< HEAD
             },
             teste(quizz) {
 
 
                 let session = '_' + Math.random().toString(36).substr(2, 9);
-=======
-        JoinQuizz(id) {
-            $('#Error'+id).text(" ").css('color', 'red').css('opacity', '1');
-            let sId = $('#sessionId' + id).val()
-            console.log(sId)
-            if (sId.length > 0) {
-                localStorage.clear();
-                window.location.replace('/InsideRoomStudent/' + sId+'/'+id );
-            } else {
-                $('#Error'+id).text("tem que inserir id ").css('color', 'red').css('opacity', '1');
-            }
-
-        },
-        mounted() {
-            localStorage.clear();
-            Storage.clear();
-            // this.disciplinas = JSON.parse(this.disciplinas)
->>>>>>> 04fd423035333825354f36f085fcb689be810c21
-
-                window.location.replace('/quizzTeste/' + quizz + '/' + session)
             },
-
             JoinQuizz(id) {
                 $('#Error' + id).text(" ").css('color', 'red').css('opacity', '1');
                 let sId = $('#sessionId' + id).val()
@@ -206,15 +184,14 @@
                 }
 
             },
-            mounted() {
+        },
+        mounted() {
+            localStorage.clear();
+            Storage.clear();
+            // this.disciplinas = JSON.parse(this.disciplinas)
 
-                // this.disciplinas = JSON.parse(this.disciplinas)
-
-
-            }
-        }
-
-
+            window.location.replace('/quizzTeste/' + quizz + '/' + session)
+        },
     }
 </script>
 
