@@ -493,12 +493,12 @@ GROUP BY s.quizz_id ,s.nomequizz', ['id' => session('utilizador')['id'], 'sessio
         $quizz = Cache::get('quizz');
         $newArray = array();
         if (count($users) > 5) {
-            $users = array_chunk($users, 5);
-            $points = array_chunk($points, 5);
+            $users = array_slice($users, 0, 5);
+            $points = array_slice($points, 0, 5);
         }
 
         for ($i = 0; $i < count($users); $i++) {
-            $newArray [$users[0][$i]]= $points[0][$i];
+            $newArray [$users[$i]]= $points[$i];
 
         }
         asort($newArray);

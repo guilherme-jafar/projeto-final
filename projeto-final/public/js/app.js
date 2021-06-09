@@ -7781,6 +7781,46 @@ __webpack_require__.r(__webpack_exports__);
               localStorage.setItem('resultado', this.resultado);
             }.bind(this));
           }
+        } else {
+          this.res = 0;
+          jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').show();
+
+          if (this.res > 0) {
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#66c036');
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter-wright').text(this.res);
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').show();
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').hide();
+          } else {
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#f9403e');
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter').text(0);
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').show();
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').hide();
+          }
+
+          this.resultado += parseInt(this.res);
+          clearTimeout(this.timer);
+          this.countDown = 0;
+
+          var _form = new FormData();
+
+          _form.append('id', this.pergunta['pId']);
+
+          _form.append('pergunta', this.pergunta['enunciado']);
+
+          _form.append('resposta', JSON.stringify(this.respostasEscolhidas));
+
+          _form.append('resultado', this.res);
+
+          _form.append('tipo', this.pergunta['tipo']);
+
+          _form.append('sessioId', this.sessao);
+
+          axios__WEBPACK_IMPORTED_MODULE_2___default().post('/setRespostaQuizz', _form).then(function (response) {
+            this.respondeu = 'true';
+            localStorage.setItem('points', this.res);
+            localStorage.setItem('questionStatus', this.respondeu);
+            localStorage.setItem('resultado', this.resultado);
+          }.bind(this));
         }
       }
     },
@@ -9264,20 +9304,33 @@ __webpack_require__.r(__webpack_exports__);
             _this.points[_this.usersId.indexOf(e.userId)] += parseInt(e.points);
             _this.resposta[_this.usersId.indexOf(e.userId)] = e.answer;
 
-            if (_this.pergunta['tipo'] !== "true/false") {
+            if (_this.pergunta['tipo'] !== "true/false" && _this.pergunta['tipo'] !== "multiple-select") {
               for (var i = 0; i < 4; i++) {
                 if (_this.multipleQuestion[i] === e.answer) {
                   _this.solucoes[i]++;
-                  _this.percentagem[i] = _this.solucoes[i] / _this.students * 100;
+                  _this.percentagem[i] = Math.round(_this.solucoes[i] / _this.students * 100);
+                }
+              }
+
+              _this.changeColor('#7FBA27');
+            } else if (_this.pergunta['tipo'] === "multiple-select") {
+              var array = JSON.parse(e.answer);
+
+              for (var _i3 = 0; _i3 < 4; _i3++) {
+                for (var _k = 0; _k < 2; _k++) {
+                  if (_this.multipleQuestion[_i3] === array[_k]) {
+                    _this.solucoes[_i3]++;
+                    _this.percentagem[_i3] = Math.round(_this.solucoes[_i3] / _this.students * 100);
+                  }
                 }
               }
 
               _this.changeColor('#7FBA27');
             } else {
-              for (var _i3 = 1; _i3 < 3; _i3++) {
-                if (jquery__WEBPACK_IMPORTED_MODULE_2___default()('#tf' + _i3).val() === e.answer) {
-                  _this.solucoes[_i3]++;
-                  _this.percentagem[_i3] = _this.solucoes[_i3] / _this.students * 100;
+              for (var _i4 = 1; _i4 < 3; _i4++) {
+                if (jquery__WEBPACK_IMPORTED_MODULE_2___default()('#tf' + _i4).val() === e.answer) {
+                  _this.solucoes[_i4]++;
+                  _this.percentagem[_i4] = Math.round(_this.solucoes[_i4] / _this.students * 100);
                 }
               }
 
@@ -9349,9 +9402,9 @@ __webpack_require__.r(__webpack_exports__);
             localStorage.setItem('questions', JSON.stringify(e.quizzArray));
             localStorage.setItem('ansers', JSON.stringify(e.Ans));
 
-            for (var _i4 = 0; _i4 < 4; _i4++) {
-              _this.solucoes[_i4] = 0;
-              _this.percentagem[_i4] = 0;
+            for (var _i5 = 0; _i5 < 4; _i5++) {
+              _this.solucoes[_i5] = 0;
+              _this.percentagem[_i5] = 0;
             }
 
             _this.changeColor('darkred');

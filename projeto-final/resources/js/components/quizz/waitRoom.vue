@@ -661,21 +661,41 @@
                             } else if (e.type === 'NextQuestion') {
                                 this.points[this.usersId.indexOf(e.userId)] += parseInt(e.points);
                                 this.resposta[this.usersId.indexOf(e.userId)] = e.answer;
-                                if (this.pergunta['tipo'] !== "true/false") {
+
+                                if (this.pergunta['tipo'] !== "true/false" && this.pergunta['tipo'] !== "multiple-select") {
+
                                     for (let i = 0; i < 4; i++) {
                                         if (this.multipleQuestion[i] === e.answer) {
                                             this.solucoes[i]++;
 
-                                            this.percentagem[i] = (this.solucoes[i] / this.students) * 100;
+                                            this.percentagem[i] = Math.round((this.solucoes[i] / this.students) * 100);
                                         }
 
                                     }
                                     this.changeColor('#7FBA27');
-                                } else {
+
+                                }  else if(this.pergunta['tipo'] === "multiple-select"){
+                                    let array=JSON.parse(e.answer)
+
+                                    for (let i = 0; i < 4; i++) {
+                                        for (let k = 0; k < 2; k++) {
+
+                                            if (this.multipleQuestion[i] === array[k]) {
+                                                this.solucoes[i]++;
+
+                                                this.percentagem[i] = Math.round((this.solucoes[i] / this.students) * 100);
+                                            }
+                                        }
+                                    }
+                                    this.changeColor('#7FBA27');
+
+                                }
+
+                                else {
                                     for (let i = 1; i < 3; i++) {
                                         if ($('#tf' + i).val() === e.answer) {
                                             this.solucoes[i]++;
-                                            this.percentagem[i] = (this.solucoes[i] / this.students) * 100;
+                                            this.percentagem[i] = Math.round((this.solucoes[i] / this.students) * 100);
                                         }
 
                                     }

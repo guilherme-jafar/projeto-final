@@ -297,7 +297,6 @@
             responseMultiplas(id) {
                 if (!this.botaoEscolhido.includes(id)) {
                     this.botaoEscolhido.push(id);
-
                     let resposta = this.multipleQuestion[id];
                     if (id !== 'erro') {
                         for (let i = 0; i < this.respostasMultiplas.length; i++) {
@@ -317,7 +316,6 @@
                                 this.res = 0;
                             }
                             $('.wrapper').show();
-
                             if (this.res > 0) {
                                 $('.wrapper').css('background-color', '#66c036')
                                 $('#couter-wright').text(this.res)
@@ -328,7 +326,6 @@
                                 $('#couter').text(0)
                                 $('.wrapper-wrong').show();
                                 $('.wrapper-wright').hide();
-
                             }
                             this.resultado += parseInt(this.res);
                             clearTimeout(this.timer)
@@ -345,11 +342,39 @@
                                 localStorage.setItem('points', this.res);
                                 localStorage.setItem('questionStatus', this.respondeu);
                                 localStorage.setItem('resultado', this.resultado)
-
                             }.bind(this));
                         }
+                    }else{
+                        this.res=0;
+                        $('.wrapper').show();
+                        if (this.res > 0) {
+                            $('.wrapper').css('background-color', '#66c036')
+                            $('#couter-wright').text(this.res)
+                            $('.wrapper-wright').show();
+                            $('.wrapper-wrong').hide();
+                        } else {
+                            $('.wrapper').css('background-color', '#f9403e')
+                            $('#couter').text(0)
+                            $('.wrapper-wrong').show();
+                            $('.wrapper-wright').hide();
+                        }
+                        this.resultado += parseInt(this.res);
+                        clearTimeout(this.timer)
+                        this.countDown = 0;
+                        let form = new FormData();
+                        form.append('id', this.pergunta['pId'])
+                        form.append('pergunta', this.pergunta['enunciado'])
+                        form.append('resposta', JSON.stringify(this.respostasEscolhidas))
+                        form.append('resultado', this.res)
+                        form.append('tipo', this.pergunta['tipo'])
+                        form.append('sessioId', this.sessao)
+                        axios.post('/setRespostaQuizz', form).then(function (response) {
+                            this.respondeu = 'true';
+                            localStorage.setItem('points', this.res);
+                            localStorage.setItem('questionStatus', this.respondeu);
+                            localStorage.setItem('resultado', this.resultado)
+                        }.bind(this));
                     }
-
                 }
 
             },
