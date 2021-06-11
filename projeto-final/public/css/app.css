@@ -1201,3 +1201,60 @@ section {
   font-size: 1.6rem;
 }
 
+.home-header {
+  background-color: #F7F3F0;
+  padding: 10rem;
+  padding-top: 20rem;
+  height: 90vh;
+}
+.home-header h1 {
+  color: #FF7829;
+  font-family: Quicksand, serif;
+  margin-bottom: 10rem;
+  margin-top: 5rem;
+  font-weight: bold;
+}
+
+.section-home {
+  padding: 10rem;
+}
+.section-home h1 {
+  font-family: Quicksand, serif;
+  margin-bottom: 2rem;
+  margin-top: 1rem;
+  font-weight: bold;
+  font-size: 5rem;
+}
+.section-home p {
+  text-align: justify;
+  font-size: 2.5rem;
+}
+.section-home img {
+  width: 30rem;
+  height: 30rem;
+}
+.section-home-2 {
+  background-color: #F2FBFD;
+}
+.section-home-2 h1 {
+  color: #FF7829;
+}
+.section-home-3 {
+  background-color: white;
+}
+.section-home-3 h1 {
+  color: #40C0F0;
+}
+.section-home-4 {
+  background-color: #F2FBFD;
+}
+.section-home-4 h1 {
+  color: #7FBA27;
+}
+.section-home-5 {
+  background-color: white;
+}
+.section-home-5 h1 {
+  color: #F9B000;
+}
+
