@@ -61,7 +61,7 @@
                                      alt="avatar image" style="width: 5rem">
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a class="dropdown-item" href="#">Editar Perfil <i class=" bi bi-pencil-square"></i></a></li>
+                                <li><a class="dropdown-item" href="{{URL('/editarperfil')}}">Editar Perfil <i class=" bi bi-pencil-square"></i></a></li>
                                 <li><a class="dropdown-item" href="{{URL('/logout')}}">Logout <i class=" bi bi-box-arrow-right"></i></a></li>
                             </ul>
                         </li>
@@ -78,14 +78,112 @@
 
 
 
-    <div class="">
-
+    <div class="home-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1>
+                        A Estgame é uma plataforma de gamification na qual é possível criar questões de diversos tipos para os alunos responderem. <br>
+                    </h1>
+                    <a href="#" class="btn btn-primary">Saber Mais</a>
+                </div>
+                <div class="col-md-6">
+                    <img src="{{asset('/images/home-image.svg')}}">
+                </div>
+            </div>
+        </div>
 
     </div>
 
 
-
 </header>
+
+
+<main class="home-main">
+{{--    <div class="section-home section-home-1">--}}
+{{--        <div class="container">--}}
+{{--            <div class="row">--}}
+{{--                <div class="col-md-6">--}}
+
+{{--                </div>--}}
+{{--                <div class="col-md-6">--}}
+
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+
+    <div class="section-home section-home-2">
+        <div class="container ">
+            <div class="row text-center">
+                <div class="col-md-6">
+                    <div>
+                        <h1 class="text-start">Aprendizagem</h1>
+                        <p class="text-start">
+                            O objetivo da Estgame é que o docente crie quiz para os seus alunos praticarem fora e dentro da aula o que aprenderam.
+                        </p>
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <img class="img-fluid mx-auto" src="{{asset('/images/book.svg')}}">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-home section-home-3">
+        <div class="container text-center">
+            <div class="row justify-content-md-center">
+                <div class="col-md-6">
+                    <img class="img-fluid mx-auto" src="{{asset('/images/competition.svg')}}">
+                </div>
+                <div class="col-md-6">
+                    <h1 class="text-start">Competição</h1>
+                    <p class="text-start">
+                        A aplicação permite que alunos compitam de forma saudável com os seus colegas e acumulem pontos  respondendo a quizz´s ao longo do semestre para formação do pódio.
+                        Com a acumulação dos pontos, os alunos obtêm selos de participação e prémios.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="section-home section-home-4">
+        <div class="container text-center">
+            <div class="row justify-content-md-center">
+                <div class="col-md-6">
+                    <h1 class="text-start">Avaliação</h1>
+                    <p class="text-start">
+                        A aplicação permite obter uma monitorização e avaliação da performance dos alunos durante o semestre através de tabelas disponibilizadas ao professor.
+                        O docente pode utilizar a plataforma nas suas aulas como um suporte de apoio e de avaliação.
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <img class="img-fluid mx-auto" src="{{asset('/images/checklist.svg')}}">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-home section-home-5">
+        <div class="container text-center">
+            <div class="row justify-content-md-center">
+                <div class="col-md-6">
+                    <img class="img-fluid mx-auto" src="{{asset('/images/gamepad.svg')}}">
+                </div>
+                <div class="col-md-6">
+                    <h1 class="text-start">Diversão</h1>
+                    <p class="text-start">
+                        A ideia da plataforma é trazer a gamificação que permite a utilização de mecânicas de jogos e pensamentos para impactar pontos como engajamento, produtividade, foco e determinação dos alunos.                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</main>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 </html>
