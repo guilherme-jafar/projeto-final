@@ -763,7 +763,7 @@
                                         form.append('points', this.points);
                                         axios.post('/GiveResults',form);
                                         localStorage.setItem('state', 'submit')
-                                        $('#next').hide();
+
 
                                     } else {
                                         $('#stop').hide();

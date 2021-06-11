@@ -170,8 +170,9 @@
             },
             teste(quizz) {
 
-
+                console.log(quizz)
                 let session = '_' + Math.random().toString(36).substr(2, 9);
+                window.location.replace('/quizzTeste/' + quizz+'/'+session)
             },
             JoinQuizz(id) {
                 $('#Error' + id).text(" ").css('color', 'red').css('opacity', '1');
@@ -187,7 +188,7 @@
         },
         mounted() {
             localStorage.clear();
-            Storage.clear();
+
             // this.disciplinas = JSON.parse(this.disciplinas)
 
             window.location.replace('/quizzTeste/' + quizz + '/' + session)

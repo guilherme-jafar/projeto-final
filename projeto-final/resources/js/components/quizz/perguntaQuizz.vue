@@ -164,17 +164,17 @@
         },
         methods: {
             countDownTimer() {
-                if(this.countDown > 0) {
-                    this.timer = setTimeout(() => {
-                        this.countDown -= 1
-                        $cookies.config('1d')
-                        $cookies.set('quizz', this.session+"@"+this.index + '@' + this.resultado+'@'+this.countDown);
-                        this.countDownTimer()
-                    }, 1000)
-                }
-                else if(this.countDown ===0){
-                    this.response('erro')
-                }
+                // if(this.countDown > 0) {
+                //     this.timer = setTimeout(() => {
+                //         this.countDown -= 1
+                //         $cookies.config('1d')
+                //         $cookies.set('quizz', this.session+"@"+this.index + '@' + this.resultado+'@'+this.countDown);
+                //         this.countDownTimer()
+                //     }, 1000)
+                // }
+                // else if(this.countDown ===0){
+                //     this.response('erro')
+                // }
             },
             sleep(milliseconds) {
                 const date = Date.now();
@@ -299,6 +299,7 @@
                     this.change()
                     this.sleep(2500)
                 }.bind(this));
+                location.reload();
             },
             getRespostas() {
                 var respostas;
@@ -366,7 +367,7 @@
                                         this.resposta = respostas[i]['resposta']
                                     $('#mi' + k).show()
                                     $('#mi' + k).val(respostas[i]['resposta'])
-                                    $('#m' + k).html(" ");
+                                    $('#m' + k).html(" ")
                                     $('#mimg' + k).attr('src','/images/Pergunta/Multimedia/'+respostas[i]['resposta']);
                                     //$('#mi' + k).val(respostas[i]['resposta']);
                                 }
@@ -375,6 +376,7 @@
                                 let k = i + 1
                                 $('#mi' + k).hide()
                             }
+
                         }
                         if ($cookies.get('quizz')!=null){
                         let cookie = $cookies.get('quizz')
@@ -396,6 +398,7 @@
 
                     }
                 }.bind(this));
+
             },
             fileCheck() {
                 if (this.pergunta[this.index]['link'] === null) {

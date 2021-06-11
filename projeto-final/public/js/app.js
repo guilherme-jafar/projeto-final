@@ -6311,7 +6311,9 @@ __webpack_require__.r(__webpack_exports__);
       window.location.replace('/WaitRoomAluno/' + quizz);
     },
     teste: function teste(quizz) {
+      console.log(quizz);
       var session = '_' + Math.random().toString(36).substr(2, 9);
+      window.location.replace('/quizzTeste/' + quizz + '/' + session);
     },
     JoinQuizz: function JoinQuizz(id) {
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#Error' + id).text(" ").css('color', 'red').css('opacity', '1');
@@ -6326,8 +6328,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    localStorage.clear();
-    Storage.clear(); // this.disciplinas = JSON.parse(this.disciplinas)
+    localStorage.clear(); // this.disciplinas = JSON.parse(this.disciplinas)
 
     window.location.replace('/quizzTeste/' + quizz + '/' + session);
   }
@@ -8421,20 +8422,17 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    countDownTimer: function countDownTimer() {
-      var _this = this;
-
-      if (this.countDown > 0) {
-        this.timer = setTimeout(function () {
-          _this.countDown -= 1;
-          $cookies.config('1d');
-          $cookies.set('quizz', _this.session + "@" + _this.index + '@' + _this.resultado + '@' + _this.countDown);
-
-          _this.countDownTimer();
-        }, 1000);
-      } else if (this.countDown === 0) {
-        this.response('erro');
-      }
+    countDownTimer: function countDownTimer() {// if(this.countDown > 0) {
+      //     this.timer = setTimeout(() => {
+      //         this.countDown -= 1
+      //         $cookies.config('1d')
+      //         $cookies.set('quizz', this.session+"@"+this.index + '@' + this.resultado+'@'+this.countDown);
+      //         this.countDownTimer()
+      //     }, 1000)
+      // }
+      // else if(this.countDown ===0){
+      //     this.response('erro')
+      // }
     },
     sleep: function sleep(milliseconds) {
       var date = Date.now();
@@ -8557,6 +8555,7 @@ __webpack_require__.r(__webpack_exports__);
         this.change();
         this.sleep(2500);
       }.bind(this));
+      location.reload();
     },
     getRespostas: function getRespostas() {
       var respostas;
@@ -9503,7 +9502,6 @@ __webpack_require__.r(__webpack_exports__);
                 form.append('points', _this.points);
                 axios__WEBPACK_IMPORTED_MODULE_0___default().post('/GiveResults', form);
                 localStorage.setItem('state', 'submit');
-                jquery__WEBPACK_IMPORTED_MODULE_2___default()('#next').hide();
               } else {
                 jquery__WEBPACK_IMPORTED_MODULE_2___default()('#stop').hide();
                 jquery__WEBPACK_IMPORTED_MODULE_2___default()('#next').show();
