@@ -194,7 +194,7 @@
         <div class="text-center resultado" id="resultado">
             <p>Fim do Jogo!!</p>
             <p>Pontos: {{resultado}}</p>
-            <table>
+            <table class="text-start">
                 <tr>
                     <th>Nome</th>
                     <th>Pontos</th>
@@ -206,7 +206,7 @@
                     <td >{{item}}</td>
                 </tr>
             </table>
-            <button class="btn btn-primary" @click="submitQuizz">Sair e Gravar</button>
+            <button class="btn btn-primary mt-5" @click="submitQuizz">Sair e Gravar</button>
         </div>
 
 
@@ -224,18 +224,24 @@
                     </div>
                     <span>+ </span><span id="couter-wright"></span><span> Pontos</span>
 
-                    <table>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Pontos</th>
-                        </tr>
-                        <tr v-for="(item,index) in student" :key="item">
-                            <td ><!-- limitar para os cinco primeiros -->
-                                {{index}}
-                            </td>
-                            <td >{{item}}</td>
-                        </tr>
-                    </table>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-8 mx-auto">
+                                <table >
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Pontos</th>
+                                    </tr>
+                                    <tr v-for="(item,index) in student" :key="item">
+                                        <td ><!-- limitar para os cinco primeiros -->
+                                            {{index}}
+                                        </td>
+                                        <td >{{item}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -249,19 +255,25 @@
                     </div>
                     <span>+ </span><span id="couter">0</span><span> Pontos</span>
 
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-8 mx-auto">
+                                <table class="text-start">
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Pontos</th>
+                                    </tr>
+                                    <tr v-for="(item,index) in student" :key="item">
+                                        <td ><!-- limitar para os cinco primeiros -->
+                                            {{index}}
+                                        </td>
+                                        <td >{{item}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
 
-                    <table>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Pontos</th>
-                        </tr>
-                        <tr v-for="(item,index) in student" :key="item">
-                            <td ><!-- limitar para os cinco primeiros -->
-                                {{index}}
-                            </td>
-                            <td >{{item}}</td>
-                        </tr>
-                    </table>
                 </div>
             </div>
 
