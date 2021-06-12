@@ -1285,6 +1285,11 @@ section {
   bottom: 0;
   color: white;
 }
+.wrapper table {
+  font-size: 2rem;
+  width: 100%;
+  margin-top: 3rem;
+}
 .wrapper .bi {
   font-size: 5rem;
   font-weight: bold;

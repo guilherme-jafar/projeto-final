@@ -6284,6 +6284,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "quizzAluno",
@@ -7437,6 +7440,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -53604,7 +53619,7 @@ var render = function() {
                                 "div",
                                 {
                                   staticClass:
-                                    "modal-dialog  modal-dialog-centered"
+                                    "modal-dialog modal-lg  modal-dialog-centered"
                                 },
                                 [
                                   _c("div", { staticClass: "modal-content" }, [
@@ -53675,7 +53690,9 @@ var render = function() {
                                           ]
                                         )
                                       ])
-                                    ])
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("div", { staticClass: "modal-footer" })
                                   ])
                                 ]
                               )
@@ -56153,6 +56170,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "table",
+          { staticClass: "text-start" },
           [
             _vm._m(2),
             _vm._v(" "),
@@ -56175,7 +56193,10 @@ var render = function() {
         _vm._v(" "),
         _c(
           "button",
-          { staticClass: "btn btn-primary", on: { click: _vm.submitQuizz } },
+          {
+            staticClass: "btn btn-primary mt-5",
+            on: { click: _vm.submitQuizz }
+          },
           [_vm._v("Sair e Gravar")]
         )
       ]
@@ -56192,27 +56213,33 @@ var render = function() {
           _c("span", { attrs: { id: "couter-wright" } }),
           _c("span", [_vm._v(" Pontos")]),
           _vm._v(" "),
-          _c(
-            "table",
-            [
-              _vm._m(5),
-              _vm._v(" "),
-              _vm._l(_vm.student, function(item, index) {
-                return _c("tr", { key: item }, [
-                  _c("td", [
-                    _vm._v(
-                      "\n                            " +
-                        _vm._s(index) +
-                        "\n                        "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item))])
-                ])
-              })
-            ],
-            2
-          )
+          _c("div", { staticClass: "container" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-8 mx-auto" }, [
+                _c(
+                  "table",
+                  [
+                    _vm._m(5),
+                    _vm._v(" "),
+                    _vm._l(_vm.student, function(item, index) {
+                      return _c("tr", { key: item }, [
+                        _c("td", [
+                          _vm._v(
+                            "\n                                        " +
+                              _vm._s(index) +
+                              "\n                                    "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item))])
+                      ])
+                    })
+                  ],
+                  2
+                )
+              ])
+            ])
+          ])
         ])
       ]),
       _vm._v(" "),
@@ -56226,27 +56253,34 @@ var render = function() {
           _c("span", { attrs: { id: "couter" } }, [_vm._v("0")]),
           _c("span", [_vm._v(" Pontos")]),
           _vm._v(" "),
-          _c(
-            "table",
-            [
-              _vm._m(8),
-              _vm._v(" "),
-              _vm._l(_vm.student, function(item, index) {
-                return _c("tr", { key: item }, [
-                  _c("td", [
-                    _vm._v(
-                      "\n                            " +
-                        _vm._s(index) +
-                        "\n                        "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item))])
-                ])
-              })
-            ],
-            2
-          )
+          _c("div", { staticClass: "container" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-8 mx-auto" }, [
+                _c(
+                  "table",
+                  { staticClass: "text-start" },
+                  [
+                    _vm._m(8),
+                    _vm._v(" "),
+                    _vm._l(_vm.student, function(item, index) {
+                      return _c("tr", { key: item }, [
+                        _c("td", [
+                          _vm._v(
+                            "\n                                        " +
+                              _vm._s(index) +
+                              "\n                                    "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item))])
+                      ])
+                    })
+                  ],
+                  2
+                )
+              ])
+            ])
+          ])
         ])
       ])
     ])
