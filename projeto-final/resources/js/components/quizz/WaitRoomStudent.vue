@@ -222,8 +222,10 @@
                     <div class="icon">
                         <i class="bi bi-check2-circle"></i>
                     </div>
-                    <span>+ </span><span id="couter-wright"></span><span> Pontos</span>
-
+                    <span>+ </span><span>{{res}}</span><span> Pontos</span><br>
+                    <div v-if="pergunta['tipo']!=='multiple-image'">
+                    <span ></span><span> {{respostaResultado}}</span>
+                    </div>
                     <div class="container">
                         <div class="row">
                             <div class="col-md-8 mx-auto">
@@ -253,8 +255,10 @@
                     <div class="icon">
                         <i class="bi bi-x-circle"></i>
                     </div>
-                    <span>+ </span><span id="couter">0</span><span> Pontos</span>
-
+                    <span>+ </span><span>{{res}}</span><span> Pontos</span><br>
+                    <div v-if="pergunta['tipo']!=='multiple-image'">
+                        <span ></span><span> {{respostaResultado}}</span>
+                    </div>
                     <div class="container">
                         <div class="row">
                             <div class="col-md-8 mx-auto">
@@ -319,7 +323,8 @@
                 botaoEscolhido: [],
                 multipleQuestion: [],
                 respondeu: '',
-                endQuizzType: ''
+                endQuizzType: '',
+                respostaResultado:''
 
             }
         },
@@ -389,18 +394,7 @@
                             this.tabela='true';
                             $('#game').hide();
 
-                            // $('.wrapper').show();
-                            // if (this.res > 0) {
-                            //     $('.wrapper').css('background-color', '#66c036')
-                            //     $('#couter-wright').text(this.res)
-                            //     $('.wrapper-wright').show();
-                            //     $('.wrapper-wrong').hide();
-                            // } else {
-                            //     $('.wrapper').css('background-color', '#f9403e')
-                            //     $('#couter').text(0)
-                            //     $('.wrapper-wrong').show();
-                            //     $('.wrapper-wright').hide();
-                            // }
+
                             this.resultado += parseInt(this.res);
                             clearTimeout(this.timer)
                             this.countDown = 0;
@@ -584,14 +578,21 @@
                                 clearTimeout(this.timer);
                                 $('.wrapper').show();
                                 $('#game').hide();
+                                this.respostaResultado='';
+                                let array=JSON.parse(localStorage.getItem("ansers"));
+                                for (let i=0; i<array.length;i++){
+                                    if (array[i]["resultado"]===1){
+                                        this.respostaResultado+=' '+array[i]["resposta"];
+                                    }
+                                }
                                 if (this.res > 0) {
                                     $('.wrapper').css('background-color', '#66c036')
-                                    $('#couter-wright').text(this.res)
+
                                     $('.wrapper-wright').show();
                                     $('.wrapper-wrong').hide();
                                 } else {
                                     $('.wrapper').css('background-color', '#f9403e')
-                                    $('#couter').text(0)
+
                                     $('.wrapper-wrong').show();
                                     $('.wrapper-wright').hide();
 
@@ -639,20 +640,7 @@
                 }
                 this.tabela='true'
                 $('#game').hide();
-                // $('.wrapper').show();
-                //
-                // if (this.res > 0) {
-                //     $('.wrapper').css('background-color', '#66c036')
-                //     $('#couter-wright').text(this.res)
-                //     $('.wrapper-wright').show();
-                //     $('.wrapper-wrong').hide();
-                // } else {
-                //     $('.wrapper').css('background-color', '#f9403e')
-                //     $('#couter').text(0)
-                //     $('.wrapper-wrong').show();
-                //     $('.wrapper-wright').hide();
-                //
-                // }
+
                 this.resultado += parseInt(this.res);
                 // clearTimeout(this.timer)
                 this.countDown = 0;
@@ -803,16 +791,24 @@
                     this.res = localStorage.getItem('points')
                     this.students = localStorage.getItem('students');
                     this.student = JSON.parse(localStorage.getItem('student'));
+                    this.pergunta =JSON.parse(localStorage.getItem('questions'))
                     $('.wrapper').show();
                     $('#game').hide();
+                    this.respostaResultado='';
+                    let array=JSON.parse(localStorage.getItem("ansers"));
+                    for (let i=0; i<array.length;i++){
+                        if (array[i]["resultado"]===1){
+                            this.respostaResultado+=' '+array[i]["resposta"];
+                        }
+                    }
                     if (this.res > 0) {
                         $('.wrapper').css('background-color', '#66c036')
-                        $('#couter-wright').text(this.res)
+
                         $('.wrapper-wright').show();
                         $('.wrapper-wrong').hide();
                     } else {
                         $('.wrapper').css('background-color', '#f9403e')
-                        $('#couter').text(0)
+
                         $('.wrapper-wrong').show();
                         $('.wrapper-wright').hide();
 

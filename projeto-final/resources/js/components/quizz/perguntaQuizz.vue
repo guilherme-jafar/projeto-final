@@ -164,17 +164,17 @@
         },
         methods: {
             countDownTimer() {
-                // if(this.countDown > 0) {
-                //     this.timer = setTimeout(() => {
-                //         this.countDown -= 1
-                //         $cookies.config('1d')
-                //         $cookies.set('quizz', this.session+"@"+this.index + '@' + this.resultado+'@'+this.countDown);
-                //         this.countDownTimer()
-                //     }, 1000)
-                // }
-                // else if(this.countDown ===0){
-                //     this.response('erro')
-                // }
+                if(this.countDown > 0) {
+                    this.timer = setTimeout(() => {
+                        this.countDown -= 1
+                        $cookies.config('1d')
+                        $cookies.set('quizz', this.session+"@"+this.index + '@' + this.resultado+'@'+this.countDown);
+                        this.countDownTimer()
+                    }, 1000)
+                }
+                else if(this.countDown ===0){
+                    this.response('erro')
+                }
             },
             sleep(milliseconds) {
                 const date = Date.now();
@@ -192,7 +192,7 @@
                 if (this.index < this.pergunta.length) {
                     this.getRespostas();
 
-                    //this.sleep(2500)
+
 
                 } else {
                     clearTimeout(this.timer)
@@ -261,9 +261,9 @@
                 let tempoTotal = this.pergunta[this.index]['tempo']
                 let valorTotal = this.pergunta[this.index]['valor']
                 let resposta = $('#' + id).attr('value')
-
+                this.res = 0;
                 if (id !== 'erro') {
-                    console.log(resposta.toLowerCase() === this.resposta.toLowerCase())
+
                     if (resposta.toLowerCase() === this.resposta.toLowerCase()){
                         this.res = Math.round((valorTotal * tempo) / tempoTotal);
                     }else{
@@ -285,6 +285,7 @@
                     $('.wrapper-wrong').show();
 
                 }
+                console.log(this.res)
                 this.resultado += parseInt(this.res);
                 clearTimeout(this.timer)
                 this.countDown = 0;
@@ -299,7 +300,7 @@
                     this.change()
                     this.sleep(2500)
                 }.bind(this));
-                location.reload();
+
             },
             getRespostas() {
                 var respostas;
@@ -367,7 +368,10 @@
                                         this.resposta = respostas[i]['resposta']
                                     $('#mi' + k).show()
                                     $('#mi' + k).val(respostas[i]['resposta'])
-                                    $('#m' + k).html(" ")
+
+                                    $('#mi' + k).text("")
+                                    $('#mi' + k).html("<img src=\"#\" alt=\"imagem da pergunta\" id=\"mimg"+k+"\" height=\"40%\"\n" +
+                                        "                             width=\"40%\" class=\"mx-auto\">")
                                     $('#mimg' + k).attr('src','/images/Pergunta/Multimedia/'+respostas[i]['resposta']);
                                     //$('#mi' + k).val(respostas[i]['resposta']);
                                 }
@@ -463,14 +467,14 @@
 
                 } else {
                     this.index = 0;
-                    this.countDown = this.pergunta[this.index]['tempo'] + 1
+                    this.countDown = this.pergunta[this.index]['tempo']
                     this.getRespostas();
                     this.startQuestion();
 
                 }
             } else {
                 this.index = 0;
-                this.countDown = this.pergunta[this.index]['tempo'] + 1
+                this.countDown = this.pergunta[this.index]['tempo']
                 this.getRespostas();
                 this.startQuestion();
 

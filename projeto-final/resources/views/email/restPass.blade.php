@@ -1,12 +1,12 @@
 @component('mail::message')
 # Introduction
 
-The body of your message.
+Voce quer alterar a password da sua conta
 
 @component('mail::button', ['url' => $ticket])
-Button Text
+resetar a password
 @endcomponent
 
-Thanks,<br>
+Com os devidos comprimentos,<br>
 {{ config('app.name') }}
 @endcomponent

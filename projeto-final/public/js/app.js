@@ -7725,6 +7725,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -7758,7 +7762,8 @@ __webpack_require__.r(__webpack_exports__);
       botaoEscolhido: [],
       multipleQuestion: [],
       respondeu: '',
-      endQuizzType: ''
+      endQuizzType: '',
+      respostaResultado: ''
     };
   },
   watch: {
@@ -7826,19 +7831,7 @@ __webpack_require__.r(__webpack_exports__);
             }
 
             this.tabela = 'true';
-            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').hide(); // $('.wrapper').show();
-            // if (this.res > 0) {
-            //     $('.wrapper').css('background-color', '#66c036')
-            //     $('#couter-wright').text(this.res)
-            //     $('.wrapper-wright').show();
-            //     $('.wrapper-wrong').hide();
-            // } else {
-            //     $('.wrapper').css('background-color', '#f9403e')
-            //     $('#couter').text(0)
-            //     $('.wrapper-wrong').show();
-            //     $('.wrapper-wright').hide();
-            // }
-
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').hide();
             this.resultado += parseInt(this.res);
             clearTimeout(this.timer);
             this.countDown = 0;
@@ -8032,15 +8025,21 @@ __webpack_require__.r(__webpack_exports__);
             clearTimeout(_this2.timer);
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').show();
             jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').hide();
+            _this2.respostaResultado = '';
+            var array = JSON.parse(localStorage.getItem("ansers"));
+
+            for (var i = 0; i < array.length; i++) {
+              if (array[i]["resultado"] === 1) {
+                _this2.respostaResultado += ' ' + array[i]["resposta"];
+              }
+            }
 
             if (_this2.res > 0) {
               jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#66c036');
-              jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter-wright').text(_this2.res);
               jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').show();
               jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').hide();
             } else {
               jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#f9403e');
-              jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter').text(0);
               jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').show();
               jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').hide();
             }
@@ -8079,21 +8078,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.tabela = 'true';
-      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').hide(); // $('.wrapper').show();
-      //
-      // if (this.res > 0) {
-      //     $('.wrapper').css('background-color', '#66c036')
-      //     $('#couter-wright').text(this.res)
-      //     $('.wrapper-wright').show();
-      //     $('.wrapper-wrong').hide();
-      // } else {
-      //     $('.wrapper').css('background-color', '#f9403e')
-      //     $('#couter').text(0)
-      //     $('.wrapper-wrong').show();
-      //     $('.wrapper-wright').hide();
-      //
-      // }
-
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').hide();
       this.resultado += parseInt(this.res); // clearTimeout(this.timer)
 
       this.countDown = 0;
@@ -8233,17 +8218,24 @@ __webpack_require__.r(__webpack_exports__);
         this.res = localStorage.getItem('points');
         this.students = localStorage.getItem('students');
         this.student = JSON.parse(localStorage.getItem('student'));
+        this.pergunta = JSON.parse(localStorage.getItem('questions'));
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').show();
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#game').hide();
+        this.respostaResultado = '';
+        var array = JSON.parse(localStorage.getItem("ansers"));
+
+        for (var i = 0; i < array.length; i++) {
+          if (array[i]["resultado"] === 1) {
+            this.respostaResultado += ' ' + array[i]["resposta"];
+          }
+        }
 
         if (this.res > 0) {
           jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#66c036');
-          jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter-wright').text(this.res);
           jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').show();
           jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').hide();
         } else {
           jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper').css('background-color', '#f9403e');
-          jquery__WEBPACK_IMPORTED_MODULE_1___default()('#couter').text(0);
           jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wrong').show();
           jquery__WEBPACK_IMPORTED_MODULE_1___default()('.wrapper-wright').hide();
         }
@@ -8437,17 +8429,20 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    countDownTimer: function countDownTimer() {// if(this.countDown > 0) {
-      //     this.timer = setTimeout(() => {
-      //         this.countDown -= 1
-      //         $cookies.config('1d')
-      //         $cookies.set('quizz', this.session+"@"+this.index + '@' + this.resultado+'@'+this.countDown);
-      //         this.countDownTimer()
-      //     }, 1000)
-      // }
-      // else if(this.countDown ===0){
-      //     this.response('erro')
-      // }
+    countDownTimer: function countDownTimer() {
+      var _this = this;
+
+      if (this.countDown > 0) {
+        this.timer = setTimeout(function () {
+          _this.countDown -= 1;
+          $cookies.config('1d');
+          $cookies.set('quizz', _this.session + "@" + _this.index + '@' + _this.resultado + '@' + _this.countDown);
+
+          _this.countDownTimer();
+        }, 1000);
+      } else if (this.countDown === 0) {
+        this.response('erro');
+      }
     },
     sleep: function sleep(milliseconds) {
       var date = Date.now();
@@ -8464,7 +8459,7 @@ __webpack_require__.r(__webpack_exports__);
       $cookies.set('quizz', this.session + "@" + this.index + '@' + this.resultado + "@" + this.pergunta[this.index - 1]['tempo']);
 
       if (this.index < this.pergunta.length) {
-        this.getRespostas(); //this.sleep(2500)
+        this.getRespostas();
       } else {
         clearTimeout(this.timer);
         $cookies.remove('quizz');
@@ -8531,10 +8526,9 @@ __webpack_require__.r(__webpack_exports__);
       var tempoTotal = this.pergunta[this.index]['tempo'];
       var valorTotal = this.pergunta[this.index]['valor'];
       var resposta = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#' + id).attr('value');
+      this.res = 0;
 
       if (id !== 'erro') {
-        console.log(resposta.toLowerCase() === this.resposta.toLowerCase());
-
         if (resposta.toLowerCase() === this.resposta.toLowerCase()) {
           this.res = Math.round(valorTotal * tempo / tempoTotal);
         } else {
@@ -8556,6 +8550,7 @@ __webpack_require__.r(__webpack_exports__);
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('.wrapper-wrong').show();
       }
 
+      console.log(this.res);
       this.resultado += parseInt(this.res);
       clearTimeout(this.timer);
       this.countDown = 0;
@@ -8570,7 +8565,6 @@ __webpack_require__.r(__webpack_exports__);
         this.change();
         this.sleep(2500);
       }.bind(this));
-      location.reload();
     },
     getRespostas: function getRespostas() {
       var respostas;
@@ -8649,7 +8643,8 @@ __webpack_require__.r(__webpack_exports__);
                 if (respostas[_i2]['resultado'] === 1) this.resposta = respostas[_i2]['resposta'];
                 jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mi' + _k4).show();
                 jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mi' + _k4).val(respostas[_i2]['resposta']);
-                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#m' + _k4).html(" ");
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mi' + _k4).text("");
+                jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mi' + _k4).html("<img src=\"#\" alt=\"imagem da pergunta\" id=\"mimg" + _k4 + "\" height=\"40%\"\n" + "                             width=\"40%\" class=\"mx-auto\">");
                 jquery__WEBPACK_IMPORTED_MODULE_0___default()('#mimg' + _k4).attr('src', '/images/Pergunta/Multimedia/' + respostas[_i2]['resposta']); //$('#mi' + k).val(respostas[i]['resposta']);
               }
             }
@@ -8748,13 +8743,13 @@ __webpack_require__.r(__webpack_exports__);
         this.startQuestion();
       } else {
         this.index = 0;
-        this.countDown = this.pergunta[this.index]['tempo'] + 1;
+        this.countDown = this.pergunta[this.index]['tempo'];
         this.getRespostas();
         this.startQuestion();
       }
     } else {
       this.index = 0;
-      this.countDown = this.pergunta[this.index]['tempo'] + 1;
+      this.countDown = this.pergunta[this.index]['tempo'];
       this.getRespostas();
       this.startQuestion();
     }
@@ -9840,13 +9835,7 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-Window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-Vue.config.devtools = true; //TODO: quando for para meter no ar tem que se comentar essa linha
-
-Pusher.log = function (message) {
-  window.console.log(message);
-}; //TODO: quando for para meter no ar tem que se comentar essa linha
-
+Window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js"); //Vue.config.devtools = true //TODO: quando for para meter no ar tem que se comentar essa linha
 
 Vue.component('pagination-2', __webpack_require__(/*! laravel-vue-pagination */ "./node_modules/laravel-vue-pagination/dist/laravel-vue-pagination.common.js"));
 Vue.component('registos', __webpack_require__(/*! ./components/registos.vue */ "./resources/js/components/registos.vue").default);
@@ -56210,8 +56199,16 @@ var render = function() {
           _vm._m(4),
           _vm._v(" "),
           _c("span", [_vm._v("+ ")]),
-          _c("span", { attrs: { id: "couter-wright" } }),
+          _c("span", [_vm._v(_vm._s(_vm.res))]),
           _c("span", [_vm._v(" Pontos")]),
+          _c("br"),
+          _vm._v(" "),
+          _vm.pergunta["tipo"] !== "multiple-image"
+            ? _c("div", [
+                _c("span"),
+                _c("span", [_vm._v(" " + _vm._s(_vm.respostaResultado))])
+              ])
+            : _vm._e(),
           _vm._v(" "),
           _c("div", { staticClass: "container" }, [
             _c("div", { staticClass: "row" }, [
@@ -56250,8 +56247,16 @@ var render = function() {
           _vm._m(7),
           _vm._v(" "),
           _c("span", [_vm._v("+ ")]),
-          _c("span", { attrs: { id: "couter" } }, [_vm._v("0")]),
+          _c("span", [_vm._v(_vm._s(_vm.res))]),
           _c("span", [_vm._v(" Pontos")]),
+          _c("br"),
+          _vm._v(" "),
+          _vm.pergunta["tipo"] !== "multiple-image"
+            ? _c("div", [
+                _c("span"),
+                _c("span", [_vm._v(" " + _vm._s(_vm.respostaResultado))])
+              ])
+            : _vm._e(),
           _vm._v(" "),
           _c("div", { staticClass: "container" }, [
             _c("div", { staticClass: "row" }, [

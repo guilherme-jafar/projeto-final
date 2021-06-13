@@ -7,6 +7,6 @@ Para confirmar o registo da sua conta basta clicar no botão
 Confirmar conta
 @endcomponent
 
-Thanks,<br>
+Com os devidos comprimentos,<br>
 {{ config('app.name') }}
 @endcomponent
