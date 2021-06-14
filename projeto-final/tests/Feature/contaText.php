@@ -8,15 +8,19 @@ use Tests\TestCase;
 
 class contaText extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function test_example()
-    {
-        $response = $this->get('/');
 
+
+    public function test_login()
+    {
+        $response = $this->post('/loginroute', ['email' => 'aluno2@alunos.com' ,'password'=>'Estgoh2021'] , array('HTTP_X-Requested-With' => 'XMLHttpRequest'));
+
+        echo $response->getStatusCode();
         $response->assertStatus(200);
+    }
+
+
+    public function text_login()
+    {
+
     }
 }

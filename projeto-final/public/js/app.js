@@ -2462,10 +2462,15 @@ __webpack_require__.r(__webpack_exports__);
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#disciplinaError' + topico['id']).text("Introduza o nome do Tópico").css('color', 'red').css('opacity', '1');
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
+      } else if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('#descricao' + topico['id']).val().length > 50) {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#disciplinaError' + topico['id']).text("descricao é muito grande").css('color', 'red').css('opacity', '1');
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
       } else {
         var formData = new FormData();
+        var desc = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#descricao' + topico['id']).val().replace(/(\r\n|\n|\r)/gm, "");
         formData.append('topico', jquery__WEBPACK_IMPORTED_MODULE_0___default()('#editarTopicoNome' + topico['id']).val());
-        formData.append('descricao', jquery__WEBPACK_IMPORTED_MODULE_0___default()("#descricao" + topico['id']).val());
+        formData.append('descricao', desc);
         formData.append('id', topico['id']);
         axios__WEBPACK_IMPORTED_MODULE_1___default().post('/prof/topico/' + topico['id'] + '/editar', formData).then(function (response) {
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
@@ -2510,20 +2515,27 @@ __webpack_require__.r(__webpack_exports__);
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit span').addClass('d-none');
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit div').removeClass('d-none');
       var enviar = true;
+      console.log(jquery__WEBPACK_IMPORTED_MODULE_0___default()("#descricao").val().length);
 
       if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('#topico').val().length === 0) {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()("#disciplinaError").text("Introduza o nome do topico").css('color', 'red').css('opacity', '1');
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit span').removeClass('d-none');
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit div').addClass('d-none');
         enviar = false;
+      } else if (jquery__WEBPACK_IMPORTED_MODULE_0___default()("#descricao").val().length > 50) {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()("#disciplinaError").text("descricao é muito grande").css('color', 'red').css('opacity', '1');
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
+        enviar = false;
       } else {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()("#disciplinaError").text("").css('color', 'red').css('opacity', '1');
       }
 
       if (enviar) {
+        var desc = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#descricao').val().replace(/(\r\n|\n|\r)/gm, "");
         var formData = new FormData();
         formData.append('topico', jquery__WEBPACK_IMPORTED_MODULE_0___default()("#topico").val());
-        formData.append('descricao', jquery__WEBPACK_IMPORTED_MODULE_0___default()("#descricao").val());
+        formData.append('descricao', desc);
         formData.append('id', l[l.length - 1]);
         axios__WEBPACK_IMPORTED_MODULE_1___default().post('/prof/Topico/create', formData).then(function (response) {
           if (response.data.message !== "erro") {
@@ -9835,7 +9847,7 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-Window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js"); //Vue.config.devtools = true //TODO: quando for para meter no ar tem que se comentar essa linha
+Window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js"); // Vue.config.devtools = true //TODO: quando for para meter no ar tem que se comentar essa linha
 
 Vue.component('pagination-2', __webpack_require__(/*! laravel-vue-pagination */ "./node_modules/laravel-vue-pagination/dist/laravel-vue-pagination.common.js"));
 Vue.component('registos', __webpack_require__(/*! ./components/registos.vue */ "./resources/js/components/registos.vue").default);

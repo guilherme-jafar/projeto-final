@@ -2,7 +2,7 @@
 require('./bootstrap');
 
 Window.Vue=require('vue');
-//Vue.config.devtools = true //TODO: quando for para meter no ar tem que se comentar essa linha
+// Vue.config.devtools = true //TODO: quando for para meter no ar tem que se comentar essa linha
 Vue.component('pagination-2', require('laravel-vue-pagination'));
 
 Vue.component('registos',require('./components/registos.vue').default);
