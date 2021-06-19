@@ -1,16 +1,10 @@
 <template>
 
     <div>
-        <div class="card-loading is-loading mt-5" id="card-loading-alunos">
-            <div class="content">
-                <h2></h2>
-                <br><br>
-                <p></p>
-            </div>
-        </div>
+
 
         <div v-if="!isFetchingA">
-            <div v-if="alunos.length === 0" class="mx-auto" id="alunos-adicionar">
+            <div v-if="filter.length === 0" class="mx-auto" id="alunos-adicionar">
                 <h1 class="heanding-1 mx-auto mt-5">Ainda não tem nenhum aluno inscrito!!</h1>
 
             </div>
@@ -41,18 +35,6 @@
                                                 aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body p-5">
-                                        <!--                                <p>{{aluno['nome']}}</p>-->
-                                        <!--                                <p>Email: {{aluno['email']}}</p>-->
-                                        <!--                                <p>Pontos: </p>-->
-                                        <!--                                <div v-if="aluno['sexo'] === 'm'">-->
-                                        <!--                                    <p class="">sexo-masculino</p>-->
-                                        <!--                                </div>-->
-                                        <!--                                <div v-else-if="aluno['sexo'] === 'f'">-->
-                                        <!--                                    <p>sexo-femenino</p>-->
-                                        <!--                                </div>-->
-                                        <!--                                <div v-else-if="aluno['sexo'] === 'o'">-->
-                                        <!--                                    <p>sexo-outro</p>-->
-                                        <!--                                </div>-->
                                         <div class="container-fluid">
                                             <div class="row">
                                                 <div class="col-md-4 mb-3">
@@ -135,6 +117,13 @@
                 </ul>
             </div>
         </div>
+        <div v-else class="card-loading is-loading mt-5" id="card-loading-alunos">
+            <div class="content">
+                <h2></h2>
+                <br><br>
+                <p></p>
+            </div>
+        </div>
 
 
         <pagination-2 :data="alunos" :align="'center'" @pagination-change-page="getResultsAlunos"></pagination-2>
@@ -154,43 +143,30 @@
                 page: 1,
                 isFetchingA: true
             }
-        }, computed: {
+        },
+        methods: {
+            getResultsAlunos(page = 1) {
+                let l = window.location.href.split('/');
+                axios.get('/prof/alunos/' + l[l.length - 1]+'?page=' + page)
+                    .then(function (response) {
+                        this.alunos = response.data.message;
+
+                        this.isFetchingA = false;
+                    }.bind(this));
+
+            },
+        },
+        computed: {
             filter: function () {
                 return this.alunos.data.filter((aluno) => {
                     return aluno['nome'].match(this.search)
                 })
             }
         },
-        methods: {
-            getResultsAlunos(page = 1) {
-
-                axios.get('/prof/getAlunos?page=' + page)
-                    .then(response => {
-                        this.alunos = response.data.message;
-                    });
-            },
-        },
         mounted: function () {
-            let l = window.location.href.split('/');
 
+            this.getResultsAlunos();
 
-            let formData = new FormData();
-            formData.append('id', l[l.length - 1]);
-            axios.post('/prof/getAlunos?page=1', formData
-            ).then(function (response) {
-
-                this.alunos = response.data.message;
-
-                $('#card-loading-alunos').hide();
-                $('#lista-alunos').show();
-                $('#alunos-adicionar').show();
-                this.isFetchingA = false;
-
-            }.bind(this));
-
-            $('#card-loading-alunos').show();
-            $('#lista-alunos').hide();
-            $('#alunos-adicionar').hide();
 
         }
     }

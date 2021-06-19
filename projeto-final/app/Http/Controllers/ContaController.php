@@ -335,7 +335,11 @@ class ContaController extends Controller
 
             $nomeImagem = time() . '.' . $request->foto->getClientOriginalExtension();
 
-            $request->foto->move(public_path('images'), $nomeImagem);
+//            $request->foto->move(public_path('images'), $nomeImagem);
+
+
+
+//            dd( $request->foto->move(public_path('images'), $nomeImagem));
 
         }else{
             $nomeImagem = session('utilizador')['foto'];

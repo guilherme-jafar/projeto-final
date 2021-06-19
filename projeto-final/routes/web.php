@@ -81,7 +81,7 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (
     Route::post('/prof/Topico/create',[App\Http\Controllers\topicos::class, 'create']);
     Route::get('/prof/Disciplina/{token}', [App\Http\Controllers\Disciplina::class, 'EnterDiscProf']);
     Route::get('/prof/listTopicos', [App\Http\Controllers\topicos::class, 'listTopicos']);
-    Route::post('/prof/getAlunos',[App\Http\Controllers\Disciplina::class,'getAlunos']);
+    Route::get('/prof/alunos/{id}',[App\Http\Controllers\Disciplina::class,'getAlunos']);
     Route::post("/insertQuestion",[App\Http\Controllers\topicos::class,'insertQuestion']);
     Route::get("/getQuizz",[\App\Http\Controllers\Quizz::class,'listQuizz']);
     Route::post("/insertQuizz",[App\Http\Controllers\Quizz::class,'insertQuizz']);
@@ -111,6 +111,9 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (
     Route::delete('/prof/quizz/delete/{id}', [App\Http\Controllers\Quizz::class, 'destroy']);
 
 
+    Route::get('/prof/historico/{id}', [App\Http\Controllers\Historico::class, 'showProf'] );
+    Route::get('/prof/historico/sessao/{id}', [App\Http\Controllers\Historico::class, 'indexProf'] );
+
 
 });
 
@@ -130,6 +133,9 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:aluno']], function 
     Route::delete("/aluno/disciplina/delete/{id}", [App\Http\Controllers\Disciplina::class,'destroy']);
 
 //    Route::get('/getForum', [App\Http\Controllers\forum::class, 'index']);
+
+    Route::get('/aluno/historico/{id}', [App\Http\Controllers\Historico::class, 'showAluno'] );
+    Route::get('/aluno/historico/sessao/{id}', [App\Http\Controllers\Historico::class, 'indexAluno'] );
 
 });
 

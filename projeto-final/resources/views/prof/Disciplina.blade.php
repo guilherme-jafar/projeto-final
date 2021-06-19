@@ -61,9 +61,9 @@
                                 <button type="button" class="btn btn-ghost-2 ms-3" id="btn-chg-3" onclick="chg(2)">
                                     Alunos
                                 </button>
-                                <button type="button" class="btn btn-ghost-2 ms-3" id="btn-chg-5" onclick="chg(5)">
-                                    Histórico
-                                </button>
+{{--                                <button type="button" class="btn btn-ghost-2 ms-3" id="btn-chg-5" onclick="chg(5)">--}}
+{{--                                    Histórico--}}
+{{--                                </button>--}}
                                 <button type="button" class="btn btn-ghost-2 ms-3" id="btn-chg-6" onclick="chg(6)">
                                     Fórum
                                 </button>
@@ -105,10 +105,10 @@
                     </div>
 
 
-                    <div id="historico">
-                        {{--                        <quizz-prof :topico_prop="'{{json_encode($topico, TRUE)}}'" ></quizz-prof>--}}
+{{--                    <div id="historico">--}}
+{{--                        <historico-prof></historico-prof>--}}
 
-                    </div>
+{{--                    </div>--}}
                     <div id="forum">
 
                         <forum-show  :tipo_props="'{{json_encode(session('utilizador')['tipo'], TRUE)}}'"></forum-show>

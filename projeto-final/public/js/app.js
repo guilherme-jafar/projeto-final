@@ -2699,6 +2699,121 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/historico.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/historico.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _tabelaHistorico__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./tabelaHistorico */ "./resources/js/components/Professor/tabelaHistorico.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "historico",
+  props: ['idQuizz_prop'],
+  components: {
+    tabelaHistorico: _tabelaHistorico__WEBPACK_IMPORTED_MODULE_2__.default
+  },
+  data: function data() {
+    return {
+      historicos: '',
+      idQuiz: this.idQuizz_prop,
+      isFetchingH: true,
+      component: '',
+      isActive: true,
+      idSessao: ''
+    };
+  },
+  methods: {
+    getResultsHistoricos: function getResultsHistoricos() {
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/prof/historico/' + this.idQuiz + '?page=' + page).then(function (response) {
+        this.historicos = response.data.message;
+        this.isFetchingH = false;
+      }.bind(this));
+    },
+    verTabela: function verTabela(id) {
+      this.idSessao = id;
+
+      if (this.component !== _tabelaHistorico__WEBPACK_IMPORTED_MODULE_2__.default) {
+        this.component = _tabelaHistorico__WEBPACK_IMPORTED_MODULE_2__.default;
+        this.isActive = false;
+      }
+    },
+    voltar: function voltar() {
+      this.component = '';
+      this.isActive = true;
+    }
+  },
+  mounted: function mounted() {
+    // this.$root.$on('listHistorico', this.getResultsHistoricos);
+    this.getResultsHistoricos();
+    this.$root.$on('btnVoltarSessao', this.voltar);
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/listaAlunos.vue?vue&type=script&lang=js&":
 /*!****************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/listaAlunos.vue?vue&type=script&lang=js& ***!
@@ -2846,17 +2961,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2869,6 +2973,16 @@ __webpack_require__.r(__webpack_exports__);
       isFetchingA: true
     };
   },
+  methods: {
+    getResultsAlunos: function getResultsAlunos() {
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      var l = window.location.href.split('/');
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get('/prof/alunos/' + l[l.length - 1] + '?page=' + page).then(function (response) {
+        this.alunos = response.data.message;
+        this.isFetchingA = false;
+      }.bind(this));
+    }
+  },
   computed: {
     filter: function filter() {
       var _this = this;
@@ -2878,30 +2992,8 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  methods: {
-    getResultsAlunos: function getResultsAlunos() {
-      var _this2 = this;
-
-      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      axios__WEBPACK_IMPORTED_MODULE_1___default().get('/prof/getAlunos?page=' + page).then(function (response) {
-        _this2.alunos = response.data.message;
-      });
-    }
-  },
   mounted: function mounted() {
-    var l = window.location.href.split('/');
-    var formData = new FormData();
-    formData.append('id', l[l.length - 1]);
-    axios__WEBPACK_IMPORTED_MODULE_1___default().post('/prof/getAlunos?page=1', formData).then(function (response) {
-      this.alunos = response.data.message;
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card-loading-alunos').hide();
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#lista-alunos').show();
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#alunos-adicionar').show();
-      this.isFetchingA = false;
-    }.bind(this));
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#card-loading-alunos').show();
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#lista-alunos').hide();
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#alunos-adicionar').hide();
+    this.getResultsAlunos();
   }
 });
 
@@ -4884,6 +4976,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _historico__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./historico */ "./resources/js/components/Professor/historico.vue");
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -5388,11 +5481,40 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "quizz",
   props: ['topico_prop'],
+  components: {
+    historico: _historico__WEBPACK_IMPORTED_MODULE_2__.default
+  },
   data: function data() {
     return {
       modal: '',
@@ -5407,7 +5529,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       toastDeleteQuizz: '',
       toastEliminarQuizz: '',
       topicosQuizz: [],
-      fetchedQuizzTopico: false
+      fetchedQuizzTopico: false,
+      component: '',
+      idQuizzHistorico: '',
+      isActive: true
     };
   },
   methods: {
@@ -5803,6 +5928,18 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       } else {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submitQuizz').prop('disabled', false);
       }
+    },
+    enterHistorico: function enterHistorico(id) {
+      this.idQuizzHistorico = id;
+
+      if (this.component !== _historico__WEBPACK_IMPORTED_MODULE_2__.default) {
+        this.component = _historico__WEBPACK_IMPORTED_MODULE_2__.default;
+        this.isActive = false;
+      }
+    },
+    voltar: function voltar() {
+      this.component = '';
+      this.isActive = true;
     }
   },
   computed: {
@@ -5839,6 +5976,89 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       delay: 10000
     });
     this.toastEditarQuizz.hide();
+    this.$root.$on('btnVoltar', this.voltar);
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/tabelaHistorico.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/tabelaHistorico.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "tabelaHistorico",
+  props: ['idSessao_prop'],
+  data: function data() {
+    return {
+      idSessao: this.idSessao_prop,
+      respostas: '',
+      isFetchingH: true
+    };
+  },
+  methods: {
+    getResultsHistoricos: function getResultsHistoricos() {
+      console.log(this.idSessao);
+      axios.get('/prof/historico/sessao/' + this.idSessao).then(function (response) {
+        this.respostas = response.data.message;
+        this.isFetchingH = false;
+        console.log(this.respostas['alunos']);
+      }.bind(this));
+    }
+  },
+  mounted: function mounted() {
+    this.$root.$on('btnVoltarSessao', this.voltar);
+    this.getResultsHistoricos();
   }
 });
 
@@ -6128,6 +6348,118 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/aluno/historico.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/aluno/historico.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _tabelaHistorico__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tabelaHistorico */ "./resources/js/components/aluno/tabelaHistorico.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "historico",
+  props: ['idQuizz_prop'],
+  components: {
+    tabelaHistorico: _tabelaHistorico__WEBPACK_IMPORTED_MODULE_0__.default
+  },
+  data: function data() {
+    return {
+      historicos: '',
+      idQuiz: this.idQuizz_prop,
+      isFetchingH: true,
+      component: '',
+      isActive: true,
+      idSessao: ''
+    };
+  },
+  methods: {
+    getResultsHistoricos: function getResultsHistoricos() {
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get('/aluno/historico/' + this.idQuiz + '?page=' + page).then(function (response) {
+        this.historicos = response.data.message;
+        this.isFetchingH = false;
+      }.bind(this));
+    },
+    verTabela: function verTabela(id) {
+      this.idSessao = id;
+
+      if (this.component !== _tabelaHistorico__WEBPACK_IMPORTED_MODULE_0__.default) {
+        this.component = _tabelaHistorico__WEBPACK_IMPORTED_MODULE_0__.default;
+        this.isActive = false;
+      }
+    },
+    voltar: function voltar() {
+      this.component = '';
+      this.isActive = true;
+    }
+  },
+  mounted: function mounted() {
+    // this.$root.$on('listHistorico', this.getResultsHistoricos);
+    this.getResultsHistoricos();
+    this.$root.$on('btnVoltarSessao', this.voltar);
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/aluno/quizzAluno.vue?vue&type=script&lang=js&":
 /*!***********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/aluno/quizzAluno.vue?vue&type=script&lang=js& ***!
@@ -6141,6 +6473,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _historico__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./historico */ "./resources/js/components/aluno/historico.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -6288,15 +6637,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "quizzAluno",
   props: ['quizz_prop'],
+  components: {
+    historico: _historico__WEBPACK_IMPORTED_MODULE_1__.default
+  },
   data: function data() {
     return {
       myModal: '',
       toast: '',
       search: '',
-      quizz: JSON.parse(this.quizz_prop)
+      quizz: JSON.parse(this.quizz_prop),
+      idQuizzHistorico: '',
+      component: '',
+      isActive: true
     };
   },
   computed: {
@@ -6328,12 +6684,111 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#Error' + id).text("tem que inserir id ").css('color', 'red').css('opacity', '1');
       }
+    },
+    enterHistorico: function enterHistorico(id) {
+      this.idQuizzHistorico = id;
+
+      if (this.component !== _historico__WEBPACK_IMPORTED_MODULE_1__.default) {
+        this.component = _historico__WEBPACK_IMPORTED_MODULE_1__.default;
+        this.isActive = false;
+      }
+    },
+    voltar: function voltar() {
+      this.component = '';
+      this.isActive = true;
     }
   },
   mounted: function mounted() {
     localStorage.clear(); // this.disciplinas = JSON.parse(this.disciplinas)
 
+    this.$root.$on('btnVoltar', this.voltar);
     window.location.replace('/quizzTeste/' + quizz + '/' + session);
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/aluno/tabelaHistorico.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/aluno/tabelaHistorico.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "tabelaHistorico",
+  props: ['idSessao_prop'],
+  data: function data() {
+    return {
+      idSessao: this.idSessao_prop,
+      respostas: '',
+      isFetchingH: true
+    };
+  },
+  methods: {
+    getResultsHistoricos: function getResultsHistoricos() {
+      console.log(this.idSessao);
+      axios.get('/aluno/historico/sessao/' + this.idSessao).then(function (response) {
+        this.respostas = response.data.message;
+        this.isFetchingH = false;
+        console.log(this.respostas['respostas']);
+      }.bind(this));
+    }
+  },
+  mounted: function mounted() {
+    this.$root.$on('btnVoltarSessao', this.voltar);
+    this.getResultsHistoricos();
   }
 });
 
@@ -6722,7 +7177,8 @@ __webpack_require__.r(__webpack_exports__);
       this.$root.$emit('mudar', forum);
     },
     listForum: function listForum() {
-      axios__WEBPACK_IMPORTED_MODULE_1___default().get('/forum?page=1').then(function (response) {
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get('/forum?page=' + page).then(function (response) {
         this.forum = response.data.message;
         this.isFetching = false;
       }.bind(this));
@@ -9835,7 +10291,8 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-Window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js"); //Vue.config.devtools = true //TODO: quando for para meter no ar tem que se comentar essa linha
+Window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+Vue.config.devtools = true; //TODO: quando for para meter no ar tem que se comentar essa linha
 
 Vue.component('pagination-2', __webpack_require__(/*! laravel-vue-pagination */ "./node_modules/laravel-vue-pagination/dist/laravel-vue-pagination.common.js"));
 Vue.component('registos', __webpack_require__(/*! ./components/registos.vue */ "./resources/js/components/registos.vue").default);
@@ -9848,11 +10305,14 @@ Vue.component('disciplinaAlunos', __webpack_require__(/*! ./components/Professor
 Vue.component('perguntaTopico', __webpack_require__(/*! ./components/Professor/pergunta */ "./resources/js/components/Professor/pergunta.vue").default);
 Vue.component('quizzProf', __webpack_require__(/*! ./components/Professor/quizz */ "./resources/js/components/Professor/quizz.vue").default);
 Vue.component('editarDisciplina', __webpack_require__(/*! ./components/Professor/editarDisciplina */ "./resources/js/components/Professor/editarDisciplina.vue").default);
-Vue.component('perguntaEditar', __webpack_require__(/*! ./components/Professor/perguntaEditar */ "./resources/js/components/Professor/perguntaEditar.vue").default); //aluno
+Vue.component('perguntaEditar', __webpack_require__(/*! ./components/Professor/perguntaEditar */ "./resources/js/components/Professor/perguntaEditar.vue").default);
+Vue.component('historico-prof', __webpack_require__(/*! ./components/Professor/historico */ "./resources/js/components/Professor/historico.vue").default);
+Vue.component('tabela-historico', __webpack_require__(/*! ./components/Professor/tabelaHistorico */ "./resources/js/components/Professor/tabelaHistorico.vue").default); //aluno
 
 Vue.component('alunodashboard', __webpack_require__(/*! ./components/aluno/dashboadAluno.vue */ "./resources/js/components/aluno/dashboadAluno.vue").default);
 Vue.component('alunosQuizz', __webpack_require__(/*! ./components/aluno/quizzAluno */ "./resources/js/components/aluno/quizzAluno.vue").default);
-Vue.component('perguntaQuizz', __webpack_require__(/*! ./components/quizz/perguntaQuizz */ "./resources/js/components/quizz/perguntaQuizz.vue").default); //quizz
+Vue.component('perguntaQuizz', __webpack_require__(/*! ./components/quizz/perguntaQuizz */ "./resources/js/components/quizz/perguntaQuizz.vue").default);
+Vue.component('historico-aluno', __webpack_require__(/*! ./components/aluno/historico */ "./resources/js/components/aluno/historico.vue").default); //quizz
 
 Vue.component('waitRoom', __webpack_require__(/*! ./components/quizz/waitRoom */ "./resources/js/components/quizz/waitRoom.vue").default);
 Vue.component('waitRoomAluno', __webpack_require__(/*! ./components/quizz/WaitRoomStudent */ "./resources/js/components/quizz/WaitRoomStudent.vue").default); //Forum
@@ -45229,6 +45689,45 @@ component.options.__file = "resources/js/components/Professor/editarDisciplina.v
 
 /***/ }),
 
+/***/ "./resources/js/components/Professor/historico.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/Professor/historico.vue ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _historico_vue_vue_type_template_id_0a3b9b96_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./historico.vue?vue&type=template&id=0a3b9b96&scoped=true& */ "./resources/js/components/Professor/historico.vue?vue&type=template&id=0a3b9b96&scoped=true&");
+/* harmony import */ var _historico_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./historico.vue?vue&type=script&lang=js& */ "./resources/js/components/Professor/historico.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _historico_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _historico_vue_vue_type_template_id_0a3b9b96_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _historico_vue_vue_type_template_id_0a3b9b96_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "0a3b9b96",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Professor/historico.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/Professor/listaAlunos.vue":
 /*!***********************************************************!*\
   !*** ./resources/js/components/Professor/listaAlunos.vue ***!
@@ -45385,6 +45884,45 @@ component.options.__file = "resources/js/components/Professor/quizz.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/Professor/tabelaHistorico.vue":
+/*!***************************************************************!*\
+  !*** ./resources/js/components/Professor/tabelaHistorico.vue ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _tabelaHistorico_vue_vue_type_template_id_6012e390_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tabelaHistorico.vue?vue&type=template&id=6012e390&scoped=true& */ "./resources/js/components/Professor/tabelaHistorico.vue?vue&type=template&id=6012e390&scoped=true&");
+/* harmony import */ var _tabelaHistorico_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tabelaHistorico.vue?vue&type=script&lang=js& */ "./resources/js/components/Professor/tabelaHistorico.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _tabelaHistorico_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _tabelaHistorico_vue_vue_type_template_id_6012e390_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _tabelaHistorico_vue_vue_type_template_id_6012e390_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "6012e390",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Professor/tabelaHistorico.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/aluno/dashboadAluno.vue":
 /*!*********************************************************!*\
   !*** ./resources/js/components/aluno/dashboadAluno.vue ***!
@@ -45424,6 +45962,45 @@ component.options.__file = "resources/js/components/aluno/dashboadAluno.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/aluno/historico.vue":
+/*!*****************************************************!*\
+  !*** ./resources/js/components/aluno/historico.vue ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _historico_vue_vue_type_template_id_06b4fe51_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./historico.vue?vue&type=template&id=06b4fe51&scoped=true& */ "./resources/js/components/aluno/historico.vue?vue&type=template&id=06b4fe51&scoped=true&");
+/* harmony import */ var _historico_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./historico.vue?vue&type=script&lang=js& */ "./resources/js/components/aluno/historico.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _historico_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _historico_vue_vue_type_template_id_06b4fe51_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _historico_vue_vue_type_template_id_06b4fe51_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "06b4fe51",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/aluno/historico.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/aluno/quizzAluno.vue":
 /*!******************************************************!*\
   !*** ./resources/js/components/aluno/quizzAluno.vue ***!
@@ -45459,6 +46036,45 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 /* hot reload */
 if (false) { var api; }
 component.options.__file = "resources/js/components/aluno/quizzAluno.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/aluno/tabelaHistorico.vue":
+/*!***********************************************************!*\
+  !*** ./resources/js/components/aluno/tabelaHistorico.vue ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _tabelaHistorico_vue_vue_type_template_id_06cb2aac_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tabelaHistorico.vue?vue&type=template&id=06cb2aac&scoped=true& */ "./resources/js/components/aluno/tabelaHistorico.vue?vue&type=template&id=06cb2aac&scoped=true&");
+/* harmony import */ var _tabelaHistorico_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tabelaHistorico.vue?vue&type=script&lang=js& */ "./resources/js/components/aluno/tabelaHistorico.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _tabelaHistorico_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _tabelaHistorico_vue_vue_type_template_id_06cb2aac_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _tabelaHistorico_vue_vue_type_template_id_06cb2aac_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "06cb2aac",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/aluno/tabelaHistorico.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
@@ -45901,6 +46517,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Professor/historico.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/Professor/historico.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_historico_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./historico.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/historico.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_historico_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/components/Professor/listaAlunos.vue?vue&type=script&lang=js&":
 /*!************************************************************************************!*\
   !*** ./resources/js/components/Professor/listaAlunos.vue?vue&type=script&lang=js& ***!
@@ -45965,6 +46597,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Professor/tabelaHistorico.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/Professor/tabelaHistorico.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_tabelaHistorico_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./tabelaHistorico.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/tabelaHistorico.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_tabelaHistorico_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/components/aluno/dashboadAluno.vue?vue&type=script&lang=js&":
 /*!**********************************************************************************!*\
   !*** ./resources/js/components/aluno/dashboadAluno.vue?vue&type=script&lang=js& ***!
@@ -45981,6 +46629,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/aluno/historico.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/aluno/historico.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_historico_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./historico.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/aluno/historico.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_historico_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/components/aluno/quizzAluno.vue?vue&type=script&lang=js&":
 /*!*******************************************************************************!*\
   !*** ./resources/js/components/aluno/quizzAluno.vue?vue&type=script&lang=js& ***!
@@ -45994,6 +46658,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_quizzAluno_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./quizzAluno.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/aluno/quizzAluno.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_quizzAluno_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/js/components/aluno/tabelaHistorico.vue?vue&type=script&lang=js&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/aluno/tabelaHistorico.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_tabelaHistorico_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./tabelaHistorico.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/aluno/tabelaHistorico.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_tabelaHistorico_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
@@ -46208,6 +46888,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Professor/historico.vue?vue&type=template&id=0a3b9b96&scoped=true&":
+/*!****************************************************************************************************!*\
+  !*** ./resources/js/components/Professor/historico.vue?vue&type=template&id=0a3b9b96&scoped=true& ***!
+  \****************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_historico_vue_vue_type_template_id_0a3b9b96_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_historico_vue_vue_type_template_id_0a3b9b96_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_historico_vue_vue_type_template_id_0a3b9b96_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./historico.vue?vue&type=template&id=0a3b9b96&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/historico.vue?vue&type=template&id=0a3b9b96&scoped=true&");
+
+
+/***/ }),
+
 /***/ "./resources/js/components/Professor/listaAlunos.vue?vue&type=template&id=df4ea060&scoped=true&":
 /*!******************************************************************************************************!*\
   !*** ./resources/js/components/Professor/listaAlunos.vue?vue&type=template&id=df4ea060&scoped=true& ***!
@@ -46276,6 +46973,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Professor/tabelaHistorico.vue?vue&type=template&id=6012e390&scoped=true&":
+/*!**********************************************************************************************************!*\
+  !*** ./resources/js/components/Professor/tabelaHistorico.vue?vue&type=template&id=6012e390&scoped=true& ***!
+  \**********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_tabelaHistorico_vue_vue_type_template_id_6012e390_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_tabelaHistorico_vue_vue_type_template_id_6012e390_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_tabelaHistorico_vue_vue_type_template_id_6012e390_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./tabelaHistorico.vue?vue&type=template&id=6012e390&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/tabelaHistorico.vue?vue&type=template&id=6012e390&scoped=true&");
+
+
+/***/ }),
+
 /***/ "./resources/js/components/aluno/dashboadAluno.vue?vue&type=template&id=044f8baa&":
 /*!****************************************************************************************!*\
   !*** ./resources/js/components/aluno/dashboadAluno.vue?vue&type=template&id=044f8baa& ***!
@@ -46293,6 +47007,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/aluno/historico.vue?vue&type=template&id=06b4fe51&scoped=true&":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/components/aluno/historico.vue?vue&type=template&id=06b4fe51&scoped=true& ***!
+  \************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_historico_vue_vue_type_template_id_06b4fe51_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_historico_vue_vue_type_template_id_06b4fe51_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_historico_vue_vue_type_template_id_06b4fe51_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./historico.vue?vue&type=template&id=06b4fe51&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/aluno/historico.vue?vue&type=template&id=06b4fe51&scoped=true&");
+
+
+/***/ }),
+
 /***/ "./resources/js/components/aluno/quizzAluno.vue?vue&type=template&id=2ee7a415&scoped=true&":
 /*!*************************************************************************************************!*\
   !*** ./resources/js/components/aluno/quizzAluno.vue?vue&type=template&id=2ee7a415&scoped=true& ***!
@@ -46306,6 +47037,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_quizzAluno_vue_vue_type_template_id_2ee7a415_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_quizzAluno_vue_vue_type_template_id_2ee7a415_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./quizzAluno.vue?vue&type=template&id=2ee7a415&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/aluno/quizzAluno.vue?vue&type=template&id=2ee7a415&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/aluno/tabelaHistorico.vue?vue&type=template&id=06cb2aac&scoped=true&":
+/*!******************************************************************************************************!*\
+  !*** ./resources/js/components/aluno/tabelaHistorico.vue?vue&type=template&id=06cb2aac&scoped=true& ***!
+  \******************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_tabelaHistorico_vue_vue_type_template_id_06cb2aac_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_tabelaHistorico_vue_vue_type_template_id_06cb2aac_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_tabelaHistorico_vue_vue_type_template_id_06cb2aac_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./tabelaHistorico.vue?vue&type=template&id=06cb2aac&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/aluno/tabelaHistorico.vue?vue&type=template&id=06cb2aac&scoped=true&");
 
 
 /***/ }),
@@ -48005,6 +48753,158 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/historico.vue?vue&type=template&id=0a3b9b96&scoped=true&":
+/*!*******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/historico.vue?vue&type=template&id=0a3b9b96&scoped=true& ***!
+  \*******************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "section-quizz mt-5 me-md-5 ms-md-5" },
+    [
+      _vm.isActive
+        ? _c("div", [
+            _vm.isFetchingH
+              ? _c("div", [_vm._m(0)])
+              : _c(
+                  "div",
+                  [
+                    _vm.historicos.data.length === 0
+                      ? _c("div", [
+                          _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
+                            _vm._v("Nenhum aluno fez esse Quizz")
+                          ])
+                        ])
+                      : _c(
+                          "div",
+                          { staticClass: "section-disciplinas-items" },
+                          [
+                            _c("h1", [_vm._v("Historico")]),
+                            _vm._v(" "),
+                            _c(
+                              "ul",
+                              _vm._l(_vm.historicos.data, function(
+                                historico,
+                                index
+                              ) {
+                                return _c(
+                                  "li",
+                                  {
+                                    key: historico["id"],
+                                    staticClass: "card-box mb-5 mt-5"
+                                  },
+                                  [
+                                    _c("div", [
+                                      _c(
+                                        "div",
+                                        { staticClass: "card-box-text" },
+                                        [
+                                          _c("h2", [
+                                            _vm._v(
+                                              "Sessão " +
+                                                _vm._s(
+                                                  _vm.historicos.from + index
+                                                )
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass: "btn btn-secondary",
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.verTabela(
+                                                    historico["sessaoMaster"]
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("Ver")]
+                                          )
+                                        ]
+                                      )
+                                    ])
+                                  ]
+                                )
+                              }),
+                              0
+                            )
+                          ]
+                        ),
+                    _vm._v(" "),
+                    _c("pagination-2", {
+                      attrs: { data: _vm.historicos, align: "center" },
+                      on: { "pagination-change-page": _vm.getResultsHistoricos }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        on: {
+                          click: function($event) {
+                            return _vm.$root.$emit("btnVoltar")
+                          }
+                        }
+                      },
+                      [_vm._v("Voltar")]
+                    )
+                  ],
+                  1
+                )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _c(_vm.component, {
+        tag: "tabela-historico",
+        attrs: { idSessao_prop: _vm.idSessao }
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "card-loading is-loading mt-5",
+        attrs: { id: "card-loading-quiz" }
+      },
+      [
+        _c("div", { staticClass: "content" }, [
+          _c("h2"),
+          _vm._v(" "),
+          _c("br"),
+          _c("br"),
+          _vm._v(" "),
+          _c("p")
+        ])
+      ]
+    )
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/listaAlunos.vue?vue&type=template&id=df4ea060&scoped=true&":
 /*!*********************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/listaAlunos.vue?vue&type=template&id=df4ea060&scoped=true& ***!
@@ -48024,11 +48924,9 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm._m(0),
-      _vm._v(" "),
       !_vm.isFetchingA
         ? _c("div", [
-            _vm.alunos.length === 0
+            _vm.filter.length === 0
               ? _c(
                   "div",
                   { staticClass: "mx-auto", attrs: { id: "alunos-adicionar" } },
@@ -48288,7 +49186,7 @@ var render = function() {
                                                                   },
                                                                   [
                                                                     _vm._m(
-                                                                      1,
+                                                                      0,
                                                                       true
                                                                     ),
                                                                     _vm._v(" "),
@@ -48323,7 +49221,7 @@ var render = function() {
                                                                   },
                                                                   [
                                                                     _vm._m(
-                                                                      2,
+                                                                      1,
                                                                       true
                                                                     ),
                                                                     _vm._v(" "),
@@ -48358,7 +49256,7 @@ var render = function() {
                                                                   },
                                                                   [
                                                                     _vm._m(
-                                                                      3,
+                                                                      2,
                                                                       true
                                                                     ),
                                                                     _vm._v(" "),
@@ -48393,7 +49291,7 @@ var render = function() {
                                                                   },
                                                                   [
                                                                     _vm._m(
-                                                                      4,
+                                                                      3,
                                                                       true
                                                                     ),
                                                                     _vm._v(" "),
@@ -48471,7 +49369,14 @@ var render = function() {
                   ]
                 )
           ])
-        : _vm._e(),
+        : _c(
+            "div",
+            {
+              staticClass: "card-loading is-loading mt-5",
+              attrs: { id: "card-loading-alunos" }
+            },
+            [_vm._m(4)]
+          ),
       _vm._v(" "),
       _c("pagination-2", {
         attrs: { data: _vm.alunos, align: "center" },
@@ -48482,28 +49387,6 @@ var render = function() {
   )
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "card-loading is-loading mt-5",
-        attrs: { id: "card-loading-alunos" }
-      },
-      [
-        _c("div", { staticClass: "content" }, [
-          _c("h2"),
-          _vm._v(" "),
-          _c("br"),
-          _c("br"),
-          _vm._v(" "),
-          _c("p")
-        ])
-      ]
-    )
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -48534,6 +49417,19 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-sm-3" }, [
       _c("h6", { staticClass: "mb-0" }, [_vm._v("Género")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "content" }, [
+      _c("h2"),
+      _vm._v(" "),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("p")
     ])
   }
 ]
@@ -51274,385 +52170,421 @@ var render = function() {
     "div",
     { staticClass: "section-quizz mt-5 me-md-5 ms-md-5" },
     [
-      _vm._m(0),
-      _vm._v(" "),
-      _vm._m(1),
-      _vm._v(" "),
-      _vm._m(2),
-      _vm._v(" "),
-      _vm._m(3),
-      _vm._v(" "),
-      !_vm.isFetching
-        ? _c("div", [
-            _vm.quizz.data.length === 0
-              ? _c(
-                  "div",
-                  { staticClass: "mx-auto", attrs: { id: "quiz-adicionar" } },
-                  [
-                    _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
-                      _vm._v("Ainda não tem nenhum Quizz")
-                    ]),
-                    _vm._v(" "),
-                    _vm._m(4)
-                  ]
-                )
-              : _c(
-                  "div",
-                  {
-                    staticClass: "section-disciplinas-items",
-                    attrs: { id: "lista-quizes" }
-                  },
-                  [
-                    _c("div", { staticClass: "box-search mb-5" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.search,
-                            expression: "search"
-                          }
-                        ],
-                        staticClass:
-                          " form-control form-control-lg form-search",
-                        attrs: {
-                          type: "text",
-                          placeholder: "Pesquisar Quizz..."
-                        },
-                        domProps: { value: _vm.search },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.isActive,
+              expression: "isActive"
+            }
+          ]
+        },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _vm._m(1),
+          _vm._v(" "),
+          _vm._m(2),
+          _vm._v(" "),
+          _vm._m(3),
+          _vm._v(" "),
+          !_vm.isFetching
+            ? _c("div", [
+                _vm.quizz.data.length === 0
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "mx-auto",
+                        attrs: { id: "quiz-adicionar" }
+                      },
+                      [
+                        _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
+                          _vm._v("Ainda não tem nenhum Quizz")
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(4)
+                      ]
+                    )
+                  : _c(
+                      "div",
+                      {
+                        staticClass: "section-disciplinas-items",
+                        attrs: { id: "lista-quizes" }
+                      },
+                      [
+                        _c("div", { staticClass: "box-search mb-5" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.search,
+                                expression: "search"
+                              }
+                            ],
+                            staticClass:
+                              " form-control form-control-lg form-search",
+                            attrs: {
+                              type: "text",
+                              placeholder: "Pesquisar Quizz..."
+                            },
+                            domProps: { value: _vm.search },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.search = $event.target.value
+                              }
                             }
-                            _vm.search = $event.target.value
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("i", { staticClass: "bi bi-search" })
-                    ]),
-                    _vm._v(" "),
-                    _c("h1", [_vm._v("Quizz")]),
-                    _vm._v(" "),
-                    _c(
-                      "ul",
-                      _vm._l(_vm.filter, function(quizz) {
-                        return _c(
-                          "li",
-                          {
-                            key: quizz["id"],
-                            staticClass: "card-box mb-5 mt-5"
-                          },
-                          [
-                            _c("div", [
-                              _c("div", { staticClass: "card-box-text" }, [
-                                _c("h2", [_vm._v(_vm._s(quizz["nome"]))]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "dropdown ms-auto" }, [
-                                  _vm._m(5, true),
-                                  _vm._v(" "),
-                                  _c(
-                                    "ul",
-                                    {
-                                      staticClass: "dropdown-menu",
-                                      attrs: {
-                                        "aria-labelledby": "dropdownMenuButton1"
-                                      }
-                                    },
-                                    [
-                                      _c("li", [
+                          }),
+                          _vm._v(" "),
+                          _c("i", { staticClass: "bi bi-search" })
+                        ]),
+                        _vm._v(" "),
+                        _c("h1", [_vm._v("Quizz")]),
+                        _vm._v(" "),
+                        _c(
+                          "ul",
+                          _vm._l(_vm.filter, function(quizz) {
+                            return _c(
+                              "li",
+                              {
+                                key: quizz["id"],
+                                staticClass: "card-box mb-5 mt-5"
+                              },
+                              [
+                                _c("div", [
+                                  _c("div", { staticClass: "card-box-text" }, [
+                                    _c("h2", [_vm._v(_vm._s(quizz["nome"]))]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "dropdown ms-auto" },
+                                      [
+                                        _vm._m(5, true),
+                                        _vm._v(" "),
                                         _c(
-                                          "button",
+                                          "ul",
                                           {
-                                            staticClass: "dropdown-item",
+                                            staticClass: "dropdown-menu",
                                             attrs: {
-                                              type: "button",
-                                              "data-bs-toggle": "modal",
-                                              "data-bs-target":
-                                                "#editarQuizz" + quizz["id"]
-                                            },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.listTopicosQuizz(
-                                                  quizz["id"]
-                                                )
-                                              }
+                                              "aria-labelledby":
+                                                "dropdownMenuButton1"
                                             }
                                           },
                                           [
-                                            _vm._v(
-                                              "Editar\n                                            "
-                                            )
+                                            _c("li", [
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass: "dropdown-item",
+                                                  attrs: {
+                                                    type: "button",
+                                                    "data-bs-toggle": "modal",
+                                                    "data-bs-target":
+                                                      "#editarQuizz" +
+                                                      quizz["id"]
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.listTopicosQuizz(
+                                                        quizz["id"]
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "Editar\n                                            "
+                                                  )
+                                                ]
+                                              )
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("li", [
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass: "dropdown-item",
+                                                  attrs: {
+                                                    type: "button",
+                                                    "data-bs-toggle": "modal",
+                                                    "data-bs-target":
+                                                      "#eliminarQuizz" +
+                                                      quizz["id"]
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "Eliminar\n                                            "
+                                                  )
+                                                ]
+                                              )
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("li", [
+                                              quizz["visivel"] === "false"
+                                                ? _c(
+                                                    "button",
+                                                    {
+                                                      staticClass:
+                                                        "dropdown-item",
+                                                      attrs: { type: "button" },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.tornarVisivel(
+                                                            quizz["id"]
+                                                          )
+                                                        }
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "Tornar\n                                                Visivel\n                                            "
+                                                      )
+                                                    ]
+                                                  )
+                                                : _c(
+                                                    "button",
+                                                    {
+                                                      staticClass:
+                                                        "dropdown-item",
+                                                      attrs: { type: "button" },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.ocultarQuizz(
+                                                            quizz["id"]
+                                                          )
+                                                        }
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "Ocultar Quizz\n                                            "
+                                                      )
+                                                    ]
+                                                  )
+                                            ])
                                           ]
                                         )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("li", [
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass: "dropdown-item",
-                                            attrs: {
-                                              type: "button",
-                                              "data-bs-toggle": "modal",
-                                              "data-bs-target":
-                                                "#eliminarQuizz" + quizz["id"]
-                                            }
-                                          },
-                                          [
-                                            _vm._v(
-                                              "Eliminar\n                                            "
-                                            )
-                                          ]
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("li", [
-                                        quizz["visivel"] === "false"
-                                          ? _c(
-                                              "button",
-                                              {
-                                                staticClass: "dropdown-item",
-                                                attrs: { type: "button" },
-                                                on: {
-                                                  click: function($event) {
-                                                    return _vm.tornarVisivel(
-                                                      quizz["id"]
-                                                    )
-                                                  }
-                                                }
-                                              },
-                                              [
-                                                _vm._v(
-                                                  "Tornar\n                                                Visivel\n                                            "
-                                                )
-                                              ]
-                                            )
-                                          : _c(
-                                              "button",
-                                              {
-                                                staticClass: "dropdown-item",
-                                                attrs: { type: "button" },
-                                                on: {
-                                                  click: function($event) {
-                                                    return _vm.ocultarQuizz(
-                                                      quizz["id"]
-                                                    )
-                                                  }
-                                                }
-                                              },
-                                              [
-                                                _vm._v(
-                                                  "Ocultar Quizz\n                                            "
-                                                )
-                                              ]
-                                            )
-                                      ])
-                                    ]
-                                  )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      {
+                                        staticClass: "material-icons",
+                                        staticStyle: { cursor: "pointer" },
+                                        attrs: {
+                                          "data-bs-toggle": "collapse",
+                                          "data-bs-target":
+                                            "#collapseQuizz" + quizz["id"],
+                                          "aria-expanded": "false",
+                                          "aria-controls":
+                                            "collapseQuizz" + quizz["id"]
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.changeButton(quizz["id"])
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("img", {
+                                          attrs: {
+                                            id: "img" + quizz["id"],
+                                            src:
+                                              "/assets/expand_more_black_24dp.svg"
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ])
                                 ]),
                                 _vm._v(" "),
-                                _c(
-                                  "span",
-                                  {
-                                    staticClass: "material-icons",
-                                    staticStyle: { cursor: "pointer" },
-                                    attrs: {
-                                      "data-bs-toggle": "collapse",
-                                      "data-bs-target":
-                                        "#collapseQuizz" + quizz["id"],
-                                      "aria-expanded": "false",
-                                      "aria-controls":
-                                        "collapseQuizz" + quizz["id"]
-                                    },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.changeButton(quizz["id"])
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _c("img", {
-                                      attrs: {
-                                        id: "img" + quizz["id"],
-                                        src:
-                                          "/assets/expand_more_black_24dp.svg"
-                                      }
-                                    })
-                                  ]
-                                )
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "mt-2" }, [
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "collapse mt-2",
-                                  attrs: { id: "collapseQuizz" + quizz["id"] }
-                                },
-                                [
-                                  _c("p", [
-                                    _vm._v(
-                                      "Tipo:\n                                    "
-                                    ),
-                                    quizz["tipo"] === "false"
-                                      ? _c("span", [_vm._v("Teste ")])
-                                      : _c("span", [_vm._v("Quizz ")])
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("p", [
-                                    _vm._v(
-                                      "Número de perguntas: " +
-                                        _vm._s(quizz["numeroperguntas"])
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("p", [
-                                    _vm._v(
-                                      "Visivel:\n                                    "
-                                    ),
-                                    quizz["visivel"] === "false"
-                                      ? _c("span", [_vm._v("Não ")])
-                                      : _c("span", [_vm._v("Sim ")])
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("p", [
-                                    _vm._v(
-                                      "Vale Pontos:\n                                    "
-                                    ),
-                                    quizz["vale_pontos"] === "false"
-                                      ? _c("span", [_vm._v("Não ")])
-                                      : _c("span", [_vm._v("Sim ")])
-                                  ]),
-                                  _vm._v(" "),
+                                _c("div", { staticClass: "mt-2" }, [
                                   _c(
                                     "div",
-                                    { staticClass: "text-end d-flex" },
+                                    {
+                                      staticClass: "collapse mt-2",
+                                      attrs: {
+                                        id: "collapseQuizz" + quizz["id"]
+                                      }
+                                    },
                                     [
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass:
-                                            "btn btn-secondary ms-auto ",
-                                          attrs: {
-                                            type: "button",
-                                            "data-bs-toggle": "modal",
-                                            "data-bs-target": "#t" + quizz["id"]
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "Histórico\n                                    "
-                                          )
-                                        ]
-                                      ),
+                                      _c("p", [
+                                        _vm._v(
+                                          "Tipo:\n                                    "
+                                        ),
+                                        quizz["tipo"] === "false"
+                                          ? _c("span", [_vm._v("Teste ")])
+                                          : _c("span", [_vm._v("Quizz ")])
+                                      ]),
                                       _vm._v(" "),
-                                      quizz["tipo"] === "true"
-                                        ? _c("div", [
-                                            _c(
-                                              "button",
-                                              {
-                                                staticClass:
-                                                  "btn btn-secondary ms-3 ",
-                                                attrs: {
-                                                  type: "button",
-                                                  "data-bs-toggle": "modal",
-                                                  "data-bs-target":
-                                                    "#t" + quizz["id"]
+                                      _c("p", [
+                                        _vm._v(
+                                          "Número de perguntas: " +
+                                            _vm._s(quizz["numeroperguntas"])
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("p", [
+                                        _vm._v(
+                                          "Visivel:\n                                    "
+                                        ),
+                                        quizz["visivel"] === "false"
+                                          ? _c("span", [_vm._v("Não ")])
+                                          : _c("span", [_vm._v("Sim ")])
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("p", [
+                                        _vm._v(
+                                          "Vale Pontos:\n                                    "
+                                        ),
+                                        quizz["vale_pontos"] === "false"
+                                          ? _c("span", [_vm._v("Não ")])
+                                          : _c("span", [_vm._v("Sim ")])
+                                      ]),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        { staticClass: "text-end d-flex" },
+                                        [
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "btn btn-secondary ms-auto ",
+                                              attrs: { type: "button" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.enterHistorico(
+                                                    quizz["id"]
+                                                  )
                                                 }
-                                              },
-                                              [
-                                                _vm._v(
-                                                  "Iniciar Quizz\n                                        "
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass: "modal fade",
-                                                attrs: {
-                                                  id: "t" + quizz["id"],
-                                                  tabindex: "-1",
-                                                  "aria-labelledby":
-                                                    "exampleModalLabel",
-                                                  "aria-hidden": "true"
-                                                }
-                                              },
-                                              [
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                        Histórico\n                                    "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          quizz["tipo"] === "true"
+                                            ? _c("div", [
+                                                _c(
+                                                  "button",
+                                                  {
+                                                    staticClass:
+                                                      "btn btn-secondary ms-3 ",
+                                                    attrs: {
+                                                      type: "button",
+                                                      "data-bs-toggle": "modal",
+                                                      "data-bs-target":
+                                                        "#t" + quizz["id"]
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "Iniciar Quizz\n                                        "
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
                                                 _c(
                                                   "div",
                                                   {
-                                                    staticClass:
-                                                      "modal-dialog modal-dialog-centered"
+                                                    staticClass: "modal fade",
+                                                    attrs: {
+                                                      id: "t" + quizz["id"],
+                                                      tabindex: "-1",
+                                                      "aria-labelledby":
+                                                        "exampleModalLabel",
+                                                      "aria-hidden": "true"
+                                                    }
                                                   },
                                                   [
                                                     _c(
                                                       "div",
                                                       {
                                                         staticClass:
-                                                          "modal-content"
+                                                          "modal-dialog modal-dialog-centered"
                                                       },
                                                       [
-                                                        _vm._m(6, true),
-                                                        _vm._v(" "),
-                                                        _vm._m(7, true),
-                                                        _vm._v(" "),
                                                         _c(
                                                           "div",
                                                           {
                                                             staticClass:
-                                                              "modal-footer"
+                                                              "modal-content"
                                                           },
                                                           [
-                                                            _c(
-                                                              "button",
-                                                              {
-                                                                staticClass:
-                                                                  "btn btn-primary",
-                                                                attrs: {
-                                                                  type:
-                                                                    "button",
-                                                                  "data-bs-dismiss":
-                                                                    "modal"
-                                                                }
-                                                              },
-                                                              [
-                                                                _vm._v(
-                                                                  "\n                                                            Não\n                                                        "
-                                                                )
-                                                              ]
-                                                            ),
+                                                            _vm._m(6, true),
+                                                            _vm._v(" "),
+                                                            _vm._m(7, true),
                                                             _vm._v(" "),
                                                             _c(
-                                                              "button",
+                                                              "div",
                                                               {
                                                                 staticClass:
-                                                                  "btn  btn-secondary",
-                                                                attrs: {
-                                                                  type:
-                                                                    "button",
-                                                                  "data-bs-dismiss":
-                                                                    "modal"
-                                                                },
-                                                                on: {
-                                                                  click: function(
-                                                                    $event
-                                                                  ) {
-                                                                    return _vm.EnterQuizz(
-                                                                      quizz[
-                                                                        "id"
-                                                                      ]
-                                                                    )
-                                                                  }
-                                                                }
+                                                                  "modal-footer"
                                                               },
                                                               [
-                                                                _vm._v(
-                                                                  "Sim\n                                                        "
+                                                                _c(
+                                                                  "button",
+                                                                  {
+                                                                    staticClass:
+                                                                      "btn btn-primary",
+                                                                    attrs: {
+                                                                      type:
+                                                                        "button",
+                                                                      "data-bs-dismiss":
+                                                                        "modal"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "\n                                                            Não\n                                                        "
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "button",
+                                                                  {
+                                                                    staticClass:
+                                                                      "btn  btn-secondary",
+                                                                    attrs: {
+                                                                      type:
+                                                                        "button",
+                                                                      "data-bs-dismiss":
+                                                                        "modal"
+                                                                    },
+                                                                    on: {
+                                                                      click: function(
+                                                                        $event
+                                                                      ) {
+                                                                        return _vm.EnterQuizz(
+                                                                          quizz[
+                                                                            "id"
+                                                                          ]
+                                                                        )
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "Sim\n                                                        "
+                                                                    )
+                                                                  ]
                                                                 )
                                                               ]
                                                             )
@@ -51662,129 +52594,135 @@ var render = function() {
                                                     )
                                                   ]
                                                 )
-                                              ]
-                                            )
-                                          ])
-                                        : _vm._e()
+                                              ])
+                                            : _vm._e()
+                                        ]
+                                      )
                                     ]
                                   )
-                                ]
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              {
-                                staticClass: "modal fade",
-                                attrs: {
-                                  id: "eliminarQuizz" + quizz["id"],
-                                  tabindex: "-1",
-                                  "aria-labelledby": "exampleModalLabel",
-                                  "aria-hidden": "true"
-                                }
-                              },
-                              [
+                                ]),
+                                _vm._v(" "),
                                 _c(
                                   "div",
                                   {
-                                    staticClass:
-                                      "modal-dialog modal-dialog-centered"
+                                    staticClass: "modal fade",
+                                    attrs: {
+                                      id: "eliminarQuizz" + quizz["id"],
+                                      tabindex: "-1",
+                                      "aria-labelledby": "exampleModalLabel",
+                                      "aria-hidden": "true"
+                                    }
                                   },
                                   [
                                     _c(
                                       "div",
-                                      { staticClass: "modal-content" },
+                                      {
+                                        staticClass:
+                                          "modal-dialog modal-dialog-centered"
+                                      },
                                       [
                                         _c(
                                           "div",
-                                          { staticClass: "modal-header" },
+                                          { staticClass: "modal-content" },
                                           [
                                             _c(
-                                              "h5",
-                                              {
-                                                staticClass: "modal-title",
-                                                attrs: {
-                                                  id:
-                                                    "tituloEliminar" +
-                                                    quizz["id"]
-                                                }
-                                              },
-                                              [_vm._v("Eliminar Quizz")]
-                                            ),
-                                            _vm._v(" "),
-                                            _c("button", {
-                                              staticClass: "btn-close",
-                                              attrs: {
-                                                type: "button",
-                                                "data-bs-dismiss": "modal",
-                                                "aria-label": "Close"
-                                              }
-                                            })
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "div",
-                                          { staticClass: "modal-body" },
-                                          [
-                                            _c("h2", [
-                                              _vm._v(
-                                                "Tem certeza que deseja eliminar o quizz " +
-                                                  _vm._s(quizz["nome"]) +
-                                                  "?"
-                                              )
-                                            ])
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "div",
-                                          { staticClass: "modal-footer" },
-                                          [
-                                            _c(
-                                              "button",
-                                              {
-                                                staticClass:
-                                                  "btn btn-secondary",
-                                                attrs: {
-                                                  type: "button",
-                                                  "data-bs-dismiss": "modal"
-                                                }
-                                              },
+                                              "div",
+                                              { staticClass: "modal-header" },
                                               [
-                                                _vm._v(
-                                                  "\n                                            Cancelar\n                                        "
-                                                )
+                                                _c(
+                                                  "h5",
+                                                  {
+                                                    staticClass: "modal-title",
+                                                    attrs: {
+                                                      id:
+                                                        "tituloEliminar" +
+                                                        quizz["id"]
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "Eliminar\n                                            Quizz"
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("button", {
+                                                  staticClass: "btn-close",
+                                                  attrs: {
+                                                    type: "button",
+                                                    "data-bs-dismiss": "modal",
+                                                    "aria-label": "Close"
+                                                  }
+                                                })
                                               ]
                                             ),
                                             _vm._v(" "),
                                             _c(
-                                              "button",
-                                              {
-                                                staticClass:
-                                                  "btn btn-primary eliminar-btn",
-                                                attrs: {
-                                                  type: "button",
-                                                  id:
-                                                    "eliminarUtilizadorBtn" +
-                                                    quizz["id"]
-                                                },
-                                                on: {
-                                                  click: function($event) {
-                                                    return _vm.eliminarQuizz(
-                                                      quizz
-                                                    )
-                                                  }
-                                                }
-                                              },
+                                              "div",
+                                              { staticClass: "modal-body" },
                                               [
-                                                _c("span", {}, [_vm._v("Sim")]),
+                                                _c("h2", [
+                                                  _vm._v(
+                                                    "Tem certeza que deseja eliminar o quizz " +
+                                                      _vm._s(quizz["nome"]) +
+                                                      "?"
+                                                  )
+                                                ])
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "div",
+                                              { staticClass: "modal-footer" },
+                                              [
+                                                _c(
+                                                  "button",
+                                                  {
+                                                    staticClass:
+                                                      "btn btn-secondary",
+                                                    attrs: {
+                                                      type: "button",
+                                                      "data-bs-dismiss": "modal"
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                                            Cancelar\n                                        "
+                                                    )
+                                                  ]
+                                                ),
                                                 _vm._v(" "),
-                                                _c("div", {
-                                                  staticClass:
-                                                    "spinner-border text-light d-none",
-                                                  attrs: { role: "status" }
-                                                })
+                                                _c(
+                                                  "button",
+                                                  {
+                                                    staticClass:
+                                                      "btn btn-primary eliminar-btn",
+                                                    attrs: {
+                                                      type: "button",
+                                                      id:
+                                                        "eliminarUtilizadorBtn" +
+                                                        quizz["id"]
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        return _vm.eliminarQuizz(
+                                                          quizz
+                                                        )
+                                                      }
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("span", {}, [
+                                                      _vm._v("Sim")
+                                                    ]),
+                                                    _vm._v(" "),
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "spinner-border text-light d-none",
+                                                      attrs: { role: "status" }
+                                                    })
+                                                  ]
+                                                )
                                               ]
                                             )
                                           ]
@@ -51792,670 +52730,726 @@ var render = function() {
                                       ]
                                     )
                                   ]
-                                )
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              {
-                                staticClass: "modal fade modal-quizz",
-                                attrs: {
-                                  id: "editarQuizz" + quizz["id"],
-                                  tabindex: "-1",
-                                  "aria-labelledby": "exampleModalLabel",
-                                  "aria-hidden": "true"
-                                }
-                              },
-                              [
+                                ),
+                                _vm._v(" "),
                                 _c(
                                   "div",
                                   {
-                                    staticClass:
-                                      "modal-dialog modal-dialog-scrollable modal-lg"
+                                    staticClass: "modal fade modal-quizz",
+                                    attrs: {
+                                      id: "editarQuizz" + quizz["id"],
+                                      tabindex: "-1",
+                                      "aria-labelledby": "exampleModalLabel",
+                                      "aria-hidden": "true"
+                                    }
                                   },
                                   [
                                     _c(
                                       "div",
-                                      { staticClass: "modal-content" },
+                                      {
+                                        staticClass:
+                                          "modal-dialog modal-dialog-scrollable modal-lg"
+                                      },
                                       [
                                         _c(
                                           "div",
-                                          { staticClass: "modal-header" },
+                                          { staticClass: "modal-content" },
                                           [
                                             _c(
-                                              "h5",
-                                              {
-                                                staticClass: "modal-title",
-                                                attrs: {
-                                                  id:
-                                                    "exampleModalLabeleditarQuizz" +
-                                                    quizz["id"]
-                                                }
-                                              },
+                                              "div",
+                                              { staticClass: "modal-header" },
                                               [
-                                                _vm._v(
-                                                  "\n                                            Editar Quizz"
-                                                )
+                                                _c(
+                                                  "h5",
+                                                  {
+                                                    staticClass: "modal-title",
+                                                    attrs: {
+                                                      id:
+                                                        "exampleModalLabeleditarQuizz" +
+                                                        quizz["id"]
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                                            Editar Quizz"
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("button", {
+                                                  staticClass: "btn-close",
+                                                  attrs: {
+                                                    type: "button",
+                                                    "data-bs-dismiss": "modal",
+                                                    "aria-label": "Close"
+                                                  }
+                                                })
                                               ]
                                             ),
                                             _vm._v(" "),
-                                            _c("button", {
-                                              staticClass: "btn-close",
-                                              attrs: {
-                                                type: "button",
-                                                "data-bs-dismiss": "modal",
-                                                "aria-label": "Close"
-                                              }
-                                            })
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "div",
-                                          {
-                                            staticClass: "modal-body pt-5 pb-5"
-                                          },
-                                          [
                                             _c(
-                                              "form",
+                                              "div",
                                               {
-                                                staticClass: "row mx-auto",
-                                                attrs: {
-                                                  id:
-                                                    "formEditarQuizz" +
-                                                    quizz["id"]
-                                                }
+                                                staticClass:
+                                                  "modal-body pt-5 pb-5"
                                               },
                                               [
                                                 _c(
-                                                  "div",
-                                                  { staticClass: "col-12" },
+                                                  "form",
+                                                  {
+                                                    staticClass: "row mx-auto",
+                                                    attrs: {
+                                                      id:
+                                                        "formEditarQuizz" +
+                                                        quizz["id"]
+                                                    }
+                                                  },
                                                   [
                                                     _c(
-                                                      "label",
-                                                      {
-                                                        staticClass: "label",
-                                                        attrs: { for: "titulo" }
-                                                      },
-                                                      [_vm._v("Titulo")]
+                                                      "div",
+                                                      { staticClass: "col-12" },
+                                                      [
+                                                        _c(
+                                                          "label",
+                                                          {
+                                                            staticClass:
+                                                              "label",
+                                                            attrs: {
+                                                              for: "titulo"
+                                                            }
+                                                          },
+                                                          [_vm._v("Titulo")]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c("input", {
+                                                          staticClass:
+                                                            "form-control mt-2 mb-3 ",
+                                                          attrs: {
+                                                            name: "titulo",
+                                                            type: "text",
+                                                            id:
+                                                              "titulo" +
+                                                              quizz["id"]
+                                                          },
+                                                          domProps: {
+                                                            value: quizz["nome"]
+                                                          }
+                                                        })
+                                                      ]
                                                     ),
                                                     _vm._v(" "),
-                                                    _c("input", {
-                                                      staticClass:
-                                                        "form-control mt-2 mb-3 ",
-                                                      attrs: {
-                                                        name: "titulo",
-                                                        type: "text",
-                                                        id:
-                                                          "titulo" + quizz["id"]
-                                                      },
-                                                      domProps: {
-                                                        value: quizz["nome"]
-                                                      }
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  { staticClass: "col-12" },
-                                                  [
-                                                    _c("p", {
-                                                      staticClass: "error ",
-                                                      attrs: {
-                                                        id:
-                                                          "TituloError" +
-                                                          quizz["id"]
-                                                      }
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass: "col-12 mt-3"
-                                                  },
-                                                  [
                                                     _c(
-                                                      "label",
-                                                      {
-                                                        staticClass: "label",
-                                                        attrs: {
-                                                          for: "quizzdescricao"
-                                                        }
-                                                      },
-                                                      [_vm._v("Descrição")]
+                                                      "div",
+                                                      { staticClass: "col-12" },
+                                                      [
+                                                        _c("p", {
+                                                          staticClass: "error ",
+                                                          attrs: {
+                                                            id:
+                                                              "TituloError" +
+                                                              quizz["id"]
+                                                          }
+                                                        })
+                                                      ]
                                                     ),
                                                     _vm._v(" "),
-                                                    _c("textarea", {
-                                                      staticClass:
-                                                        "form-control",
-                                                      attrs: {
-                                                        name:
-                                                          "quizzdescricao" +
-                                                          quizz["id"],
-                                                        id:
-                                                          "quizzdescricao" +
-                                                          quizz["id"],
-                                                        rows: "2"
-                                                      },
-                                                      domProps: {
-                                                        value:
-                                                          quizz["descricao"]
-                                                      }
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "col-md-4 mb-5 mb-xs-0 text-center"
-                                                  },
-                                                  [
                                                     _c(
                                                       "div",
                                                       {
                                                         staticClass:
-                                                          "mb-1 mt-5",
-                                                        attrs: {
-                                                          id:
-                                                            "realTime" +
-                                                            quizz["id"]
-                                                        }
+                                                          "col-12 mt-3"
                                                       },
                                                       [
-                                                        _c("h4", [
-                                                          _vm._v("Realtime")
-                                                        ]),
-                                                        _vm._v(" "),
                                                         _c(
-                                                          "div",
+                                                          "label",
                                                           {
-                                                            staticClass: "mb-1"
+                                                            staticClass:
+                                                              "label",
+                                                            attrs: {
+                                                              for:
+                                                                "quizzdescricao"
+                                                            }
                                                           },
-                                                          [
-                                                            _c("label", [
-                                                              _c("input", {
-                                                                attrs: {
-                                                                  type: "radio",
-                                                                  name:
-                                                                    "realtimeop" +
-                                                                    quizz["id"],
-                                                                  value: "true"
-                                                                },
-                                                                domProps: {
-                                                                  checked:
-                                                                    quizz[
-                                                                      "tipo"
-                                                                    ] === "true"
-                                                                }
-                                                              }),
-                                                              _vm._v(
-                                                                " Sim\n                                                        "
-                                                              )
-                                                            ])
-                                                          ]
+                                                          [_vm._v("Descrição")]
                                                         ),
                                                         _vm._v(" "),
-                                                        _c("div", [
-                                                          _c("label", [
-                                                            _c("input", {
-                                                              attrs: {
-                                                                type: "radio",
-                                                                name:
-                                                                  "realtimeop" +
-                                                                  quizz["id"],
-                                                                value: "false"
-                                                              },
-                                                              domProps: {
-                                                                checked:
-                                                                  quizz[
-                                                                    "tipo"
-                                                                  ] === "false"
-                                                              }
-                                                            }),
-                                                            _vm._v(
-                                                              "Não\n                                                        "
-                                                            )
-                                                          ])
-                                                        ])
-                                                      ]
-                                                    )
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "col-md-4 mb-5 mb-xs-0 text-center"
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "div",
-                                                      {
-                                                        staticClass:
-                                                          "mb-1 mt-5",
-                                                        attrs: {
-                                                          id:
-                                                            "pontos" +
-                                                            quizz["id"]
-                                                        }
-                                                      },
-                                                      [
-                                                        _c("h4", [
-                                                          _vm._v("Vale Pontos?")
-                                                        ]),
-                                                        _vm._v(" "),
-                                                        _c(
-                                                          "div",
-                                                          {
-                                                            staticClass: "mb-1"
+                                                        _c("textarea", {
+                                                          staticClass:
+                                                            "form-control",
+                                                          attrs: {
+                                                            name:
+                                                              "quizzdescricao" +
+                                                              quizz["id"],
+                                                            id:
+                                                              "quizzdescricao" +
+                                                              quizz["id"],
+                                                            rows: "2"
                                                           },
-                                                          [
-                                                            _c("label", [
-                                                              _c("input", {
-                                                                attrs: {
-                                                                  type: "radio",
-                                                                  name:
-                                                                    "Valepontos" +
-                                                                    quizz["id"],
-                                                                  value: "true"
-                                                                },
-                                                                domProps: {
-                                                                  checked:
-                                                                    quizz[
-                                                                      "vale_pontos"
-                                                                    ] === "true"
-                                                                }
-                                                              }),
-                                                              _vm._v(
-                                                                " Sim\n                                                        "
-                                                              )
-                                                            ])
-                                                          ]
-                                                        ),
-                                                        _vm._v(" "),
-                                                        _c("div", [
-                                                          _c("label", [
-                                                            _c("input", {
-                                                              attrs: {
-                                                                type: "radio",
-                                                                name:
-                                                                  "Valepontos" +
-                                                                  quizz["id"],
-                                                                value: "false"
-                                                              },
-                                                              domProps: {
-                                                                checked:
-                                                                  quizz[
-                                                                    "vale_pontos"
-                                                                  ] === "false"
-                                                              }
-                                                            }),
-                                                            _vm._v(
-                                                              "Não\n                                                        "
-                                                            )
-                                                          ])
-                                                        ])
+                                                          domProps: {
+                                                            value:
+                                                              quizz["descricao"]
+                                                          }
+                                                        })
                                                       ]
-                                                    )
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "col-md-4 mb-5 mb-xs-0 text-center"
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "div",
-                                                      {
-                                                        staticClass:
-                                                          "mb-1 mt-5",
-                                                        attrs: {
-                                                          id:
-                                                            "Visivel" +
-                                                            quizz["id"]
-                                                        }
-                                                      },
-                                                      [
-                                                        _c("h4", [
-                                                          _vm._v("Visivel")
-                                                        ]),
-                                                        _vm._v(" "),
-                                                        _c(
-                                                          "div",
-                                                          {
-                                                            staticClass: "mb-1"
-                                                          },
-                                                          [
-                                                            _c("label", [
-                                                              _c("input", {
-                                                                attrs: {
-                                                                  type: "radio",
-                                                                  name:
-                                                                    "Visivelop" +
-                                                                    quizz["id"],
-                                                                  value: "true"
-                                                                },
-                                                                domProps: {
-                                                                  checked:
-                                                                    quizz[
-                                                                      "visivel"
-                                                                    ] === "true"
-                                                                }
-                                                              }),
-                                                              _vm._v(
-                                                                " Sim\n                                                        "
-                                                              )
-                                                            ])
-                                                          ]
-                                                        ),
-                                                        _vm._v(" "),
-                                                        _c("div", [
-                                                          _c("label", [
-                                                            _c("input", {
-                                                              attrs: {
-                                                                type: "radio",
-                                                                name:
-                                                                  "Visivelop" +
-                                                                  quizz["id"],
-                                                                value: "false"
-                                                              },
-                                                              domProps: {
-                                                                checked:
-                                                                  quizz[
-                                                                    "visivel"
-                                                                  ] === "false"
-                                                              }
-                                                            }),
-                                                            _vm._v(
-                                                              " Não\n                                                        "
-                                                            )
-                                                          ])
-                                                        ])
-                                                      ]
-                                                    )
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  { staticClass: "col-md-12" },
-                                                  [
-                                                    _c("p", {
-                                                      attrs: {
-                                                        id:
-                                                          "TError" + quizz["id"]
-                                                      }
-                                                    }),
+                                                    ),
                                                     _vm._v(" "),
-                                                    _c("p", {
-                                                      attrs: {
-                                                        id:
-                                                          "PError" + quizz["id"]
-                                                      }
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("p", {
-                                                      attrs: {
-                                                        id:
-                                                          "ErrorVisivel" +
-                                                          quizz["id"]
-                                                      }
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass: "col-12 mt-1"
-                                                  },
-                                                  [
                                                     _c(
-                                                      "label",
+                                                      "div",
                                                       {
-                                                        staticClass: "label",
-                                                        attrs: {
-                                                          for:
-                                                            "nPerguntas" +
-                                                            quizz["id"]
-                                                        }
+                                                        staticClass:
+                                                          "col-md-4 mb-5 mb-xs-0 text-center"
                                                       },
                                                       [
-                                                        _vm._v(
-                                                          "Numero perguntas"
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "mb-1 mt-5",
+                                                            attrs: {
+                                                              id:
+                                                                "realTime" +
+                                                                quizz["id"]
+                                                            }
+                                                          },
+                                                          [
+                                                            _c("h4", [
+                                                              _vm._v("Realtime")
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "mb-1"
+                                                              },
+                                                              [
+                                                                _c("label", [
+                                                                  _c("input", {
+                                                                    attrs: {
+                                                                      type:
+                                                                        "radio",
+                                                                      name:
+                                                                        "realtimeop" +
+                                                                        quizz[
+                                                                          "id"
+                                                                        ],
+                                                                      value:
+                                                                        "true"
+                                                                    },
+                                                                    domProps: {
+                                                                      checked:
+                                                                        quizz[
+                                                                          "tipo"
+                                                                        ] ===
+                                                                        "true"
+                                                                    }
+                                                                  }),
+                                                                  _vm._v(
+                                                                    " Sim\n                                                        "
+                                                                  )
+                                                                ])
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c("div", [
+                                                              _c("label", [
+                                                                _c("input", {
+                                                                  attrs: {
+                                                                    type:
+                                                                      "radio",
+                                                                    name:
+                                                                      "realtimeop" +
+                                                                      quizz[
+                                                                        "id"
+                                                                      ],
+                                                                    value:
+                                                                      "false"
+                                                                  },
+                                                                  domProps: {
+                                                                    checked:
+                                                                      quizz[
+                                                                        "tipo"
+                                                                      ] ===
+                                                                      "false"
+                                                                  }
+                                                                }),
+                                                                _vm._v(
+                                                                  "Não\n                                                        "
+                                                                )
+                                                              ])
+                                                            ])
+                                                          ]
                                                         )
                                                       ]
                                                     ),
                                                     _vm._v(" "),
-                                                    _c("input", {
-                                                      staticClass:
-                                                        "form-control",
-                                                      attrs: {
-                                                        name:
-                                                          "nPerguntas" +
-                                                          quizz["id"],
-                                                        id:
-                                                          "nPerguntas" +
-                                                          quizz["id"],
-                                                        type: "number"
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "col-md-4 mb-5 mb-xs-0 text-center"
                                                       },
-                                                      domProps: {
-                                                        value:
-                                                          quizz[
-                                                            "numeroperguntas"
-                                                          ]
-                                                      }
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass: "col-12 mb-5"
-                                                  },
-                                                  [
-                                                    _c("p", {
-                                                      staticClass: "error ",
-                                                      attrs: {
-                                                        id:
-                                                          "NumeroError" +
-                                                          quizz["id"]
-                                                      }
-                                                    })
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  { staticClass: "col-12" },
-                                                  [
-                                                    _vm.topicosQuizz.length !==
-                                                    0
-                                                      ? _c(
+                                                      [
+                                                        _c(
                                                           "div",
-                                                          _vm._l(
-                                                            _vm.topicos.data,
-                                                            function(topico) {
-                                                              return _c(
-                                                                "div",
-                                                                {
-                                                                  key:
-                                                                    topico[
-                                                                      "id"
-                                                                    ],
-                                                                  staticClass:
-                                                                    "mb-5 mt-4"
-                                                                },
-                                                                [
-                                                                  _c(
+                                                          {
+                                                            staticClass:
+                                                              "mb-1 mt-5",
+                                                            attrs: {
+                                                              id:
+                                                                "pontos" +
+                                                                quizz["id"]
+                                                            }
+                                                          },
+                                                          [
+                                                            _c("h4", [
+                                                              _vm._v(
+                                                                "Vale Pontos?"
+                                                              )
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "mb-1"
+                                                              },
+                                                              [
+                                                                _c("label", [
+                                                                  _c("input", {
+                                                                    attrs: {
+                                                                      type:
+                                                                        "radio",
+                                                                      name:
+                                                                        "Valepontos" +
+                                                                        quizz[
+                                                                          "id"
+                                                                        ],
+                                                                      value:
+                                                                        "true"
+                                                                    },
+                                                                    domProps: {
+                                                                      checked:
+                                                                        quizz[
+                                                                          "vale_pontos"
+                                                                        ] ===
+                                                                        "true"
+                                                                    }
+                                                                  }),
+                                                                  _vm._v(
+                                                                    "\n                                                            Sim\n                                                        "
+                                                                  )
+                                                                ])
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c("div", [
+                                                              _c("label", [
+                                                                _c("input", {
+                                                                  attrs: {
+                                                                    type:
+                                                                      "radio",
+                                                                    name:
+                                                                      "Valepontos" +
+                                                                      quizz[
+                                                                        "id"
+                                                                      ],
+                                                                    value:
+                                                                      "false"
+                                                                  },
+                                                                  domProps: {
+                                                                    checked:
+                                                                      quizz[
+                                                                        "vale_pontos"
+                                                                      ] ===
+                                                                      "false"
+                                                                  }
+                                                                }),
+                                                                _vm._v(
+                                                                  "Não\n                                                        "
+                                                                )
+                                                              ])
+                                                            ])
+                                                          ]
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "col-md-4 mb-5 mb-xs-0 text-center"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "mb-1 mt-5",
+                                                            attrs: {
+                                                              id:
+                                                                "Visivel" +
+                                                                quizz["id"]
+                                                            }
+                                                          },
+                                                          [
+                                                            _c("h4", [
+                                                              _vm._v("Visivel")
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "mb-1"
+                                                              },
+                                                              [
+                                                                _c("label", [
+                                                                  _c("input", {
+                                                                    attrs: {
+                                                                      type:
+                                                                        "radio",
+                                                                      name:
+                                                                        "Visivelop" +
+                                                                        quizz[
+                                                                          "id"
+                                                                        ],
+                                                                      value:
+                                                                        "true"
+                                                                    },
+                                                                    domProps: {
+                                                                      checked:
+                                                                        quizz[
+                                                                          "visivel"
+                                                                        ] ===
+                                                                        "true"
+                                                                    }
+                                                                  }),
+                                                                  _vm._v(
+                                                                    " Sim\n                                                        "
+                                                                  )
+                                                                ])
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c("div", [
+                                                              _c("label", [
+                                                                _c("input", {
+                                                                  attrs: {
+                                                                    type:
+                                                                      "radio",
+                                                                    name:
+                                                                      "Visivelop" +
+                                                                      quizz[
+                                                                        "id"
+                                                                      ],
+                                                                    value:
+                                                                      "false"
+                                                                  },
+                                                                  domProps: {
+                                                                    checked:
+                                                                      quizz[
+                                                                        "visivel"
+                                                                      ] ===
+                                                                      "false"
+                                                                  }
+                                                                }),
+                                                                _vm._v(
+                                                                  " Não\n                                                        "
+                                                                )
+                                                              ])
+                                                            ])
+                                                          ]
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass: "col-md-12"
+                                                      },
+                                                      [
+                                                        _c("p", {
+                                                          attrs: {
+                                                            id:
+                                                              "TError" +
+                                                              quizz["id"]
+                                                          }
+                                                        }),
+                                                        _vm._v(" "),
+                                                        _c("p", {
+                                                          attrs: {
+                                                            id:
+                                                              "PError" +
+                                                              quizz["id"]
+                                                          }
+                                                        }),
+                                                        _vm._v(" "),
+                                                        _c("p", {
+                                                          attrs: {
+                                                            id:
+                                                              "ErrorVisivel" +
+                                                              quizz["id"]
+                                                          }
+                                                        })
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "col-12 mt-1"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "label",
+                                                          {
+                                                            staticClass:
+                                                              "label",
+                                                            attrs: {
+                                                              for:
+                                                                "nPerguntas" +
+                                                                quizz["id"]
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "Numero\n                                                    perguntas"
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c("input", {
+                                                          staticClass:
+                                                            "form-control",
+                                                          attrs: {
+                                                            name:
+                                                              "nPerguntas" +
+                                                              quizz["id"],
+                                                            id:
+                                                              "nPerguntas" +
+                                                              quizz["id"],
+                                                            type: "number"
+                                                          },
+                                                          domProps: {
+                                                            value:
+                                                              quizz[
+                                                                "numeroperguntas"
+                                                              ]
+                                                          }
+                                                        })
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "col-12 mb-5"
+                                                      },
+                                                      [
+                                                        _c("p", {
+                                                          staticClass: "error ",
+                                                          attrs: {
+                                                            id:
+                                                              "NumeroError" +
+                                                              quizz["id"]
+                                                          }
+                                                        })
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      { staticClass: "col-12" },
+                                                      [
+                                                        _vm.topicosQuizz
+                                                          .length !== 0
+                                                          ? _c(
+                                                              "div",
+                                                              _vm._l(
+                                                                _vm.topicos
+                                                                  .data,
+                                                                function(
+                                                                  topico
+                                                                ) {
+                                                                  return _c(
                                                                     "div",
                                                                     {
+                                                                      key:
+                                                                        topico[
+                                                                          "id"
+                                                                        ],
                                                                       staticClass:
-                                                                        "card-box-topicos"
+                                                                        "mb-5 mt-4"
                                                                     },
                                                                     [
                                                                       _c(
-                                                                        "label",
+                                                                        "div",
                                                                         {
                                                                           staticClass:
-                                                                            "d-flex ",
-                                                                          attrs: {
-                                                                            for:
-                                                                              "inputTopico" +
-                                                                              topico[
-                                                                                "id"
-                                                                              ] +
-                                                                              quizz[
-                                                                                "id"
-                                                                              ]
-                                                                          }
+                                                                            "card-box-topicos"
                                                                         },
                                                                         [
                                                                           _c(
-                                                                            "h2",
-                                                                            [
-                                                                              _vm._v(
-                                                                                "\n                                                                    " +
-                                                                                  _vm._s(
-                                                                                    topico[
-                                                                                      "nome"
-                                                                                    ]
-                                                                                  )
-                                                                              )
-                                                                            ]
-                                                                          ),
-                                                                          _vm._v(
-                                                                            " "
-                                                                          ),
-                                                                          _c(
-                                                                            "input",
+                                                                            "label",
                                                                             {
                                                                               staticClass:
-                                                                                "ms-auto mt-3",
+                                                                                "d-flex ",
                                                                               attrs: {
-                                                                                id:
+                                                                                for:
                                                                                   "inputTopico" +
                                                                                   topico[
                                                                                     "id"
                                                                                   ] +
                                                                                   quizz[
                                                                                     "id"
-                                                                                  ],
-                                                                                type:
-                                                                                  "checkbox",
-                                                                                name:
-                                                                                  "topico" +
-                                                                                  quizz[
-                                                                                    "id"
                                                                                   ]
-                                                                              },
-                                                                              domProps: {
-                                                                                value:
-                                                                                  topico[
-                                                                                    "id"
-                                                                                  ],
-                                                                                checked: _vm.checked(
-                                                                                  topico[
-                                                                                    "id"
-                                                                                  ]
-                                                                                )
                                                                               }
-                                                                            }
+                                                                            },
+                                                                            [
+                                                                              _c(
+                                                                                "h2",
+                                                                                [
+                                                                                  _vm._v(
+                                                                                    "\n                                                                    " +
+                                                                                      _vm._s(
+                                                                                        topico[
+                                                                                          "nome"
+                                                                                        ]
+                                                                                      )
+                                                                                  )
+                                                                                ]
+                                                                              ),
+                                                                              _vm._v(
+                                                                                " "
+                                                                              ),
+                                                                              _c(
+                                                                                "input",
+                                                                                {
+                                                                                  staticClass:
+                                                                                    "ms-auto mt-3",
+                                                                                  attrs: {
+                                                                                    id:
+                                                                                      "inputTopico" +
+                                                                                      topico[
+                                                                                        "id"
+                                                                                      ] +
+                                                                                      quizz[
+                                                                                        "id"
+                                                                                      ],
+                                                                                    type:
+                                                                                      "checkbox",
+                                                                                    name:
+                                                                                      "topico" +
+                                                                                      quizz[
+                                                                                        "id"
+                                                                                      ]
+                                                                                  },
+                                                                                  domProps: {
+                                                                                    value:
+                                                                                      topico[
+                                                                                        "id"
+                                                                                      ],
+                                                                                    checked: _vm.checked(
+                                                                                      topico[
+                                                                                        "id"
+                                                                                      ]
+                                                                                    )
+                                                                                  }
+                                                                                }
+                                                                              )
+                                                                            ]
                                                                           )
                                                                         ]
                                                                       )
                                                                     ]
                                                                   )
-                                                                ]
-                                                              )
-                                                            }
-                                                          ),
-                                                          0
-                                                        )
-                                                      : _vm._e()
+                                                                }
+                                                              ),
+                                                              0
+                                                            )
+                                                          : _vm._e()
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "col-12 mb-5"
+                                                      },
+                                                      [
+                                                        _c("p", {
+                                                          staticClass: "error ",
+                                                          attrs: {
+                                                            id:
+                                                              "TopicoError" +
+                                                              quizz["id"]
+                                                          }
+                                                        })
+                                                      ]
+                                                    )
                                                   ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass: "col-12 mb-5"
-                                                  },
-                                                  [
-                                                    _c("p", {
-                                                      staticClass: "error ",
-                                                      attrs: {
-                                                        id:
-                                                          "TopicoError" +
-                                                          quizz["id"]
-                                                      }
-                                                    })
-                                                  ]
-                                                )
-                                              ]
-                                            )
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "div",
-                                          { staticClass: "modal-footer" },
-                                          [
-                                            _c(
-                                              "button",
-                                              {
-                                                staticClass: "btn btn-primary",
-                                                attrs: {
-                                                  type: "button",
-                                                  "data-bs-dismiss": "modal"
-                                                }
-                                              },
-                                              [
-                                                _vm._v(
-                                                  "Cancelar\n                                        "
                                                 )
                                               ]
                                             ),
                                             _vm._v(" "),
                                             _c(
-                                              "button",
-                                              {
-                                                staticClass:
-                                                  "btn btn-secondary btn-submit btn-loading",
-                                                attrs: {
-                                                  type: "button",
-                                                  id:
-                                                    "submitQuizz" + quizz["id"]
-                                                },
-                                                on: {
-                                                  click: function($event) {
-                                                    return _vm.editarQuizz(
-                                                      quizz
-                                                    )
-                                                  }
-                                                }
-                                              },
+                                              "div",
+                                              { staticClass: "modal-footer" },
                                               [
-                                                _c("span", {}, [
-                                                  _vm._v("Guardar  ")
-                                                ]),
+                                                _c(
+                                                  "button",
+                                                  {
+                                                    staticClass:
+                                                      "btn btn-primary",
+                                                    attrs: {
+                                                      type: "button",
+                                                      "data-bs-dismiss": "modal"
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                                            Cancelar\n                                        "
+                                                    )
+                                                  ]
+                                                ),
                                                 _vm._v(" "),
-                                                _c("div", {
-                                                  staticClass:
-                                                    "spinner-border text-light d-none",
-                                                  attrs: { role: "status" }
-                                                })
+                                                _c(
+                                                  "button",
+                                                  {
+                                                    staticClass:
+                                                      "btn btn-secondary btn-submit btn-loading",
+                                                    attrs: {
+                                                      type: "button",
+                                                      id:
+                                                        "submitQuizz" +
+                                                        quizz["id"]
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        return _vm.editarQuizz(
+                                                          quizz
+                                                        )
+                                                      }
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("span", {}, [
+                                                      _vm._v("Guardar  ")
+                                                    ]),
+                                                    _vm._v(" "),
+                                                    _c("div", {
+                                                      staticClass:
+                                                        "spinner-border text-light d-none",
+                                                      attrs: { role: "status" }
+                                                    })
+                                                  ]
+                                                )
                                               ]
                                             )
                                           ]
@@ -52466,145 +53460,160 @@ var render = function() {
                                 )
                               ]
                             )
-                          ]
+                          }),
+                          0
                         )
-                      }),
-                      0
+                      ]
                     )
-                  ]
-                )
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "modal fade modal-quizz",
-          attrs: {
-            id: "exampleModal2",
-            tabindex: "-1",
-            "aria-labelledby": "exampleModalLabel",
-            "aria-hidden": "true"
-          }
-        },
-        [
+              ])
+            : _vm._e(),
+          _vm._v(" "),
           _c(
             "div",
-            { staticClass: "modal-dialog modal-dialog-scrollable modal-lg" },
+            {
+              staticClass: "modal fade modal-quizz",
+              attrs: {
+                id: "exampleModal2",
+                tabindex: "-1",
+                "aria-labelledby": "exampleModalLabel",
+                "aria-hidden": "true"
+              }
+            },
             [
-              _c("div", { staticClass: "modal-content" }, [
-                _vm._m(8),
-                _vm._v(" "),
-                _c("div", { staticClass: "modal-body pt-5 pb-5" }, [
-                  _c(
-                    "form",
-                    {
-                      staticClass: "row mx-auto",
-                      attrs: { id: "adicionarQuizz" }
-                    },
-                    [
-                      _vm._m(9),
-                      _vm._v(" "),
-                      _vm._m(10),
-                      _vm._v(" "),
-                      _vm._m(11),
-                      _vm._v(" "),
-                      _vm._m(12),
-                      _vm._v(" "),
-                      _vm._m(13),
-                      _vm._v(" "),
-                      _vm._m(14),
-                      _vm._v(" "),
-                      _vm._m(15),
-                      _vm._v(" "),
-                      _vm._m(16),
-                      _vm._v(" "),
-                      _vm._m(17),
-                      _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "modal-dialog modal-dialog-scrollable modal-lg"
+                },
+                [
+                  _c("div", { staticClass: "modal-content" }, [
+                    _vm._m(8),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-body pt-5 pb-5" }, [
                       _c(
-                        "div",
-                        { staticClass: "col-12" },
-                        _vm._l(_vm.topicos.data, function(topico) {
-                          return _c(
+                        "form",
+                        {
+                          staticClass: "row mx-auto",
+                          attrs: { id: "adicionarQuizz" }
+                        },
+                        [
+                          _vm._m(9),
+                          _vm._v(" "),
+                          _vm._m(10),
+                          _vm._v(" "),
+                          _vm._m(11),
+                          _vm._v(" "),
+                          _vm._m(12),
+                          _vm._v(" "),
+                          _vm._m(13),
+                          _vm._v(" "),
+                          _vm._m(14),
+                          _vm._v(" "),
+                          _vm._m(15),
+                          _vm._v(" "),
+                          _vm._m(16),
+                          _vm._v(" "),
+                          _vm._m(17),
+                          _vm._v(" "),
+                          _c(
                             "div",
-                            {
-                              key: topico["id"],
-                              staticClass: "card-box  mb-5 mt-4"
-                            },
-                            [
-                              _c("div", { staticClass: "card-box-topicos" }, [
-                                _c(
-                                  "label",
-                                  {
-                                    staticClass: "d-flex ",
-                                    attrs: { for: "inputTopico" + topico["id"] }
-                                  },
-                                  [
-                                    _c("h2", [
-                                      _vm._v(
-                                        "\n                                            " +
-                                          _vm._s(topico["nome"])
+                            { staticClass: "col-12" },
+                            _vm._l(_vm.topicos.data, function(topico) {
+                              return _c(
+                                "div",
+                                {
+                                  key: topico["id"],
+                                  staticClass: "card-box  mb-5 mt-4"
+                                },
+                                [
+                                  _c(
+                                    "div",
+                                    { staticClass: "card-box-topicos" },
+                                    [
+                                      _c(
+                                        "label",
+                                        {
+                                          staticClass: "d-flex ",
+                                          attrs: {
+                                            for: "inputTopico" + topico["id"]
+                                          }
+                                        },
+                                        [
+                                          _c("h2", [
+                                            _vm._v(
+                                              "\n                                            " +
+                                                _vm._s(topico["nome"])
+                                            )
+                                          ]),
+                                          _c("input", {
+                                            staticClass: "ms-auto mt-3",
+                                            attrs: {
+                                              id: "inputTopico" + topico["id"],
+                                              type: "checkbox",
+                                              name: "topico"
+                                            },
+                                            domProps: { value: topico["id"] }
+                                          })
+                                        ]
                                       )
-                                    ]),
-                                    _c("input", {
-                                      staticClass: "ms-auto mt-3",
-                                      attrs: {
-                                        id: "inputTopico" + topico["id"],
-                                        type: "checkbox",
-                                        name: "topico"
-                                      },
-                                      domProps: { value: topico["id"] }
-                                    })
-                                  ]
-                                )
-                              ])
-                            ]
-                          )
-                        }),
-                        0
+                                    ]
+                                  )
+                                ]
+                              )
+                            }),
+                            0
+                          ),
+                          _vm._v(" "),
+                          _vm._m(18)
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-footer" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: { type: "button", "data-bs-dismiss": "modal" }
+                        },
+                        [_vm._v("Cancelar")]
                       ),
                       _vm._v(" "),
-                      _vm._m(18)
-                    ]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "modal-footer" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-primary",
-                      attrs: { type: "button", "data-bs-dismiss": "modal" }
-                    },
-                    [_vm._v("Cancelar")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-secondary btn-submit btn-loading",
-                      attrs: { type: "button", id: "submitQuizz" },
-                      on: { click: _vm.submitNewQuizz }
-                    },
-                    [
-                      _c("span", {}, [_vm._v("Adicionar  ")]),
-                      _vm._v(" "),
-                      _c("div", {
-                        staticClass: "spinner-border text-light d-none",
-                        attrs: { role: "status" }
-                      })
-                    ]
-                  )
-                ])
-              ])
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "btn btn-secondary btn-submit btn-loading",
+                          attrs: { type: "button", id: "submitQuizz" },
+                          on: { click: _vm.submitNewQuizz }
+                        },
+                        [
+                          _c("span", {}, [_vm._v("Adicionar  ")]),
+                          _vm._v(" "),
+                          _c("div", {
+                            staticClass: "spinner-border text-light d-none",
+                            attrs: { role: "status" }
+                          })
+                        ]
+                      )
+                    ])
+                  ])
+                ]
+              )
             ]
-          )
-        ]
+          ),
+          _vm._v(" "),
+          _c("pagination-2", {
+            attrs: { data: _vm.quizz, align: "center" },
+            on: { "pagination-change-page": _vm.getResultsQuizz }
+          })
+        ],
+        1
       ),
       _vm._v(" "),
-      _c("pagination-2", {
-        attrs: { data: _vm.quizz, align: "center" },
-        on: { "pagination-change-page": _vm.getResultsQuizz }
+      _c(_vm.component, {
+        tag: "historico-prof",
+        attrs: { idQuizz_prop: _vm.idQuizzHistorico }
       })
     ],
     1
@@ -52883,7 +53892,7 @@ var staticRenderFns = [
             _c("input", {
               attrs: { type: "radio", name: "realtimeop", value: "true" }
             }),
-            _vm._v(" Sim")
+            _vm._v("\n                                            Sim")
           ])
         ]),
         _vm._v(" "),
@@ -52911,7 +53920,7 @@ var staticRenderFns = [
             _c("input", {
               attrs: { type: "radio", name: "Valepontos", value: "true" }
             }),
-            _vm._v(" Sim")
+            _vm._v("\n                                            Sim")
           ]),
           _vm._v(" "),
           _c("label", [
@@ -53002,6 +54011,148 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-12 mb-5" }, [
       _c("p", { staticClass: "error ", attrs: { id: "TopicoError" } })
     ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/tabelaHistorico.vue?vue&type=template&id=6012e390&scoped=true&":
+/*!*************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/tabelaHistorico.vue?vue&type=template&id=6012e390&scoped=true& ***!
+  \*************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.isFetchingH
+      ? _c("div", [_vm._m(0)])
+      : _c("div", { staticClass: "tabela-historico" }, [
+          _c(
+            "table",
+            [
+              _c(
+                "tr",
+                [
+                  _c("th", [_vm._v("Nome")]),
+                  _vm._v(" "),
+                  _c("th", [_vm._v("Pontos")]),
+                  _vm._v(" "),
+                  _vm._l(_vm.respostas["respostas"][0], function(
+                    resposta,
+                    index
+                  ) {
+                    return _c(
+                      "th",
+                      {
+                        staticClass: "text-center",
+                        staticStyle: { "min-width": "7rem" }
+                      },
+                      [_vm._v("P" + _vm._s(index + 1))]
+                    )
+                  })
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _vm._l(_vm.respostas["alunos"], function(aluno, index) {
+                return _c(
+                  "tr",
+                  [
+                    _c("td", { staticStyle: { "min-width": "28rem" } }, [
+                      _vm._v(_vm._s(aluno["nome"]))
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(aluno["soma_resultado"]))]),
+                    _vm._v(" "),
+                    _vm._l(_vm.respostas["respostas"][index], function(
+                      resposta,
+                      index2
+                    ) {
+                      return _c(
+                        "td",
+                        {
+                          staticClass: "text-center",
+                          style:
+                            +resposta["resultado"] !== 0
+                              ? "background-color: #66c036"
+                              : "background-color: #f9403e"
+                        },
+                        [
+                          resposta["resultado"] !== 0
+                            ? _c(
+                                "span",
+                                {
+                                  staticStyle: { "background-color": "#66c036" }
+                                },
+                                [_c("i", { staticClass: "bi bi-check2" })]
+                              )
+                            : _c(
+                                "span",
+                                {
+                                  staticStyle: { "background-color": "#f9403e" }
+                                },
+                                [_c("i", { staticClass: "bi bi-x" })]
+                              )
+                        ]
+                      )
+                    })
+                  ],
+                  2
+                )
+              })
+            ],
+            2
+          )
+        ]),
+    _vm._v(" "),
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-primary mt-5",
+        on: {
+          click: function($event) {
+            return _vm.$root.$emit("btnVoltarSessao")
+          }
+        }
+      },
+      [_vm._v("Voltar")]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "card-loading is-loading mt-5",
+        attrs: { id: "card-loading-quiz" }
+      },
+      [
+        _c("div", { staticClass: "content" }, [
+          _c("h2"),
+          _vm._v(" "),
+          _c("br"),
+          _c("br"),
+          _vm._v(" "),
+          _c("p")
+        ])
+      ]
+    )
   }
 ]
 render._withStripped = true
@@ -53503,6 +54654,162 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/aluno/historico.vue?vue&type=template&id=06b4fe51&scoped=true&":
+/*!***************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/aluno/historico.vue?vue&type=template&id=06b4fe51&scoped=true& ***!
+  \***************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "section-quizz mt-5 me-md-5 ms-md-5" },
+    [
+      _vm.isActive
+        ? _c("div", [
+            _vm.isFetchingH
+              ? _c("div", [_vm._m(0)])
+              : _c(
+                  "div",
+                  [
+                    _vm.historicos.data.length === 0
+                      ? _c("div", [
+                          _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
+                            _vm._v("Nenhum aluno fez esse Quizz")
+                          ])
+                        ])
+                      : _c(
+                          "div",
+                          { staticClass: "section-disciplinas-items" },
+                          [
+                            _c("h1", [_vm._v("Historico")]),
+                            _vm._v(" "),
+                            _c(
+                              "ul",
+                              _vm._l(_vm.historicos.data, function(
+                                historico,
+                                index
+                              ) {
+                                return _c(
+                                  "li",
+                                  {
+                                    key: historico["id"],
+                                    staticClass: "card-box mb-5 mt-5"
+                                  },
+                                  [
+                                    _c("div", [
+                                      _c(
+                                        "div",
+                                        { staticClass: "card-box-text" },
+                                        [
+                                          _c("h2", [
+                                            _vm._v(
+                                              "Sessão " +
+                                                _vm._s(
+                                                  _vm.historicos.from + index
+                                                )
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass: "btn btn-secondary",
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.verTabela(
+                                                    historico["sessaoMaster"]
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                    Ver\n                                "
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ])
+                                  ]
+                                )
+                              }),
+                              0
+                            )
+                          ]
+                        ),
+                    _vm._v(" "),
+                    _c("pagination-2", {
+                      attrs: { data: _vm.historicos, align: "center" },
+                      on: { "pagination-change-page": _vm.getResultsHistoricos }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        on: {
+                          click: function($event) {
+                            return _vm.$root.$emit("btnVoltar")
+                          }
+                        }
+                      },
+                      [_vm._v("Voltar")]
+                    )
+                  ],
+                  1
+                )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _c(_vm.component, {
+        tag: "tabela-historico",
+        attrs: { idSessao_prop: _vm.idSessao }
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "card-loading is-loading mt-5",
+        attrs: { id: "card-loading-quiz" }
+      },
+      [
+        _c("div", { staticClass: "content" }, [
+          _c("h2"),
+          _vm._v(" "),
+          _c("br"),
+          _c("br"),
+          _vm._v(" "),
+          _c("p")
+        ])
+      ]
+    )
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/aluno/quizzAluno.vue?vue&type=template&id=2ee7a415&scoped=true&":
 /*!****************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/aluno/quizzAluno.vue?vue&type=template&id=2ee7a415&scoped=true& ***!
@@ -53519,110 +54826,314 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _vm.quizz.length === 0
-      ? _c("div", { staticClass: "mx-auto" }, [
-          _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
-            _vm._v("Ainda não tem nenhum Quizz")
-          ])
-        ])
-      : _c(
-          "div",
-          { staticClass: "section-disciplinas-items mt-5 me-md-5 ms-md-5" },
-          [
-            _c("div", { staticClass: "box-search mb-5" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.search,
-                    expression: "search"
-                  }
-                ],
-                staticClass: " form-control form-control-lg form-search",
-                attrs: { type: "text", placeholder: "Pesquisar Quizz..." },
-                domProps: { value: _vm.search },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.search = $event.target.value
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("i", { staticClass: "bi bi-search" })
-            ]),
-            _vm._v(" "),
-            _c("h1", [_vm._v("Quizz")]),
-            _vm._v(" "),
-            _c(
-              "ul",
-              _vm._l(_vm.filter, function(quizz) {
-                return _c(
-                  "li",
-                  { key: quizz["id"], staticClass: "card-box mb-5 mt-5" },
-                  [
-                    quizz["tipo"] === "true"
-                      ? _c("div", [
-                          _c("div", { staticClass: "card-box-text" }, [
-                            _c("h2", [_vm._v(_vm._s(quizz["nome"]))]),
-                            _c("br"),
-                            _vm._v(" "),
-                            _c("p", { staticStyle: { "font-size": "16px" } }, [
-                              _vm._v(
-                                "  Perguntas: " +
-                                  _vm._s(quizz["numeroperguntas"])
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-secondary ms-2 ms-auto",
-                                attrs: {
-                                  type: "button",
-                                  "data-bs-toggle": "modal",
-                                  "data-bs-target": "#p" + quizz["id"]
-                                }
-                              },
-                              [_vm._v("Fazer Quizz\n                        ")]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass: "modal fade",
-                              attrs: {
-                                id: "p" + quizz["id"],
-                                tabindex: "-1",
-                                "aria-labelledby": "exampleModalLabel",
-                                "aria-hidden": "true"
-                              }
-                            },
-                            [
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "modal-dialog modal-lg  modal-dialog-centered"
-                                },
-                                [
-                                  _c("div", { staticClass: "modal-content" }, [
-                                    _vm._m(0, true),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "modal-body" }, [
-                                      _c("div", { staticClass: "pt-4 pb-5" }, [
+  return _c(
+    "div",
+    [
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.isActive,
+              expression: "isActive"
+            }
+          ]
+        },
+        [
+          _vm.quizz.length === 0
+            ? _c("div", { staticClass: "mx-auto" }, [
+                _c("h1", { staticClass: "heanding-1 mx-auto mt-5" }, [
+                  _vm._v("Ainda não tem nenhum Quizz")
+                ])
+              ])
+            : _c(
+                "div",
+                {
+                  staticClass: "section-disciplinas-items mt-5 me-md-5 ms-md-5"
+                },
+                [
+                  _c("div", { staticClass: "box-search mb-5" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.search,
+                          expression: "search"
+                        }
+                      ],
+                      staticClass: " form-control form-control-lg form-search",
+                      attrs: {
+                        type: "text",
+                        placeholder: "Pesquisar Quizz..."
+                      },
+                      domProps: { value: _vm.search },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.search = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("i", { staticClass: "bi bi-search" })
+                  ]),
+                  _vm._v(" "),
+                  _c("h1", [_vm._v("Quizz")]),
+                  _vm._v(" "),
+                  _c(
+                    "ul",
+                    _vm._l(_vm.filter, function(quizz) {
+                      return _c(
+                        "li",
+                        { key: quizz["id"], staticClass: "card-box mb-5 mt-5" },
+                        [
+                          quizz["tipo"] === "true"
+                            ? _c("div", [
+                                _c("div", { staticClass: "card-box-text" }, [
+                                  _c("h2", [_vm._v(_vm._s(quizz["nome"]))]),
+                                  _c("br"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "p",
+                                    { staticStyle: { "font-size": "16px" } },
+                                    [
+                                      _vm._v(
+                                        "  Perguntas: " +
+                                          _vm._s(quizz["numeroperguntas"])
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass:
+                                        "btn btn-secondary ms-2 ms-auto",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.enterHistorico(quizz["id"])
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "Historico\n                            "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-secondary ms-3",
+                                      attrs: {
+                                        type: "button",
+                                        "data-bs-toggle": "modal",
+                                        "data-bs-target": "#p" + quizz["id"]
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "Fazer Quizz\n                            "
+                                      )
+                                    ]
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "modal fade",
+                                    attrs: {
+                                      id: "p" + quizz["id"],
+                                      tabindex: "-1",
+                                      "aria-labelledby": "exampleModalLabel",
+                                      "aria-hidden": "true"
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "modal-dialog modal-lg  modal-dialog-centered"
+                                      },
+                                      [
                                         _c(
                                           "div",
-                                          { staticClass: "row text-center" },
+                                          { staticClass: "modal-content" },
                                           [
+                                            _vm._m(0, true),
+                                            _vm._v(" "),
                                             _c(
                                               "div",
-                                              { staticClass: "col-md-6" },
+                                              { staticClass: "modal-body" },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  { staticClass: "pt-4 pb-5" },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "row text-center"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "col-md-6"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "button",
+                                                              {
+                                                                staticClass:
+                                                                  "btn btn-primary",
+                                                                attrs: {
+                                                                  type:
+                                                                    "button",
+                                                                  "data-bs-toggle":
+                                                                    "modal",
+                                                                  "data-bs-dismiss":
+                                                                    "modal",
+                                                                  "data-bs-target":
+                                                                    "#session" +
+                                                                    quizz["id"]
+                                                                }
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  "\n                                                        Juntar-se a uma sessão\n                                                    "
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "col-md-6 mt-5 mt-md-0"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "button",
+                                                              {
+                                                                staticClass:
+                                                                  "btn btn-primary",
+                                                                attrs: {
+                                                                  type: "button"
+                                                                },
+                                                                on: {
+                                                                  click: function(
+                                                                    $event
+                                                                  ) {
+                                                                    return _vm.EnterQuizz(
+                                                                      quizz[
+                                                                        "id"
+                                                                      ]
+                                                                    )
+                                                                  }
+                                                                }
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  "\n                                                        Criar uma sesssão\n                                                    "
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c("div", {
+                                              staticClass: "modal-footer"
+                                            })
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "modal fade",
+                                    attrs: {
+                                      id: "session" + quizz["id"],
+                                      tabindex: "-1",
+                                      "aria-labelledby": "exampleModalLabel",
+                                      "aria-hidden": "true"
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "modal-dialog modal-dialog-centered"
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          { staticClass: "modal-content" },
+                                          [
+                                            _vm._m(1, true),
+                                            _vm._v(" "),
+                                            _c(
+                                              "div",
+                                              { staticClass: "modal-body" },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  { staticClass: "col-md-12" },
+                                                  [
+                                                    _c("label", [
+                                                      _c("input", {
+                                                        staticClass:
+                                                          "form-control form-control-pergunta fs-3",
+                                                        attrs: {
+                                                          type: "text",
+                                                          placeholder:
+                                                            "Introduza o ID",
+                                                          id:
+                                                            "sessionId" +
+                                                            quizz["id"]
+                                                        }
+                                                      })
+                                                    ]),
+                                                    _c("br"),
+                                                    _vm._v(" "),
+                                                    _c("p", {
+                                                      attrs: {
+                                                        id:
+                                                          "Error" + quizz["id"]
+                                                      }
+                                                    })
+                                                  ]
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "div",
+                                              { staticClass: "modal-footer" },
                                               [
                                                 _c(
                                                   "button",
@@ -53631,38 +55142,25 @@ var render = function() {
                                                       "btn btn-primary",
                                                     attrs: {
                                                       type: "button",
-                                                      "data-bs-toggle": "modal",
-                                                      "data-bs-dismiss":
-                                                        "modal",
-                                                      "data-bs-target":
-                                                        "#session" + quizz["id"]
+                                                      "data-bs-dismiss": "modal"
                                                     }
                                                   },
                                                   [
                                                     _vm._v(
-                                                      "\n                                                    Juntar-se a uma sessão\n                                                "
+                                                      "\n                                            Cancelar\n                                        "
                                                     )
                                                   ]
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "col-md-6 mt-5 mt-md-0"
-                                              },
-                                              [
+                                                ),
+                                                _vm._v(" "),
                                                 _c(
                                                   "button",
                                                   {
                                                     staticClass:
-                                                      "btn btn-primary",
+                                                      "btn btn-secondary",
                                                     attrs: { type: "button" },
                                                     on: {
                                                       click: function($event) {
-                                                        return _vm.EnterQuizz(
+                                                        return _vm.JoinQuizz(
                                                           quizz["id"]
                                                         )
                                                       }
@@ -53670,7 +55168,7 @@ var render = function() {
                                                   },
                                                   [
                                                     _vm._v(
-                                                      "\n                                                    Criar uma sesssão\n                                                "
+                                                      "\n                                            Entrar\n                                        "
                                                     )
                                                   ]
                                                 )
@@ -53678,206 +55176,169 @@ var render = function() {
                                             )
                                           ]
                                         )
-                                      ])
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "modal-footer" })
-                                  ])
-                                ]
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass: "modal fade",
-                              attrs: {
-                                id: "session" + quizz["id"],
-                                tabindex: "-1",
-                                "aria-labelledby": "exampleModalLabel",
-                                "aria-hidden": "true"
-                              }
-                            },
-                            [
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "modal-dialog modal-dialog-centered"
-                                },
-                                [
-                                  _c("div", { staticClass: "modal-content" }, [
-                                    _vm._m(1, true),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "modal-body" }, [
-                                      _c("div", { staticClass: "col-md-12" }, [
-                                        _c("label", [
-                                          _c("input", {
-                                            staticClass:
-                                              "form-control form-control-pergunta fs-3",
-                                            attrs: {
-                                              type: "text",
-                                              placeholder: "Introduza o ID",
-                                              id: "sessionId" + quizz["id"]
-                                            }
-                                          })
-                                        ]),
-                                        _c("br"),
-                                        _vm._v(" "),
-                                        _c("p", {
-                                          attrs: { id: "Error" + quizz["id"] }
-                                        })
-                                      ])
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "modal-footer" }, [
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass: "btn btn-primary",
-                                          attrs: {
-                                            type: "button",
-                                            "data-bs-dismiss": "modal"
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "Cancelar\n                                    "
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass: "btn btn-secondary",
-                                          attrs: { type: "button" },
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.JoinQuizz(quizz["id"])
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                        Entrar\n                                    "
-                                          )
-                                        ]
-                                      )
-                                    ])
-                                  ])
-                                ]
-                              )
-                            ]
-                          )
-                        ])
-                      : _c("div", [
-                          _c("div", { staticClass: "card-box-text" }, [
-                            _c("h2", [_vm._v(_vm._s(quizz["nome"]))]),
-                            _c("br"),
-                            _vm._v(" "),
-                            _c("p", { staticStyle: { "font-size": "16px" } }, [
-                              _vm._v(
-                                "  Perguntas: " +
-                                  _vm._s(quizz["numeroperguntas"])
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-secondary ms-2 ms-auto",
-                                attrs: {
-                                  type: "button",
-                                  "data-bs-toggle": "modal",
-                                  "data-bs-target": "#t" + quizz["id"]
-                                }
-                              },
-                              [_vm._v("Fazer Teste\n                        ")]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass: "modal fade",
-                              attrs: {
-                                id: "t" + quizz["id"],
-                                tabindex: "-1",
-                                "aria-labelledby": "exampleModalLabel",
-                                "aria-hidden": "true"
-                              }
-                            },
-                            [
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "modal-dialog modal-dialog-centered"
-                                },
-                                [
-                                  _c("div", { staticClass: "modal-content" }, [
-                                    _vm._m(2, true),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "modal-body" }, [
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ])
+                            : _c("div", [
+                                _c("div", { staticClass: "card-box-text" }, [
+                                  _c("h2", [_vm._v(_vm._s(quizz["nome"]))]),
+                                  _c("br"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "p",
+                                    { staticStyle: { "font-size": "16px" } },
+                                    [
                                       _vm._v(
-                                        "\n                                    Tem a certeza que quer fazer este teste?\n                                "
+                                        "  Perguntas: " +
+                                          _vm._s(quizz["numeroperguntas"])
                                       )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "modal-footer" }, [
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass: "btn btn-primary",
-                                          attrs: {
-                                            type: "button",
-                                            "data-bs-dismiss": "modal"
-                                          },
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.teste(quizz["id"])
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "Sim\n                                    "
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass: "btn btn-secondary",
-                                          attrs: {
-                                            type: "button",
-                                            "data-bs-dismiss": "modal"
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "Não\n                                    "
-                                          )
-                                        ]
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass:
+                                        "btn btn-secondary ms-2 ms-auto",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.enterHistorico(quizz["id"])
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "Historico\n                            "
                                       )
-                                    ])
-                                  ])
-                                ]
-                              )
-                            ]
-                          )
-                        ])
-                  ]
-                )
-              }),
-              0
-            )
-          ]
-        )
-  ])
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-secondary ms-3 ",
+                                      attrs: {
+                                        type: "button",
+                                        "data-bs-toggle": "modal",
+                                        "data-bs-target": "#t" + quizz["id"]
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "Fazer Teste\n                            "
+                                      )
+                                    ]
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "modal fade",
+                                    attrs: {
+                                      id: "t" + quizz["id"],
+                                      tabindex: "-1",
+                                      "aria-labelledby": "exampleModalLabel",
+                                      "aria-hidden": "true"
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "modal-dialog modal-dialog-centered"
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          { staticClass: "modal-content" },
+                                          [
+                                            _vm._m(2, true),
+                                            _vm._v(" "),
+                                            _c(
+                                              "div",
+                                              { staticClass: "modal-body" },
+                                              [
+                                                _vm._v(
+                                                  "\n                                        Tem a certeza que quer fazer este teste?\n                                    "
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "div",
+                                              { staticClass: "modal-footer" },
+                                              [
+                                                _c(
+                                                  "button",
+                                                  {
+                                                    staticClass:
+                                                      "btn btn-primary",
+                                                    attrs: {
+                                                      type: "button",
+                                                      "data-bs-dismiss": "modal"
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        return _vm.teste(
+                                                          quizz["id"]
+                                                        )
+                                                      }
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "Sim\n                                        "
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "button",
+                                                  {
+                                                    staticClass:
+                                                      "btn btn-secondary",
+                                                    attrs: {
+                                                      type: "button",
+                                                      "data-bs-dismiss": "modal"
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "Não\n                                        "
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ])
+                        ]
+                      )
+                    }),
+                    0
+                  )
+                ]
+              )
+        ]
+      ),
+      _vm._v(" "),
+      _c(_vm.component, {
+        tag: "historico-aluno",
+        attrs: { idQuizz_prop: _vm.idQuizzHistorico }
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -53936,6 +55397,165 @@ var staticRenderFns = [
         }
       })
     ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/aluno/tabelaHistorico.vue?vue&type=template&id=06cb2aac&scoped=true&":
+/*!*********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/aluno/tabelaHistorico.vue?vue&type=template&id=06cb2aac&scoped=true& ***!
+  \*********************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    !_vm.isFetchingH
+      ? _c("div", [
+          _c("h2", [
+            _vm._v(
+              "Pontos: " + _vm._s(_vm.respostas["aluno"][0]["soma_resultado"])
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "accordion", attrs: { id: "accordion" } },
+            _vm._l(_vm.respostas["respostas"], function(resposta, index) {
+              return _c("div", { staticClass: "accordion-item" }, [
+                _c(
+                  "h2",
+                  {
+                    staticClass: "accordion-header",
+                    attrs: { id: "headingOne" + index }
+                  },
+                  [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "accordion-button",
+                        attrs: {
+                          type: "button",
+                          "data-bs-toggle": "collapse",
+                          "data-bs-target": "#collapseOne" + index,
+                          "aria-expanded": "true",
+                          "aria-controls": "collapseOne" + index
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(resposta["perguntas"][0]["enunciado"]) +
+                            "\n                    "
+                        )
+                      ]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "accordion-collapse collapse show",
+                    attrs: {
+                      id: "collapseOne" + index,
+                      "aria-labelledby": "headingOne" + index,
+                      "data-bs-parent": "#accordion"
+                    }
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "accordion-body" },
+                      _vm._l(resposta["perguntas"], function(respostaPergunta) {
+                        return _c("div", [
+                          1 === respostaPergunta["resultado"]
+                            ? _c(
+                                "div",
+                                {
+                                  staticStyle: { "background-color": "#66c036" }
+                                },
+                                [
+                                  _c("p", { staticStyle: { color: "white" } }, [
+                                    _vm._v(
+                                      "  " +
+                                        _vm._s(respostaPergunta["resposta"])
+                                    )
+                                  ])
+                                ]
+                              )
+                            : resposta["resultado"] === 0 &&
+                              respostaPergunta["resposta"] ===
+                                resposta["resposta"]
+                            ? _c(
+                                "div",
+                                {
+                                  staticStyle: { "background-color": "#f9403e" }
+                                },
+                                [
+                                  _c("p", { staticStyle: { color: "white" } }, [
+                                    _vm._v(
+                                      "  " +
+                                        _vm._s(respostaPergunta["resposta"])
+                                    )
+                                  ])
+                                ]
+                              )
+                            : _c("div", [
+                                _c("p", [
+                                  _vm._v(
+                                    "  " + _vm._s(respostaPergunta["resposta"])
+                                  )
+                                ])
+                              ])
+                        ])
+                      }),
+                      0
+                    )
+                  ]
+                )
+              ])
+            }),
+            0
+          )
+        ])
+      : _c("div", [_vm._m(0)])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "card-loading is-loading mt-5",
+        attrs: { id: "card-loading-quiz" }
+      },
+      [
+        _c("div", { staticClass: "content" }, [
+          _c("h2"),
+          _vm._v(" "),
+          _c("br"),
+          _c("br"),
+          _vm._v(" "),
+          _c("p")
+        ])
+      ]
+    )
   }
 ]
 render._withStripped = true

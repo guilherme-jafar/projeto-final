@@ -141,9 +141,9 @@
             entrarForum(forum){
                 this.$root.$emit('mudar', forum);
             },
-            listForum() {
+            listForum(page = 1) {
 
-                axios.get('/forum?page=1'
+                axios.get('/forum?page=' +page
                 ).then(function (response) {
 
                     this.forum = response.data.message;
