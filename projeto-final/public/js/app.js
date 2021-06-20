@@ -9847,7 +9847,8 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-Window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js"); // Vue.config.devtools = true //TODO: quando for para meter no ar tem que se comentar essa linha
+Window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+Vue.config.devtools = true; //TODO: quando for para meter no ar tem que se comentar essa linha
 
 Vue.component('pagination-2', __webpack_require__(/*! laravel-vue-pagination */ "./node_modules/laravel-vue-pagination/dist/laravel-vue-pagination.common.js"));
 Vue.component('registos', __webpack_require__(/*! ./components/registos.vue */ "./resources/js/components/registos.vue").default);
