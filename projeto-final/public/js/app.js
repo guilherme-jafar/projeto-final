@@ -6766,6 +6766,52 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "tabelaHistorico",
   props: ['idSessao_prop'],
@@ -55424,6 +55470,7 @@ var render = function() {
   return _c("div", [
     !_vm.isFetchingH
       ? _c("div", [
+          _vm._v("\n        " + _vm._s(_vm.resposta) + "\n        "),
           _c("h2", [
             _vm._v(
               "Pontos: " + _vm._s(_vm.respostas["aluno"][0]["soma_resultado"])
@@ -55481,44 +55528,215 @@ var render = function() {
                       { staticClass: "accordion-body" },
                       _vm._l(resposta["perguntas"], function(respostaPergunta) {
                         return _c("div", [
-                          1 === respostaPergunta["resultado"]
-                            ? _c(
-                                "div",
-                                {
-                                  staticStyle: { "background-color": "#66c036" }
-                                },
-                                [
-                                  _c("p", { staticStyle: { color: "white" } }, [
-                                    _vm._v(
-                                      "  " +
-                                        _vm._s(respostaPergunta["resposta"])
-                                    )
-                                  ])
-                                ]
-                              )
-                            : resposta["resultado"] === 0 &&
-                              respostaPergunta["resposta"] ===
-                                resposta["resposta"]
-                            ? _c(
-                                "div",
-                                {
-                                  staticStyle: { "background-color": "#f9403e" }
-                                },
-                                [
-                                  _c("p", { staticStyle: { color: "white" } }, [
-                                    _vm._v(
-                                      "  " +
-                                        _vm._s(respostaPergunta["resposta"])
-                                    )
-                                  ])
-                                ]
-                              )
+                          resposta["tipo"] === "true/false"
+                            ? _c("div", [
+                                resposta["resultado"] !== 0
+                                  ? _c("div", [
+                                      _c(
+                                        "div",
+                                        {
+                                          style:
+                                            resposta["resposta"] === "true"
+                                              ? "background-color: #66c036"
+                                              : "background-color: white"
+                                        },
+                                        [
+                                          _c(
+                                            "p",
+                                            {
+                                              style:
+                                                resposta["resposta"] === "true"
+                                                  ? "color: white"
+                                                  : ""
+                                            },
+                                            [_vm._v("Verdadeira")]
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        {
+                                          style:
+                                            resposta["resposta"] === "false"
+                                              ? "background-color: #66c036"
+                                              : "background-color: white"
+                                        },
+                                        [
+                                          _c(
+                                            "p",
+                                            {
+                                              staticStyle: { color: "white" },
+                                              style:
+                                                resposta["resposta"] === "false"
+                                                  ? "color: white"
+                                                  : ""
+                                            },
+                                            [_vm._v("Falsa")]
+                                          )
+                                        ]
+                                      )
+                                    ])
+                                  : _c("div", [
+                                      _c(
+                                        "div",
+                                        {
+                                          style:
+                                            resposta["resposta"] === "true"
+                                              ? "background-color: #66c036"
+                                              : "background-color: #f9403e"
+                                        },
+                                        [
+                                          _c(
+                                            "p",
+                                            {
+                                              style:
+                                                resposta["resposta"] === "true"
+                                                  ? "color: white"
+                                                  : ""
+                                            },
+                                            [_vm._v("Verdadeira")]
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        {
+                                          style:
+                                            resposta["resposta"] === "false"
+                                              ? "background-color: #66c036"
+                                              : "background-color: #f9403e"
+                                        },
+                                        [
+                                          _c(
+                                            "p",
+                                            {
+                                              staticStyle: { color: "white" },
+                                              style:
+                                                resposta["resposta"] === "false"
+                                                  ? "color: white"
+                                                  : ""
+                                            },
+                                            [_vm._v("Falsa")]
+                                          )
+                                        ]
+                                      )
+                                    ])
+                              ])
                             : _c("div", [
-                                _c("p", [
-                                  _vm._v(
-                                    "  " + _vm._s(respostaPergunta["resposta"])
-                                  )
-                                ])
+                                1 === respostaPergunta["resultado"]
+                                  ? _c(
+                                      "div",
+                                      {
+                                        staticStyle: {
+                                          "background-color": "#66c036"
+                                        }
+                                      },
+                                      [
+                                        resposta["tipo"] === "multiple-image"
+                                          ? _c("div", [
+                                              _c("img", {
+                                                staticClass: "mx-auto",
+                                                attrs: {
+                                                  src:
+                                                    "/images/Pergunta/Multimedia/" +
+                                                    respostaPergunta[
+                                                      "resposta"
+                                                    ],
+                                                  alt: "imagem da resposta",
+                                                  height: "40%",
+                                                  width: "40%"
+                                                }
+                                              })
+                                            ])
+                                          : _c(
+                                              "p",
+                                              {
+                                                staticStyle: { color: "white" }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  " " +
+                                                    _vm._s(
+                                                      respostaPergunta[
+                                                        "resposta"
+                                                      ]
+                                                    )
+                                                )
+                                              ]
+                                            )
+                                      ]
+                                    )
+                                  : resposta["resultado"] === 0 &&
+                                    respostaPergunta["resposta"] ===
+                                      resposta["resposta"]
+                                  ? _c(
+                                      "div",
+                                      {
+                                        staticStyle: {
+                                          "background-color": "#f9403e"
+                                        }
+                                      },
+                                      [
+                                        resposta["tipo"] === "multiple-image"
+                                          ? _c("div", [
+                                              _c("img", {
+                                                staticClass: "mx-auto",
+                                                attrs: {
+                                                  src:
+                                                    "/images/Pergunta/Multimedia/" +
+                                                    respostaPergunta[
+                                                      "resposta"
+                                                    ],
+                                                  alt: "imagem da resposta",
+                                                  height: "40%",
+                                                  width: "40%"
+                                                }
+                                              })
+                                            ])
+                                          : _c(
+                                              "p",
+                                              {
+                                                staticStyle: { color: "white" }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  " " +
+                                                    _vm._s(
+                                                      respostaPergunta[
+                                                        "resposta"
+                                                      ]
+                                                    )
+                                                )
+                                              ]
+                                            )
+                                      ]
+                                    )
+                                  : _c("div", [
+                                      resposta["tipo"] === "multiple-image"
+                                        ? _c("div", [
+                                            _c("img", {
+                                              staticClass: "mx-auto",
+                                              attrs: {
+                                                src:
+                                                  "/images/Pergunta/Multimedia/" +
+                                                  respostaPergunta["resposta"],
+                                                alt: "imagem da resposta",
+                                                height: "40%",
+                                                width: "40%"
+                                              }
+                                            })
+                                          ])
+                                        : _c("p", [
+                                            _vm._v(
+                                              " " +
+                                                _vm._s(
+                                                  respostaPergunta["resposta"]
+                                                )
+                                            )
+                                          ])
+                                    ])
                               ])
                         ])
                       }),

@@ -29,7 +29,7 @@
                             </div>
                             <div id="app2" class="mt-4">
                                 <button type="button" class="btn btn-third ms-2" id="btn-chg-1" onclick="chg(1)">Quizz</button>
-                                <button type="button" class="btn btn-ghost-2 ms-5" id="btn-chg-2" onclick="chg(2)">Historico</button>
+{{--                                <button type="button" class="btn btn-ghost-2 ms-5" id="btn-chg-2" onclick="chg(2)">Historico</button>--}}
                                 <button type="button" class="btn btn-ghost-2 ms-5" id="btn-chg-3" onclick="chg(3)">Fórum</button>
                             </div>
 
