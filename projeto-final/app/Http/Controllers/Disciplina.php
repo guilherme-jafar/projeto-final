@@ -48,7 +48,7 @@ class Disciplina extends Controller
 
         $disciplina = \App\Models\Disciplina::find($request->token);
         $topico = DB::table('topicos')->where('disciplina_id', '=', ['id' => $request->token])
-           ->paginate(4);
+            ->paginate(4);
         $disciplina->setTotalTopicos(DB::table('topicos')->where('disciplina_id', '=', ['id' => $request->token])->count());
         $disciplina->setTotalQuizz(DB::table('quizz')->where('disciplina_id', '=', ['id' => $request->token])->count());
 
@@ -167,20 +167,14 @@ class Disciplina extends Controller
 
         $id = $request->id;
 
-        $alunos = DB::select('SELECT dp.pontos, u.foto_perfil, u.id,u.nome,u.email,u.sexo
-             FROM disciplina d,utilizador u,aluno a ,disciplina_aluno dp
-             WHERE  a.utilizador_id=u.id
-            AND  dp.aluno_utilizador_id=u.id
-            AND dp.disciplina_id=d.id
-            and d.id=:id', ['id' => $id]);
-
-
-        $page = new Paginator($alunos, 5);
+        $alunos = DB::table(DB::raw('disciplina d,utilizador u,aluno a ,disciplina_aluno dp'))
+            ->select(DB::raw('dp.pontos, u.foto_perfil, u.id,u.nome,u.email,u.sexo'))
+            ->whereRaw('a.utilizador_id=u.id and  dp.aluno_utilizador_id=u.id and  dp.disciplina_id=d.id and d.id =:id ',  ['id' => $id] )->paginate(5);
 
 
         if (!empty($alunos)) {
             return response()->json([
-                'message' => $page,
+                'message' => $alunos,
             ]);
         } else {
             return response()->json([
@@ -195,7 +189,6 @@ class Disciplina extends Controller
     {
 
         if (session()->get('utilizador')['tipo'] == 'prof') {
-
 
 
             DB::statement('call deleteDisciplina(?)', [$request->id]);

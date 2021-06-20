@@ -17,11 +17,16 @@ Vue.component('perguntaTopico',require('./components/Professor/pergunta').defaul
 Vue.component('quizzProf',require('./components/Professor/quizz').default);
 Vue.component('editarDisciplina',require('./components/Professor/editarDisciplina').default);
 Vue.component('perguntaEditar',require('./components/Professor/perguntaEditar').default);
+Vue.component('historico-prof',require('./components/Professor/historico').default);
+Vue.component('tabela-historico',require('./components/Professor/tabelaHistorico').default);
+
+
 
 //aluno
 Vue.component('alunodashboard',require('./components/aluno/dashboadAluno.vue').default);
 Vue.component('alunosQuizz',require('./components/aluno/quizzAluno').default);
 Vue.component('perguntaQuizz', require('./components/quizz/perguntaQuizz').default)
+Vue.component('historico-aluno',require('./components/aluno/historico').default);
 
 //quizz
 Vue.component('waitRoom',require('./components/quizz/waitRoom').default)

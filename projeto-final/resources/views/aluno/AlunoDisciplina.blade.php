@@ -29,7 +29,7 @@
                             </div>
                             <div id="app2" class="mt-4">
                                 <button type="button" class="btn btn-third ms-2" id="btn-chg-1" onclick="chg(1)">Quizz</button>
-                                <button type="button" class="btn btn-ghost-2 ms-5" id="btn-chg-2" onclick="chg(2)">Historico</button>
+{{--                                <button type="button" class="btn btn-ghost-2 ms-5" id="btn-chg-2" onclick="chg(2)">Historico</button>--}}
                                 <button type="button" class="btn btn-ghost-2 ms-5" id="btn-chg-3" onclick="chg(3)">Fórum</button>
                             </div>
 
@@ -55,6 +55,11 @@
                             <forum-show  :tipo_props="'{{json_encode(session('utilizador')['tipo'], TRUE)}}'"></forum-show>
 
                         </div>
+
+{{--                        <div id="historico" >--}}
+{{--                            <historico-aluno></historico-aluno>--}}
+
+{{--                        </div>--}}
                     </div>
 
 
@@ -81,6 +86,8 @@
             $('#quizz').show();
 
             $('#forum').hide()
+            $('#historico').hide()
+
         });
 
         function chg(index){
@@ -95,6 +102,9 @@
                     $('#btn-chg-3').removeClass('btn-third').addClass(' btn-ghost-2')
                     break;
                 case 2:
+                    $('#forum').hide();
+                    $('#quizz').hide();
+                    $('#historico').show();
 
                     $('#btn-chg-1').removeClass('btn-third').addClass(' btn-ghost-2')
                     $('#btn-chg-2').addClass('btn-third').removeClass(' btn-ghost-2')

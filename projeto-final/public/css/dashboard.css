@@ -1054,6 +1054,36 @@ section {
   padding: 2rem;
   border-radius: 5px;
 }
+.card-disciplina .section-quizz .accordion .accordion-button {
+  font-size: 2rem;
+  font-weight: 700;
+}
+.card-disciplina .section-quizz .accordion .accordion-button:not(.collapse) {
+  color: #747474;
+  background-color: white;
+}
+.card-disciplina .section-quizz .accordion p {
+  padding: 0.5rem;
+}
+.card-disciplina .section-quizz .tabela-historico {
+  overflow-x: scroll;
+}
+.card-disciplina .section-quizz .tabela-historico table {
+  font-size: 2rem;
+  border-collapse: collapse;
+  width: 100%;
+}
+.card-disciplina .section-quizz .tabela-historico table span {
+  color: white;
+  font-weight: bold;
+}
+.card-disciplina .section-quizz .tabela-historico table td, .card-disciplina .section-quizz .tabela-historico table th {
+  border: 1px solid #dddddd;
+  padding: 8px;
+}
+.card-disciplina .section-quizz .tabela-historico table tr:nth-child(even) {
+  background-color: #dddddd;
+}
 .card-disciplina .forumShow .breadcrumb {
   font-size: 1.7rem;
 }
