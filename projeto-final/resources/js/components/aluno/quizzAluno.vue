@@ -163,6 +163,7 @@
 <script>
     import $ from "jquery";
     import historico from "./historico";
+    import axios from "axios";
 
     export default {
         name: "quizzAluno",
@@ -220,6 +221,15 @@
                 }
 
             },
+            getQuizz() {
+
+                axios.get('/aluno/getQuizz').then(
+                    function (response) {
+                        this.quizz=response.data.message;
+
+
+                    }.bind(this));
+            },
             voltar() {
 
                 this.component = '';
@@ -228,6 +238,9 @@
         },
         mounted() {
             localStorage.clear();
+            window.setInterval(() => {
+                this.getQuizz();
+            }, 5000)
 
             // this.disciplinas = JSON.parse(this.disciplinas)
             this.$root.$on('btnVoltar', this.voltar);

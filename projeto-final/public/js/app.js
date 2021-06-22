@@ -5518,6 +5518,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
 
 
 
@@ -5949,6 +5950,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         this.isActive = false;
       }
     },
+    getTopicos: function getTopicos() {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get('/prof/listTopicosAll').then(function (response) {
+        this.topicos = response.data.message;
+        this.topicsCheck();
+        this.listQuizz();
+      }.bind(this));
+    },
     voltar: function voltar() {
       this.component = '';
       this.isActive = true;
@@ -5970,6 +5978,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     }
   },
   mounted: function mounted() {
+    var _this3 = this;
+
+    window.setInterval(function () {
+      _this3.getTopicos();
+    }, 5000);
     this.modal = new bootstrap.Modal(document.getElementById('exampleModal2'), {});
     this.toastQuiz = new bootstrap.Toast(document.getElementById('toast-quiz'), {
       delay: 10000

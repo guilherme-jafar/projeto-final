@@ -90,8 +90,15 @@ class ContaController extends Controller
 
             if ($tipo=="prof")
                 $ticket= $request->root() . '/confirmar/token='.$token.'/prof';
-            else
+            else if($tipo=="aluno")
                 $ticket= $request->root() . '/confirmar/token='.$token.'/aluno';
+            else
+                return response()->json([
+                    'message' => 'tipo invalido',
+                    'password' => ' ',
+                    'email' => ' '
+                ]);
+
             Mail::to($email)->send(new ConfirmMail($ticket));
             return response()->json([
                 'message' => 'sucesso',

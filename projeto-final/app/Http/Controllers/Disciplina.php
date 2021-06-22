@@ -64,6 +64,8 @@ class Disciplina extends Controller
     }
 
 
+
+
     function EnterDiscAluno(Request $request)
     {
 

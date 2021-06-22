@@ -23,7 +23,7 @@ class Quizz extends Controller
         $Quizz = DB::table('quizz')
             ->where('disciplina_id', '=', session('disciplina')['id'])
             ->paginate(5);
-        // dd($Quizz[0]);
+
 
 
         if (!empty($Quizz)) {

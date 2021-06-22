@@ -169,19 +169,7 @@
                             </div>
 
 
-<!--                            <div class="col-12 mt-3">-->
-<!--                                <div >-->
-<!--                                    <label>Permitir alunos marcarem presença?</label><br>-->
-<!--                                    <input type="radio" id="sim" name="presencas" value="s">-->
-<!--                                    <label class="me-3"  for="sim" >Sim</label>-->
-<!--                                    <input type="radio" id="nao" name="presencas" value="n">-->
-<!--                                    <label class="me-3" for="nao">Não</label>-->
 
-<!--                                    <p class="error" id="presencasError"></p>-->
-<!--                                </div>-->
-
-
-<!--                            </div>-->
 
 
                         </form>
@@ -280,8 +268,9 @@
                 if (enviar){
 
                     let formData = new FormData();
+                    let desc= $('#descricao').val().replace(/(\r\n|\n|\r)/gm, "");
                     formData.append( 'disciplina',$( "#disciplina" ).val());
-                    formData.append( 'descricao',$( "#descricao" ).val());
+                    formData.append( 'descricao',desc);
 
                     axios.post('/prof/disciplina/create', formData
                     ).then(function (response) {

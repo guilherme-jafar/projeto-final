@@ -373,7 +373,6 @@
                 $('#submit div').removeClass('d-none');
                 var enviar = true;
 
-                        console.log($("#descricao").val().length)
                 if ($('#topico').val().length === 0) {
                     $("#disciplinaError").text("Introduza o nome do topico").css('color', 'red').css('opacity', '1');
                     $('#submit span').removeClass('d-none');
