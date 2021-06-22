@@ -298,10 +298,16 @@
                     $('#disciplinaError' + topico['id']).text("Introduza o nome do Tópico").css('color', 'red').css('opacity', '1');
                     $('.btn-loading span').removeClass('d-none');
                     $('.btn-loading div').addClass('d-none');
-                } else {
+                } else if ($('#descricao' + topico['id']).val().length > 50) {
+                    $('#disciplinaError' + topico['id']).text("descricao é muito grande").css('color', 'red').css('opacity', '1');
+                    $('.btn-loading span').removeClass('d-none');
+                    $('.btn-loading div').addClass('d-none');
+                }
+                else {
                     let formData = new FormData();
+                    let desc= $('#descricao' + topico['id']).val().replace(/(\r\n|\n|\r)/gm, "");
                     formData.append('topico', $('#editarTopicoNome' + topico['id']).val());
-                    formData.append('descricao', $("#descricao" + topico['id']).val());
+                    formData.append('descricao', desc);
                     formData.append('id', topico['id']);
                     axios.post('/prof/topico/' + topico['id'] + '/editar', formData).then(
                         function (response) {
@@ -372,15 +378,22 @@
                     $('#submit span').removeClass('d-none');
                     $('#submit div').addClass('d-none');
                     enviar = false;
-                } else {
+                }
+                else if ($("#descricao").val().length > 50) {
+                    $("#disciplinaError").text("descricao é muito grande").css('color', 'red').css('opacity', '1');
+                    $('.btn-loading span').removeClass('d-none');
+                    $('.btn-loading div').addClass('d-none');
+                    enviar = false;
+                }
+                else {
                     $("#disciplinaError").text("").css('color', 'red').css('opacity', '1');
                 }
 
                 if (enviar) {
-
+                    let desc= $('#descricao').val().replace(/(\r\n|\n|\r)/gm, "");
                     let formData = new FormData();
                     formData.append('topico', $("#topico").val());
-                    formData.append('descricao', $("#descricao").val());
+                    formData.append('descricao',desc);
                     formData.append('id', l[l.length - 1]);
                     axios.post('/prof/Topico/create', formData
                     ).then(function (response) {

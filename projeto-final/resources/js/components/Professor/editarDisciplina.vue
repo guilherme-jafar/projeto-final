@@ -66,8 +66,9 @@
                     //enviar = false;
                 }else{
                     let formData = new FormData();
+                    let desc= $('#editarDescricao').val().replace(/(\r\n|\n|\r)/gm, "");
                     formData.append( 'disciplina',$( "#disciplina" ).val());
-                    formData.append( 'descricao',$( "#editarDescricao" ).val());
+                    formData.append( 'descricao',$( desc);
                     formData.append( 'id',disciplina['id']);
                     axios.post('/prof/disciplina/'+disciplina['id']+'/editar', formData).then(
                         function (response) {

@@ -38,6 +38,11 @@
                                                             onclick="chg(4)">Editar
                                                     </button>
                                                 </li>
+                                                <li>
+                                                    <button type="button" class="dropdown-item" id="btn-chg-1"  data-bs-toggle="modal" data-bs-target="#eliminar">
+                                                            Eliminar
+                                                    </button>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -49,6 +54,30 @@
                                     <p>Tópicos: {{session('disciplina')->getTotalTopicos()}}</p>
                                     <p>Alunos: {{session('disciplina')['inscritos']}}</p>
                                     <p>Quizes: {{session('disciplina')->getTotalQuizz()}}</p>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="eliminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="tituloEliminar">{{session('disciplina')['nome']}}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h2>Tem certeza que deseja eliminar a disciplina {{session('disciplina')['nome']}}?</h2>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="button" class="btn btn-primary eliminar-btn" id="eliminarDiscipinaBtn" onclick="eliminarDisciplina('{{session('disciplina')['id']}}')" >
+                                                <span class="">Sim</span>
+                                                <div class="spinner-border text-light d-none" role="status">
+
+                                                </div>
+                                            </button>
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -140,6 +169,18 @@
             $('#forum').hide()
         });
 
+
+        function eliminarDisciplina(id){
+            $('.eliminar-btn span').addClass('d-none');
+            $('.eliminar-btn div').removeClass('d-none');
+            $.ajax({
+                url: '/prof/disciplina/delete/'+id,
+                type: 'DELETE',
+                success: function(response) {
+                   window.location.replace('/prof/dashboard');
+                }
+            });
+        }
         function chg(index) {
 
             switch (index) {
@@ -271,6 +312,7 @@
                     $('#btn-chg-6').addClass('btn-third')
                     $('#btn-chg-6').removeClass('btn-ghost-2')
                     break;
+
 
 
             }

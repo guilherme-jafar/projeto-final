@@ -299,5 +299,24 @@ class topicos extends Controller
 
     }
 
+    function listTopicosAll()
+    {
+
+
+        $topico = DB::table('topicos')->where('disciplina_id', '=', ['id' => session('disciplina')['id']]);
+
+
+        if (!empty($topico)) {
+            return response()->json([
+                'message' => $topico,
+            ]);
+        } else {
+            return response()->json([
+                'message' => [],
+            ]);
+        }
+
+    }
+
 
 }

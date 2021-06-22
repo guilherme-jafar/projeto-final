@@ -521,6 +521,7 @@
     </div>
 </template>
 
+
 <script>
     import $ from "jquery";
     import axios from "axios";
@@ -819,10 +820,10 @@
                         $('.btn-loading span').removeClass('d-none');
                         $('.btn-loading div').addClass('d-none');
                     } else {
-
+                        let desc= $('#quizzdescricao').val().replace(/(\r\n|\n|\r)/gm, "");
                         form.append('realtime', corretTime);
                         form.append('titulo', $('#titulo').val());
-                        form.append('descricao', $('#quizzdescricao').val());
+                        form.append('descricao',desc);
                         var radios2 = document.getElementsByName("Visivelop");
                         for (let i = 0; i < 2; i++) {
                             if (radios2[i].checked) {
@@ -1007,6 +1008,16 @@
                 }
 
             },
+            getTopicos() {
+
+                axios.get('/prof/listTopicosAll').then(
+                    function (response) {
+                            this.topicos=response.data.message;
+                        this.topicsCheck();
+                        this.listQuizz();
+
+                    }.bind(this));
+            },
             voltar(){
 
                 this.component = '';
@@ -1028,7 +1039,12 @@
                 // })
             }
         },
+
+
         mounted() {
+            window.setInterval(() => {
+                this.getTopicos()
+            }, 5000)
 
             this.modal = new bootstrap.Modal(document.getElementById('exampleModal2'), {})
             this.toastQuiz = new bootstrap.Toast(document.getElementById('toast-quiz'), {delay: 10000})

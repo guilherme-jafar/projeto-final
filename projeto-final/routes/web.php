@@ -54,7 +54,6 @@ Route::post('/loginroute', [App\Http\Controllers\ContaController::class, 'login'
 Route::post('/recovery', [App\Http\Controllers\ContaController::class, 'ForgotPassword']);
 Route::post('/SavePass', [App\Http\Controllers\ContaController::class, 'ResetPassword']);
 Route::get('/logout',[App\Http\Controllers\ContaController::class, 'logout'] );
-
 Route::get('/editarperfil', function (){
     return view('/autenticacao/editarPerfil');
 })->middleware('check.auth');
@@ -81,12 +80,12 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (
     Route::post('/prof/Topico/create',[App\Http\Controllers\topicos::class, 'create']);
     Route::get('/prof/Disciplina/{token}', [App\Http\Controllers\Disciplina::class, 'EnterDiscProf']);
     Route::get('/prof/listTopicos', [App\Http\Controllers\topicos::class, 'listTopicos']);
+    Route::get('/prof/listTopicosAll', [App\Http\Controllers\topicos::class, 'listTopicosAll']);
     Route::get('/prof/alunos/{id}',[App\Http\Controllers\Disciplina::class,'getAlunos']);
     Route::post("/insertQuestion",[App\Http\Controllers\topicos::class,'insertQuestion']);
     Route::get("/getQuizz",[\App\Http\Controllers\Quizz::class,'listQuizz']);
     Route::post("/insertQuizz",[App\Http\Controllers\Quizz::class,'insertQuizz']);
     Route::post("/getPerguntas",[App\Http\Controllers\topicos::class,'getPerguntas']);
-
     Route::post("/multiQuestion",[App\Http\Controllers\topicos::class,"MultiQuestion"]);
     Route::delete("/prof/topico/delete/{id}", [App\Http\Controllers\topicos::class,'destroy']);
     Route::delete("/prof/pergunta/delete/{id_topico}/{id}", [App\Http\Controllers\Pergunta::class,'destroy']);
@@ -103,14 +102,10 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (
 
 
     Route::post("prof/pergunta/{id}/editar", [App\Http\Controllers\Pergunta::class,'editar']);
-
-
     Route::get('/prof/disciplina/sucesso', [App\Http\Controllers\Disciplina::class, 'sucesso']);
     Route::post('/prof/quizz/ocultarquizz/{id}', [App\Http\Controllers\Quizz::class, 'ocultarQuizz']);
     Route::post('/prof/quizz/tornarvisivel/{id}', [App\Http\Controllers\Quizz::class, 'tornarVisivel']);
     Route::delete('/prof/quizz/delete/{id}', [App\Http\Controllers\Quizz::class, 'destroy']);
-
-
     Route::get('/prof/historico/{id}', [App\Http\Controllers\Historico::class, 'showProf'] );
     Route::get('/prof/historico/sessao/{id}', [App\Http\Controllers\Historico::class, 'indexProf'] );
 
@@ -123,6 +118,7 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:aluno']], function 
     Route::get('/WaitRoomAluno/{id}',[App\Http\Controllers\Quizz::class,'CreateWaitRoom']);
     Route::post('/aluno/disciplina/addDisciplina',[App\Http\Controllers\Disciplina::class, 'addDisciplina']);
     Route::get('/loading', function () {return view('/loading');});
+    Route::get("/aluno/getQuizz",[\App\Http\Controllers\Quizz::class,'listQuizz']);
     Route::get('/aluno/AlunoDisciplina/{token}', [App\Http\Controllers\Disciplina::class, 'EnterDiscAluno']);
     Route::get('/quizzTeste/{token}/{sessionID}',[App\Http\Controllers\Quizz::class ,'Enterquizz']);
     Route::post('/getRespostas',[App\Http\Controllers\Quizz::class,'getRespostas']);
