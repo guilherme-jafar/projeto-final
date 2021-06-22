@@ -253,6 +253,7 @@ i{
         color: $cor-letra;
         padding: 0;
         padding-top: 0.8rem;
+        display: none;
     }
 
 
@@ -286,6 +287,10 @@ i{
 
         .navbar-nav{
             flex-direction: initial;
+        }
+
+        .nav-link{
+            display: block;
         }
     }
 }

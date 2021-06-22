@@ -2038,18 +2038,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "dashboard",
@@ -2106,8 +2094,9 @@ __webpack_require__.r(__webpack_exports__);
 
       if (enviar) {
         var formData = new FormData();
+        var desc = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#descricao').val().replace(/(\r\n|\n|\r)/gm, "");
         formData.append('disciplina', jquery__WEBPACK_IMPORTED_MODULE_0___default()("#disciplina").val());
-        formData.append('descricao', jquery__WEBPACK_IMPORTED_MODULE_0___default()("#descricao").val());
+        formData.append('descricao', desc);
         axios.post('/prof/disciplina/create', formData).then(function (response) {
           if (response.data.message !== "erro") {
             jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit span').removeClass('d-none');
@@ -2515,7 +2504,6 @@ __webpack_require__.r(__webpack_exports__);
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit span').addClass('d-none');
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit div').removeClass('d-none');
       var enviar = true;
-      console.log(jquery__WEBPACK_IMPORTED_MODULE_0___default()("#descricao").val().length);
 
       if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('#topico').val().length === 0) {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()("#disciplinaError").text("Introduza o nome do topico").css('color', 'red').css('opacity', '1');
@@ -2694,8 +2682,9 @@ __webpack_require__.r(__webpack_exports__);
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit div').addClass('d-none'); //enviar = false;
       } else {
         var formData = new FormData();
+        var desc = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#editarDescricao').val().replace(/(\r\n|\n|\r)/gm, "");
         formData.append('disciplina', jquery__WEBPACK_IMPORTED_MODULE_0___default()("#disciplina").val());
-        formData.append('descricao', jquery__WEBPACK_IMPORTED_MODULE_0___default()("#editarDescricao").val());
+        formData.append('descricao', jquery__WEBPACK_IMPORTED_MODULE_0___default()(desc));
         formData.append('id', disciplina['id']);
         axios.post('/prof/disciplina/' + disciplina['id'] + '/editar', formData).then(function (response) {
           if (response.data.message === "sucesso") {
@@ -3921,162 +3910,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -5788,9 +5621,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
         } else {
+          var desc = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#quizzdescricao').val().replace(/(\r\n|\n|\r)/gm, "");
           form.append('realtime', corretTime);
           form.append('titulo', jquery__WEBPACK_IMPORTED_MODULE_0___default()('#titulo').val());
-          form.append('descricao', jquery__WEBPACK_IMPORTED_MODULE_0___default()('#quizzdescricao').val());
+          form.append('descricao', desc);
           var radios2 = document.getElementsByName("Visivelop");
 
           for (var _i4 = 0; _i4 < 2; _i4++) {
@@ -6499,6 +6333,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _historico__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./historico */ "./resources/js/components/aluno/historico.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 //
 //
 //
@@ -6661,6 +6497,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -6718,13 +6555,23 @@ __webpack_require__.r(__webpack_exports__);
         this.isActive = false;
       }
     },
+    getQuizz: function getQuizz() {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().get('/aluno/getQuizz').then(function (response) {
+        this.quizz = response.data.message;
+      }.bind(this));
+    },
     voltar: function voltar() {
       this.component = '';
       this.isActive = true;
     }
   },
   mounted: function mounted() {
-    localStorage.clear(); // this.disciplinas = JSON.parse(this.disciplinas)
+    var _this2 = this;
+
+    localStorage.clear();
+    window.setInterval(function () {
+      _this2.getQuizz();
+    }, 5000); // this.disciplinas = JSON.parse(this.disciplinas)
 
     this.$root.$on('btnVoltar', this.voltar);
     window.location.replace('/quizzTeste/' + quizz + '/' + session);

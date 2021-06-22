@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="col-md-8 mx-auto">
+    <div class="col-xl-8 col-12 col-lg-10 mx-auto">
         <div id="app" >
 
             @if(session('estado'))

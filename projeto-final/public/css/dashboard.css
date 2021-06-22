@@ -553,6 +553,7 @@ i {
   color: #747474;
   padding: 0;
   padding-top: 0.8rem;
+  display: none;
 }
 .navbar .btn-secondary {
   background-color: transparent;
@@ -575,6 +576,9 @@ i {
   }
   .navbar .navbar-nav {
     flex-direction: initial;
+  }
+  .navbar .nav-link {
+    display: block;
   }
 }
 
