@@ -2612,9 +2612,91 @@ __webpack_require__.r(__webpack_exports__);
 /*!*********************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Professor/editarDisciplina.vue?vue&type=script&lang=js& ***!
   \*********************************************************************************************************************************************************************************************************************************/
-/***/ (() => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: C:\\Apache24\\htdocs\\projeto final\\projeto-final\\projeto-final\\resources\\js\\components\\Professor\\editarDisciplina.vue: Unexpected token, expected \",\" (71:53)\n\n\u001b[0m \u001b[90m 69 |\u001b[39m                 \u001b[36mlet\u001b[39m desc\u001b[33m=\u001b[39m $(\u001b[32m'#editarDescricao'\u001b[39m)\u001b[33m.\u001b[39mval()\u001b[33m.\u001b[39mreplace(\u001b[35m/(\\r\\n|\\n|\\r)/gm\u001b[39m\u001b[33m,\u001b[39m \u001b[32m\"\"\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 70 |\u001b[39m                 formData\u001b[33m.\u001b[39mappend( \u001b[32m'disciplina'\u001b[39m\u001b[33m,\u001b[39m$( \u001b[32m\"#disciplina\"\u001b[39m )\u001b[33m.\u001b[39mval())\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 71 |\u001b[39m                 formData\u001b[33m.\u001b[39mappend( \u001b[32m'descricao'\u001b[39m\u001b[33m,\u001b[39m$( desc)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m    |\u001b[39m                                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 72 |\u001b[39m                 formData\u001b[33m.\u001b[39mappend( \u001b[32m'id'\u001b[39m\u001b[33m,\u001b[39mdisciplina[\u001b[32m'id'\u001b[39m])\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 73 |\u001b[39m                 axios\u001b[33m.\u001b[39mpost(\u001b[32m'/prof/disciplina/'\u001b[39m\u001b[33m+\u001b[39mdisciplina[\u001b[32m'id'\u001b[39m]\u001b[33m+\u001b[39m\u001b[32m'/editar'\u001b[39m\u001b[33m,\u001b[39m formData)\u001b[33m.\u001b[39mthen(\u001b[0m\n\u001b[0m \u001b[90m 74 |\u001b[39m                     \u001b[36mfunction\u001b[39m (response) {\u001b[0m\n    at Parser._raise (C:\\Apache24\\htdocs\\projeto final\\projeto-final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:776:17)\n    at Parser.raiseWithData (C:\\Apache24\\htdocs\\projeto final\\projeto-final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:769:17)\n    at Parser.raise (C:\\Apache24\\htdocs\\projeto final\\projeto-final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:737:17)\n    at Parser.unexpected (C:\\Apache24\\htdocs\\projeto final\\projeto-final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:9686:16)\n    at Parser.expect (C:\\Apache24\\htdocs\\projeto final\\projeto-final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:9672:28)\n    at Parser.parseCallExpressionArguments (C:\\Apache24\\htdocs\\projeto final\\projeto-final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:10837:14)\n    at Parser.parseCoverCallAndAsyncArrowHead (C:\\Apache24\\htdocs\\projeto final\\projeto-final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:10763:29)\n    at Parser.parseSubscript (C:\\Apache24\\htdocs\\projeto final\\projeto-final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:10699:19)\n    at Parser.parseSubscripts (C:\\Apache24\\htdocs\\projeto final\\projeto-final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:10672:19)\n    at Parser.parseExprSubscripts (C:\\Apache24\\htdocs\\projeto final\\projeto-final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:10661:17)\n    at Parser.parseUpdate (C:\\Apache24\\htdocs\\projeto final\\projeto-final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:10635:21)\n    at Parser.parseMaybeUnary (C:\\Apache24\\htdocs\\projeto final\\projeto-final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:10613:23)\n    at Parser.parseExprOps (C:\\Apache24\\htdocs\\projeto final\\projeto-final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:10474:23)\n    at Parser.parseMaybeConditional (C:\\Apache24\\htdocs\\projeto final\\projeto-final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:10448:23)\n    at Parser.parseMaybeAssign (C:\\Apache24\\htdocs\\projeto final\\projeto-final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:10411:21)\n    at Parser.parseExpressionBase (C:\\Apache24\\htdocs\\projeto final\\projeto-final\\projeto-final\\node_modules\\@babel\\parser\\lib\\index.js:10356:23)");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "dashboard",
+  props: ['disciplina_prop'],
+  data: function data() {
+    return {
+      toast: '',
+      search: '',
+      disciplina: JSON.parse(this.disciplina_prop),
+      toastEliminar: ''
+    };
+  },
+  methods: {
+    editarDisciplina: function editarDisciplina(disciplina) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#editarUtilizadorBtn span').addClass('d-none');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#editarUtilizadorBtn div').removeClass('d-none');
+
+      if (jquery__WEBPACK_IMPORTED_MODULE_0___default()('#disciplina').val().length === 0) {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()("#editarDisciplinaError").text("Introduza o nome da disciplina").css('color', 'red').css('opacity', '1');
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit span').removeClass('d-none');
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit div').addClass('d-none'); //enviar = false;
+      } else {
+        var formData = new FormData();
+        var desc = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#editarDescricao').val().replace(/(\r\n|\n|\r)/gm, "");
+        formData.append('disciplina', jquery__WEBPACK_IMPORTED_MODULE_0___default()("#disciplina").val());
+        formData.append('descricao', jquery__WEBPACK_IMPORTED_MODULE_0___default()(desc));
+        formData.append('id', disciplina['id']);
+        axios.post('/prof/disciplina/' + disciplina['id'] + '/editar', formData).then(function (response) {
+          if (response.data.message === "sucesso") {
+            window.location.replace('/prof/disciplina/sucesso/');
+          }
+        }.bind(this));
+      }
+    }
+  },
+  computed: {},
+  mounted: function mounted() {}
+});
 
 /***/ }),
 

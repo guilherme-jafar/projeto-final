@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -12,7 +10,13 @@
     <!-- viewport -->
     <meta name='viewport' content='width=device-width'>
     <meta name='viewport' content='width=1024'>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <!-- ua -->
+    <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+    <!-- viewport -->
+
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
@@ -32,13 +36,23 @@
     <nav class="navbar navbar-expand-md navbar-light">
 
         <div class="container">
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <!-- Links -->
-            <div class="collapse navbar-collapse" id="basicExampleNav5">
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <a class="navbar-brand" href="/"><img class="img-fluid" src="{{URL('/assets/logo.png')}}" alt=""></a>
-                <!-- Right -->
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="{{URL('/editarperfil')}}">Editar Perfil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{URL('/logout')}}">Logout</a>
+                </li>
 
 
             </div>
+
 
             <div class="d-flex">
                 <ul class="navbar-nav nav-flex-icons ml-auto">
