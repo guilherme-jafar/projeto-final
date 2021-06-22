@@ -76,6 +76,10 @@ li{
     font-family: Quicksand, serif;
     font-weight: 600;
 
+    @include respond(bootstrap_768){
+       font-size: 1.7rem;
+    }
+
     &:hover, &:focus{
        // box-shadow: none;
     }
@@ -235,12 +239,22 @@ i{
 
 
 .navbar{
+    box-shadow:  1rem 0.2rem rgba(0,0,0,0.10);
+
+
     .navbar-brand{
         .img-fluid{
             width: 50%;
         }
     }
-    box-shadow:  1rem 0.2rem rgba(0,0,0,0.10);
+
+    .nav-link{
+        font-size: 1.8rem;
+        color: $cor-letra;
+        padding: 0;
+        padding-top: 0.8rem;
+    }
+
 
     .btn-secondary{
         background-color: transparent;
@@ -262,6 +276,16 @@ i{
             padding: 1rem 2rem;
             font-weight: 500;
 
+        }
+    }
+
+    @include respond(bootstrap_768){
+        .navbar-brand{
+            display: none;
+        }
+
+        .navbar-nav{
+            flex-direction: initial;
         }
     }
 }

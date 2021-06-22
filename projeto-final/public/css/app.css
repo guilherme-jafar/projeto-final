@@ -414,6 +414,11 @@ li {
   font-family: Quicksand, serif;
   font-weight: 600;
 }
+@media only screen and (max-width: 47.8em) {
+  .btn {
+    font-size: 1.7rem;
+  }
+}
 .btn-primary {
   background-color: #FF7829;
   border-color: #FF7829;
@@ -546,6 +551,12 @@ i {
 .navbar .navbar-brand .img-fluid {
   width: 50%;
 }
+.navbar .nav-link {
+  font-size: 1.8rem;
+  color: #747474;
+  padding: 0;
+  padding-top: 0.8rem;
+}
 .navbar .btn-secondary {
   background-color: transparent;
   border-radius: 0;
@@ -560,6 +571,14 @@ i {
   font-size: 1.6rem;
   padding: 1rem 2rem;
   font-weight: 500;
+}
+@media only screen and (max-width: 47.8em) {
+  .navbar .navbar-brand {
+    display: none;
+  }
+  .navbar .navbar-nav {
+    flex-direction: initial;
+  }
 }
 
 .pagination .page-item {
@@ -868,6 +887,11 @@ li {
   font-family: Quicksand, serif;
   font-weight: 600;
 }
+@media only screen and (max-width: 47.8em) {
+  .btn {
+    font-size: 1.7rem;
+  }
+}
 .btn-primary {
   background-color: #FF7829;
   border-color: #FF7829;
@@ -1000,6 +1024,12 @@ i {
 .navbar .navbar-brand .img-fluid {
   width: 50%;
 }
+.navbar .nav-link {
+  font-size: 1.8rem;
+  color: #747474;
+  padding: 0;
+  padding-top: 0.8rem;
+}
 .navbar .btn-secondary {
   background-color: transparent;
   border-radius: 0;
@@ -1014,6 +1044,14 @@ i {
   font-size: 1.6rem;
   padding: 1rem 2rem;
   font-weight: 500;
+}
+@media only screen and (max-width: 47.8em) {
+  .navbar .navbar-brand {
+    display: none;
+  }
+  .navbar .navbar-nav {
+    flex-direction: initial;
+  }
 }
 
 .pagination .page-item {

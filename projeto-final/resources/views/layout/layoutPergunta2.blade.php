@@ -8,7 +8,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
     <!-- viewport -->
-    <meta name='viewport' content='width=device-width'>
+{{--    <meta name='viewport' content='width=device-width'>--}}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name='viewport' content='width=1024'>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
