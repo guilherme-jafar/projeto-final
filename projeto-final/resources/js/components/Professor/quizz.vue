@@ -334,8 +334,8 @@
 
                                                 <div class="col-12">
                                                     <div v-if="topicosQuizz.length !== 0">
-                                                        <div class="mb-5 mt-4" v-for="topico in topicos.data"
-                                                             :key="topico['id']">
+                                                        <div class="mb-5 mt-4" v-for="topico in allTopics.data"
+                                                             :key="allTopics['id']">
 
                                                             <div class="card-box-topicos">
                                                                 <label class="d-flex "
@@ -478,7 +478,7 @@
                                 </div>
 
                                 <div class="col-12">
-                                    <div class="card-box  mb-5 mt-4" v-for="topico in topicos.data" :key="topico['id']">
+                                    <div class="card-box  mb-5 mt-4" v-for="topico in allTopics.data" :key="topico['id']">
 
                                         <div class="card-box-topicos">
                                             <label class="d-flex " :for="'inputTopico' + topico['id']"><h2>
@@ -548,6 +548,7 @@
                 toastDeleteQuizz: '',
                 toastEliminarQuizz: '',
                 topicosQuizz: [],
+                allTopics:[],
                 fetchedQuizzTopico: false,
                 component: '',
                 idQuizzHistorico: '',
@@ -573,6 +574,8 @@
                     this.fetchedQuizzTopico = true;
 
                 }.bind(this));
+                this.allTopics=this.topicos;
+
             },
             editarQuizz(quizz) {
                 let id = quizz['id'];
@@ -1009,14 +1012,15 @@
 
             },
             getTopicos() {
+                window.setInterval(() => {
 
                 axios.get('/prof/listTopicosAll').then(
                     function (response) {
-                            this.topicos=response.data.message;
-                        this.topicsCheck();
-                        this.listQuizz();
+                        this.topicos=response.data.topico;
 
                     }.bind(this));
+
+                }, 5000)
             },
             voltar(){
 
@@ -1042,9 +1046,8 @@
 
 
         mounted() {
-            window.setInterval(() => {
-                this.getTopicos()
-            }, 5000)
+
+            this.getTopicos()
 
             this.modal = new bootstrap.Modal(document.getElementById('exampleModal2'), {})
             this.toastQuiz = new bootstrap.Toast(document.getElementById('toast-quiz'), {delay: 10000})

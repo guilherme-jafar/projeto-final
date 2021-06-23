@@ -27,7 +27,7 @@
                                                 <span class="badge bg-secondary">{{utilizador['tipo'] === 'prof'? 'Professor': 'Aluno'}}</span>
                                                 <div class="mt-2">
                                                     <label for="imagem" class="btn btn-primary mt-3">Mudar Foto <i class="fa fa-fw fa-camera"></i></label>
-                                                    <input class="form-control form-control-lg" name="imagem" accept="image/gif, image/jpeg, image/png" id="imagem"  style="visibility:hidden;" @change="alterarFoto" type="file">
+                                                    <input class="form-control form-control-lg" name="imagem"  id="imagem"  style="visibility:hidden;" @change="alterarFoto" type="file">
 
                                                 </div>
 
@@ -171,7 +171,8 @@
                     formData.append( 'foto',this.imagem);
                     formData.append( 'instituicao',$( "#instituicao" ).val());
                     if (this.utilizador['tipo'] === 'prof'){
-                        formData.append( 'descricao',$('#editarDescricao').val().replace(/(\r\n|\n|\r)/gm, ""));
+                        let desc= $('#descricao').val().replace(/(\r\n|\n|\r)/gm, "");
+                        formData.append( 'descricao',desc);
                     }
 
                     axios.post('/alterarInformacao', formData

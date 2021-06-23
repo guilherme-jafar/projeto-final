@@ -340,8 +340,16 @@ class ContaController extends Controller
 
         if ($request->foto != null){
 
-            $nomeImagem = time() . '.' . $request->foto->getClientOriginalExtension();
+            $type=Array( 1 => 'jpeg', 2 => 'png', 3 => 'gif' ,4=>'jpg');
 
+            if(!(in_array($request->foto->getClientOriginalExtension(),$type))){
+                return response()->json([
+                    'message' => 'erro imagem invalida'
+                ]);
+            }else {
+                $nomeImagem = time() . '.' . $request->foto->getClientOriginalExtension();
+                $request->foto->move(public_path('images'), $nomeImagem);
+            }
 
 
         }else{

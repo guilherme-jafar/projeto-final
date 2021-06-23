@@ -303,16 +303,17 @@ class topicos extends Controller
     {
 
 
-        $topico = DB::table('topicos')->where('disciplina_id', '=', ['id' => session('disciplina')['id']]);
+        $topico = DB::table('topicos')->where('disciplina_id', '=', ['id' => session('disciplina')['id']])->paginate();
 
 
         if (!empty($topico)) {
+
             return response()->json([
-                'message' => $topico,
+                'topico' => $topico,
             ]);
         } else {
             return response()->json([
-                'message' => [],
+                'topico' => [],
             ]);
         }
 
