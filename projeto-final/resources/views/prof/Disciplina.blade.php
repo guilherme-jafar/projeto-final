@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <div class="col-md-10 mx-auto">
+    <div class="col-xl-10 col-12 col-lg-12 mx-auto">
         {{--    {{dd(session('estado'))}}--}}
         @if(session('estado'))
             <div class="alert alert-primary alert-dismissible fade show mb-5" role="alert" id="alert">
@@ -16,13 +16,13 @@
             <div class="card-box mb-5">
                 <div class="card-box-2">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-sm-4 col-lg-3">
                             <div class="card-image me-5">
 
                             </div>
                         </div>
-                        <div class="col-md-9">
-                            <div class="card-inside-disciplina">
+                        <div class="col-sm-8 col-lg-9">
+                            <div class=" card-inside-disciplina ms-lg-3 ms-1 mt-sm-0 mt-3">
                                 <div>
                                     <h2>  {{session('disciplina')['nome']}}</h2>
                                     <div class="ms-auto">
@@ -39,8 +39,9 @@
                                                     </button>
                                                 </li>
                                                 <li>
-                                                    <button type="button" class="dropdown-item" id="btn-chg-1"  data-bs-toggle="modal" data-bs-target="#eliminar">
-                                                            Eliminar
+                                                    <button type="button" class="dropdown-item" id="btn-chg-1"
+                                                            data-bs-toggle="modal" data-bs-target="#eliminar">
+                                                        Eliminar
                                                     </button>
                                                 </li>
                                             </ul>
@@ -57,19 +58,27 @@
                                 </div>
                             </div>
 
-                            <div class="modal fade" id="eliminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="eliminar" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                 aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="tituloEliminar">{{session('disciplina')['nome']}}</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <h5 class="modal-title"
+                                                id="tituloEliminar">{{session('disciplina')['nome']}}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <h2>Tem certeza que deseja eliminar a disciplina {{session('disciplina')['nome']}}?</h2>
+                                            <h2>Tem certeza que deseja eliminar a
+                                                disciplina {{session('disciplina')['nome']}}?</h2>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                            <button type="button" class="btn btn-primary eliminar-btn" id="eliminarDiscipinaBtn" onclick="eliminarDisciplina('{{session('disciplina')['id']}}')" >
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                Cancelar
+                                            </button>
+                                            <button type="button" class="btn btn-primary eliminar-btn"
+                                                    id="eliminarDiscipinaBtn"
+                                                    onclick="eliminarDisciplina('{{session('disciplina')['id']}}')">
                                                 <span class="">Sim</span>
                                                 <div class="spinner-border text-light d-none" role="status">
 
@@ -81,7 +90,7 @@
                                 </div>
                             </div>
 
-                            <div id="app2" class="mt-4">
+                            <div id="app2" class="mt-4 ms-lg-3 ms-1 box-buttons">
                                 <button type="button" class="btn btn-third" id="btn-chg-2" onclick="chg(1)">Topicos
                                 </button>
                                 <button type="button" class="btn btn-ghost-2 ms-3" id="btn-chg-4" onclick="chg(3)">
@@ -90,9 +99,9 @@
                                 <button type="button" class="btn btn-ghost-2 ms-3" id="btn-chg-3" onclick="chg(2)">
                                     Alunos
                                 </button>
-{{--                                <button type="button" class="btn btn-ghost-2 ms-3" id="btn-chg-5" onclick="chg(5)">--}}
-{{--                                    Histórico--}}
-{{--                                </button>--}}
+                                {{--                                <button type="button" class="btn btn-ghost-2 ms-3" id="btn-chg-5" onclick="chg(5)">--}}
+                                {{--                                    Histórico--}}
+                                {{--                                </button>--}}
                                 <button type="button" class="btn btn-ghost-2 ms-3" id="btn-chg-6" onclick="chg(6)">
                                     Fórum
                                 </button>
@@ -134,16 +143,14 @@
                     </div>
 
 
-{{--                    <div id="historico">--}}
-{{--                        <historico-prof></historico-prof>--}}
+                    {{--                    <div id="historico">--}}
+                    {{--                        <historico-prof></historico-prof>--}}
 
-{{--                    </div>--}}
+                    {{--                    </div>--}}
                     <div id="forum">
 
-                        <forum-show  :tipo_props="'{{json_encode(session('utilizador')['tipo'], TRUE)}}'"></forum-show>
+                        <forum-show :tipo_props="'{{json_encode(session('utilizador')['tipo'], TRUE)}}'"></forum-show>
                     </div>
-
-
 
 
                 </div>
@@ -170,17 +177,18 @@
         });
 
 
-        function eliminarDisciplina(id){
+        function eliminarDisciplina(id) {
             $('.eliminar-btn span').addClass('d-none');
             $('.eliminar-btn div').removeClass('d-none');
             $.ajax({
-                url: '/prof/disciplina/delete/'+id,
+                url: '/prof/disciplina/delete/' + id,
                 type: 'DELETE',
-                success: function(response) {
-                   window.location.replace('/prof/dashboard');
+                success: function (response) {
+                    window.location.replace('/prof/dashboard');
                 }
             });
         }
+
         function chg(index) {
 
             switch (index) {
@@ -312,7 +320,6 @@
                     $('#btn-chg-6').addClass('btn-third')
                     $('#btn-chg-6').removeClass('btn-ghost-2')
                     break;
-
 
 
             }

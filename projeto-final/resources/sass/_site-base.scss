@@ -76,8 +76,14 @@ li{
     font-family: Quicksand, serif;
     font-weight: 600;
 
+
+
+    @include respond(tab-port){
+        font-size: 1.7rem;
+    }
+
     @include respond(bootstrap_768){
-       font-size: 1.7rem;
+        font-size: 1.5rem;
     }
 
     &:hover, &:focus{

@@ -2038,6 +2038,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "dashboard",
@@ -47213,26 +47236,10 @@ var render = function() {
                 [
                   _c("div", { staticClass: "card-image me-5" }),
                   _vm._v(" "),
-                  _c("div", { staticClass: "card-box-2" }, [
-                    _c("h2", [_vm._v("  " + _vm._s(disciplina["nome"]))]),
-                    _vm._v(" "),
-                    _c("p", [
-                      _vm._v("Descricao: " + _vm._s(disciplina["descricao"]))
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "mt-5" }, [
-                      _c("p", [_vm._v("Tópicos: 0")]),
+                  _c("div", { staticClass: "card-box-2 " }, [
+                    _c("div", { staticClass: "d-flex box-1" }, [
+                      _c("h2", [_vm._v(" " + _vm._s(disciplina["nome"]))]),
                       _vm._v(" "),
-                      _c("p", [
-                        _vm._v("Alunos: " + _vm._s(disciplina["inscritos"]))
-                      ]),
-                      _vm._v(" "),
-                      _c("p", [_vm._v("Quizes: 0")])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "card-box-3" }, [
-                    _c("div", [
                       _c("div", { staticClass: "ms-auto dropdown" }, [
                         _vm._m(4, true),
                         _vm._v(" "),
@@ -47257,7 +47264,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                                            Eliminar\n                                        "
+                                    "\n                                        Eliminar\n                                    "
                                   )
                                 ]
                               )
@@ -47277,7 +47284,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                                            Entrar\n                                        "
+                                    "\n                                        Entrar\n                                    "
                                   )
                                 ]
                               )
@@ -47287,32 +47294,64 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("div", [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-third",
-                          attrs: {
-                            type: "button",
-                            "data-bs-target": "#d" + disciplina["id"],
-                            "data-bs-toggle": "modal"
-                          }
-                        },
-                        [_vm._v("Partilhar Código")]
-                      ),
+                    _c("div", { staticClass: "card-box-3" }, [
+                      _c("p", { staticClass: "descricao" }, [
+                        _vm._v("Descricao: " + _vm._s(disciplina["descricao"]))
+                      ]),
                       _vm._v(" "),
                       _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-secondary",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function($event) {
-                              return _vm.Enter(disciplina)
-                            }
-                          }
-                        },
-                        [_vm._v("Entrar")]
+                        "div",
+                        { staticClass: "mt-0 mt-md-5 d-md-flex d-block" },
+                        [
+                          _c("div", [
+                            _c("p", [_vm._v("Tópicos: 0")]),
+                            _vm._v(" "),
+                            _c("p", [
+                              _vm._v(
+                                "Alunos: " + _vm._s(disciplina["inscritos"])
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("p", [_vm._v("Quizes: 0")])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "ms-auto" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-third",
+                                attrs: {
+                                  type: "button",
+                                  "data-bs-target": "#d" + disciplina["id"],
+                                  "data-bs-toggle": "modal"
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "Partilhar Código\n                                "
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-secondary ms-2 me-3",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.Enter(disciplina)
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "Entrar\n                                "
+                                )
+                              ]
+                            )
+                          ])
+                        ]
                       )
                     ])
                   ]),
@@ -47343,7 +47382,12 @@ var render = function() {
                                     id: "tituloEliminar" + disciplina["id"]
                                   }
                                 },
-                                [_vm._v(_vm._s(disciplina["nome"]))]
+                                [
+                                  _vm._v(
+                                    "\n                                    " +
+                                      _vm._s(disciplina["nome"])
+                                  )
+                                ]
                               ),
                               _vm._v(" "),
                               _c("button", {
@@ -47376,7 +47420,11 @@ var render = function() {
                                     "data-bs-dismiss": "modal"
                                   }
                                 },
-                                [_vm._v("Cancelar")]
+                                [
+                                  _vm._v(
+                                    "Cancelar\n                                "
+                                  )
+                                ]
                               ),
                               _vm._v(" "),
                               _c(
@@ -47479,7 +47527,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                                        Copiar\n                                    "
+                                    "\n                                    Copiar\n                                "
                                   )
                                 ]
                               )
@@ -47572,7 +47620,7 @@ var staticRenderFns = [
           _c("div", { staticClass: "toast-body" }, [
             _c("strong", [
               _c("i", { staticClass: "bi bi-check-circle-fill" }),
-              _vm._v("    "),
+              _vm._v("   \n                    "),
               _c("span", [_vm._v("Disciplina adicionada com sucesso")])
             ])
           ]),
@@ -47609,7 +47657,7 @@ var staticRenderFns = [
           _c("div", { staticClass: "toast-body" }, [
             _c("strong", [
               _c("i", { staticClass: "bi bi-check-circle-fill" }),
-              _vm._v("    "),
+              _vm._v("   \n                    "),
               _c("span", [_vm._v("Disciplina eliminada com sucesso")])
             ])
           ]),
@@ -47642,7 +47690,7 @@ var staticRenderFns = [
       },
       [
         _c("i", { staticClass: "bi bi-plus-circle" }),
-        _vm._v("    Adicionar Disciplina\n            ")
+        _vm._v("    Adicionar Disciplina\n        ")
       ]
     )
   },

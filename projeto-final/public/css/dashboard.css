@@ -411,9 +411,14 @@ li {
   font-family: Quicksand, serif;
   font-weight: 600;
 }
-@media only screen and (max-width: 47.8em) {
+@media only screen and (max-width: 62em) {
   .btn {
     font-size: 1.7rem;
+  }
+}
+@media only screen and (max-width: 47.8em) {
+  .btn {
+    font-size: 1.5rem;
   }
 }
 .btn-primary {
@@ -691,6 +696,12 @@ section {
   display: flex;
   background-color: white;
 }
+@media only screen and (max-width: 37.5em) {
+  .dashboard .section-disciplinas .card-box {
+    display: block;
+    height: 32rem;
+  }
+}
 .dashboard .section-disciplinas .card-box .card-image {
   height: 100%;
   background-image: url("/images/disciplinaPng.png");
@@ -699,29 +710,44 @@ section {
   width: 20rem;
   border-radius: 1rem;
 }
+@media only screen and (max-width: 37.5em) {
+  .dashboard .section-disciplinas .card-box .card-image {
+    height: 16rem;
+    width: 100%;
+    background-size: inherit;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}
 .dashboard .section-disciplinas .card-box-2 {
   padding-top: 2rem;
+  width: 100%;
+}
+@media only screen and (max-width: 37.5em) {
+  .dashboard .section-disciplinas .card-box-2 {
+    padding: 1rem;
+  }
 }
 .dashboard .section-disciplinas .card-box-2 h2 {
   color: #40C0F0;
   font-size: 2.5rem;
   font-weight: 700;
 }
-.dashboard .section-disciplinas .card-box-2 div {
-  display: flex;
-}
 .dashboard .section-disciplinas .card-box-2 div p {
   margin-right: 1rem;
   font-size: 1.5rem;
   font-weight: 500;
 }
+.dashboard .section-disciplinas .card-box-2 .box-1 {
+  width: 100%;
+}
 .dashboard .section-disciplinas .card-box-3 {
-  padding-top: 2rem;
-  padding-right: 1rem;
   margin-left: auto;
 }
 .dashboard .section-disciplinas .card-box-3 div:first-child {
   display: flex;
+  align-self: auto;
+  align-items: flex-end;
 }
 .dashboard .section-disciplinas .card-box-3 div:first-child i {
   font-size: 2.5rem;
@@ -732,9 +758,6 @@ section {
 }
 .dashboard .section-disciplinas .card-box-3 div:first-child i:first-child:hover {
   color: #F9B000;
-}
-.dashboard .section-disciplinas .card-box-3 div:nth-child(2) {
-  margin-top: 4.5rem;
 }
 .dashboard .section-disciplinas .card-box .copy-code {
   font-size: 2rem;
@@ -964,6 +987,11 @@ section {
   width: 25rem;
   border-radius: 1rem;
 }
+@media only screen and (max-width: 62em) {
+  .card-disciplina .card-image {
+    width: 100%;
+  }
+}
 .card-disciplina .card-inside-disciplina div:first-child {
   display: flex;
 }
@@ -978,6 +1006,13 @@ section {
 .card-disciplina .card-inside-disciplina div p {
   margin-bottom: 0;
   font-size: 1.6rem;
+}
+@media only screen and (max-width: 62em) {
+  .card-disciplina .box-buttons {
+    overflow-y: hidden;
+    overflow-x: scroll;
+    white-space: nowrap;
+  }
 }
 .card-disciplina .section-disciplinas-items .btn-new {
   background-color: white;
@@ -996,6 +1031,11 @@ section {
   color: #FF7829;
   font-size: 2.5rem;
   font-weight: 700;
+}
+@media only screen and (max-width: 47.8em) {
+  .card-disciplina .section-disciplinas-items h1 {
+    font-size: 2rem;
+  }
 }
 .card-disciplina .section-disciplinas-items .box-search {
   position: relative;
@@ -1020,6 +1060,11 @@ section {
   box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
   font-size: 2.5rem;
 }
+@media only screen and (max-width: 47.8em) {
+  .card-disciplina .section-disciplinas-items .card-box {
+    font-size: 2rem;
+  }
+}
 .card-disciplina .section-disciplinas-items .card-box-text {
   display: flex;
 }
@@ -1027,6 +1072,11 @@ section {
   color: #40C0F0;
   font-size: 2.5rem;
   font-weight: 700;
+}
+@media only screen and (max-width: 47.8em) {
+  .card-disciplina .section-disciplinas-items .card-box-text h2 {
+    font-size: 2rem;
+  }
 }
 .card-disciplina .section-disciplinas-items .card-box-text button {
   margin-left: auto;
@@ -1061,6 +1111,11 @@ section {
   font-size: 1.8rem;
   color: #40C0F0;
   font-weight: bold;
+}
+@media only screen and (max-width: 47.8em) {
+  .card-disciplina .section-disciplinas-items .card-box .lista-perguntas .card h3 {
+    font-size: 1.4rem;
+  }
 }
 .card-disciplina .section-disciplinas-items .card-box .section-add-pergunta .lista-perguntas a {
   width: 100%;
