@@ -27,7 +27,7 @@
                                                 <span class="badge bg-secondary">{{utilizador['tipo'] === 'prof'? 'Professor': 'Aluno'}}</span>
                                                 <div class="mt-2">
                                                     <label for="imagem" class="btn btn-primary mt-3">Mudar Foto <i class="fa fa-fw fa-camera"></i></label>
-                                                    <input class="form-control form-control-lg" name="imagem" accept="image/*" id="imagem"  style="visibility:hidden;" @change="alterarFoto" type="file">
+                                                    <input class="form-control form-control-lg" name="imagem"  id="imagem"  style="visibility:hidden;" @change="alterarFoto" type="file">
 
                                                 </div>
 
@@ -76,25 +76,7 @@
                                                     </div>
 
                                                 </div>
-<!--                                                <div class="row">-->
-<!--                                                    <div class="col-12 mb-5 mt-4">-->
-<!--                                                        <div class="row">-->
-<!--                                                            <div class="col-6">-->
-<!--                                                                <div class="form-group">-->
-<!--                                                                    <label for="password">Nova Password</label>-->
-<!--                                                                    <input class="form-control" type="password" id="password" placeholder="••••••">-->
-<!--                                                                </div>-->
-<!--                                                                <p class="error" id="passError"></p>-->
-<!--                                                            </div>-->
-<!--                                                            <div class="col-6">-->
-<!--                                                                <div class="form-group">-->
-<!--                                                                    <label for="confirmarPasword">confirmar Password</label>-->
-<!--                                                                    <input class="form-control" type="password" id="confirmarPasword" placeholder="••••••">-->
-<!--                                                                </div>-->
-<!--                                                            </div>-->
-<!--                                                        </div>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
+
                                                 <div class="row">
                                                     <div class="col d-flex justify-content-end mt-5 mb-5">
                                                         <a :href="utilizador['tipo'] + '/dashboard'" class="btn btn-primary mt-5 me-3">
@@ -189,7 +171,8 @@
                     formData.append( 'foto',this.imagem);
                     formData.append( 'instituicao',$( "#instituicao" ).val());
                     if (this.utilizador['tipo'] === 'prof'){
-                        formData.append( 'descricao',$( "#descricao" ).val());
+                        let desc= $('#descricao').val().replace(/(\r\n|\n|\r)/gm, "");
+                        formData.append( 'descricao',desc);
                     }
 
                     axios.post('/alterarInformacao', formData

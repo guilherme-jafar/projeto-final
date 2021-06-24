@@ -238,6 +238,16 @@
                     $('#topics').fadeOut();
                     $('#alunos').fadeOut();
                     $('#quizz').fadeIn();
+                    $.ajax({
+                        url: '/prof/listTopicosAll',
+                        type: 'GET',
+                        success: function(response) {
+
+                            console.log({{$topico}})
+                        }
+                    });
+
+
                     $('#historico').fadeOut();
                     $('#forum').fadeOut()
                     $('#editarDisciplina').fadeOut();

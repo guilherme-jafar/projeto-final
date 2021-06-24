@@ -5398,6 +5398,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       toastDeleteQuizz: '',
       toastEliminarQuizz: '',
       topicosQuizz: [],
+      allTopics: [],
       fetchedQuizzTopico: false,
       component: '',
       idQuizzHistorico: '',
@@ -5431,6 +5432,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         this.topicosQuizz = response.data.message;
         this.fetchedQuizzTopico = true;
       }.bind(this));
+      this.allTopics = this.topicos;
     },
     editarQuizz: function editarQuizz(quizz) {
       var id = quizz['id'];
@@ -5808,11 +5810,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }
     },
     getTopicos: function getTopicos() {
-      axios__WEBPACK_IMPORTED_MODULE_1___default().get('/prof/listTopicosAll').then(function (response) {
-        this.topicos = response.data.message;
-        this.topicsCheck();
-        this.listQuizz();
-      }.bind(this));
+      var _this2 = this;
+
+      window.setInterval(function () {
+        axios__WEBPACK_IMPORTED_MODULE_1___default().get('/prof/listTopicosAll').then(function (response) {
+          this.topicos = response.data.topico;
+        }.bind(_this2));
+      }, 5000);
     },
     voltar: function voltar() {
       this.component = '';
@@ -5821,10 +5825,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   },
   computed: {
     filter: function filter() {
-      var _this2 = this;
+      var _this3 = this;
 
       return this.quizz.data.filter(function (quizz) {
-        return quizz['nome'].match(_this2.search);
+        return quizz['nome'].match(_this3.search);
       });
     }
   },
@@ -5835,11 +5839,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     }
   },
   mounted: function mounted() {
-    var _this3 = this;
-
-    window.setInterval(function () {
-      _this3.getTopicos();
-    }, 5000);
+    this.getTopicos();
     this.modal = new bootstrap.Modal(document.getElementById('exampleModal2'), {});
     this.toastQuiz = new bootstrap.Toast(document.getElementById('toast-quiz'), {
       delay: 10000
@@ -6859,24 +6859,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -6927,7 +6909,8 @@ __webpack_require__.r(__webpack_exports__);
         formData.append('instituicao', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#instituicao").val());
 
         if (this.utilizador['tipo'] === 'prof') {
-          formData.append('descricao', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#descricao").val());
+          var desc = jquery__WEBPACK_IMPORTED_MODULE_1___default()('#descricao').val().replace(/(\r\n|\n|\r)/gm, "");
+          formData.append('descricao', desc);
         }
 
         axios__WEBPACK_IMPORTED_MODULE_0___default().post('/alterarInformacao', formData).then(function (response) {
@@ -53237,7 +53220,7 @@ var render = function() {
                                                           ? _c(
                                                               "div",
                                                               _vm._l(
-                                                                _vm.topicos
+                                                                _vm.allTopics
                                                                   .data,
                                                                 function(
                                                                   topico
@@ -53246,7 +53229,8 @@ var render = function() {
                                                                     "div",
                                                                     {
                                                                       key:
-                                                                        topico[
+                                                                        _vm
+                                                                          .allTopics[
                                                                           "id"
                                                                         ],
                                                                       staticClass:
@@ -53484,7 +53468,7 @@ var render = function() {
                           _c(
                             "div",
                             { staticClass: "col-12" },
-                            _vm._l(_vm.topicos.data, function(topico) {
+                            _vm._l(_vm.allTopics.data, function(topico) {
                               return _c(
                                 "div",
                                 {
@@ -55826,7 +55810,6 @@ var render = function() {
                                   staticStyle: { visibility: "hidden" },
                                   attrs: {
                                     name: "imagem",
-                                    accept: "image/*",
                                     id: "imagem",
                                     type: "file"
                                   },
@@ -55970,7 +55953,7 @@ var render = function() {
                                   },
                                   [
                                     _vm._v(
-                                      "\n                                                            Cancelar\n                                                        "
+                                      "\n                                                        Cancelar\n                                                    "
                                     )
                                   ]
                                 ),
