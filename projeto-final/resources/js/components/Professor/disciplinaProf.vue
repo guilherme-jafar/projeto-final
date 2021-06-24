@@ -319,7 +319,7 @@
 
                             $('#toastEditarTopico').removeClass('d-none');
                             this.topicos = response.data.message;
-
+                            this.getResultsTopico( 1);
 
                             this.modalEditarTopico.hide();
 

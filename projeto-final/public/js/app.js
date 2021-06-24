@@ -2490,6 +2490,7 @@ __webpack_require__.r(__webpack_exports__);
           this.toastEditartopico.show();
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('#toastEditarTopico').removeClass('d-none');
           this.topicos = response.data.message;
+          this.getResultsTopico(1);
           this.modalEditarTopico.hide();
         }.bind(this));
       }
@@ -5375,6 +5376,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
 
 
 
@@ -5427,11 +5429,15 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       return false;
     },
     listTopicosQuizz: function listTopicosQuizz(id) {
-      this.topicosQuizz = [];
-      axios__WEBPACK_IMPORTED_MODULE_1___default().get('/prof/getTopicoQuizz/' + id).then(function (response) {
-        this.topicosQuizz = response.data.message;
-        this.fetchedQuizzTopico = true;
-      }.bind(this));
+      this.allTopics = [];
+
+      if (id != 'erro') {
+        axios__WEBPACK_IMPORTED_MODULE_1___default().get('/prof/getTopicoQuizz/' + id).then(function (response) {
+          this.topicosQuizz = response.data.message;
+          this.fetchedQuizzTopico = true;
+        }.bind(this));
+      }
+
       this.allTopics = this.topicos;
     },
     editarQuizz: function editarQuizz(quizz) {
@@ -5534,6 +5540,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                       this.modalEditarQuizz.hide();
                       this.toastEditarQuizz.show();
                       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#toastEditarQuizz').removeClass('d-none');
+                      this.listQuizz();
                     } else if (response.data.message === "numero de perguntas invalido") {
                       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#NumeroError' + id).text("numero de perguntas invalido").css('color', 'red').css('opacity', '1');
                       jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
@@ -5816,7 +5823,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         axios__WEBPACK_IMPORTED_MODULE_1___default().get('/prof/listTopicosAll').then(function (response) {
           this.topicos = response.data.topico;
         }.bind(_this2));
-      }, 5000);
+      }, 3000);
     },
     voltar: function voltar() {
       this.component = '';
@@ -52154,7 +52161,26 @@ var render = function() {
                           _vm._v("Ainda não tem nenhum Quizz")
                         ]),
                         _vm._v(" "),
-                        _vm._m(4)
+                        _c(
+                          "button",
+                          {
+                            staticClass: " btn btn-new mt-5 mx-auto",
+                            attrs: {
+                              type: "button",
+                              "data-bs-toggle": "modal",
+                              "data-bs-target": "#exampleModal2"
+                            },
+                            on: {
+                              click: function($event) {
+                                return _vm.listTopicosQuizz("erro")
+                              }
+                            }
+                          },
+                          [
+                            _c("i", { staticClass: "bi bi-plus-circle" }),
+                            _vm._v("    Adicionar Quizz\n                ")
+                          ]
+                        )
                       ]
                     )
                   : _c(
@@ -52214,7 +52240,7 @@ var render = function() {
                                       "div",
                                       { staticClass: "dropdown ms-auto" },
                                       [
-                                        _vm._m(5, true),
+                                        _vm._m(4, true),
                                         _vm._v(" "),
                                         _c(
                                           "ul",
@@ -52476,9 +52502,9 @@ var render = function() {
                                                               "modal-content"
                                                           },
                                                           [
-                                                            _vm._m(6, true),
+                                                            _vm._m(5, true),
                                                             _vm._v(" "),
-                                                            _vm._m(7, true),
+                                                            _vm._m(6, true),
                                                             _vm._v(" "),
                                                             _c(
                                                               "div",
@@ -53437,7 +53463,7 @@ var render = function() {
                 },
                 [
                   _c("div", { staticClass: "modal-content" }, [
-                    _vm._m(8),
+                    _vm._m(7),
                     _vm._v(" "),
                     _c("div", { staticClass: "modal-body pt-5 pb-5" }, [
                       _c(
@@ -53447,6 +53473,8 @@ var render = function() {
                           attrs: { id: "adicionarQuizz" }
                         },
                         [
+                          _vm._m(8),
+                          _vm._v(" "),
                           _vm._m(9),
                           _vm._v(" "),
                           _vm._m(10),
@@ -53463,12 +53491,10 @@ var render = function() {
                           _vm._v(" "),
                           _vm._m(16),
                           _vm._v(" "),
-                          _vm._m(17),
-                          _vm._v(" "),
                           _c(
                             "div",
                             { staticClass: "col-12" },
-                            _vm._l(_vm.allTopics.data, function(topico) {
+                            _vm._l(_vm.topicos.data, function(topico) {
                               return _c(
                                 "div",
                                 {
@@ -53514,7 +53540,7 @@ var render = function() {
                             0
                           ),
                           _vm._v(" "),
-                          _vm._m(18)
+                          _vm._m(17)
                         ]
                       )
                     ]),
@@ -53700,26 +53726,6 @@ var staticRenderFns = [
             }
           })
         ])
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: " btn btn-new mt-5 mx-auto",
-        attrs: {
-          type: "button",
-          "data-bs-toggle": "modal",
-          "data-bs-target": "#exampleModal2"
-        }
-      },
-      [
-        _c("i", { staticClass: "bi bi-plus-circle" }),
-        _vm._v("    Adicionar Quizz\n                ")
       ]
     )
   },
@@ -54185,7 +54191,7 @@ var render = function() {
                       _vm._v("Descrição: " + _vm._s(disciplina["descricao"]))
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "mt-5" }, [
+                    _c("div", { staticClass: "mt-5 d-flex" }, [
                       _c("p", [_vm._v("Tópicos: 0")]),
                       _vm._v(" "),
                       _c("p", [

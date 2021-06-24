@@ -52,7 +52,7 @@
                     <h1 class="heanding-1 mx-auto mt-5">Ainda não tem nenhum Quizz</h1>
                     <!-- Button trigger modal -->
                     <button type="button" class=" btn btn-new mt-5 mx-auto" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal2">
+                            data-bs-target="#exampleModal2"  @click="listTopicosQuizz('erro')">
                         <i class="bi bi-plus-circle"></i> &nbsp;&nbsp; Adicionar Quizz
                     </button>
                 </div>
@@ -478,7 +478,7 @@
                                 </div>
 
                                 <div class="col-12">
-                                    <div class="card-box  mb-5 mt-4" v-for="topico in allTopics.data" :key="topico['id']">
+                                    <div class="card-box  mb-5 mt-4" v-for="topico in topicos.data" :key="topico['id']">
 
                                         <div class="card-box-topicos">
                                             <label class="d-flex " :for="'inputTopico' + topico['id']"><h2>
@@ -520,6 +520,7 @@
 
     </div>
 </template>
+
 
 
 <script>
@@ -566,15 +567,19 @@
                 return false;
             },
             listTopicosQuizz(id) {
-                this.topicosQuizz = []
-                axios.get('/prof/getTopicoQuizz/' + id
-                ).then(function (response) {
 
-                    this.topicosQuizz = response.data.message;
-                    this.fetchedQuizzTopico = true;
+                this.allTopics = []
+                if(id!='erro') {
+                    axios.get('/prof/getTopicoQuizz/' + id
+                    ).then(function (response) {
 
-                }.bind(this));
+                        this.topicosQuizz = response.data.message;
+                        this.fetchedQuizzTopico = true;
+
+                    }.bind(this));
+                }
                 this.allTopics=this.topicos;
+
 
             },
             editarQuizz(quizz) {
@@ -686,6 +691,7 @@
                                                 this.modalEditarQuizz.hide();
                                                 this.toastEditarQuizz.show();
                                                 $('#toastEditarQuizz').removeClass('d-none');
+                                                this.listQuizz()
                                             } else if (response.data.message === "numero de perguntas invalido") {
                                                 $('#NumeroError' + id).text("numero de perguntas invalido").css('color', 'red').css('opacity', '1');
                                                 $('.btn-loading span').removeClass('d-none');
@@ -696,6 +702,7 @@
                                                 this.modalEditarQuizz.hide();
                                                 $('.btn-loading span').removeClass('d-none');
                                                 $('.btn-loading div').addClass('d-none');
+
                                             }
 
                                         }.bind(this));
@@ -1020,7 +1027,7 @@
 
                     }.bind(this));
 
-                }, 5000)
+                }, 3000)
             },
             voltar(){
 

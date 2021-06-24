@@ -58,7 +58,7 @@
                     <div class="card-box-2">
                         <h2>  {{disciplina['nome']}}</h2>
                         <p>Descrição: {{disciplina['descricao']}}</p>
-                        <div class="mt-5">
+                        <div class="mt-5 d-flex">
                             <p>Tópicos: 0</p>
                             <p>Alunos:  {{disciplina['inscritos']}}</p>
                             <p>Quizes: 0</p>
