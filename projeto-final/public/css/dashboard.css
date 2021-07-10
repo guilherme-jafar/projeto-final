@@ -576,6 +576,19 @@ i {
   font-weight: 500;
 }
 @media only screen and (max-width: 47.8em) {
+  .navbar .btn-nav {
+    display: none;
+  }
+}
+.navbar .img-nav {
+  display: none;
+}
+@media only screen and (max-width: 47.8em) {
+  .navbar .img-nav {
+    display: block;
+  }
+}
+@media only screen and (max-width: 47.8em) {
   .navbar .navbar-brand {
     display: none;
   }
@@ -605,6 +618,21 @@ section {
   background-size: cover;
   background-position: center;
   padding: 5rem;
+}
+
+@media only screen and (max-width: 37.5em) {
+  .two-buttons {
+    overflow-y: hidden;
+    overflow-x: scroll;
+    white-space: nowrap;
+  }
+}
+
+.modal-info__docente {
+  font-size: 1.8rem;
+}
+.modal-info__docente h6 {
+  font-size: 1.7rem;
 }
 
 .section-dashboard .dropdown ul {
@@ -818,6 +846,16 @@ section {
   border-color: transparent;
   padding: 2rem;
 }
+@media only screen and (max-width: 47.8em) {
+  .modal-adicionar-pergunta .form-control, .editar-pergunta .form-control {
+    font-size: 2rem;
+  }
+}
+@media only screen and (max-width: 37.5em) {
+  .modal-adicionar-pergunta .form-control, .editar-pergunta .form-control {
+    font-size: 1.5rem;
+  }
+}
 .modal-adicionar-pergunta .form-control-pergunta, .editar-pergunta .form-control-pergunta {
   border-radius: 1rem;
 }
@@ -875,6 +913,16 @@ section {
   padding: 2rem;
   cursor: pointer;
 }
+@media only screen and (max-width: 47.8em) {
+  .modal-adicionar-pergunta .label-tf, .editar-pergunta .label-tf {
+    font-size: 2rem;
+  }
+}
+@media only screen and (max-width: 37.5em) {
+  .modal-adicionar-pergunta .label-tf, .editar-pergunta .label-tf {
+    font-size: 1.5rem;
+  }
+}
 .modal-adicionar-pergunta .label-tf input, .editar-pergunta .label-tf input {
   position: absolute;
   opacity: 0;
@@ -906,6 +954,12 @@ section {
   border-radius: 50%;
   background: #7FBA27;
   transform: translate(6%, -6%);
+}
+@media only screen and (max-width: 47.8em) {
+  .modal-adicionar-pergunta .label-tf span, .editar-pergunta .label-tf span {
+    height: 4rem;
+    width: 4rem;
+  }
 }
 .modal span, .forms span {
   color: white;
@@ -973,6 +1027,36 @@ section {
   color: white;
 }
 
+.editar-pergunta .label-tf span {
+  right: 20%;
+}
+@media only screen and (max-width: 106.25em) {
+  .editar-pergunta .label-tf span {
+    right: 17%;
+  }
+}
+@media only screen and (max-width: 93.75em) {
+  .editar-pergunta .label-tf span {
+    right: 12%;
+  }
+}
+@media only screen and (max-width: 75em) {
+  .editar-pergunta .label-tf span {
+    right: 12%;
+  }
+}
+@media only screen and (max-width: 68.75em) {
+  .editar-pergunta .label-tf span {
+    right: 18%;
+  }
+}
+@media only screen and (max-width: 47.8em) {
+  .editar-pergunta .label-tf span {
+    height: 4rem;
+    width: 4rem;
+  }
+}
+
 .card-disciplina {
   box-shadow: 0 2px 5px 1px rgba(64, 60, 67, 0.16);
   padding: 2rem;
@@ -987,9 +1071,16 @@ section {
   width: 25rem;
   border-radius: 1rem;
 }
+@media only screen and (max-width: 75em) {
+  .card-disciplina .card-image {
+    width: 95%;
+    height: 100%;
+  }
+}
 @media only screen and (max-width: 62em) {
   .card-disciplina .card-image {
     width: 100%;
+    height: 100%;
   }
 }
 .card-disciplina .card-inside-disciplina div:first-child {

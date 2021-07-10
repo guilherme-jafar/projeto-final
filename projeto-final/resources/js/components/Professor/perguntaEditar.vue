@@ -93,7 +93,7 @@
 
                         <p :id="'fileError'+pergunta['id']"></p>
                     </div>
-                    <div class="col-md-4 text-center">
+                    <div class="col-md-4 text-center mb-3 ">
                         <label :for="'tipo'+pergunta['id']">
                             Indique o tipo de pergunta<br>
 
@@ -117,7 +117,7 @@
                         </label>
                     </div>
 
-                    <div class="col-md-4 text-center">
+                    <div class="col-md-4 text-center mb-3">
                         <label :for="'tempo'+pergunta['id']">
                             Indique o tempo de pergunta<br>
                             <select name="tipo" class="form-select" :id="'tempo'+pergunta['id']">
@@ -138,6 +138,7 @@
                     <div class="col-md-4 text-center">
                         <label :for="'pontos'+pergunta['id']">
                             Indique a pontuação<br>
+                            <br class="d-lg-none d-md-block d-none ">
                             <select name="pontos" class="form-select" :id="'pontos'+pergunta['id']">
                                 <option value="Normal" v-bind:selected="pergunta['valor'] ===  1000 ">Normal</option>
                                 <option value="Pontos duplos" v-bind:selected="pergunta['valor'] ===  2000 ">Pontos

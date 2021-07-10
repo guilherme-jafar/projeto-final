@@ -34,7 +34,7 @@
 
     <div class="col-12">
 
-        <input name="confPass" class="form-control mt-2 mb-3" type="password" id="confPass" required>
+        <input name="confPass" class="form-control mt-2 mb-3" type="password" id="confPass" required @keyup.enter="submit()">
         <label class="label" for="confPass"><span>Confirmar Password</span></label>
 
     </div>

@@ -70,10 +70,13 @@
                         @endif
                     </li>
                     <li class="nav-item avatar dropdown d-flex align-items-center">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="@if(session('utilizador')['foto'] == null){{asset('/images/imgDefault.jpg')}}@else {{asset('/images/' . session('utilizador')['foto'])}} @endif" class="rounded-circle z-depth-0"
-                                 alt="avatar image" style="width: 5rem">
+                        <button class="btn btn-secondary dropdown-toggle btn-nav" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="@if(session('utilizador')['foto'] == null){{asset('/images/imgDefault.jpg')}}@else {{asset('/images/' . session('utilizador')['foto'])}} @endif" class="rounded-circle z-depth-0 "
+                                 alt="avatar image" style="width: 5rem; height: 5rem">
                         </button>
+                        <img src="@if(session('utilizador')['foto'] == null){{asset('/images/imgDefault.jpg')}}@else {{asset('/images/' . session('utilizador')['foto'])}} @endif" class="rounded-circle z-depth-0 img-nav ms-3"
+                             alt="avatar image" style="width: 5rem; height: 5rem">
+
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li><a class="dropdown-item" href="{{URL('/editarperfil')}}">Editar Perfil <i class=" bi bi-pencil-square"></i></a></li>
                             <li><a class="dropdown-item" href="{{URL('/logout')}}">Logout <i class=" bi bi-box-arrow-right"></i></a></li>

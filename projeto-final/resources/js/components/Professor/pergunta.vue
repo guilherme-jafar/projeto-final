@@ -208,7 +208,7 @@
                                         <label :file="'file' + topicos" class="pergunta_input"></label>
                                         <p :id="'fileError'+topicos"></p>
                                     </div>
-                                    <div class="col-md-4 text-center">
+                                    <div class="col-md-4 text-center mb-3">
                                         <label :for="'tipo'+topicos">
                                             Indique o tipo de pergunta<br>
                                             <select name="tipo" class="form-select" :id="'tipo'+topicos"
@@ -223,7 +223,7 @@
                                         </label>
                                     </div>
 
-                                    <div class="col-md-4 text-center">
+                                    <div class="col-md-4 text-center mb-3">
                                         <label :for="'tempo'+topicos">
                                             Indique o tempo de pergunta<br>
                                             <select name="tipo" class="form-select" :id="'tempo'+topicos">

@@ -576,6 +576,19 @@ i {
   font-weight: 500;
 }
 @media only screen and (max-width: 47.8em) {
+  .navbar .btn-nav {
+    display: none;
+  }
+}
+.navbar .img-nav {
+  display: none;
+}
+@media only screen and (max-width: 47.8em) {
+  .navbar .img-nav {
+    display: block;
+  }
+}
+@media only screen and (max-width: 47.8em) {
   .navbar .navbar-brand {
     display: none;
   }

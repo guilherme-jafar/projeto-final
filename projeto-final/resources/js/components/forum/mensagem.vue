@@ -69,31 +69,11 @@
                                     {{mensagem['data']}}
                                 </p>
                                 <div v-if="tipoUtilizador === 'prof'" class="dropdown">
-<!--                                    <button class="" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"-->
-<!--                                            aria-expanded="false">-->
-<!--                                        <i class="bi bi-three-dots-vertical"></i>-->
-<!--                                    </button>-->
 
-<!--                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">-->
-<!--                                        <li>-->
-<!--                                            <button type="button" class="dropdown-item" data-bs-toggle="modal"-->
-<!--                                                    :data-bs-target="'#eliminarMensagem' + mensagem['id']">Eliminar-->
-<!--                                            </button>-->
-<!--                                        </li>-->
-<!--                                    </ul>-->
                                 </div>
-<!--                                <span data-bs-toggle="collapse" :data-bs-target="'#collapseMensagem'+mensagem['id']"-->
-<!--                                      aria-expanded="false"-->
-<!--                                      :aria-controls="'collapseQuizz'+mensagem['id']" class="material-icons"-->
-<!--                                      @click="changeButton(mensagem['id'])" style="cursor: pointer">-->
-<!--                                         <img :id="'img'+mensagem['id']" src="/assets/expand_more_black_24dp.svg">-->
-<!--                                 </span>-->
-                            </div>
-<!--                            <div class="collapse mt-2" :id="'collapseMensagem'+mensagem['id']">-->
-<!--                                <p>{{mensagem['mensagem']}}</p>-->
 
-<!--                                <respostas ref="respostas" :tipo_props="mensagem['tipo']" :id_props="mensagem['id']"></respostas>-->
-<!--                            </div>-->
+                            </div>
+
                             <div class=" mt-2">
                                 <p>{{mensagem['mensagem']}}</p>
 
@@ -104,7 +84,11 @@
                         </li>
                     </ul>
 
-
+                    <div v-if="!mandarMensagem" class="text-end">
+                        <button  type="button" class="btn btn-primary" @click="buttonAdicionar">
+                            Adicionar Mensagem
+                        </button>
+                    </div>
                 </div>
                 <div v-if="mandarMensagem" id="nova-mensagem" class="nova-mensagem">
 
@@ -125,11 +109,7 @@
 
                 </div>
 
-                <div v-if="!mandarMensagem" class="text-end">
-                    <button  type="button" class="btn btn-primary" @click="buttonAdicionar">
-                        Adicionar Mensagem
-                    </button>
-                </div>
+
 
 
 
@@ -228,6 +208,21 @@
 
             },
             buttonAdicionar() {
+
+
+
+
+
+
+
+
+                if($('#mensagem-adicionar').hasClass('d-none')){
+                    $('#mensagem-adicionar').addClass('d-block')
+                    $('#mensagem-adicionar').removeClass('d-none')
+                }else {
+                    $('#mensagem-adicionar').addClass('d-none')
+                    $('#mensagem-adicionar').removeClass('d-block')
+                }
 
                 this.mandarMensagem = !this.mandarMensagem
 
