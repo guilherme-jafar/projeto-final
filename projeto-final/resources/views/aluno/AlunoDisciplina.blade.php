@@ -17,7 +17,22 @@
                             <div class="card-inside-disciplina">
                                 <div>
                                     <h2>  {{session('disciplina')['nome']}}</h2>
-                                    <i class="bi bi-three-dots-vertical"></i>
+
+                                    <button class="ms-auto" style=" background-color: transparent; border: none;"
+                                            type="button" id="dropdownMenuButton112" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        <li>
+                                            <!-- Button trigger modal -->
+                                            <button style="font-size: 1.5rem" type="button" class="dropdown-item"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#professor">
+                                                Docente
+                                            </button>
+                                        </li>
+                                    </ul>
                                 </div>
                                 <div>
                                     <p>Descricao: {{session('disciplina')['descricao']}}</p>
@@ -27,42 +42,44 @@
                                     <p>Quizes: 0</p>
                                 </div>
                             </div>
-                            <div id="app2" class="mt-4">
-                                <button type="button" class="btn btn-third ms-2" id="btn-chg-1" onclick="chg(1)">Quizz</button>
-{{--                                <button type="button" class="btn btn-ghost-2 ms-5" id="btn-chg-2" onclick="chg(2)">Historico</button>--}}
-                                <button type="button" class="btn btn-ghost-2 ms-5" id="btn-chg-3" onclick="chg(3)">Fórum</button>
+                            <div id="app2" class="mt-4 box-buttons">
+                                <button type="button" class="btn btn-third ms-2" id="btn-chg-1" onclick="chg(1)">Quizz
+                                </button>
+                                {{--                                <button type="button" class="btn btn-ghost-2 ms-5" id="btn-chg-2" onclick="chg(2)">Historico</button>--}}
+                                <button type="button" class="btn btn-ghost-2 ms-5" id="btn-chg-3" onclick="chg(3)">
+                                    Fórum
+                                </button>
                             </div>
 
                         </div>
                     </div>
 
 
-
                 </div>
                 <div class="card-box-3">
                     <div>
 
-                    </div><br>
+                    </div>
+                    <br>
 
                     <div id="app">
 
-
-                        <div id="quizz" >
-                            <alunos-quizz :quizz_prop="'{{json_encode($quizz, TRUE)}}'" ></alunos-quizz>
-
-                        </div>
-                        <div id="forum" >
-                            <forum-show  :tipo_props="'{{json_encode(session('utilizador')['tipo'], TRUE)}}'"></forum-show>
+                        <info-docente></info-docente>
+                        <div id="quizz">
+                            <alunos-quizz :quizz_prop="'{{json_encode($quizz, TRUE)}}'"></alunos-quizz>
 
                         </div>
+                        <div id="forum">
+                            <forum-show
+                                :tipo_props="'{{json_encode(session('utilizador')['tipo'], TRUE)}}'"></forum-show>
 
-{{--                        <div id="historico" >--}}
-{{--                            <historico-aluno></historico-aluno>--}}
+                        </div>
 
-{{--                        </div>--}}
+                        {{--                        <div id="historico" >--}}
+                        {{--                            <historico-aluno></historico-aluno>--}}
+
+                        {{--                        </div>--}}
                     </div>
-
-
 
 
                 </div>
@@ -80,8 +97,8 @@
 
 
 
-    <script >
-        $( document ).ready(function() {
+    <script>
+        $(document).ready(function () {
 
             $('#quizz').show();
 
@@ -90,9 +107,9 @@
 
         });
 
-        function chg(index){
+        function chg(index) {
 
-            switch (index){
+            switch (index) {
                 case 1:
                     $('#quizz').show();
 
@@ -125,9 +142,6 @@
             }
 
 
-
-
-
         }
 
         // import disciplinaProf from "../../js/components/Professor/disciplinaProf";
@@ -136,7 +150,6 @@
         //     components: {disciplinaProf},
         //
         // }
-
 
 
     </script>

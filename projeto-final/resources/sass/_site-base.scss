@@ -248,6 +248,8 @@ i{
     box-shadow:  1rem 0.2rem rgba(0,0,0,0.10);
 
 
+
+
     .navbar-brand{
         .img-fluid{
             width: 50%;
@@ -284,6 +286,23 @@ i{
             font-weight: 500;
 
         }
+    }
+
+    .btn-nav{
+
+        @include respond(bootstrap_768) {
+            display: none;
+        }
+
+    }
+
+    .img-nav{
+        display: none;
+
+        @include respond(bootstrap_768) {
+            display: block;
+        }
+
     }
 
     @include respond(bootstrap_768){

@@ -1,16 +1,16 @@
 <template>
-    <form class="row mx-auto" id="RegisterProfessor">
+    <form class="row mx-auto" id="RegisterProfessor" @submit="submit()">
         <h2 class="mt-5 mb-5" >Login</h2>
         <div class="col-12">
 
-            <input name="email" class="form-control mt-2 mb-3 " type="email" id="email" >
+            <input name="email" class="form-control mt-2 mb-3 " type="email" id="email">
             <label class="label" for="email" ><span>Email</span></label>
         </div>
         <div class="col-12 mb-3">
             <p class="error " id="EmailError"></p>
         </div>
         <div class="col-12">
-            <input name="pass" class="form-control mt-2 mb-3" type="password" id="pass" >
+            <input name="pass" class="form-control mt-2 mb-3" type="password" id="pass" @keyup.enter="submit()">
             <label class="label" for="pass"><span>Password</span></label>
             <span class="password-eye btn" id="password-eye" @click="verPassword"><i class="bi bi-eye"></i></span>
         </div>
@@ -24,7 +24,7 @@
 
         <div class="">
 
-            <button name="submit" class="btn btn-primary mt-5 mb-5 btn-loading"  type="button" id="submit" @click="submit()">
+            <button form="RegisterProfessor" name="submit" class="btn btn-primary mt-5 mb-5 btn-loading"  type="button" id="submit" @click="submit()">
                 <span class="">ENTRAR &nbsp;</span>
                 <div class="spinner-border text-light d-none" role="status">
 
@@ -46,6 +46,7 @@ export default {
     methods: {
         submit() {
 
+
             $('#submit span').addClass('d-none');
             $('#submit div').removeClass('d-none');
 
@@ -54,6 +55,8 @@ export default {
                 $('#submit span').removeClass('d-none');
                 $('#submit div').addClass('d-none');
 
+            }else{
+                $( "#EmailError" ).text("").css('color', 'red').css('opacity', '1');
             }
 
             if($( "#pass" ).val().length === 0 ){

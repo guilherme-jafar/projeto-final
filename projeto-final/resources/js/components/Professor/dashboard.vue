@@ -82,11 +82,11 @@
                         <div class="card-box-3">
                             <p class="descricao">Descricao: {{disciplina['descricao']}}</p>
 
-                            <div class="mt-0 mt-md-5 d-md-flex d-block">
+                            <div class="mt-0 mt-md-5 d-sm-flex d-block">
                                 <div >
-                                    <p>Tópicos: 0</p>
+<!--                                    <p>Tópicos: 0</p>-->
                                     <p>Alunos: {{disciplina['inscritos']}}</p>
-                                    <p>Quizes: 0</p>
+<!--                                    <p>Quizes: 0</p>-->
                                 </div>
 
                                 <div class="ms-auto">
@@ -182,15 +182,15 @@
                         <form class="row mx-auto" id="adicionarDisciplina">
                             <div class="col-12">
                                 <label class="label" for="disciplina">Disciplina</label>
-                                <input name="disciplina" class="form-control mt-2 mb-3 " type="text" id="disciplina">
+                                <input name="disciplina" class="form-control mt-2 mb-3 " type="text" id="disciplina" >
 
                             </div>
                             <div class="col-12">
                                 <p class="error " id="disciplinaError"></p>
                             </div>
                             <div class="col-12 mt-2">
-                                <label class="label" for="descricao">Descrição</label>
-                                <textarea class="form-control" name="descricao" id="descricao" rows="2"></textarea>
+                                <label class="label" for="descricao" >Descrição</label>
+                                <textarea class="form-control" name="descricao" id="descricao" rows="2" @keyup.enter="submit()"></textarea>
                             </div>
 
 

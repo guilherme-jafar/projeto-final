@@ -56,18 +56,8 @@
 
                     </div>
                     <div class="card-box-2">
-                        <h2>  {{disciplina['nome']}}</h2>
-                        <p>Descrição: {{disciplina['descricao']}}</p>
-                        <div class="mt-5 d-flex">
-                            <p>Tópicos: 0</p>
-                            <p>Alunos:  {{disciplina['inscritos']}}</p>
-                            <p>Quizes: 0</p>
-                        </div>
-
-                    </div>
-                    <div class="card-box-3">
-                        <div>
-
+                        <div class="d-flex box-1">
+                            <h2>  {{disciplina['nome']}}</h2>
                             <div class="ms-auto dropdown">
                                 <button class="" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="bi bi-three-dots-vertical"></i>
@@ -85,17 +75,35 @@
                                     <li>
                                         <button type="button" class="dropdown-item" @click="Enter(disciplina['id'])" >
                                             Entrar
-                                    </button>
+                                        </button>
                                     </li>
                                 </ul>
                             </div>
                         </div>
-                        <div>
 
-                            <button class="btn btn-secondary" @click="Enter(disciplina['id'])">Entrar</button>
+                        <div class="card-box-3">
+
+                            <p>Descrição: {{disciplina['descricao']}}</p>
+
+                            <div class="mt-0 mt-md-5 d-sm-flex d-block">
+
+                                <div >
+                                    <!--                            <p>Tópicos: 0</p>-->
+                                    <p>Alunos:  {{disciplina['inscritos']}}</p>
+                                    <!--                            <p>Quizes: 0</p>-->
+                                </div>
+                                <div class="ms-auto">
+
+                                    <button class="btn btn-secondary me-3" @click="Enter(disciplina['id'])">Entrar</button>
+                                </div>
+
+                            </div>
+
+
                         </div>
 
                     </div>
+
 
                     <!-- Modal -->
                     <div class="modal fade" :id="'eliminar' + disciplina['id']" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

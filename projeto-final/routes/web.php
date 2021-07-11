@@ -133,6 +133,8 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:aluno']], function 
     Route::get('/aluno/historico/{id}', [App\Http\Controllers\Historico::class, 'showAluno'] );
     Route::get('/aluno/historico/sessao/{id}', [App\Http\Controllers\Historico::class, 'indexAluno'] );
 
+    Route::get('/aluno/infodocente', [App\Http\Controllers\ContaController::class, 'getInfoDocente'] );
+
 });
 
 Route::group(['middleware' =>['check.auth']], function () {

@@ -431,11 +431,11 @@
 
                                 <div class="col-md-4 mb-5 mb-xs-0 text-center">
                                     <div id="pontos" class="mb-1 mt-5">
-                                        <h4>Vale Pontos?</h4>
+
                                         <div class=" btn-group mb-1">
                                             <label> <input type="radio" name="Valepontos" value="true" class="">
                                                 Sim</label>
-                                            <label><input id="avalicaoNumber" type="number" value="0"></label>
+
 
                                         </div>
                                         <div>
@@ -468,9 +468,14 @@
                                 </div>
 
 
-                                <div class="col-12 mt-1">
+                                <div class="col-6 mt-1">
                                     <label class="label" for="nPerguntas">Numero perguntas</label>
                                     <input class="form-control" name="nPerguntas" id="nPerguntas" type="number">
+
+                                </div>
+                                <div class="col-6 mt-1">
+                                    <label class="label" for="avalicaoNumber">Vale Pontos?</label>
+                                    <input class="form-control" id="avalicaoNumber" type="number" value="1" title="Indique o número de vezes que o aluno pode fazer o teste e ganhar pontos">
 
                                 </div>
                                 <div class="col-12 mb-5">
@@ -1019,13 +1024,19 @@
 
             },
             getTopicos() {
-                window.setInterval(() => {
 
                 axios.get('/prof/listTopicosAll').then(
                     function (response) {
                         this.topicos=response.data.topico;
 
-                    }.bind(this));
+                    }.bind(this));//TODO:
+                window.setInterval(() => {
+
+                // axios.get('/prof/listTopicosAll').then(
+                //     function (response) {
+                //         this.topicos=response.data.topico;
+                //
+                //     }.bind(this));
 
                 }, 3000)
             },

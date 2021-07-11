@@ -27,7 +27,7 @@ Vue.component('alunodashboard',require('./components/aluno/dashboadAluno.vue').d
 Vue.component('alunosQuizz',require('./components/aluno/quizzAluno').default);
 Vue.component('perguntaQuizz', require('./components/quizz/perguntaQuizz').default)
 Vue.component('historico-aluno',require('./components/aluno/historico').default);
-
+Vue.component('info-docente',require('./components/aluno/infodocente').default);
 //quizz
 Vue.component('waitRoom',require('./components/quizz/waitRoom').default)
 Vue.component('waitRoomAluno',require('./components/quizz/WaitRoomStudent').default)

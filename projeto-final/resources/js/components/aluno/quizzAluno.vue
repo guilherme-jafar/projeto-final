@@ -20,7 +20,7 @@
                     <li class="card-box mb-5 mt-5" v-for="quizz in filter" :key="quizz['id']">
 
                         <div v-if="quizz['tipo']==='true'">
-                            <div class="card-box-text">
+                            <div class="d-block d-sm-flex">
                                 <h2>{{quizz['nome']}}</h2><br>
                                 <p style="font-size: 16px">&nbsp;&nbsp;Perguntas: {{quizz['numeroperguntas']}}</p>
                                 <button type="button" class="btn btn-secondary ms-2 ms-auto"
@@ -111,15 +111,18 @@
                             </div>
                         </div>
                         <div v-else>
-                            <div class="card-box-text">
-                                <h2>{{quizz['nome']}}</h2><br>
-                                <p style="font-size: 16px">&nbsp;&nbsp;Perguntas: {{quizz['numeroperguntas']}}</p>
-                                <button type="button" class="btn btn-secondary ms-2 ms-auto"
-                                        @click="enterHistorico(quizz['id'])">Historico
-                                </button>
-                                <button type="button" class="btn btn-secondary ms-3 " data-bs-toggle="modal"
-                                        :data-bs-target="'#t'+quizz['id']">Fazer Teste
-                                </button>
+                            <div class="d-block d-sm-flex">
+                                <h2>{{quizz['nome']}} </h2>
+                                <p style="font-size: 16px"> Perguntas: {{quizz['numeroperguntas']}}</p>
+                                <div class="ms-0 ms-sm-auto two-buttons">
+                                    <button type="button" class="btn btn-secondary "
+                                            @click="enterHistorico(quizz['id'])">Historico
+                                    </button>
+                                    <button type="button" class="btn btn-secondary ms-0 ms-sm-3 " data-bs-toggle="modal"
+                                            :data-bs-target="'#t'+quizz['id']">Fazer Teste
+                                    </button>
+                                </div>
+
                             </div>
 
 
@@ -152,10 +155,16 @@
                         </div>
 
 
+
+
+
                     </li>
                 </ul>
             </div>
         </div>
+
+
+
         <historico-aluno :idQuizz_prop="idQuizzHistorico" :is="component"></historico-aluno>
     </div>
 </template>
@@ -179,12 +188,13 @@
                 quizz: JSON.parse(this.quizz_prop),
                 idQuizzHistorico: '',
                 component: '',
-                isActive: true
+                isActive: true,
+                professor: ''
             }
         },
         computed: {
             filter() {
-                return this.quizz.filter((quizz) => {
+                return this.quizz.data.filter((quizz) => {
                     return quizz['nome'].match(this.search);
                 })
             }
@@ -226,8 +236,6 @@
                 axios.get('/aluno/getQuizz').then(
                     function (response) {
                         this.quizz=response.data.message;
-
-
                     }.bind(this));
             },
             voltar() {
@@ -235,12 +243,15 @@
                 this.component = '';
                 this.isActive = true;
             },
+
         },
         mounted() {
             localStorage.clear();
-            window.setInterval(() => {
-                this.getQuizz();
-            }, 5000)
+
+            this.getQuizz();
+            // window.setInterval(() => {
+            //     this.getQuizz();
+            // }, 5000)
 
             // this.disciplinas = JSON.parse(this.disciplinas)
             this.$root.$on('btnVoltar', this.voltar);

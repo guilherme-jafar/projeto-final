@@ -1,5 +1,22 @@
 @import "../site-base";
 
+.two-buttons{
+
+
+    @include respond(phone){
+        overflow-y: hidden;
+        overflow-x: scroll;
+        white-space: nowrap;
+    }
+}
+
+.modal-info__docente{
+    font-size: 1.8rem;
+    h6{
+        font-size: 1.7rem;
+    }
+}
+
 .section-dashboard{
 
     .dropdown{
@@ -295,6 +312,14 @@
         padding: 2rem;
         //box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
 
+        @include respond(bootstrap_768){
+            font-size: 2rem;
+        }
+
+        @include respond(phone){
+            font-size: 1.5rem;
+        }
+
         &-pergunta{
             border-radius: 1rem;
         }
@@ -363,6 +388,16 @@
         padding: 2rem;
         cursor: pointer;
 
+        @include respond(bootstrap_768){
+            font-size: 2rem;
+        }
+
+        @include respond(phone){
+            font-size: 1.5rem;
+        }
+
+
+
         input{
             position: absolute;
             opacity: 0;
@@ -397,6 +432,11 @@
                 border-radius: 50%;
                 background: #7FBA27;
                 transform: translate(6%, -6%);
+            }
+
+            @include respond(bootstrap_768){
+                height: 4rem;
+                width: 4rem;
             }
         }
 
@@ -506,6 +546,45 @@
 
 }
 
+.editar-pergunta .label-tf{
+    span{
+        right: 20%;
+
+
+
+
+
+        @include respond(big-desktop-2){
+            right: 17%;
+        }
+
+
+
+        @include respond(tab-land-2){
+            right: 12%;
+        }
+
+        @include respond(tab-land){
+            right: 12%;
+        }
+
+        @include respond(tab-1100){
+            right: 18%;
+        }
+
+        @include respond(bootstrap_768){
+            height: 4rem;
+            width: 4rem;
+        }
+
+
+
+
+
+
+    }
+}
+
 .card-disciplina{
     box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
     padding: 2rem;
@@ -520,8 +599,14 @@
         width: 25rem;
         border-radius: 1rem;
 
+        @include respond(tab-land){
+            width: 95%;
+            height: 100%;
+        }
+
         @include respond(tab-port){
             width: 100%;
+            height: 100%;
         }
 
     }
