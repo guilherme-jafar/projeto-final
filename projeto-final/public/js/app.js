@@ -3625,8 +3625,9 @@ __webpack_require__.r(__webpack_exports__);
       } else if (document.getElementById("pergunta" + top).value.length > 120) {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#PerguntaError' + top).text("O enunciado é demasiado grande. Deve ter 120 caracteres no máximo!!").css('color', 'red').css('opacity', '1');
       } else {
+        var desc = document.getElementById("pergunta" + top).value.replaceAll("\"", "\\\"");
         form.append('topico', top);
-        form.append('pergunta', document.getElementById("pergunta" + top).value);
+        form.append('pergunta', desc);
         form.append('tempo', document.getElementById("tempo" + top).value);
         form.append('tipo', document.getElementById("tipo" + top).value);
         form.append('pontos', document.getElementById("pontos" + top).value);
@@ -4513,7 +4514,8 @@ __webpack_require__.r(__webpack_exports__);
       } else if (document.getElementById("pergunta" + perguntaId).value.length > 120) {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#PerguntaError' + perguntaId).text("O enunciado é demasiado grande. Deve ter 120 caracteres no máximo!!").css('color', 'red').css('opacity', '1');
       } else {
-        form.append('pergunta', document.getElementById("pergunta" + perguntaId).value);
+        var desc = document.getElementById("pergunta" + perguntaId).value.replaceAll("\"", "\\\"");
+        form.append('pergunta', desc);
         form.append('tempo', document.getElementById("tempo" + perguntaId).value);
         form.append('tipo', document.getElementById("tipo" + perguntaId).value);
         form.append('pontos', document.getElementById("pontos" + perguntaId).value);

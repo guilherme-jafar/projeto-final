@@ -601,8 +601,9 @@
                 } else if (document.getElementById("pergunta" + top).value.length > 120) {
                     $('#PerguntaError' + top).text("O enunciado é demasiado grande. Deve ter 120 caracteres no máximo!!").css('color', 'red').css('opacity', '1');
                 } else {
+                    let desc= document.getElementById("pergunta" + top).value.replaceAll("\"", "\\\"");
                     form.append('topico', top);
-                    form.append('pergunta', document.getElementById("pergunta" + top).value);
+                    form.append('pergunta', desc);
                     form.append('tempo', document.getElementById("tempo" + top).value);
                     form.append('tipo', document.getElementById("tipo" + top).value);
                     form.append('pontos', document.getElementById("pontos" + top).value);
