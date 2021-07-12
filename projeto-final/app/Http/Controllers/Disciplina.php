@@ -200,7 +200,7 @@ class Disciplina extends Controller
 
 
             $result=DB::statement('call deleteDisciplina(?)', [$request->id]);
-            dd($result);
+
             $disciplina = DB::select('select * FROM disciplina d,  prof__disciplina pd WHERE d.id = pd.disciplina_id AND pd.prof__utilizador_id = :id', ['id' => session('utilizador')['id']]);
             return response()->json([
                 'message' => $disciplina,

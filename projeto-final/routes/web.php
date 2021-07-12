@@ -99,8 +99,6 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (
     Route::post("/prof/topico/{id}/editar", [App\Http\Controllers\topicos::class,'editar']);
     Route::post("/prof/disciplina/{id}/editar", [App\Http\Controllers\Disciplina::class,'editar']);
     Route::post("/prof/quizz/{id}/editar", [App\Http\Controllers\Quizz::class,'editar']);
-
-
     Route::post("prof/pergunta/{id}/editar", [App\Http\Controllers\Pergunta::class,'editar']);
     Route::get('/prof/disciplina/sucesso', [App\Http\Controllers\Disciplina::class, 'sucesso']);
     Route::post('/prof/quizz/ocultarquizz/{id}', [App\Http\Controllers\Quizz::class, 'ocultarQuizz']);
@@ -108,6 +106,7 @@ Route::group(['middleware' =>['check.auth', 'tipo.utilizador:prof']], function (
     Route::delete('/prof/quizz/delete/{id}', [App\Http\Controllers\Quizz::class, 'destroy']);
     Route::get('/prof/historico/{id}', [App\Http\Controllers\Historico::class, 'showProf'] );
     Route::get('/prof/historico/sessao/{id}', [App\Http\Controllers\Historico::class, 'indexProf'] );
+    Route::post('/prof/historico/student', [App\Http\Controllers\Historico::class, 'question'] );
 
 
 });
