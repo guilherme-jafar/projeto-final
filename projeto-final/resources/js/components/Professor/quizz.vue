@@ -415,33 +415,61 @@
                                 <div class="col-md-4 mb-5 mb-xs-0 text-center">
                                     <div id="realTime" class="mb-1 mt-5">
                                         <h4>Realtime</h4>
-                                        <div class="mb-1">
-                                            <label> <input type="radio" name="realtimeop" value="true" class="">
-                                                Sim</label>
 
+                                        <div class="input-group justify-content-center">
+                                            <div class="input-group-text">
+                                                 <input id="inputGroupSimR"  type="radio" name="realtimeop" value="true" class="form-check-input mt-0">
+                                            </div>
+                                            <label class="input-group-text" for="inputGroupSimR">Sim</label>
                                         </div>
-                                        <div>
-                                            <label> <input type="radio" name="realtimeop" value="false" class="">
-                                                Não</label>
 
+                                        <div class="input-group mt-3 justify-content-center">
+                                            <div class="input-group-text">
+                                                <input id="inputGroupNaoR" class="form-check-input mt-0" name="realtimeop" type="radio" value="false" aria-label="Radio button for following text input">
+                                            </div>
+                                            <label class="input-group-text" for="inputGroupNaoR">Não</label>
                                         </div>
 
                                     </div>
                                 </div>
 
-                                <div class="col-md-4 mb-5 mb-xs-0 text-center">
+                                <div class="col-md-4 mb-5 mb-xs-0 text-center vale-pontos">
                                     <div id="pontos" class="mb-1 mt-5">
+                                        <h4 >Vale Pontos?  <small >
+                                            <button type="button" class="btn-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title='Caso escolher "sim" indique o número de vezes que o aluno pode fazer o teste e ganhar pontos'>
+                                                <i style="font-size: 1.5rem;" class="bi bi-question-circle"></i>
+                                            </button>
 
-                                        <div class=" btn-group mb-1">
-                                            <label> <input type="radio" name="Valepontos" value="true" class="">
-                                                Sim</label>
+                                        </small></h4>
+<!--                                        <input class="form-control" id="avalicaoNumber" type="number" value="1" title="Indique o número de vezes que o aluno pode fazer o teste e ganhar pontos">-->
+<!--                                        <div class=" btn-group mb-1">-->
+<!--                                            <label> <input type="radio" name="Valepontos" value="true" class="">-->
+<!--                                                Sim</label>-->
 
+
+<!--                                        </div>-->
+<!--                                        <div>-->
+<!--                                            <label> <input type="radio" name="Valepontos" value="false" class="">-->
+<!--                                                Não</label>-->
+
+<!--                                        </div>-->
+
+
+
+                                        <div class="input-group justify-content-center">
+                                            <div class="input-group-text">
+                                                <input id="inputGroupSimVP" @click="valePontos(true)" class="form-check-input mt-0" name="Valepontos" type="radio" value="true" aria-label="Radio button for following text input">
+                                            </div>
+                                            <input type="number" value="1" class="form-control d-none" id="numeroVezes" aria-label="Text input with radio button">
+                                            <label class="input-group-text"  @click="valePontos(true)" for="inputGroupSimVP">Sim</label>
 
                                         </div>
-                                        <div>
-                                            <label> <input type="radio" name="Valepontos" value="false" class="">
-                                                Não</label>
 
+                                        <div class="input-group mt-3 justify-content-center">
+                                            <div class="input-group-text">
+                                                <input id="inputGroupNaoVP"  @click="valePontos(false)" class="form-check-input mt-0" name="Valepontos" type="radio" value="false" aria-label="Radio button for following text input">
+                                            </div>
+                                            <label class="input-group-text"  @click="valePontos(false)" for="inputGroupNaoVP">Não</label>
                                         </div>
 
                                     </div>
@@ -450,13 +478,20 @@
                                 <div class="col-md-4 mb-5 mb-xs-0 text-center">
                                     <div id="Visivel" class="mb-1 mt-5">
                                         <h4>Visivel</h4>
-                                        <div class="mb-1">
-                                            <label><input type="radio" name="Visivelop" value="true" class="">&nbsp;
-                                                Sim</label>
+
+                                        <div class="input-group justify-content-center">
+                                            <div class="input-group-text">
+
+                                                <input id="inputGroupSimV" type="radio" name="Visivelop" value="true" class="form-check-input mt-0">&nbsp;
+                                            </div>
+                                            <label class="input-group-text" for="inputGroupSimV">Sim</label>
                                         </div>
-                                        <div>
-                                            <label><input type="radio" name="Visivelop" value="false" class="">&nbsp;
-                                                Não</label>
+
+                                        <div class="input-group mt-3 justify-content-center">
+                                            <div class="input-group-text">
+                                                <input id="inputGroupNaoV" type="radio" name="Visivelop" value="false"  class="form-check-input mt-0" aria-label="Radio button for following text input">
+                                            </div>
+                                            <label class="input-group-text" for="inputGroupNaoV">Não</label>
                                         </div>
 
                                     </div>
@@ -468,16 +503,12 @@
                                 </div>
 
 
-                                <div class="col-6 mt-1">
+                                <div class="col-12 mt-1">
                                     <label class="label" for="nPerguntas">Numero perguntas</label>
                                     <input class="form-control" name="nPerguntas" id="nPerguntas" type="number">
 
                                 </div>
-                                <div class="col-6 mt-1">
-                                    <label class="label" for="avalicaoNumber">Vale Pontos?</label>
-                                    <input class="form-control" id="avalicaoNumber" type="number" value="1" title="Indique o número de vezes que o aluno pode fazer o teste e ganhar pontos">
 
-                                </div>
                                 <div class="col-12 mb-5">
                                     <p class="error " id="NumeroError"></p>
                                 </div>
@@ -563,6 +594,13 @@
         },
 
         methods: {
+            valePontos(valePontos){
+                if (valePontos){
+                    $('#numeroVezes').removeClass('d-none').addClass('d-block')
+                }else {
+                    $('#numeroVezes').removeClass('d-block').addClass('d-none')
+                }
+            },
             checked(id) {
                 for (let topico of this.topicosQuizz) {
                     if (topico['id'] === id) {
