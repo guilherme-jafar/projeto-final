@@ -1026,6 +1026,14 @@ section {
 .modal form .form-control #submit span, .forms form .form-control #submit span {
   color: white;
 }
+.modal .input-group-text, .forms .input-group-text {
+  background-color: transparent;
+  font-size: 2rem;
+}
+.modal .btn-tooltip, .forms .btn-tooltip {
+  background-color: transparent;
+  border: none;
+}
 
 .editar-pergunta .label-tf span {
   right: 20%;

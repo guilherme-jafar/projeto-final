@@ -5383,6 +5383,37 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5414,6 +5445,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     };
   },
   methods: {
+    valePontos: function valePontos(_valePontos) {
+      if (_valePontos) {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#numeroVezes').removeClass('d-none').addClass('d-block');
+      } else {
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()('#numeroVezes').removeClass('d-block').addClass('d-none');
+      }
+    },
     checked: function checked(id) {
       var _iterator = _createForOfIteratorHelper(this.topicosQuizz),
           _step;
@@ -52443,7 +52481,7 @@ var render = function() {
                           },
                           [
                             _c("i", { staticClass: "bi bi-plus-circle" }),
-                            _vm._v("    Adicionar Quizz\n                ")
+                            _vm._v("    Adicionar Quizz\n                    ")
                           ]
                         )
                       ]
@@ -52539,7 +52577,7 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "Editar\n                                            "
+                                                    "Editar\n                                                "
                                                   )
                                                 ]
                                               )
@@ -52560,7 +52598,7 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "Eliminar\n                                            "
+                                                    "Eliminar\n                                                "
                                                   )
                                                 ]
                                               )
@@ -52586,7 +52624,7 @@ var render = function() {
                                                     },
                                                     [
                                                       _vm._v(
-                                                        "Tornar\n                                                Visivel\n                                            "
+                                                        "Tornar\n                                                    Visivel\n                                                "
                                                       )
                                                     ]
                                                   )
@@ -52608,7 +52646,7 @@ var render = function() {
                                                     },
                                                     [
                                                       _vm._v(
-                                                        "Ocultar Quizz\n                                            "
+                                                        "Ocultar Quizz\n                                                "
                                                       )
                                                     ]
                                                   )
@@ -52662,7 +52700,7 @@ var render = function() {
                                     [
                                       _c("p", [
                                         _vm._v(
-                                          "Tipo:\n                                    "
+                                          "Tipo:\n                                        "
                                         ),
                                         quizz["tipo"] === "false"
                                           ? _c("span", [_vm._v("Teste ")])
@@ -52678,7 +52716,7 @@ var render = function() {
                                       _vm._v(" "),
                                       _c("p", [
                                         _vm._v(
-                                          "Visivel:\n                                    "
+                                          "Visivel:\n                                        "
                                         ),
                                         quizz["visivel"] === "false"
                                           ? _c("span", [_vm._v("Não ")])
@@ -52687,7 +52725,7 @@ var render = function() {
                                       _vm._v(" "),
                                       _c("p", [
                                         _vm._v(
-                                          "Vale Pontos:\n                                    "
+                                          "Vale Pontos:\n                                        "
                                         ),
                                         quizz["vale_pontos"] === "false"
                                           ? _c("span", [_vm._v("Não ")])
@@ -52714,7 +52752,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                                        Histórico\n                                    "
+                                                "\n                                            Histórico\n                                        "
                                               )
                                             ]
                                           ),
@@ -52735,7 +52773,7 @@ var render = function() {
                                                   },
                                                   [
                                                     _vm._v(
-                                                      "Iniciar Quizz\n                                        "
+                                                      "Iniciar Quizz\n                                            "
                                                     )
                                                   ]
                                                 ),
@@ -52792,7 +52830,7 @@ var render = function() {
                                                                   },
                                                                   [
                                                                     _vm._v(
-                                                                      "\n                                                            Não\n                                                        "
+                                                                      "\n                                                                Não\n                                                            "
                                                                     )
                                                                   ]
                                                                 ),
@@ -52822,7 +52860,7 @@ var render = function() {
                                                                   },
                                                                   [
                                                                     _vm._v(
-                                                                      "Sim\n                                                        "
+                                                                      "Sim\n                                                            "
                                                                     )
                                                                   ]
                                                                 )
@@ -52881,7 +52919,7 @@ var render = function() {
                                                   },
                                                   [
                                                     _vm._v(
-                                                      "Eliminar\n                                            Quizz"
+                                                      "Eliminar\n                                                Quizz"
                                                     )
                                                   ]
                                                 ),
@@ -52927,7 +52965,7 @@ var render = function() {
                                                   },
                                                   [
                                                     _vm._v(
-                                                      "\n                                            Cancelar\n                                        "
+                                                      "\n                                                Cancelar\n                                            "
                                                     )
                                                   ]
                                                 ),
@@ -53011,7 +53049,7 @@ var render = function() {
                                                   },
                                                   [
                                                     _vm._v(
-                                                      "\n                                            Editar Quizz"
+                                                      "\n                                                Editar Quizz"
                                                     )
                                                   ]
                                                 ),
@@ -53185,7 +53223,7 @@ var render = function() {
                                                                     }
                                                                   }),
                                                                   _vm._v(
-                                                                    " Sim\n                                                        "
+                                                                    " Sim\n                                                            "
                                                                   )
                                                                 ])
                                                               ]
@@ -53214,7 +53252,7 @@ var render = function() {
                                                                   }
                                                                 }),
                                                                 _vm._v(
-                                                                  "Não\n                                                        "
+                                                                  "Não\n                                                            "
                                                                 )
                                                               ])
                                                             ])
@@ -53277,7 +53315,7 @@ var render = function() {
                                                                     }
                                                                   }),
                                                                   _vm._v(
-                                                                    "\n                                                            Sim\n                                                        "
+                                                                    "\n                                                                Sim\n                                                            "
                                                                   )
                                                                 ])
                                                               ]
@@ -53306,7 +53344,7 @@ var render = function() {
                                                                   }
                                                                 }),
                                                                 _vm._v(
-                                                                  "Não\n                                                        "
+                                                                  "Não\n                                                            "
                                                                 )
                                                               ])
                                                             ])
@@ -53367,7 +53405,7 @@ var render = function() {
                                                                     }
                                                                   }),
                                                                   _vm._v(
-                                                                    " Sim\n                                                        "
+                                                                    " Sim\n                                                            "
                                                                   )
                                                                 ])
                                                               ]
@@ -53396,7 +53434,7 @@ var render = function() {
                                                                   }
                                                                 }),
                                                                 _vm._v(
-                                                                  " Não\n                                                        "
+                                                                  " Não\n                                                            "
                                                                 )
                                                               ])
                                                             ])
@@ -53457,7 +53495,7 @@ var render = function() {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              "Numero\n                                                    perguntas"
+                                                              "Numero\n                                                        perguntas"
                                                             )
                                                           ]
                                                         ),
@@ -53556,7 +53594,7 @@ var render = function() {
                                                                                 "h2",
                                                                                 [
                                                                                   _vm._v(
-                                                                                    "\n                                                                    " +
+                                                                                    "\n                                                                        " +
                                                                                       _vm._s(
                                                                                         topico[
                                                                                           "nome"
@@ -53655,7 +53693,7 @@ var render = function() {
                                                   },
                                                   [
                                                     _vm._v(
-                                                      "\n                                            Cancelar\n                                        "
+                                                      "\n                                                Cancelar\n                                            "
                                                     )
                                                   ]
                                                 ),
@@ -53746,7 +53784,130 @@ var render = function() {
                           _vm._v(" "),
                           _vm._m(11),
                           _vm._v(" "),
-                          _vm._m(12),
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "col-md-4 mb-5 mb-xs-0 text-center vale-pontos"
+                            },
+                            [
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "mb-1 mt-5",
+                                  attrs: { id: "pontos" }
+                                },
+                                [
+                                  _vm._m(12),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "input-group justify-content-center"
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        { staticClass: "input-group-text" },
+                                        [
+                                          _c("input", {
+                                            staticClass:
+                                              "form-check-input mt-0",
+                                            attrs: {
+                                              id: "inputGroupSimVP",
+                                              name: "Valepontos",
+                                              type: "radio",
+                                              value: "true",
+                                              "aria-label":
+                                                "Radio button for following text input"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.valePontos(true)
+                                              }
+                                            }
+                                          })
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("input", {
+                                        staticClass: "form-control d-none",
+                                        attrs: {
+                                          type: "number",
+                                          value: "1",
+                                          id: "numeroVezes",
+                                          "aria-label":
+                                            "Text input with radio button"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "label",
+                                        {
+                                          staticClass: "input-group-text",
+                                          attrs: { for: "inputGroupSimVP" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.valePontos(true)
+                                            }
+                                          }
+                                        },
+                                        [_vm._v("Sim")]
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "input-group mt-3 justify-content-center"
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        { staticClass: "input-group-text" },
+                                        [
+                                          _c("input", {
+                                            staticClass:
+                                              "form-check-input mt-0",
+                                            attrs: {
+                                              id: "inputGroupNaoVP",
+                                              name: "Valepontos",
+                                              type: "radio",
+                                              value: "false",
+                                              "aria-label":
+                                                "Radio button for following text input"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.valePontos(false)
+                                              }
+                                            }
+                                          })
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "label",
+                                        {
+                                          staticClass: "input-group-text",
+                                          attrs: { for: "inputGroupNaoVP" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.valePontos(false)
+                                            }
+                                          }
+                                        },
+                                        [_vm._v("Não")]
+                                      )
+                                    ]
+                                  )
+                                ]
+                              )
+                            ]
+                          ),
                           _vm._v(" "),
                           _vm._m(13),
                           _vm._v(" "),
@@ -53755,8 +53916,6 @@ var render = function() {
                           _vm._m(15),
                           _vm._v(" "),
                           _vm._m(16),
-                          _vm._v(" "),
-                          _vm._m(17),
                           _vm._v(" "),
                           _c(
                             "div",
@@ -53784,7 +53943,7 @@ var render = function() {
                                         [
                                           _c("h2", [
                                             _vm._v(
-                                              "\n                                            " +
+                                              "\n                                                " +
                                                 _vm._s(topico["nome"])
                                             )
                                           ]),
@@ -53807,7 +53966,7 @@ var render = function() {
                             0
                           ),
                           _vm._v(" "),
-                          _vm._m(18)
+                          _vm._m(17)
                         ]
                       )
                     ]),
@@ -53905,7 +54064,7 @@ var staticRenderFns = [
           _c("div", { staticClass: "toast-body" }, [
             _c("strong", [
               _c("i", { staticClass: "bi bi-check-circle-fill" }),
-              _vm._v("   \n                        "),
+              _vm._v("   \n                            "),
               _c("span", [_vm._v("Quizz editado com sucesso!!")])
             ])
           ]),
@@ -53942,7 +54101,7 @@ var staticRenderFns = [
           _c("div", { staticClass: "toast-body" }, [
             _c("strong", [
               _c("i", { staticClass: "bi bi-check-circle-fill" }),
-              _vm._v("   \n                        "),
+              _vm._v("   \n                            "),
               _c("span", [_vm._v("Quizz eliminado com sucesso!!")])
             ])
           ]),
@@ -53979,7 +54138,7 @@ var staticRenderFns = [
           _c("div", { staticClass: "toast-body" }, [
             _c("strong", [
               _c("i", { staticClass: "bi bi-check-circle-fill" }),
-              _vm._v("   \n                        "),
+              _vm._v("   \n                            "),
               _c("span", [_vm._v("Quizz adicionado com sucesso!!")])
             ])
           ]),
@@ -54038,7 +54197,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "modal-body text-left" }, [
       _c("p", { staticClass: "text-start" }, [
         _vm._v(
-          "Tem a certeza que quer iniciar este\n                                                            teste?"
+          "Tem a certeza que quer iniciar este\n                                                                teste?"
         )
       ])
     ])
@@ -54110,22 +54269,51 @@ var staticRenderFns = [
       _c("div", { staticClass: "mb-1 mt-5", attrs: { id: "realTime" } }, [
         _c("h4", [_vm._v("Realtime")]),
         _vm._v(" "),
-        _c("div", { staticClass: "mb-1" }, [
-          _c("label", [
+        _c("div", { staticClass: "input-group justify-content-center" }, [
+          _c("div", { staticClass: "input-group-text" }, [
             _c("input", {
-              attrs: { type: "radio", name: "realtimeop", value: "true" }
-            }),
-            _vm._v("\n                                            Sim")
-          ])
+              staticClass: "form-check-input mt-0",
+              attrs: {
+                id: "inputGroupSimR",
+                type: "radio",
+                name: "realtimeop",
+                value: "true"
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "label",
+            {
+              staticClass: "input-group-text",
+              attrs: { for: "inputGroupSimR" }
+            },
+            [_vm._v("Sim")]
+          )
         ]),
         _vm._v(" "),
-        _c("div", [
-          _c("label", [
+        _c("div", { staticClass: "input-group mt-3 justify-content-center" }, [
+          _c("div", { staticClass: "input-group-text" }, [
             _c("input", {
-              attrs: { type: "radio", name: "realtimeop", value: "false" }
-            }),
-            _vm._v("\n                                            Não")
-          ])
+              staticClass: "form-check-input mt-0",
+              attrs: {
+                id: "inputGroupNaoR",
+                name: "realtimeop",
+                type: "radio",
+                value: "false",
+                "aria-label": "Radio button for following text input"
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "label",
+            {
+              staticClass: "input-group-text",
+              attrs: { for: "inputGroupNaoR" }
+            },
+            [_vm._v("Não")]
+          )
         ])
       ])
     ])
@@ -54134,25 +54322,28 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4 mb-5 mb-xs-0 text-center" }, [
-      _c("div", { staticClass: "mb-1 mt-5", attrs: { id: "pontos" } }, [
-        _c("div", { staticClass: " btn-group mb-1" }, [
-          _c("label", [
-            _c("input", {
-              attrs: { type: "radio", name: "Valepontos", value: "true" }
-            }),
-            _vm._v("\n                                            Sim")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", [
-          _c("label", [
-            _c("input", {
-              attrs: { type: "radio", name: "Valepontos", value: "false" }
-            }),
-            _vm._v("\n                                            Não")
-          ])
-        ])
+    return _c("h4", [
+      _vm._v("Vale Pontos?  "),
+      _c("small", [
+        _c(
+          "button",
+          {
+            staticClass: "btn-tooltip",
+            attrs: {
+              type: "button",
+              "data-bs-toggle": "tooltip",
+              "data-bs-placement": "top",
+              title:
+                'Caso escolher "sim" indique o número de vezes que o aluno pode fazer o teste e ganhar pontos'
+            }
+          },
+          [
+            _c("i", {
+              staticClass: "bi bi-question-circle",
+              staticStyle: { "font-size": "1.5rem" }
+            })
+          ]
+        )
       ])
     ])
   },
@@ -54164,22 +54355,52 @@ var staticRenderFns = [
       _c("div", { staticClass: "mb-1 mt-5", attrs: { id: "Visivel" } }, [
         _c("h4", [_vm._v("Visivel")]),
         _vm._v(" "),
-        _c("div", { staticClass: "mb-1" }, [
-          _c("label", [
+        _c("div", { staticClass: "input-group justify-content-center" }, [
+          _c("div", { staticClass: "input-group-text" }, [
             _c("input", {
-              attrs: { type: "radio", name: "Visivelop", value: "true" }
+              staticClass: "form-check-input mt-0",
+              attrs: {
+                id: "inputGroupSimV",
+                type: "radio",
+                name: "Visivelop",
+                value: "true"
+              }
             }),
-            _vm._v(" \n                                            Sim")
-          ])
+            _vm._v(" \n                                            ")
+          ]),
+          _vm._v(" "),
+          _c(
+            "label",
+            {
+              staticClass: "input-group-text",
+              attrs: { for: "inputGroupSimV" }
+            },
+            [_vm._v("Sim")]
+          )
         ]),
         _vm._v(" "),
-        _c("div", [
-          _c("label", [
+        _c("div", { staticClass: "input-group mt-3 justify-content-center" }, [
+          _c("div", { staticClass: "input-group-text" }, [
             _c("input", {
-              attrs: { type: "radio", name: "Visivelop", value: "false" }
-            }),
-            _vm._v(" \n                                            Não")
-          ])
+              staticClass: "form-check-input mt-0",
+              attrs: {
+                id: "inputGroupNaoV",
+                type: "radio",
+                name: "Visivelop",
+                value: "false",
+                "aria-label": "Radio button for following text input"
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "label",
+            {
+              staticClass: "input-group-text",
+              attrs: { for: "inputGroupNaoV" }
+            },
+            [_vm._v("Não")]
+          )
         ])
       ])
     ])
@@ -54200,7 +54421,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-6 mt-1" }, [
+    return _c("div", { staticClass: "col-12 mt-1" }, [
       _c("label", { staticClass: "label", attrs: { for: "nPerguntas" } }, [
         _vm._v("Numero perguntas")
       ]),
@@ -54208,27 +54429,6 @@ var staticRenderFns = [
       _c("input", {
         staticClass: "form-control",
         attrs: { name: "nPerguntas", id: "nPerguntas", type: "number" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-6 mt-1" }, [
-      _c("label", { staticClass: "label", attrs: { for: "avalicaoNumber" } }, [
-        _vm._v("Vale Pontos?")
-      ]),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control",
-        attrs: {
-          id: "avalicaoNumber",
-          type: "number",
-          value: "1",
-          title:
-            "Indique o número de vezes que o aluno pode fazer o teste e ganhar pontos"
-        }
       })
     ])
   },
