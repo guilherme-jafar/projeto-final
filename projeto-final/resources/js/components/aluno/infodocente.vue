@@ -114,7 +114,7 @@
                 axios.get('/aluno/infodocente').then(
                     function (response) {
                         this.professor = response.data.message[0];
-                        console.log(this.professor)
+
                     }.bind(this));
             },
 

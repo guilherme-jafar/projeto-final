@@ -244,7 +244,7 @@
                             form.append('resultado', this.res)
                             form.append('tipo', this.pergunta[this.index]['tipo'])
                             form.append('sessioId', this.session)
-                            axios.post('/setResposta', form).then(function (response) {
+                            axios.post('/aluno/setResposta', form).then(function (response) {
                                 this.change()
                                 this.sleep(2500)
                             }.bind(this));
@@ -296,7 +296,7 @@
                 form.append('resultado', this.res)
                 form.append('tipo', this.pergunta[this.index]['tipo'])
                 form.append('sessioId', this.session)
-                axios.post('/setResposta', form).then(function (response) {
+                axios.post('/aluno/setResposta', form).then(function (response) {
                     this.change()
                     this.sleep(2500)
                 }.bind(this));
@@ -306,7 +306,7 @@
                 var respostas;
                 let form = new FormData();
                 form.append('id', this.pergunta[this.index]['id'])
-                axios.post('/getRespostas', form).then(function (response) {
+                axios.get('/aluno/getRespostas/' + this.pergunta[this.index]['id']).then(function (response) {
                     if (response.data.message === 'erro') {
                         this.index++;
                         this.enunciado = this.pergunta[this.index]['enunciado']

@@ -241,7 +241,6 @@
                 document.execCommand("copy");
 
             },
-
             eliminarDisciplina(disciplina) {
 
                 $('.eliminar-btn span').addClass('d-none');

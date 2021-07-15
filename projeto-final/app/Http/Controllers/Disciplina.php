@@ -43,7 +43,7 @@ class Disciplina extends Controller
     }
 
 
-    function EnterDiscProf(Request $request)
+    function getDiscProf(Request $request)
     {
 
         $disciplina = \App\Models\Disciplina::find($request->token);

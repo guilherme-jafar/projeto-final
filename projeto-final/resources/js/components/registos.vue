@@ -174,7 +174,7 @@ export default {
                 formData.append( 'pass',$( "#pass" ).val());
                 formData.append( 'tipo',tipo);
                 formData.append( 'sexo',test);
-                axios.post('/registo/sbmProfessor', formData
+                axios.post('/registo/utilizadores', formData
                 ).then(function (response) {
 
                     if (response.data.message !== "sucesso"){

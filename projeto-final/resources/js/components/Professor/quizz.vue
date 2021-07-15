@@ -964,7 +964,7 @@
             sendQuizz(form) {
                 $('#submitQuizz').prop('disabled', true);
 
-                axios.post('/insertQuizz', form
+                axios.post('/prof/quizz/create', form
                 ).then(function (response) {
                     if (response.data.message === "sucesso") {
 

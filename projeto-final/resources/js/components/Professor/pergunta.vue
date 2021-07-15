@@ -565,7 +565,7 @@
                 let form = new FormData()
 
                 form.append('id', this.topicos)
-                axios.post('/getPerguntas', form).then(function (response) {
+                axios.get('/prof/topico/perguntas/' + this.topicos).then(function (response) {
                         this.perguntas = response.data.message;
                     }.bind(this)
                 );
@@ -752,7 +752,7 @@
             send(form, top) {
 
                 $('#submit' + top).prop('disabled', true);
-                axios.post('/insertQuestion', form, {
+                axios.post('/prof/pergunta/create', form, {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }

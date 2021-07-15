@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class Historico extends Controller
 {
-    function showProf(Request $request)
+    function getHistoricosProf(Request $request)
     {
 
 //        $historico = DB::table('sessao')->select('*, count(sessaoMaster)')->where('quizz_id', '=', $request->id)->where('sessaoMaster', '!=', 'NULL')->groupBy('sessaoMaster')->paginate(5);
@@ -29,7 +29,7 @@ class Historico extends Controller
 
     }
 
-    function indexProf(Request $request)
+    function getHistoricoSessaoProf(Request $request)
     {
         $sessoes = DB::select('SELECT respostas_quizz.aluno_utilizador_id, utilizador.nome, respostas_quizz.sessao_id , COUNT(respostas_quizz.aluno_utilizador_id) AS num_respostas, SUM(respostas_quizz.resultado) AS soma_resultado FROM respostas_quizz, utilizador WHERE respostas_quizz.aluno_utilizador_id = utilizador.id and respostas_quizz.sessao_id IN (SELECT id FROM sessao  WHERE sessaoMaster = :id) GROUP BY respostas_quizz.aluno_utilizador_id ', ['id' => $request->id]);
 
@@ -58,7 +58,7 @@ class Historico extends Controller
 
     }
 
-    function showAluno(Request $request)
+    function getHistoricosAluno(Request $request)
     {
 
         $historico = DB::table('sessao')->select(DB::raw('sessaoMaster, count(sessaoMaster)'))->whereRaw('quizz_id =:id and  idUser =:idAluno and sessaoMaster != \'NULL\'', ['id' => $request->id, 'idAluno' => session('utilizador')['id']])->groupBy('sessaoMaster')->paginate(5);
@@ -78,7 +78,7 @@ class Historico extends Controller
 
     }
 
-    function indexAluno(Request $request)
+    function getHistoricoSessaoAluno(Request $request)
     {
         $respostas = [];
 

@@ -280,7 +280,7 @@ class topicos extends Controller
     }
 
 
-    function listTopicos(Request $request)
+    function getTopicos(Request $request)
     {
 
 

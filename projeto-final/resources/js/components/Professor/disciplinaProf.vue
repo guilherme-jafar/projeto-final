@@ -357,7 +357,6 @@
                     }.bind(this));
 
             },
-
             changeButton(id) {
                 if ($('#img' + id).attr('src') === '/assets/expand_more_black_24dp.svg') {
                     $('#img' + id).attr('src', '/assets/expand_less_black_24dp.svg')
@@ -365,7 +364,6 @@
                     $('#img' + id).attr('src', '/assets/expand_more_black_24dp.svg')
                 }
             },
-
             submit() {
                 let l = window.location.href.split('/');
 
@@ -444,7 +442,8 @@
                     return topico['nome'].match(this.search)
                 })
             }
-        }, mounted() {
+        },
+        mounted() {
 
             // this.disciplinas = JSON.parse(this.disciplinas)
             this.myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {})

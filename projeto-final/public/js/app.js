@@ -3592,7 +3592,7 @@ __webpack_require__.r(__webpack_exports__);
     getPerguntas: function getPerguntas() {
       var form = new FormData();
       form.append('id', this.topicos);
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/getPerguntas', form).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get('/prof/topico/perguntas/' + this.topicos).then(function (response) {
         this.perguntas = response.data.message;
       }.bind(this)); //this.getRespostas(this.topicos);
     },
@@ -3759,7 +3759,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     send: function send(form, top) {
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submit' + top).prop('disabled', true);
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/insertQuestion', form, {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/prof/pergunta/create', form, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -5778,7 +5778,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     },
     sendQuizz: function sendQuizz(form) {
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#submitQuizz').prop('disabled', true);
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/insertQuizz', form).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/prof/quizz/create', form).then(function (response) {
         if (response.data.message === "sucesso") {
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading span').removeClass('d-none');
           jquery__WEBPACK_IMPORTED_MODULE_0___default()('.btn-loading div').addClass('d-none');
@@ -6533,7 +6533,6 @@ __webpack_require__.r(__webpack_exports__);
     getQuizz: function getQuizz() {
       axios__WEBPACK_IMPORTED_MODULE_2___default().get('/aluno/infodocente').then(function (response) {
         this.professor = response.data.message[0];
-        console.log(this.professor);
       }.bind(this));
     }
   },
@@ -9094,7 +9093,7 @@ __webpack_require__.r(__webpack_exports__);
             form.append('resultado', this.res);
             form.append('tipo', this.pergunta[this.index]['tipo']);
             form.append('sessioId', this.session);
-            axios.post('/setResposta', form).then(function (response) {
+            axios.post('/aluno/setResposta', form).then(function (response) {
               this.change();
               this.sleep(2500);
             }.bind(this));
@@ -9142,7 +9141,7 @@ __webpack_require__.r(__webpack_exports__);
       form.append('resultado', this.res);
       form.append('tipo', this.pergunta[this.index]['tipo']);
       form.append('sessioId', this.session);
-      axios.post('/setResposta', form).then(function (response) {
+      axios.post('/aluno/setResposta', form).then(function (response) {
         this.change();
         this.sleep(2500);
       }.bind(this));
@@ -9151,7 +9150,7 @@ __webpack_require__.r(__webpack_exports__);
       var respostas;
       var form = new FormData();
       form.append('id', this.pergunta[this.index]['id']);
-      axios.post('/getRespostas', form).then(function (response) {
+      axios.get('/aluno/getRespostas/' + this.pergunta[this.index]['id']).then(function (response) {
         if (response.data.message === 'erro') {
           this.index++;
           this.enunciado = this.pergunta[this.index]['enunciado'];
@@ -10384,7 +10383,7 @@ __webpack_require__.r(__webpack_exports__);
         formData.append('pass', jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val());
         formData.append('tipo', tipo);
         formData.append('sexo', test);
-        axios__WEBPACK_IMPORTED_MODULE_0___default().post('/registo/sbmProfessor', formData).then(function (response) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default().post('/registo/utilizadores', formData).then(function (response) {
           if (response.data.message !== "sucesso") {
             jquery__WEBPACK_IMPORTED_MODULE_1___default()("#email").val('');
             jquery__WEBPACK_IMPORTED_MODULE_1___default()("#pass").val('');

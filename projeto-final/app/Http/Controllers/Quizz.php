@@ -470,7 +470,7 @@ GROUP BY s.quizz_id ,s.nomequizz', ['id' => session('utilizador')['id'], 'sessio
     {
 
 
-        var_dump($request->resposta);
+
 
 
         DB::insert('insert into respostas_quizz (id, resposta ,resultado,tipo,sessao_id,aluno_utilizador_id,pergunta_id) values (?,?,?,?,?,?,?)'
@@ -507,7 +507,7 @@ GROUP BY s.quizz_id ,s.nomequizz', ['id' => session('utilizador')['id'], 'sessio
 
     }
 
-    function GiveResults(Request $request){
+    function giveResults(Request $request){
 
         $users = $request->users;
         $points = $request->points;
