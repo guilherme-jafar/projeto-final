@@ -36,7 +36,14 @@ class Historico extends Controller
         $respostas = [];
 
         foreach ($sessoes as $key=>$sessao){
-            $respostas['respostas'][$key] = DB::select('SELECT * FROM respostas_quizz WHERE sessao_id IN(SELECT id FROM sessao s  WHERE sessaoMaster = :idSessao )AND aluno_utilizador_id = :alunoId', ['idSessao' => $request->id, 'alunoId' => $sessao->aluno_utilizador_id]);
+            $respostas['respostas'][$key] = DB::select('SELECT * FROM respostas_quizz rq ,pergunta_quizz p
+            WHERE sessao_id IN(SELECT id FROM sessao s  WHERE sessaoMaster = :idSessao )
+            AND aluno_utilizador_id = :alunoId
+            AND rq.pergunta_id=p.id_pergunta
+            '
+                ,
+
+                ['idSessao' => $request->id, 'alunoId' => $sessao->aluno_utilizador_id]);
             $respostas['alunos'][$key] = $sessao;
         }
 
@@ -44,13 +51,15 @@ class Historico extends Controller
 
         if (!empty($respostas)) {
             return response()->json([
-                'message' => $respostas
+                'message' => $respostas,
+
             ]);
 
 
         } else {
             return response()->json([
-                'message' => []
+                'message' => [],
+
             ]);
         }
 
@@ -110,4 +119,35 @@ class Historico extends Controller
 
 
     }
+
+    function question(Request $request){
+        $respostas = [];
+
+        $respostas=DB::select('SELECT pq.enuncia AS "enunciado",r.resposta AS "resposta", r.resultado AS "res" ,rq.resposta AS "trueResposta"
+FROM respostas r  , sessao s  ,pergunta_quizz pq ,respostas_quizz rq
+        WHERE s.id = :idSessao
+        AND rq.aluno_utilizador_id = :idAluno
+        AND pq.PergIndex= :idPerg
+        AND rq.sessao_id=s.id
+        AND r.perguntas_id=rq.pergunta_id
+        AND rq.pergunta_id=pq.id_pergunta
+        GROUP BY r.id' ,['idSessao' => $request->id, 'idAluno' => $request->userId ,'idPerg'=>$request->pId] );
+
+
+
+        if (!empty($respostas)) {
+            return response()->json([
+                'message' => $respostas
+            ]);
+
+
+        } else {
+            return response()->json([
+                'message' => []
+            ]);
+        }
+
+    }
+
+
 }

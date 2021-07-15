@@ -47,8 +47,13 @@ class Disciplina extends Controller
     {
 
         $disciplina = \App\Models\Disciplina::find($request->token);
+
         $topico = DB::table('topicos')->where('disciplina_id', '=', ['id' => $request->token])
             ->paginate(4);
+        if ($disciplina==null){
+
+            return response()->view('errors.400Error', [], 400);
+         }
         $disciplina->setTotalTopicos(DB::table('topicos')->where('disciplina_id', '=', ['id' => $request->token])->count());
         $disciplina->setTotalQuizz(DB::table('quizz')->where('disciplina_id', '=', ['id' => $request->token])->count());
 
@@ -56,7 +61,8 @@ class Disciplina extends Controller
 
         if (!empty($topico)) {
             return view('/prof/Disciplina', ['topico' => $topico]);
-        } else {
+        }
+        else {
             return view('/prof/Disciplina', ['topico' => []]);
         }
 
@@ -193,7 +199,7 @@ class Disciplina extends Controller
         if (session()->get('utilizador')['tipo'] == 'prof') {
 
 
-            DB::statement('call deleteDisciplina(?)', [$request->id]);
+            $result=DB::statement('call deleteDisciplina(?)', [$request->id]);
 
             $disciplina = DB::select('select * FROM disciplina d,  prof__disciplina pd WHERE d.id = pd.disciplina_id AND pd.prof__utilizador_id = :id', ['id' => session('utilizador')['id']]);
             return response()->json([

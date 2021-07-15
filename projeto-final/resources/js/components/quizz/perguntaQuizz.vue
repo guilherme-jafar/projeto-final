@@ -165,7 +165,7 @@
         methods: {
             countDownTimer() {
                 if(this.countDown > 0) {
-                    this.timer = setTimeout(() => {
+                    this.timer = setTimeout( () => {
                         this.countDown -= 1
                         $cookies.config('1d')
                         $cookies.set('quizz', this.session+"@"+this.index + '@' + this.resultado+'@'+this.countDown);

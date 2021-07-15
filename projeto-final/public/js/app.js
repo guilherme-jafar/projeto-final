@@ -3625,8 +3625,9 @@ __webpack_require__.r(__webpack_exports__);
       } else if (document.getElementById("pergunta" + top).value.length > 120) {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#PerguntaError' + top).text("O enunciado é demasiado grande. Deve ter 120 caracteres no máximo!!").css('color', 'red').css('opacity', '1');
       } else {
+        var desc = document.getElementById("pergunta" + top).value.replaceAll("\"", "\\\"");
         form.append('topico', top);
-        form.append('pergunta', document.getElementById("pergunta" + top).value);
+        form.append('pergunta', desc);
         form.append('tempo', document.getElementById("tempo" + top).value);
         form.append('tipo', document.getElementById("tipo" + top).value);
         form.append('pontos', document.getElementById("pontos" + top).value);
@@ -4514,7 +4515,8 @@ __webpack_require__.r(__webpack_exports__);
       } else if (document.getElementById("pergunta" + perguntaId).value.length > 120) {
         jquery__WEBPACK_IMPORTED_MODULE_0___default()('#PerguntaError' + perguntaId).text("O enunciado é demasiado grande. Deve ter 120 caracteres no máximo!!").css('color', 'red').css('opacity', '1');
       } else {
-        form.append('pergunta', document.getElementById("pergunta" + perguntaId).value);
+        var desc = document.getElementById("pergunta" + perguntaId).value.replaceAll("\"", "\\\"");
+        form.append('pergunta', desc);
         form.append('tempo', document.getElementById("tempo" + perguntaId).value);
         form.append('tipo', document.getElementById("tipo" + perguntaId).value);
         form.append('pontos', document.getElementById("pontos" + perguntaId).value);
@@ -5972,6 +5974,53 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "tabelaHistorico",
   props: ['idSessao_prop'],
@@ -5979,7 +6028,9 @@ __webpack_require__.r(__webpack_exports__);
     return {
       idSessao: this.idSessao_prop,
       respostas: '',
-      isFetchingH: true
+      isFetchingH: true,
+      perguntas: [],
+      myModal: ''
     };
   },
   methods: {
@@ -5988,7 +6039,21 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/prof/historico/sessao/' + this.idSessao).then(function (response) {
         this.respostas = response.data.message;
         this.isFetchingH = false;
-        console.log(this.respostas['alunos']);
+        console.log(this.respostas);
+      }.bind(this));
+    },
+    openModal: function openModal(id, userId, pId) {
+      pId++;
+      var form = new FormData();
+      console.log(id + " " + userId + " " + pId);
+      form.append('id', id);
+      form.append('userId', userId);
+      form.append('pId', pId);
+      axios.post('/prof/historico/student', form).then(function (response) {
+        this.perguntas = response.data.message;
+        console.log(this.perguntas);
+        this.myModal = new bootstrap.Modal(document.getElementById(id), {});
+        this.myModal.show();
       }.bind(this));
     }
   },
@@ -54531,15 +54596,195 @@ var render = function() {
                                 {
                                   staticStyle: { "background-color": "#66c036" }
                                 },
-                                [_c("i", { staticClass: "bi bi-check2" })]
+                                [
+                                  _c("i", {
+                                    staticClass: "bi bi-check2",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.openModal(
+                                          resposta["sessao_id"],
+                                          aluno["aluno_utilizador_id"],
+                                          index2
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]
                               )
                             : _c(
                                 "span",
                                 {
                                   staticStyle: { "background-color": "#f9403e" }
                                 },
-                                [_c("i", { staticClass: "bi bi-x" })]
+                                [
+                                  _c("i", {
+                                    staticClass: "bi bi-x",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.openModal(
+                                          resposta["sessao_id"],
+                                          aluno["aluno_utilizador_id"],
+                                          index2
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]
+                              ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "modal fade",
+                              attrs: {
+                                id: resposta["sessao_id"],
+                                tabindex: "-1",
+                                role: "dialog",
+                                "aria-labelledby": "exampleModalLabel",
+                                "aria-hidden": "true"
+                              }
+                            },
+                            [
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "modal-dialog",
+                                  attrs: { role: "document" }
+                                },
+                                [
+                                  _c("div", { staticClass: "modal-content" }, [
+                                    _vm.perguntas.length !== 0
+                                      ? _c("div", [
+                                          _c(
+                                            "div",
+                                            { staticClass: "modal-header" },
+                                            [
+                                              _c(
+                                                "h5",
+                                                {
+                                                  staticClass: "modal-title",
+                                                  attrs: {
+                                                    id: "exampleModalLabel"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      _vm.perguntas[0][
+                                                        "enunciado"
+                                                      ]
+                                                    )
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _vm._m(1, true)
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "modal-body" },
+                                            _vm._l(_vm.perguntas, function(
+                                              pergunta,
+                                              i
+                                            ) {
+                                              return _c("div", [
+                                                pergunta["resposta"] ===
+                                                  pergunta["trueResposta"] &&
+                                                pergunta["res"] === 0
+                                                  ? _c("div", [
+                                                      _c(
+                                                        "p",
+                                                        {
+                                                          staticStyle: {
+                                                            "background-color":
+                                                              "red",
+                                                            color: "white"
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              pergunta[
+                                                                "resposta"
+                                                              ]
+                                                            )
+                                                          )
+                                                        ]
+                                                      )
+                                                    ])
+                                                  : pergunta["resposta"] ===
+                                                      pergunta[
+                                                        "trueResposta"
+                                                      ] && pergunta["res"] === 1
+                                                  ? _c("div", [
+                                                      _c(
+                                                        "p",
+                                                        {
+                                                          staticStyle: {
+                                                            "background-color":
+                                                              "green",
+                                                            color: "white"
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            " " +
+                                                              _vm._s(
+                                                                pergunta[
+                                                                  "resposta"
+                                                                ]
+                                                              )
+                                                          )
+                                                        ]
+                                                      )
+                                                    ])
+                                                  : pergunta["res"] === 1
+                                                  ? _c("div", [
+                                                      _c(
+                                                        "p",
+                                                        {
+                                                          staticStyle: {
+                                                            "background-color":
+                                                              "green",
+                                                            color: "white"
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            " " +
+                                                              _vm._s(
+                                                                pergunta[
+                                                                  "resposta"
+                                                                ]
+                                                              )
+                                                          )
+                                                        ]
+                                                      )
+                                                    ])
+                                                  : _c("div", [
+                                                      _c("p", [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            pergunta["resposta"]
+                                                          )
+                                                        )
+                                                      ])
+                                                    ])
+                                              ])
+                                            }),
+                                            0
+                                          ),
+                                          _vm._v(" "),
+                                          _vm._m(2, true)
+                                        ])
+                                      : _vm._e()
+                                  ])
+                                ]
                               )
+                            ]
+                          )
                         ]
                       )
                     })
@@ -54588,6 +54833,38 @@ var staticRenderFns = [
         ])
       ]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-bs-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          attrs: { type: "button", "data-bs-dismiss": "modal" }
+        },
+        [_vm._v("Fechar")]
+      )
+    ])
   }
 ]
 render._withStripped = true
