@@ -226,8 +226,6 @@ class ContaController extends Controller
     public function logout(Request $request)
     {
 
-        // dd($request->user());
-
         $request->session()->flush();
 
         return redirect('/');
